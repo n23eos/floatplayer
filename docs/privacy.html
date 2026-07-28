@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — FloatPlayer</title>
+<meta name="description" content="FloatPlayer privacy policy: no data collection, no analytics, no accounts.">
+<link rel="icon" href="assets/promo-tile-440x280.png">
+<link rel="stylesheet" href="style.css">
+<style>
+  .doc { max-width: 760px; }
+  .doc h2 { margin-top: 34px; font-size: 20px; }
+  .doc p, .doc li { color: var(--muted); margin-top: 10px; }
+  .doc ul { margin-left: 20px; }
+  .doc strong { color: var(--text); }
+  .lang { margin-top: 40px; padding-top: 26px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<header class="wrap doc" style="padding-bottom: 20px">
+  <div class="logo"><i></i> <a href="index.html" style="text-decoration:none">FloatPlayer</a></div>
+  <h1 style="font-size: 34px">Privacy Policy</h1>
+  <p class="lead" style="font-size: 16px">Last updated: 28 July 2026</p>
+</header>
+
+<main class="wrap doc">
+
+  <p><strong>FloatPlayer collects no data.</strong> The extension has no analytics,
+  no trackers, no accounts and no servers of its own. Nothing is ever sold or
+  shared.</p>
+
+  <h2>Stored locally</h2>
+  <ul>
+    <li>Your settings (window style, speed step, volume ceiling, sleep timer,
+      Shorts auto-advance, panel behaviour) live in Chrome's <code>storage.sync</code>,
+      inside your browser and your Google profile sync. We have no access to them.</li>
+    <li>The last window width is stored the same way, separately for landscape
+      videos and vertical Shorts.</li>
+  </ul>
+
+  <h2>Network requests</h2>
+  <ul>
+    <li>When the <strong>sponsor segments (SponsorBlock)</strong> feature is enabled —
+      it is on by default and can be switched off on the options page — the
+      extension sends the <strong>ID of the YouTube video you are watching</strong>
+      to the community API <code>sponsor.ajay.app</code> to fetch sponsor-segment
+      timestamps. No cookies, account data or personal identifiers accompany that
+      request. See
+      <a href="https://sponsor.ajay.app/privacy">SponsorBlock's own privacy policy</a>.</li>
+    <li>Thumbnails in the recommendations column load from YouTube's standard
+      image host (<code>i.ytimg.com</code>), exactly as YouTube itself loads them.</li>
+  </ul>
+
+  <h2>Clipboard</h2>
+  <p>The "copy video link" button writes the current video URL to your clipboard
+  only when you click it. The clipboard is never read.</p>
+
+  <h2>Permissions and why they exist</h2>
+  <ul>
+    <li><code>storage</code> — saving the settings described above.</li>
+    <li><code>clipboardWrite</code> — the copy-link button.</li>
+    <li>Access to <code>youtube.com</code> — adding the buttons to the player,
+      moving the player into the floating window and controlling playback.</li>
+    <li>Access to <code>sponsor.ajay.app</code> — fetching sponsor-segment
+      timestamps, only while that feature is enabled.</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p><a href="https://x.com/Raincoat_talk">@Raincoat_talk</a> ·
+     <a href="https://github.com/n23eos/floatplayer/issues">GitHub issues</a></p>
+
+  <div class="lang">
+    <h2>Русская версия</h2>
+    <p><strong>FloatPlayer не собирает данные.</strong> Аналитики, трекеров,
+    аккаунтов и собственных серверов нет; данные никому не передаются и не
+    продаются.</p>
+    <p><strong>Локально</strong> хранятся только ваши настройки и последняя
+    ширина окна — в <code>storage.sync</code> Chrome, внутри вашего браузера.</p>
+    <p><strong>Сетевые запросы:</strong> при включённой функции «интеграции на
+    таймлайне» на <code>sponsor.ajay.app</code> отправляется только ID
+    просматриваемого видео (функция отключается в настройках); обложки
+    рекомендаций грузятся со стандартного хоста картинок YouTube.</p>
+    <p><strong>Буфер обмена:</strong> кнопка «скопировать ссылку» пишет адрес
+    видео в буфер только по вашему клику; чтение не выполняется.</p>
+    <p><strong>Разрешения:</strong> <code>storage</code> — настройки;
+    <code>clipboardWrite</code> — копирование ссылки; доступ к
+    <code>youtube.com</code> — кнопки и управление плеером; доступ к
+    <code>sponsor.ajay.app</code> — границы спонсорских вставок.</p>
+  </div>
+
+</main>
+
+<footer class="wrap doc">
+  <a href="index.html">← Back to FloatPlayer</a>
+  <span class="spacer">Not affiliated with Google or YouTube.</span>
+</footer>
+
+</body>
+</html>

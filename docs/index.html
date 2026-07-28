@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FloatPlayer — Picture in Picture for YouTube</title>
+<meta name="description" content="Chrome extension that pops YouTube videos and Shorts into an always-on-top window with A-B loop, speed control, volume boost up to 300%, sleep timer and sponsor-segment skipping.">
+<meta property="og:title" content="FloatPlayer — Picture in Picture for YouTube">
+<meta property="og:description" content="YouTube in an always-on-top mini-player: A-B loop, speed, 300% volume, sleep timer, Shorts auto-advance.">
+<meta property="og:image" content="assets/promo-tile-440x280.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/promo-tile-440x280.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="wrap">
+  <div class="logo"><i></i> FloatPlayer</div>
+  <h1>YouTube that stays<br><span>on top of everything</span></h1>
+  <p class="lead">
+    A Chrome extension that pops the real YouTube player into an always-on-top
+    window — with A-B loop, 0.25–3x speed, 0–300% volume, a sleep timer,
+    sponsor-segment skipping and Shorts auto-advance. Playback never restarts.
+  </p>
+  <div class="cta">
+    <a class="btn btn--primary" href="https://github.com/n23eos/floatplayer">Get it on GitHub</a>
+    <a class="btn btn--ghost" href="https://github.com/n23eos/floatplayer#installation-development">Install manually</a>
+    <a class="btn btn--ghost" href="privacy.html">Privacy</a>
+  </div>
+  <img class="hero-shot" src="assets/screenshot-1-always-on-top.png" alt="FloatPlayer mini-window floating above another application">
+</header>
+
+<section class="wrap">
+  <h2>What it does</h2>
+  <p class="sub">Everything lives in one hover panel, one button row and one progress strip.</p>
+  <div class="grid">
+    <div class="card"><h3>Always on top, for real</h3><p>Document Picture-in-Picture gives a genuine OS-level window — not a popup that falls behind your editor.</p></div>
+    <div class="card"><h3>The same video stream</h3><p>The actual YouTube player is moved, so your account, history, quality and captions carry over without a restart.</p></div>
+    <div class="card"><h3>Video only</h3><p>Shopping overlays, cards, endscreens and descriptions are hidden by a whitelist — the window shows the video and nothing else.</p></div>
+    <div class="card"><h3>A-B loop</h3><p>Mark two points and repeat a fragment — for language practice, music, tutorials or technique review.</p></div>
+    <div class="card"><h3>Volume 0–300%</h3><p>Web Audio gain goes quieter than YouTube's zero and far louder than its maximum for quiet recordings.</p></div>
+    <div class="card"><h3>Sleep timer</h3><p>Presets or your own value up to 12 hours. While it counts down the interface hides itself completely.</p></div>
+    <div class="card"><h3>Sponsor segments</h3><p>Community SponsorBlock data marks in-video sponsor reads in green; one click jumps past them.</p></div>
+    <div class="card"><h3>Shorts mode</h3><p>A button above Like pops a short into a vertical window; the next one starts automatically when it ends.</p></div>
+    <div class="card"><h3>Snaps to the video</h3><p>The window opens at the video's aspect ratio and snaps back after resizing — no black margins, no stray UI.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>See it</h2>
+  <p class="sub">Regular videos, Shorts and the options page.</p>
+  <div class="shots">
+    <figure><img src="assets/screenshot-2-controls.png" alt="Control panel with A-B loop, speed, volume and sleep timer"><figcaption>Hover panel: A-B loop, speed, volume, sleep timer, copy link.</figcaption></figure>
+    <figure><img src="assets/screenshot-3-sponsorblock.png" alt="Sponsor segment marked on the progress strip"><figcaption>Sponsor segments in green with a one-click skip button.</figcaption></figure>
+    <figure><img src="assets/screenshot-4-recommendations.png" alt="Recommendations column inside the window"><figcaption>Recommendations slide out — switch videos without leaving the window.</figcaption></figure>
+    <figure><img src="assets/screenshot-5-shorts.png" alt="Vertical Shorts window"><figcaption>Shorts get a vertical window with feed navigation.</figcaption></figure>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Keyboard shortcuts</h2>
+  <p class="sub">Rebind them at <code>chrome://extensions/shortcuts</code>.</p>
+  <table>
+    <tr><th>Where</th><th>Keys</th><th>Action</th></tr>
+    <tr><td>Any Chrome window</td><td><kbd>Alt</kbd>+<kbd>P</kbd> (<kbd>⌥P</kbd> on Mac)</td><td>Toggle the mini-window</td></tr>
+    <tr><td>Any Chrome window</td><td><kbd>Alt</kbd>+<kbd>K</kbd> / <kbd>J</kbd> / <kbd>L</kbd></td><td>Pause / −5 s / +5 s</td></tr>
+    <tr><td>Inside the window</td><td><kbd>Space</kbd> or <kbd>K</kbd></td><td>Pause</td></tr>
+    <tr><td>Inside the window</td><td><kbd>←</kbd> / <kbd>→</kbd></td><td>±5 s</td></tr>
+    <tr><td>Inside the window</td><td><kbd>M</kbd></td><td>Mute</td></tr>
+    <tr><td>On the video</td><td>Click left / center / right third</td><td>−10 s / pause / +10 s</td></tr>
+  </table>
+</section>
+
+<section class="wrap">
+  <h2>Settings</h2>
+  <p class="sub">Everything optional is a switch, nothing is forced on you.</p>
+  <img class="hero-shot" src="assets/screenshot-6-options.png" alt="FloatPlayer options page" style="margin-top:0">
+  <table style="margin-top:26px">
+    <tr><th>Option</th><th>Values</th></tr>
+    <tr><td>Mini-window style</td><td>Full (with panels) · Clean video (frameless native PiP)</td></tr>
+    <tr><td>Auto-PiP when leaving the tab</td><td>on / off (Chrome 120+)</td></tr>
+    <tr><td>Sponsor segments (SponsorBlock)</td><td>on / off</td></tr>
+    <tr><td>Manual skip step</td><td>15 / 30 / 45 / 60 / 90 s</td></tr>
+    <tr><td>Shorts auto-advance</td><td>on / off</td></tr>
+    <tr><td>Compact panel mode</td><td>on / off</td></tr>
+    <tr><td>Speed slider step</td><td>0.1x / 0.25x / 0.5x</td></tr>
+    <tr><td>Volume ceiling</td><td>100% / 200% / 300%</td></tr>
+    <tr><td>Interface language</td><td>English, Russian</td></tr>
+  </table>
+</section>
+
+<section class="wrap">
+  <h2>Requirements and honest limits</h2>
+  <ul class="plain">
+    <li>Chrome 116 or newer; older versions fall back to native Picture-in-Picture.</li>
+    <li>Chrome always draws a small strip with the site address on top of any Document PiP window — an anti-phishing rule no extension can remove. It hides itself when the cursor is away, and "clean video" mode has no strip at all.</li>
+    <li>Window position cannot be set programmatically; only its size is remembered.</li>
+    <li>One PiP window per browser.</li>
+    <li>YouTube ads are neither blocked nor skipped, and seeking is unavailable while one plays.</li>
+    <li>No analytics, no accounts, no data collection. The only network call is an optional SponsorBlock lookup by video ID.</li>
+  </ul>
+</section>
+
+<footer class="wrap">
+  <span>FloatPlayer — Picture in Picture for YouTube</span>
+  <a href="https://x.com/Raincoat_talk">@Raincoat_talk</a>
+  <a href="https://github.com/n23eos/floatplayer">GitHub</a>
+  <a href="https://github.com/n23eos/floatplayer/issues">Report an issue</a>
+  <a href="privacy.html">Privacy policy</a>
+  <span class="spacer">Not affiliated with Google or YouTube.</span>
+</footer>
+
+</body>
+</html>
