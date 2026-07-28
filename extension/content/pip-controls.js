@@ -14,6 +14,8 @@ YTFP.pipControls = (() => {
 
   // Монохромные SVG-иконки (сетка 24x24, fill: currentColor).
   const ICONS = {
+    play: "M8 5v14l11-7z",
+    pause: "M6 19h4V5H6v14zm8-14v14h4V5h-4z",
     skip: "M4 6v12l8.5-6L4 6zm9 0v12l8.5-6L13 6z",
     volume: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z",
     sleep: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
@@ -105,6 +107,32 @@ YTFP.pipControls = (() => {
       if (target !== null) {
         video.currentTime = target;
       }
+    }
+
+    // --- Play/pause -------------------------------------------------------------
+    // Родные контролы YouTube в окне скрыты, поэтому пауза живёт здесь.
+    const playButton = createButton(
+      pipDocument,
+      createIcon(pipDocument, "pause"),
+      t("playTooltip", "Пауза / воспроизведение"),
+      () => {
+        const video = getVideo();
+        if (!video) {
+          return;
+        }
+        if (video.paused) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      }
+    );
+
+    function refreshPlayIcon() {
+      const video = getVideo();
+      playButton.replaceChildren(
+        createIcon(pipDocument, video && video.paused ? "play" : "pause")
+      );
     }
 
     // --- Промотка интеграций --------------------------------------------------
@@ -260,15 +288,18 @@ YTFP.pipControls = (() => {
     );
     returnButton.classList.add("ytfp-btn--return");
 
-    bar.append(abButton, skipButton, speedWrap, boostWrap, sleepWrap, returnButton);
+    bar.append(playButton, abButton, skipButton, speedWrap, boostWrap, sleepWrap, returnButton);
 
-    // Слушатели на <video>: время (для A-B) и скорость (для ползунка).
+    // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
     const video = getVideo();
     if (video) {
       video.addEventListener("timeupdate", onTimeUpdate);
       video.addEventListener("ratechange", refreshSpeedControls);
+      video.addEventListener("play", refreshPlayIcon);
+      video.addEventListener("pause", refreshPlayIcon);
     }
     refreshSpeedControls();
+    refreshPlayIcon();
 
     // Горячие клавиши внутри PiP-окна: фокус там, страница их не слышит.
     function onKeyDown(event) {
@@ -325,6 +356,8 @@ YTFP.pipControls = (() => {
       if (currentVideo) {
         currentVideo.removeEventListener("timeupdate", onTimeUpdate);
         currentVideo.removeEventListener("ratechange", refreshSpeedControls);
+        currentVideo.removeEventListener("play", refreshPlayIcon);
+        currentVideo.removeEventListener("pause", refreshPlayIcon);
       }
       pipDocument.removeEventListener("keydown", onKeyDown);
       clearInterval(sleepTicker);

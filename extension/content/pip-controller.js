@@ -187,13 +187,23 @@ YTFP.pip = (() => {
     injectOverlayStyles();
     const overlay = buildOverlay(parent);
 
+    const getMovedVideo = () => playerEl.querySelector("video.html5-main-video");
+
     const controls = YTFP.pipControls.buildBar(pipWindow.document, {
-      getVideo: () => playerEl.querySelector("video.html5-main-video"),
+      getVideo: getMovedVideo,
       onReturnRequested: close
     });
     pipWindow.document.body.appendChild(controls.element);
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls, resizeTimer: null };
+    // Красная полоска прогресса внизу (родные контролы YouTube скрыты в CSS).
+    const progress = YTFP.pipProgress.build(pipWindow.document, { getVideo: getMovedVideo });
+    pipWindow.document.body.appendChild(progress.element);
+
+    // Стрелка справа: колонка рекомендаций.
+    const related = YTFP.pipRelated.build(pipWindow.document);
+    pipWindow.document.body.appendChild(related.element);
+
+    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
@@ -236,10 +246,12 @@ YTFP.pip = (() => {
     if (!state) {
       return;
     }
-    const { playerEl, placeholder, overlay, controls, resizeTimer } = state;
+    const { playerEl, placeholder, overlay, controls, progress, related, resizeTimer } = state;
     // Сначала гасим таймер и слушатели, потом обнуляем state.
     clearTimeout(resizeTimer);
     controls.cleanup();
+    progress.cleanup();
+    related.cleanup();
     state = null;
 
     overlay.remove();

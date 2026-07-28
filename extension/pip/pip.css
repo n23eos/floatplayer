@@ -47,13 +47,21 @@ select {
   object-fit: contain;
 }
 
-/* Панель дополнительных функций — плавающая «пилюля» внизу,
-   над родными контролами YouTube. Стекло с блюром. */
+/* В мини-окне родные контролы YouTube скрыты: сверху наша панель,
+   снизу — тонкая красная полоска прогресса. */
+#movie_player .ytp-chrome-bottom,
+#movie_player .ytp-gradient-bottom,
+#movie_player .ytp-gradient-top,
+#movie_player .ytp-chrome-top {
+  display: none !important;
+}
+
+/* Панель дополнительных функций — плавающая «пилюля» сверху. */
 .ytfp-bar {
   position: absolute;
   left: 8px;
   right: 8px;
-  bottom: 56px;
+  top: 8px;
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -72,7 +80,7 @@ select {
 
 /* Компактный режим: панель спрятана, всплывает при наведении на окно. */
 .ytfp-bar--compact {
-  transform: translateY(8px);
+  transform: translateY(-8px);
   opacity: 0;
   pointer-events: none;
 }
@@ -186,4 +194,155 @@ body:hover .ytfp-bar--compact {
   min-width: 38px;
   color: #ff9d9d;
   font-variant-numeric: tabular-nums;
+}
+
+/* --- Красная полоска прогресса внизу --------------------------------- */
+
+.ytfp-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+  transition: height 0.12s ease;
+}
+
+.ytfp-progress:hover {
+  height: 8px;
+}
+
+.ytfp-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: #f00;
+  pointer-events: none;
+}
+
+.ytfp-progress-segments {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ytfp-progress-seg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 212, 0, 0.8);
+}
+
+/* --- Рекомендации справа ---------------------------------------------- */
+
+.ytfp-related-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10002;
+  width: 22px;
+  height: 56px;
+  border: 0;
+  border-radius: 8px 0 0 8px;
+  background: rgba(10, 10, 10, 0.65);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+body:hover .ytfp-related-toggle {
+  opacity: 1;
+}
+
+.ytfp-related-toggle:hover {
+  background: rgba(40, 40, 40, 0.9);
+}
+
+.ytfp-related-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 4px;
+  width: min(46%, 240px);
+  z-index: 10001;
+  background: rgba(12, 12, 12, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+  overflow: hidden;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.ytfp-related-panel--open {
+  transform: translateX(0);
+}
+
+.ytfp-related-toggle--open {
+  right: min(46%, 240px);
+}
+
+.ytfp-related-list {
+  height: 100%;
+  overflow-y: auto;
+  padding: 8px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  scrollbar-width: thin;
+}
+
+.ytfp-related-item {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 8px;
+  align-items: start;
+  border: 0;
+  border-radius: 8px;
+  padding: 4px;
+  background: transparent;
+  color: #eee;
+  text-align: left;
+  cursor: pointer;
+  font-family: "Roboto", Arial, sans-serif;
+}
+
+.ytfp-related-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ytfp-related-thumb {
+  width: 86px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #222;
+}
+
+.ytfp-related-title {
+  font-size: 11px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ytfp-related-empty {
+  color: #aaa;
+  font-size: 12px;
+  padding: 12px;
+  text-align: center;
 }

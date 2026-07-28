@@ -231,7 +231,12 @@ YTFP.sponsorBlock = (() => {
     setTimeout(refresh, 500);
   }
 
-  return { init, refresh };
+  /** Текущие сегменты (для красной полоски прогресса в PiP-окне). */
+  function getSegments() {
+    return segments;
+  }
+
+  return { init, refresh, getSegments };
 })();
 
 YTFP.sponsorBlock.init();

@@ -25,6 +25,8 @@
         "content/player-api.js",
         "content/audio-boost.js",
         "content/pip-controls.js",
+        "content/pip-progress.js",
+        "content/pip-related.js",
         "content/pip-controller.js",
         "content/sponsor-block.js",
         "content/inject-button.js"
