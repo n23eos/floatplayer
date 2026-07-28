@@ -4,7 +4,11 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 
 // Усиление громкости выше 100% через Web Audio API (GainNode).
 // Граф создаётся лениво при первом использовании и живёт до конца страницы:
-// createMediaElementSource нельзя "отцепить" от <video>.
+// createMediaElementSource нельзя "отцепить" от <video> и нельзя создать
+// второй раз для того же элемента. Поэтому контекст живёт в мире страницы,
+// даже когда <video> перенесён в PiP-окно, — Chrome сохраняет маршрутизацию
+// звука (один процесс/агент-кластер); при сбое setBoostPercent вернёт false
+// и UI покажет «н/д».
 YTFP.audioBoost = (() => {
   let context = null;
   let gainNode = null;

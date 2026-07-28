@@ -58,7 +58,10 @@ async function save() {
 }
 
 for (const key of ["autoPip", "windowMode", "sponsorSkip", "shortsAutoNext", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
-  elements[key].addEventListener("change", save);
+  // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
+  if (elements[key]) {
+    elements[key].addEventListener("change", save);
+  }
 }
 
 loadIntoForm();

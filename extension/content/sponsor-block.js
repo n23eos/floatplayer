@@ -34,7 +34,8 @@ YTFP.sponsorBlock = (() => {
       const url =
         `${API_URL}?videoID=${encodeURIComponent(videoId)}` +
         `&categories=${encodeURIComponent(JSON.stringify(CATEGORIES))}`;
-      const response = await fetch(url);
+      // Таймаут: зависший API не должен вечно держать refresh().
+      const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
       if (!response.ok) {
         return []; // 404 — для видео нет размеченных сегментов
       }
