@@ -39,11 +39,15 @@ YTFP.pipRelated = (() => {
       if (!title) {
         continue;
       }
-      const img = container.querySelector("img[src*='ytimg'], img[src^='https']");
+      // Обложку строим по ID видео: сайдбар страницы грузит картинки лениво,
+      // и у видео ниже экрана src ещё пустой. i.ytimg.com отдаёт превью всегда.
+      const videoId = new URLSearchParams(href.split("?")[1] || "").get("v");
       seenHrefs.add(href);
       items.push({
         title,
-        thumbnailUrl: img ? img.src : null,
+        thumbnailUrl: videoId
+          ? `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/mqdefault.jpg`
+          : null,
         anchor
       });
       if (items.length >= MAX_ITEMS) {
