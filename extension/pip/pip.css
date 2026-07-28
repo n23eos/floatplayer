@@ -364,6 +364,39 @@ body:hover .ytfp-nav {
   height: 54px;
 }
 
+.ytfp-nav-btn--text {
+  font-size: 11px;
+  font-family: "Roboto", Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Подсказка «« 10с / » 30с» у края при перемотке кликом. */
+.ytfp-seek-indicator {
+  position: absolute;
+  top: 50%;
+  right: 12%;
+  transform: translateY(-50%);
+  z-index: 9998;
+  padding: 8px 12px;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.ytfp-seek-indicator--left {
+  right: auto;
+  left: 12%;
+}
+
+.ytfp-seek-indicator--visible {
+  opacity: 1;
+}
+
 /* Полупрозрачный значок в центре видео (виден на паузе). */
 .ytfp-center-badge {
   position: absolute;

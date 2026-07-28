@@ -16,6 +16,8 @@
   "navPrev": { "message": "Previous" },
   "copyLink": { "message": "Copy video link" },
   "navNext": { "message": "Next" },
+  "jumpBack": { "message": "Back 30 seconds" },
+  "jumpForward": { "message": "Forward 30 seconds" },
   "relatedTooltip": { "message": "Recommendations" },
   "relatedEmpty": { "message": "No recommendations found" },
   "boostTooltip": { "message": "Volume: 0–100% quieter, above 100% boost" },

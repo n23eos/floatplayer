@@ -30,6 +30,11 @@ YTFP.pipNav = (() => {
     return chrome.i18n.getMessage(key) || fallback;
   }
 
+  // Клик по краям видео: левая треть — назад, правая — вперёд.
+  const EDGE_CLICK_SEEK_SECONDS = 10;
+  // Кнопки по краям нижнего ряда.
+  const JUMP_BUTTON_SECONDS = 30;
+
   /**
    * onPrev/onNext — колбэки перехода (для видео и шортсов разные).
    * Возвращает { element, cleanup }.
@@ -75,10 +80,50 @@ YTFP.pipNav = (() => {
       }
     }
 
+    function seekBy(deltaSeconds) {
+      const video = getVideo();
+      if (!video || !Number.isFinite(video.duration)) {
+        return;
+      }
+      video.currentTime = YTFP.utils.clamp(
+        video.currentTime + deltaSeconds,
+        0,
+        video.duration
+      );
+      flashSeekIndicator(deltaSeconds);
+    }
+
+    /** Текстовая круглая кнопка (−30 / +30) в том же стиле. */
+    function makeJumpButton(label, title, deltaSeconds) {
+      const button = pipDocument.createElement("button");
+      button.className = "ytfp-nav-btn ytfp-nav-btn--text";
+      button.title = title;
+      button.textContent = label;
+      button.addEventListener("click", () => seekBy(deltaSeconds));
+      return button;
+    }
+
+    // Мгновенная подсказка «±10s / ±30s» у соответствующего края.
+    const seekIndicator = pipDocument.createElement("div");
+    seekIndicator.className = "ytfp-seek-indicator";
+    let seekIndicatorTimer = null;
+
+    function flashSeekIndicator(deltaSeconds) {
+      seekIndicator.textContent = `${deltaSeconds > 0 ? "»" : "«"} ${Math.abs(deltaSeconds)}с`;
+      seekIndicator.classList.toggle("ytfp-seek-indicator--left", deltaSeconds < 0);
+      seekIndicator.classList.add("ytfp-seek-indicator--visible");
+      clearTimeout(seekIndicatorTimer);
+      seekIndicatorTimer = setTimeout(() => {
+        seekIndicator.classList.remove("ytfp-seek-indicator--visible");
+      }, 600);
+    }
+
+    const back30Button = makeJumpButton(`−${JUMP_BUTTON_SECONDS}`, t("jumpBack", "Назад на 30 секунд"), -JUMP_BUTTON_SECONDS);
     const prevButton = makeButton("prev", t("navPrev", "Назад"), "", () => onPrev());
     const playButton = makeButton("pause", t("playTooltip", "Пауза / воспроизведение"), "ytfp-nav-btn--main", togglePlayPause);
     const nextButton = makeButton("next", t("navNext", "Вперёд"), "", () => onNext());
-    nav.append(prevButton, playButton, nextButton);
+    const forward30Button = makeJumpButton(`+${JUMP_BUTTON_SECONDS}`, t("jumpForward", "Вперёд на 30 секунд"), JUMP_BUTTON_SECONDS);
+    nav.append(back30Button, prevButton, playButton, nextButton, forward30Button);
 
     function refreshPlayState() {
       const video = getVideo();
@@ -101,7 +146,15 @@ YTFP.pipNav = (() => {
         return;
       }
       if (target.closest("#movie_player, #shorts-player")) {
-        togglePlayPause();
+        // Зоны клика: левая треть — назад, правая — вперёд, центр — пауза.
+        const windowWidth = pipDocument.documentElement.clientWidth;
+        if (event.clientX < windowWidth / 3) {
+          seekBy(-EDGE_CLICK_SEEK_SECONDS);
+        } else if (event.clientX > (windowWidth * 2) / 3) {
+          seekBy(EDGE_CLICK_SEEK_SECONDS);
+        } else {
+          togglePlayPause();
+        }
       }
     }
     pipDocument.addEventListener("click", onDocumentClick, true);
@@ -113,9 +166,10 @@ YTFP.pipNav = (() => {
     }
     refreshPlayState();
 
-    root.append(badge, nav);
+    root.append(badge, nav, seekIndicator);
 
     function cleanup() {
+      clearTimeout(seekIndicatorTimer);
       pipDocument.removeEventListener("click", onDocumentClick, true);
       // Тот же элемент, на который вешали, — не результат нового getVideo().
       if (video) {

@@ -16,6 +16,8 @@
   "navPrev": { "message": "Назад" },
   "copyLink": { "message": "Скопировать ссылку на видео" },
   "navNext": { "message": "Вперёд" },
+  "jumpBack": { "message": "Назад на 30 секунд" },
+  "jumpForward": { "message": "Вперёд на 30 секунд" },
   "relatedTooltip": { "message": "Рекомендации" },
   "relatedEmpty": { "message": "Рекомендации не найдены" },
   "boostTooltip": { "message": "Громкость: 0–100% тише, выше 100% — усиление" },
