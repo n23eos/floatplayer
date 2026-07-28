@@ -81,38 +81,43 @@ YTFP.pipControls = (() => {
       }
     }
 
-    // --- Скорость -----------------------------------------------------------
+    // --- Скорость: ползунок с шагами -----------------------------------------
+    const speedWrap = pipDocument.createElement("label");
+    speedWrap.className = "ytfp-speed";
+    speedWrap.title = t("speedTooltip", "Скорость воспроизведения");
+
+    const speedSlider = pipDocument.createElement("input");
+    speedSlider.type = "range";
+    speedSlider.min = String(YTFP.SPEED_MIN);
+    speedSlider.max = String(YTFP.SPEED_MAX);
+    speedSlider.step = String(YTFP.settings.get().speedStep);
+    speedSlider.value = "1";
+
     const speedLabel = pipDocument.createElement("span");
     speedLabel.className = "ytfp-speed-label";
-
-    function refreshSpeedLabel() {
-      const video = getVideo();
-      speedLabel.textContent = `${video ? video.playbackRate : 1}x`;
-    }
-
-    function changeSpeed(direction) {
-      const video = getVideo();
-      if (!video) {
-        return;
-      }
-      video.playbackRate = YTFP.utils.nextSpeed(
-        video.playbackRate,
-        YTFP.settings.get().speedStep,
-        direction,
-        YTFP.SPEED_MIN,
-        YTFP.SPEED_MAX
-      );
-    }
-
-    const slowerButton = createButton(pipDocument, "−", t("slowerTooltip", "Медленнее"), () => changeSpeed(-1));
-    const fasterButton = createButton(pipDocument, "+", t("fasterTooltip", "Быстрее"), () => changeSpeed(1));
     speedLabel.title = t("speedResetTooltip", "Сбросить скорость на 1x");
+
+    function refreshSpeedControls() {
+      const video = getVideo();
+      const rate = video ? video.playbackRate : 1;
+      speedLabel.textContent = `${rate}x`;
+      speedSlider.value = String(rate);
+    }
+
+    speedSlider.addEventListener("input", () => {
+      const video = getVideo();
+      if (video) {
+        video.playbackRate = Number(speedSlider.value);
+      }
+    });
     speedLabel.addEventListener("click", () => {
       const video = getVideo();
       if (video) {
         video.playbackRate = 1;
       }
     });
+
+    speedWrap.append("⏩", speedSlider, speedLabel);
 
     // --- Громкость 0–300% (Web Audio) ----------------------------------------
     const boostWrap = pipDocument.createElement("label");
@@ -136,6 +141,67 @@ YTFP.pipControls = (() => {
 
     boostWrap.append("🔊", boostSlider, boostLabel);
 
+    // --- Таймер сна -----------------------------------------------------------
+    // По истечении — пауза. Живёт, пока открыто мини-окно.
+    const SLEEP_PRESETS_MIN = [15, 30, 45, 60, 90];
+    let sleepDeadline = null;   // timestamp окончания, ms
+    let sleepTicker = null;     // interval обновления обратного отсчёта
+
+    const sleepWrap = pipDocument.createElement("label");
+    sleepWrap.className = "ytfp-sleep";
+    sleepWrap.title = t("sleepTooltip", "Таймер сна: по истечении видео ставится на паузу");
+
+    const sleepSelect = pipDocument.createElement("select");
+    sleepSelect.className = "ytfp-select";
+    const offOption = pipDocument.createElement("option");
+    offOption.value = "0";
+    offOption.textContent = t("sleepOff", "выкл");
+    sleepSelect.appendChild(offOption);
+    for (const minutes of SLEEP_PRESETS_MIN) {
+      const option = pipDocument.createElement("option");
+      option.value = String(minutes);
+      option.textContent = `${minutes} ${t("sleepMinutes", "мин")}`;
+      sleepSelect.appendChild(option);
+    }
+
+    const sleepCountdown = pipDocument.createElement("span");
+    sleepCountdown.className = "ytfp-sleep-countdown";
+
+    function stopSleepTimer() {
+      clearInterval(sleepTicker);
+      sleepTicker = null;
+      sleepDeadline = null;
+      sleepCountdown.textContent = "";
+      sleepSelect.value = "0";
+    }
+
+    function tickSleepTimer() {
+      const remainingSeconds = Math.round((sleepDeadline - Date.now()) / 1000);
+      if (remainingSeconds <= 0) {
+        const video = getVideo();
+        if (video) {
+          video.pause();
+        }
+        stopSleepTimer();
+        return;
+      }
+      sleepCountdown.textContent = YTFP.utils.formatTime(remainingSeconds);
+    }
+
+    sleepSelect.addEventListener("change", () => {
+      const minutes = Number(sleepSelect.value);
+      clearInterval(sleepTicker);
+      if (minutes <= 0) {
+        stopSleepTimer();
+        return;
+      }
+      sleepDeadline = Date.now() + minutes * 60 * 1000;
+      sleepTicker = setInterval(tickSleepTimer, 1000);
+      tickSleepTimer();
+    });
+
+    sleepWrap.append("⏾", sleepSelect, sleepCountdown);
+
     // --- Возврат на страницу ------------------------------------------------
     const returnButton = createButton(
       pipDocument,
@@ -145,15 +211,15 @@ YTFP.pipControls = (() => {
     );
     returnButton.classList.add("ytfp-btn--return");
 
-    bar.append(abButton, slowerButton, speedLabel, fasterButton, boostWrap, returnButton);
+    bar.append(abButton, speedWrap, boostWrap, sleepWrap, returnButton);
 
-    // Слушатели на <video>: время (для A-B) и скорость (для лейбла).
+    // Слушатели на <video>: время (для A-B) и скорость (для ползунка).
     const video = getVideo();
     if (video) {
       video.addEventListener("timeupdate", onTimeUpdate);
-      video.addEventListener("ratechange", refreshSpeedLabel);
+      video.addEventListener("ratechange", refreshSpeedControls);
     }
-    refreshSpeedLabel();
+    refreshSpeedControls();
 
     // Горячие клавиши внутри PiP-окна: фокус там, страница их не слышит.
     function onKeyDown(event) {
@@ -187,6 +253,18 @@ YTFP.pipControls = (() => {
         case "m":
           currentVideo.muted = !currentVideo.muted;
           break;
+        case "<":
+        case ">": {
+          const direction = event.key === ">" ? 1 : -1;
+          currentVideo.playbackRate = YTFP.utils.nextSpeed(
+            currentVideo.playbackRate,
+            YTFP.settings.get().speedStep,
+            direction,
+            YTFP.SPEED_MIN,
+            YTFP.SPEED_MAX
+          );
+          break;
+        }
         default:
           break;
       }
@@ -197,9 +275,10 @@ YTFP.pipControls = (() => {
       const currentVideo = getVideo();
       if (currentVideo) {
         currentVideo.removeEventListener("timeupdate", onTimeUpdate);
-        currentVideo.removeEventListener("ratechange", refreshSpeedLabel);
+        currentVideo.removeEventListener("ratechange", refreshSpeedControls);
       }
       pipDocument.removeEventListener("keydown", onKeyDown);
+      clearInterval(sleepTicker);
     }
 
     return { element: bar, cleanup };

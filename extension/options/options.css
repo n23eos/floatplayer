@@ -40,7 +40,19 @@ h1 {
   font-weight: 500;
 }
 
+.footer {
+  margin-top: 28px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e5e5;
+  color: #606060;
+}
+
+.footer a {
+  color: inherit;
+}
+
 @media (prefers-color-scheme: dark) {
+  .footer { border-color: #303030; color: #aaa; }
   body { background: #0f0f0f; color: #f1f1f1; }
   .row { border-color: #303030; }
   .row small, .hint { color: #aaa; }

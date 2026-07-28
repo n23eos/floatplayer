@@ -125,3 +125,38 @@ body:hover .ytfp-bar--compact {
   min-width: 34px;
   text-align: right;
 }
+
+.ytfp-speed {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ytfp-speed input[type="range"] {
+  width: 70px;
+  accent-color: #cc0000;
+}
+
+.ytfp-sleep {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ytfp-select {
+  border: 0;
+  border-radius: 4px;
+  padding: 3px 4px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 12px;
+}
+
+.ytfp-select option {
+  background: #1f1f1f;
+}
+
+.ytfp-sleep-countdown {
+  min-width: 38px;
+  color: #ffd7d7;
+}

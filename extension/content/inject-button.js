@@ -50,13 +50,23 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   }
 
   function buildButton(settingsButton) {
-    const tooltip = chrome.i18n.getMessage("btnTooltip") || "Picture-in-Picture+";
+    // Комбинация клавиш в подсказке — своя для каждой ОС.
+    const isMac = navigator.platform.toUpperCase().includes("MAC");
+    const shortcut = isMac ? "⌥P" : "Alt+P";
+    const action = chrome.i18n.getMessage("btnTooltip") || "Поверх всех окон";
+    const tooltip = `YouTube FloatPlayer — ${action} (${shortcut})`;
+
     const button = document.createElement("button");
     button.className = `ytp-button ${BUTTON_CLASS}`;
-    button.title = `${tooltip} (Alt+P)`;
+    button.title = tooltip;
     button.setAttribute("aria-label", tooltip);
     // Атрибуты нативного тултипа нового плеера (если он его подхватит).
     button.setAttribute("data-tooltip-title", tooltip);
+    // Центрируем иконку внутри кнопки независимо от версии UI плеера.
+    button.style.display = "inline-flex";
+    button.style.alignItems = "center";
+    button.style.justifyContent = "center";
+    button.style.verticalAlign = "top";
     button.appendChild(buildIconSvg(settingsButton));
     button.addEventListener("click", () => {
       YTFP.pip.toggle();
