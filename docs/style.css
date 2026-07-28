@@ -136,9 +136,33 @@ a:hover { color: var(--accent); }
 
 .donate-note { color: var(--muted); font-size: 13.5px; margin-top: 14px; }
 
+/* Список поддерживаемых сетей: адрес один, ссылка ведёт в эксплорер сети. */
+.networks-title {
+  color: var(--muted); font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.4px;
+  margin-top: 22px; margin-bottom: 10px;
+}
+
+.networks {
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.net {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 11px 13px; border-radius: 10px;
+  border: 1px solid var(--border); background: rgba(255, 255, 255, 0.04);
+  text-decoration: none; color: var(--text);
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+.net:hover { transform: translateY(-1px); border-color: var(--accent); color: var(--text); }
+.net-name { font-size: 14.5px; font-weight: 600; }
+.net-kind { font-size: 12.5px; color: var(--muted); }
+
 @media (prefers-color-scheme: light) {
   .addr { background: rgba(0, 0, 0, 0.05); }
   .chip { background: rgba(0, 0, 0, 0.04); }
+  .net { background: rgba(0, 0, 0, 0.03); }
 }
 
 footer {
