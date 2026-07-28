@@ -33,26 +33,53 @@ YTFP.pip = (() => {
     return state ? state.playerEl : null;
   }
 
-  async function loadPipCss() {
-    try {
-      const response = await fetch(chrome.runtime.getURL("pip/pip.css"));
-      return await response.text();
-    } catch (error) {
+  // Критический минимум стилей на случай, если pip.css не удалось получить
+  // (например, расширение обновили, а вкладку не перезагрузили — старый
+  // content-script теряет доступ к файлам расширения). Гарантирует чёрный
+  // фон и «только видео» даже без основного файла стилей.
+  const FALLBACK_CSS = `
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    #movie_player, #shorts-player { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; background: #000 !important; }
+    #movie_player video.html5-main-video, #shorts-player video.html5-main-video { width: 100% !important; height: 100% !important; left: 0 !important; top: 0 !important; object-fit: contain !important; }
+    #movie_player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip),
+    #shorts-player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip) { display: none !important; }
+  `;
+
+  // Стили тянем один раз при старте скрипта, пока контекст расширения
+  // гарантированно жив, и дальше используем кэш.
+  const pipCssPromise = fetch(chrome.runtime.getURL("pip/pip.css"))
+    .then((response) => (response.ok ? response.text() : ""))
+    .catch((error) => {
       console.warn("[YTFP] Failed to load pip.css:", error);
       return "";
-    }
+    });
+
+  async function loadPipCss() {
+    const cssText = await pipCssPromise;
+    return cssText || FALLBACK_CSS;
+  }
+
+  /** Вертикальное видео (шортс) и горизонтальное помнят ширину раздельно. */
+  function widthStorageKey(isPortrait) {
+    return isPortrait ? "pipWidthPortrait" : "pipWidth";
+  }
+
+  function isPortraitVideo(video) {
+    return Boolean(video && video.videoHeight > video.videoWidth);
   }
 
   /**
-   * Размер окна: ширину берём сохранённую (или дефолт), высоту считаем
-   * из пропорций текущего видео — окно открывается без чёрных полос.
+   * Размер окна: ширину берём сохранённую для этой ориентации (или дефолт),
+   * высоту считаем из пропорций текущего видео — окно открывается без полос.
    */
   async function getInitialSize(video) {
-    let width = YTFP.DEFAULT_PIP_SIZE.width;
+    const portrait = isPortraitVideo(video);
+    let width = portrait ? 320 : YTFP.DEFAULT_PIP_SIZE.width;
     try {
-      const { pipWidth } = await chrome.storage.local.get("pipWidth");
-      if (pipWidth > 0) {
-        width = pipWidth;
+      const key = widthStorageKey(portrait);
+      const stored = await chrome.storage.local.get(key);
+      if (stored[key] > 0) {
+        width = stored[key];
       }
     } catch (error) {
       console.warn("[YTFP] Failed to read saved size:", error);
@@ -60,15 +87,17 @@ YTFP.pip = (() => {
     const hasDimensions = video && video.videoWidth > 0 && video.videoHeight > 0;
     const aspect = hasDimensions
       ? video.videoWidth / video.videoHeight
-      : 16 / 9;
+      : portrait ? 9 / 16 : 16 / 9;
     return { width, height: Math.round(width / aspect) };
   }
 
-  function saveSize(pipWindow) {
+  function saveSize(pipWindow, video) {
     if (!(pipWindow.innerWidth > 0)) {
       return;
     }
-    chrome.storage.local.set({ pipWidth: pipWindow.innerWidth }).catch(() => {});
+    chrome.storage.local
+      .set({ [widthStorageKey(isPortraitVideo(video))]: pipWindow.innerWidth })
+      .catch(() => {});
   }
 
   /** Заглушка на странице вместо уехавшего плеера. */
@@ -332,7 +361,7 @@ YTFP.pip = (() => {
       state.resizeTimer = setTimeout(() => {
         if (!pipWindow.closed) {
           snapToVideoAspect();
-          saveSize(pipWindow);
+          saveSize(pipWindow, getMovedVideo());
         }
       }, 300);
     };
