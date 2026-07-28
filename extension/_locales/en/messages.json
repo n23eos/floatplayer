@@ -14,6 +14,7 @@
   "sbSkip": { "message": "Skip sponsor segment" },
   "playTooltip": { "message": "Play / pause" },
   "navPrev": { "message": "Previous" },
+  "copyLink": { "message": "Copy video link" },
   "navNext": { "message": "Next" },
   "relatedTooltip": { "message": "Recommendations" },
   "relatedEmpty": { "message": "No recommendations found" },

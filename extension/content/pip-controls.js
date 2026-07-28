@@ -17,6 +17,7 @@ YTFP.pipControls = (() => {
     play: "M8 5v14l11-7z",
     pause: "M6 19h4V5H6v14zm8-14v14h4V5h-4z",
     skip: "M4 6v12l8.5-6L4 6zm9 0v12l8.5-6L13 6z",
+    link: "M3.9 12A3.1 3.1 0 0 1 7 8.9h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 1 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z",
     volume: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z",
     sleep: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
     back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
@@ -279,6 +280,26 @@ YTFP.pipControls = (() => {
 
     sleepWrap.append(createIcon(pipDocument, "sleep"), sleepSelect, sleepCountdown);
 
+    // --- Скопировать ссылку на видео -----------------------------------------
+    const shareButton = createButton(
+      pipDocument,
+      createIcon(pipDocument, "link"),
+      t("copyLink", "Скопировать ссылку"),
+      async () => {
+        try {
+          await navigator.clipboard.writeText(location.href);
+        } catch (error) {
+          console.warn("[YTFP] Clipboard write failed:", error);
+          return;
+        }
+        // Короткое подтверждение: галочка на полторы секунды.
+        shareButton.textContent = "✓";
+        setTimeout(() => {
+          shareButton.replaceChildren(createIcon(pipDocument, "link"));
+        }, 1500);
+      }
+    );
+
     // --- Возврат на страницу ------------------------------------------------
     const returnButton = createButton(
       pipDocument,
@@ -288,7 +309,7 @@ YTFP.pipControls = (() => {
     );
     returnButton.classList.add("ytfp-btn--return");
 
-    bar.append(playButton, abButton, skipButton, speedWrap, boostWrap, sleepWrap, returnButton);
+    bar.append(playButton, abButton, skipButton, speedWrap, boostWrap, sleepWrap, shareButton, returnButton);
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
     const video = getVideo();

@@ -54,46 +54,26 @@ select {
   height: 100% !important;
   left: 0 !important;
   top: 0 !important;
-  object-fit: contain;
+  object-fit: contain !important;
+  border-radius: 0 !important;
 }
 
-/* В мини-окне родные контролы YouTube скрыты: сверху наша панель,
-   снизу — тонкая красная полоска прогресса. (И обычный плеер, и шортсы.) */
-#movie_player .ytp-chrome-bottom,
-#movie_player .ytp-gradient-bottom,
-#movie_player .ytp-gradient-top,
-#movie_player .ytp-chrome-top,
-#shorts-player .ytp-chrome-bottom,
-#shorts-player .ytp-gradient-bottom,
-#shorts-player .ytp-gradient-top,
-#shorts-player .ytp-chrome-top {
-  display: none !important;
+/* Скругления и фоны контейнеров шортсов в мини-окне не нужны. */
+#movie_player,
+#shorts-player,
+#shorts-player .html5-video-player {
+  border-radius: 0 !important;
+  background: #000 !important;
 }
 
-/* Только видео: всё постороннее — покупки/товары, карточки, подсказки,
-   конечные заставки, названия, «Ещё видео» на паузе, аннотации — скрыто.
-   Остаются видео, субтитры и наши контролы. */
-.ytp-suggested-action,
-[class*="ytp-featured-product"],
-[class*="ytp-shopping"],
-[class*="ytp-suggestion"],
-.ytp-cards-teaser,
-.ytp-cards-button,
-.ytp-ce-element,
-.ytp-endscreen-content,
-.ytp-pause-overlay,
-.ytp-paid-content-overlay,
-.ytp-title,
-.ytp-title-text,
-.ytp-title-channel,
-.ytp-chapter-container,
-.ytp-iv-player-content,
-.ytp-player-content:not(.ytp-caption-window-container),
-.iv-branding,
-.annotation,
-.ytp-info-panel-preview,
-.ytp-visit-advertiser-link,
-.ytp-webgl-spherical-control {
+/* БЕЛЫЙ СПИСОК: в мини-окне из всего интерфейса YouTube остаются только
+   видео, субтитры и спиннер загрузки. Любые оверлеи — покупки, карточки,
+   заставки, панели, названия, контролы — скрыты одним правилом, поэтому
+   новые виды оверлеев YouTube ничего не сломают. Наши элементы (класс
+   ytfp-*) добавляются в body окна и под правило не попадают, кроме кнопки
+   пропуска интеграции — она живёт внутри плеера и исключена явно. */
+#movie_player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip),
+#shorts-player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip) {
   display: none !important;
 }
 
@@ -235,108 +215,6 @@ body:hover .ytfp-bar--compact {
   min-width: 38px;
   color: #ff9d9d;
   font-variant-numeric: tabular-nums;
-}
-
-/* «Три точки» (Смотреть позже / Поделиться): сама кнопка — маленький
-   тёмный круг, зафиксированный справа сверху над видео; меню — компактная
-   тёмная карточка под ней. position: fixed привязывает их к окну, поэтому
-   никакое масштабирование и вложенные контейнеры YouTube их не ломают. */
-.ytp-overflow-button {
-  position: fixed !important;
-  top: auto !important;
-  right: 8px !important;
-  left: auto !important;
-  bottom: 18px !important;
-  width: 28px !important;
-  height: 28px !important;
-  margin: 0 !important;
-  padding: 4px !important;
-  border-radius: 50% !important;
-  background: rgba(0, 0, 0, 0.25) !important;
-  opacity: 0.15;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 10004 !important;
-  transition: opacity 0.12s ease, background 0.12s ease;
-}
-
-/* Почти невидима; проявляется при наведении на окно и полностью — на неё. */
-body:hover .ytp-overflow-button {
-  opacity: 0.5;
-}
-
-.ytp-overflow-button:hover {
-  opacity: 1 !important;
-  background: rgba(0, 0, 0, 0.6) !important;
-}
-
-.ytp-overflow-button svg,
-.ytp-overflow-button .ytp-svg-shadow {
-  width: 16px !important;
-  height: 16px !important;
-  fill: #fff !important;
-}
-
-.ytp-overflow-panel,
-.ytp-share-panel {
-  position: fixed !important;
-  top: auto !important;
-  right: 8px !important;
-  left: auto !important;
-  bottom: 52px !important;
-  transform: none !important;
-  width: 180px !important;
-  max-width: 70vw !important;
-  height: auto !important;
-  max-height: 65vh !important;
-  overflow-y: auto !important;
-  scrollbar-width: none !important;
-  background: rgba(18, 18, 18, 0.95) !important;
-  border-radius: 12px !important;
-  padding: 6px !important;
-  z-index: 10005 !important;
-  color: #fff !important;
-  font-size: 13px !important;
-}
-
-.ytp-overflow-panel::-webkit-scrollbar,
-.ytp-share-panel::-webkit-scrollbar {
-  display: none !important;
-}
-
-/* Пункты меню — строка «иконка + подпись» нормального размера. */
-.ytp-overflow-panel button,
-.ytp-share-panel button {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 10px !important;
-  width: 100% !important;
-  height: auto !important;
-  padding: 9px 10px !important;
-  border-radius: 8px !important;
-  font-size: 13px !important;
-  text-align: left !important;
-}
-
-.ytp-overflow-panel button:hover,
-.ytp-share-panel button:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-}
-
-.ytp-overflow-panel svg,
-.ytp-share-panel svg {
-  width: 20px !important;
-  height: 20px !important;
-  flex: none !important;
-}
-
-.ytp-overflow-panel *,
-.ytp-share-panel * {
-  background-color: transparent !important;
-  color: #fff !important;
-  fill: #fff !important;
 }
 
 /* --- Полоски прогресса внизу ------------------------------------------ */

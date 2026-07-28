@@ -14,6 +14,7 @@
   "sbSkip": { "message": "Пропустить интеграцию" },
   "playTooltip": { "message": "Пауза / воспроизведение" },
   "navPrev": { "message": "Назад" },
+  "copyLink": { "message": "Скопировать ссылку на видео" },
   "navNext": { "message": "Вперёд" },
   "relatedTooltip": { "message": "Рекомендации" },
   "relatedEmpty": { "message": "Рекомендации не найдены" },
