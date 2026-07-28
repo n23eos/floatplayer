@@ -12,10 +12,36 @@ YTFP.pipControls = (() => {
     return chrome.i18n.getMessage(key) || fallback;
   }
 
-  function createButton(doc, label, title, onClick) {
+  // Монохромные SVG-иконки (сетка 24x24, fill: currentColor).
+  const ICONS = {
+    skip: "M4 6v12l8.5-6L4 6zm9 0v12l8.5-6L13 6z",
+    volume: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z",
+    sleep: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
+    back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+  };
+
+  function createIcon(doc, name) {
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const svg = doc.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "14");
+    svg.setAttribute("height", "14");
+    svg.setAttribute("fill", "currentColor");
+    const path = doc.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", ICONS[name]);
+    svg.appendChild(path);
+    return svg;
+  }
+
+  /** content — строка или DOM-узел (иконка). */
+  function createButton(doc, content, title, onClick) {
     const button = doc.createElement("button");
     button.className = "ytfp-btn";
-    button.textContent = label;
+    if (typeof content === "string") {
+      button.textContent = content;
+    } else {
+      button.appendChild(content);
+    }
     button.title = title;
     button.addEventListener("click", onClick);
     return button;
@@ -87,7 +113,7 @@ YTFP.pipControls = (() => {
     const skipStep = () => YTFP.settings.get().skipStepSeconds;
     const skipButton = createButton(
       pipDocument,
-      `»${skipStep()}`,
+      createIcon(pipDocument, "skip"),
       t("skipTooltip", "Промотать вперёд (интеграция)"),
       () => {
         const video = getVideo();
@@ -100,6 +126,9 @@ YTFP.pipControls = (() => {
         );
       }
     );
+    const skipStepLabel = pipDocument.createElement("span");
+    skipStepLabel.textContent = String(skipStep());
+    skipButton.appendChild(skipStepLabel);
 
     // --- Скорость: ползунок с шагами -----------------------------------------
     const speedWrap = pipDocument.createElement("label");
@@ -137,7 +166,7 @@ YTFP.pipControls = (() => {
       }
     });
 
-    speedWrap.append("⏩", speedSlider, speedLabel);
+    speedWrap.append(speedSlider, speedLabel);
 
     // --- Громкость 0–300% (Web Audio) ----------------------------------------
     const boostWrap = pipDocument.createElement("label");
@@ -159,7 +188,7 @@ YTFP.pipControls = (() => {
       boostLabel.textContent = ok ? `${boostSlider.value}%` : "н/д";
     });
 
-    boostWrap.append("🔊", boostSlider, boostLabel);
+    boostWrap.append(createIcon(pipDocument, "volume"), boostSlider, boostLabel);
 
     // --- Таймер сна -----------------------------------------------------------
     // По истечении — пауза. Живёт, пока открыто мини-окно.
@@ -220,12 +249,12 @@ YTFP.pipControls = (() => {
       tickSleepTimer();
     });
 
-    sleepWrap.append("⏾", sleepSelect, sleepCountdown);
+    sleepWrap.append(createIcon(pipDocument, "sleep"), sleepSelect, sleepCountdown);
 
     // --- Возврат на страницу ------------------------------------------------
     const returnButton = createButton(
       pipDocument,
-      "↩",
+      createIcon(pipDocument, "back"),
       t("returnTooltip", "Вернуть видео на страницу"),
       onReturnRequested
     );

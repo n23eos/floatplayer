@@ -152,10 +152,27 @@ YTFP.pip = (() => {
     const style = pipWindow.document.createElement("style");
     style.textContent = await loadPipCss();
     pipWindow.document.head.appendChild(style);
-    pipWindow.document.title = document.title;
+    // Пустой заголовок: в системной полоске окна остаётся только origin
+    // (youtube.com) — совсем убрать её Chrome не позволяет.
+    pipWindow.document.title = "";
+
+    // Скорость до переноса: защита от YouTube-фичи «удержание = 2x»,
+    // которая могла сработать из-за потерянного mouseup при переносе.
+    const video = playerEl.querySelector("video.html5-main-video");
+    const rateBeforeMove = video ? video.playbackRate : 1;
 
     // Переносим плеер целиком.
     pipWindow.document.body.appendChild(playerEl);
+
+    if (video) {
+      video.playbackRate = rateBeforeMove;
+      // YouTube может включить 2x с задержкой — контрольный сброс.
+      setTimeout(() => {
+        if (state && video.playbackRate !== rateBeforeMove) {
+          video.playbackRate = rateBeforeMove;
+        }
+      }, 700);
+    }
 
     injectOverlayStyles();
     const overlay = buildOverlay(parent);

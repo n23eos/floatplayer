@@ -68,7 +68,12 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     button.style.justifyContent = "center";
     button.style.verticalAlign = "top";
     button.appendChild(buildIconSvg(settingsButton));
-    button.addEventListener("click", () => {
+    // Глушим всплытие: иначе YouTube видит mousedown на плеере, плеер
+    // уезжает в PiP-окно до mouseup, и «удержание» включает скорость 2x.
+    button.addEventListener("mousedown", (event) => event.stopPropagation());
+    button.addEventListener("touchstart", (event) => event.stopPropagation());
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
       YTFP.pip.toggle();
     });
     return button;

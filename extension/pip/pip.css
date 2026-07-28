@@ -48,7 +48,7 @@ select {
 }
 
 /* Панель дополнительных функций расширения — сверху, чтобы не
-   перекрывать родной таймлайн YouTube внизу. */
+   перекрывать родной таймлайн YouTube внизу. Стекло с блюром. */
 .ytfp-bar {
   position: absolute;
   left: 0;
@@ -57,14 +57,16 @@ select {
   z-index: 10000;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  background: rgba(15, 15, 15, 0.92);
-  color: #fff;
+  gap: 8px;
+  padding: 6px 10px;
+  background: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.65));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #eee;
   font-family: "Roboto", Arial, sans-serif;
   font-size: 12px;
   transform: translateY(0);
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
 /* Компактный режим: панель спрятана, всплывает при наведении на окно. */
@@ -80,76 +82,97 @@ body:hover .ytfp-bar--compact {
 
 .ytfp-btn {
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   border: 0;
-  border-radius: 4px;
-  padding: 4px 8px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: transparent;
+  color: #eee;
   font-size: 12px;
   line-height: 1;
   white-space: nowrap;
+  transition: background 0.12s ease;
+}
+
+.ytfp-btn svg {
+  display: block;
+  opacity: 0.9;
 }
 
 .ytfp-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .ytfp-btn--active {
   background: #cc0000;
 }
 
+.ytfp-btn--active:hover {
+  background: #e00000;
+}
+
 .ytfp-btn--return {
   margin-left: auto;
-  font-size: 14px;
+}
+
+.ytfp-speed,
+.ytfp-boost,
+.ytfp-sleep {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ccc;
+}
+
+.ytfp-speed svg,
+.ytfp-boost svg,
+.ytfp-sleep svg {
+  opacity: 0.75;
+  flex: none;
+}
+
+.ytfp-speed input[type="range"] {
+  width: 64px;
+}
+
+.ytfp-boost input[type="range"] {
+  width: 76px;
+}
+
+.ytfp-bar input[type="range"] {
+  accent-color: #cc0000;
+  height: 3px;
 }
 
 .ytfp-speed-label {
   cursor: pointer;
-  min-width: 34px;
+  min-width: 32px;
   text-align: center;
-  opacity: 0.9;
+  color: #eee;
+  border-radius: 6px;
+  padding: 4px 2px;
 }
 
-.ytfp-boost {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.ytfp-boost input[type="range"] {
-  width: 80px;
-  accent-color: #cc0000;
+.ytfp-speed-label:hover {
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .ytfp-boost span {
   min-width: 34px;
   text-align: right;
-}
-
-.ytfp-speed {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.ytfp-speed input[type="range"] {
-  width: 70px;
-  accent-color: #cc0000;
-}
-
-.ytfp-sleep {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  font-variant-numeric: tabular-nums;
 }
 
 .ytfp-select {
   border: 0;
-  border-radius: 4px;
-  padding: 3px 4px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  border-radius: 6px;
+  padding: 4px 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #eee;
   font-size: 12px;
+  cursor: pointer;
 }
 
 .ytfp-select option {
@@ -158,5 +181,6 @@ body:hover .ytfp-bar--compact {
 
 .ytfp-sleep-countdown {
   min-width: 38px;
-  color: #ffd7d7;
+  color: #ff9d9d;
+  font-variant-numeric: tabular-nums;
 }
