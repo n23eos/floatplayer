@@ -2,21 +2,39 @@
 
 var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 
-// Тонкая красная полоска прогресса внизу PiP-окна (родные контролы YouTube
-// в окне скрыты). Клик и перетаскивание — перемотка. Поверх полоски
-// рисуются зелёные сегменты SponsorBlock, если они есть.
+// Полоски прогресса внизу PiP-окна (родные контролы YouTube в окне скрыты):
+// - красная — прогресс видео, клик/перетаскивание — перемотка,
+//   зелёные сегменты SponsorBlock поверх;
+// - белая — прогресс рекламы, появляется НАД красной, пока идёт реклама
+//   (красная в это время заморожена на позиции видео и не перематывается).
 YTFP.pipProgress = (() => {
   function build(pipDocument, { getVideo }) {
+    const wrap = pipDocument.createElement("div");
+    wrap.className = "ytfp-progress-wrap";
+
+    // Белая полоска рекламы (видна только во время рекламы).
+    const adTrack = pipDocument.createElement("div");
+    adTrack.className = "ytfp-ad-progress";
+    const adFill = pipDocument.createElement("div");
+    adFill.className = "ytfp-ad-progress-fill";
+    adTrack.appendChild(adFill);
+
+    // Красная полоска видео.
     const track = pipDocument.createElement("div");
     track.className = "ytfp-progress";
-
     const fill = pipDocument.createElement("div");
     fill.className = "ytfp-progress-fill";
-
     const segmentsLayer = pipDocument.createElement("div");
     segmentsLayer.className = "ytfp-progress-segments";
-
     track.append(segmentsLayer, fill);
+
+    wrap.append(adTrack, track);
+
+    function isAdShowing() {
+      const video = getVideo();
+      const playerRoot = video && video.closest("#movie_player");
+      return Boolean(playerRoot && playerRoot.classList.contains("ad-showing"));
+    }
 
     function duration() {
       const video = getVideo();
@@ -26,8 +44,19 @@ YTFP.pipProgress = (() => {
     function renderFill() {
       const video = getVideo();
       const total = duration();
-      const fraction = video && total > 0 ? video.currentTime / total : 0;
-      fill.style.width = `${(fraction * 100).toFixed(3)}%`;
+      const showingAd = isAdShowing();
+      wrap.classList.toggle("ytfp-progress-wrap--ad", showingAd);
+      if (!video || total <= 0) {
+        return;
+      }
+      const fraction = video.currentTime / total;
+      if (showingAd) {
+        // Сейчас currentTime/duration — это рекламный ролик:
+        // рисуем белую полоску, красную не трогаем (заморожена).
+        adFill.style.width = `${(fraction * 100).toFixed(3)}%`;
+      } else {
+        fill.style.width = `${(fraction * 100).toFixed(3)}%`;
+      }
     }
 
     function renderSegments() {
@@ -35,7 +64,7 @@ YTFP.pipProgress = (() => {
       const total = duration();
       const segments =
         (YTFP.sponsorBlock && YTFP.sponsorBlock.getSegments && YTFP.sponsorBlock.getSegments()) || [];
-      if (total <= 0) {
+      if (total <= 0 || isAdShowing()) {
         return;
       }
       for (const segment of segments) {
@@ -48,6 +77,10 @@ YTFP.pipProgress = (() => {
     }
 
     function seekToClientX(clientX) {
+      // Во время рекламы перемотка бессмысленна: currentTime — рекламный.
+      if (isAdShowing()) {
+        return;
+      }
       const video = getVideo();
       const total = duration();
       if (!video || total <= 0) {
@@ -98,7 +131,7 @@ YTFP.pipProgress = (() => {
       }
     }
 
-    return { element: track, cleanup, renderSegments };
+    return { element: wrap, cleanup };
   }
 
   return { build };

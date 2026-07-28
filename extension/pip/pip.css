@@ -196,24 +196,47 @@ body:hover .ytfp-bar--compact {
   font-variant-numeric: tabular-nums;
 }
 
-/* --- Красная полоска прогресса внизу --------------------------------- */
+/* --- Полоски прогресса внизу ------------------------------------------ */
 
-.ytfp-progress {
+.ytfp-progress-wrap {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 4px;
   z-index: 10000;
-  background: rgba(255, 255, 255, 0.25);
-  cursor: pointer;
   -webkit-app-region: no-drag;
   app-region: no-drag;
+}
+
+/* Белая полоска рекламы — над красной, видна только во время рекламы. */
+.ytfp-ad-progress {
+  display: none;
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.ytfp-progress-wrap--ad .ytfp-ad-progress {
+  display: block;
+}
+
+.ytfp-ad-progress-fill {
+  height: 100%;
+  width: 0;
+  background: #fff;
+}
+
+/* Красная полоска видео. */
+.ytfp-progress {
+  position: relative;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
   transition: height 0.12s ease;
 }
 
-.ytfp-progress:hover {
-  height: 8px;
+.ytfp-progress-wrap:hover .ytfp-progress {
+  height: 11px;
 }
 
 .ytfp-progress-fill {
@@ -224,6 +247,7 @@ body:hover .ytfp-bar--compact {
   width: 0;
   background: #f00;
   pointer-events: none;
+  z-index: 1;
 }
 
 .ytfp-progress-segments {

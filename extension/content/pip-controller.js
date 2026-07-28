@@ -184,6 +184,19 @@ YTFP.pip = (() => {
       }, 700);
     }
 
+    // Глушим нажатия по зоне плеера для скриптов YouTube: их фича
+    // «удержание мыши = 2x» ломается в PiP-окне (mouseup теряется из-за
+    // перетаскивания окна) и скорость залипает. Наши элементы работают —
+    // они слушают click, который синтезируется независимо от propagation.
+    const blockPlayerPress = (event) => {
+      if (event.target && event.target.closest && event.target.closest("#movie_player")) {
+        event.stopPropagation();
+      }
+    };
+    for (const type of ["pointerdown", "mousedown", "touchstart"]) {
+      pipWindow.document.addEventListener(type, blockPlayerPress, true);
+    }
+
     injectOverlayStyles();
     const overlay = buildOverlay(parent);
 
