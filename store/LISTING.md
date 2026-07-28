@@ -115,6 +115,76 @@ or skip YouTube ads.
 - Host `https://sponsor.ajay.app/*` — запрос границ спонсорских сегментов
   по ID видео (подсветка и пропуск вставок).
 
+## Вкладка «Меры по обеспечению конфиденциальности» — готовые ответы
+
+Копировать как есть. Обоснования лучше на английском: ревьюеры международные.
+
+### Описание цели (Single purpose)
+
+> FloatPlayer has a single purpose: showing the YouTube video the user is
+> currently watching in an always-on-top Picture-in-Picture window with playback
+> controls. Every feature — play/pause, seeking, playback speed, volume, A-B
+> loop, sleep timer, sponsor-segment skipping and Shorts navigation — controls
+> the playback of that one video. The extension does nothing outside YouTube
+> playback.
+
+### Разрешение `storage`
+
+> Stores the user's own preferences (mini-window style, speed slider step,
+> volume ceiling, sleep-timer choice, Shorts auto-advance, panel behaviour) and
+> the last mini-window width, so the extension behaves consistently across
+> sessions and browser restarts. Only these preferences are stored. No browsing
+> history, no personal data, and nothing is sent anywhere.
+
+### Разрешение `clipboardWrite`
+
+> Used only by the "Copy video link" button in the mini-window control panel.
+> When the user clicks that button, the URL of the video currently playing is
+> written to the clipboard, so the user can share it without returning to the
+> YouTube tab. Nothing is written without an explicit click, and the extension
+> never reads the clipboard.
+
+### Разрешения на доступ к хостам
+
+> `*://*.youtube.com/*` — the extension must run on YouTube watch and Shorts
+> pages to add its button to the player, move the player element into the
+> Document Picture-in-Picture window and control playback inside that window.
+> This is the core function and cannot be done without access to YouTube pages.
+>
+> `https://sponsor.ajay.app/*` — used by the optional "sponsor segments"
+> feature: the extension requests community-labelled sponsor-segment timestamps
+> for the current video so they can be marked on the progress bar and skipped
+> with one click. Only the video ID is sent, no cookies or account data, and the
+> feature can be switched off in the extension options.
+
+### Использование удалённого кода
+
+Выбрать **«Нет, я не использую удалённый код»**. Если попросят пояснение:
+
+> All JavaScript and CSS are bundled inside the extension package. The only
+> network request fetches JSON timestamps from sponsor.ajay.app; that response
+> is parsed as data and never evaluated or injected as code.
+
+### Использование данных
+
+- Категория: **Web history** — расширение передаёт ID просматриваемого видео
+  стороннему API SponsorBlock (только при включённой функции). Пояснение:
+
+> The extension has no servers and stores nothing remotely. When the optional
+> sponsor-segment feature is enabled, the ID of the video being watched is sent
+> to the community API sponsor.ajay.app to look up sponsor timestamps. It is not
+> collected, stored or profiled by the developer, and the feature can be
+> disabled in the options.
+
+- Три обязательные галочки-подтверждения — отметить все, они верны:
+  данные не продаются третьим лицам; не используются для целей, не связанных с
+  основной функцией; не используются для оценки кредитоспособности.
+
+### Контактный адрес издателя
+
+Страница **Настройки → Контактная информация**: указать email и подтвердить его
+по ссылке из письма. Без подтверждения публикация блокируется.
+
 ## Скриншоты (локализованные, 1280×800, 24-битный PNG без альфа-канала)
 
 В консоли скриншоты загружаются отдельно для каждого языка листинга: англоязычным
