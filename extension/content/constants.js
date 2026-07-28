@@ -18,7 +18,10 @@ YTFP.DEFAULT_SETTINGS = {
   volumeBoostMax: 300,  // потолок усиления громкости, %
   compactMode: true,        // прятать панель, показывать при наведении
   skipStepSeconds: 30,      // шаг кнопки промотки интеграций, сек
-  sponsorSkip: true         // сегменты SponsorBlock на таймлайне + кнопка пропуска
+  sponsorSkip: true,        // сегменты SponsorBlock на таймлайне + кнопка пропуска
+  // "document" — окно с панелью настроек (Chrome рисует рамку с origin),
+  // "native"   — чистое видео без рамки (нативный PiP, без панели).
+  windowMode: "document"
 };
 
 YTFP.SPEED_MIN = 0.25;

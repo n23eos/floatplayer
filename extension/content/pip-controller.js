@@ -10,7 +10,22 @@ YTFP.pip = (() => {
   let state = null;
 
   function isOpen() {
-    return state !== null;
+    return state !== null || document.pictureInPictureElement !== null;
+  }
+
+  /** Нативный видео-PiP: без рамки Chrome, но и без нашей панели. */
+  async function openNative() {
+    const video = YTFP.playerApi.getVideo();
+    if (!video) {
+      return false;
+    }
+    try {
+      await video.requestPictureInPicture();
+      return true;
+    } catch (error) {
+      console.warn("[YTFP] Native PiP failed:", error);
+      return false;
+    }
   }
 
   /** Плеер, который сейчас перенесён в PiP-окно (для player-api). */
@@ -113,7 +128,7 @@ YTFP.pip = (() => {
 
   /** Открыть PiP. Возвращает true при успехе. */
   async function open() {
-    if (state) {
+    if (isOpen()) {
       return true;
     }
     const playerEl = YTFP.playerApi.getPlayerRoot();
@@ -121,15 +136,10 @@ YTFP.pip = (() => {
       return false;
     }
 
-    // Фолбэк для Chrome без Document PiP: обычный видео-PiP.
-    if (!("documentPictureInPicture" in window)) {
-      const video = YTFP.playerApi.getVideo();
-      if (video) {
-        video.requestPictureInPicture().catch((error) => {
-          console.warn("[YTFP] Native PiP fallback failed:", error);
-        });
-      }
-      return false;
+    // Режим «чистое видео»: нативный PiP без рамки Chrome и без панели.
+    // Тот же путь — фолбэк для Chrome без Document PiP API.
+    if (YTFP.settings.get().windowMode === "native" || !("documentPictureInPicture" in window)) {
+      return openNative();
     }
 
     const size = await getInitialSize(YTFP.playerApi.getVideo());
@@ -217,6 +227,8 @@ YTFP.pip = (() => {
   function close() {
     if (state) {
       state.pipWindow.close();
+    } else if (document.pictureInPictureElement) {
+      document.exitPictureInPicture().catch(() => {});
     }
   }
 
@@ -245,7 +257,7 @@ YTFP.pip = (() => {
   }
 
   async function toggle() {
-    if (state) {
+    if (isOpen()) {
       close();
       return true;
     }

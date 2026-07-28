@@ -116,7 +116,7 @@ YTFP.sponsorBlock = (() => {
     skipButton.className = "ytfp-sb-skip";
     Object.assign(skipButton.style, {
       position: "absolute",
-      bottom: "60px",
+      bottom: "100px", // выше нашей нижней панели в PiP-окне
       transform: "translateX(-50%)",
       zIndex: "10001",
       display: "none",
