@@ -26,9 +26,13 @@
 
 <main class="wrap doc">
 
-  <p><strong>FloatPlayer collects no data.</strong> The extension has no analytics,
-  no trackers, no accounts and no servers of its own. Nothing is ever sold or
-  shared.</p>
+  <p><strong>The developer of FloatPlayer collects no data.</strong> The extension
+  has no analytics, no trackers, no accounts and no servers of its own — nothing
+  reaches us, and nothing is ever sold or shared.</p>
+
+  <p>One optional feature does send data to a third party, and it is disclosed in
+  the Chrome Web Store listing under <em>web history</em>: see
+  <a href="#disclosure">what is transmitted</a> below.</p>
 
   <h2>Stored locally</h2>
   <ul>
@@ -52,6 +56,21 @@
       image host (<code>i.ytimg.com</code>), exactly as YouTube itself loads them.</li>
   </ul>
 
+  <h2 id="disclosure">What is transmitted, and what we do with it</h2>
+  <p>When the sponsor-segment feature is on, the ID of the video you are watching
+  goes to sponsor.ajay.app — nothing else. That single fact is the "web history"
+  category declared in our Chrome Web Store listing. Turning the feature off in
+  the options stops those requests entirely.</p>
+  <ul>
+    <li>The data is <strong>not sold or transferred</strong> to third parties,
+      except for the lookup described above, which is the feature itself.</li>
+    <li>It is <strong>not used for any purpose unrelated</strong> to the
+      extension's single function: controlling YouTube playback in a floating
+      window.</li>
+    <li>It is <strong>not used to determine creditworthiness</strong> or for
+      lending purposes.</li>
+  </ul>
+
   <h2>Clipboard</h2>
   <p>The "copy video link" button writes the current video URL to your clipboard
   only when you click it. The clipboard is never read.</p>
@@ -71,9 +90,15 @@
 
   <div class="lang">
     <h2>Русская версия</h2>
-    <p><strong>FloatPlayer не собирает данные.</strong> Аналитики, трекеров,
-    аккаунтов и собственных серверов нет; данные никому не передаются и не
-    продаются.</p>
+    <p><strong>Разработчик FloatPlayer не собирает данные.</strong> Аналитики,
+    трекеров, аккаунтов и собственных серверов нет — до нас ничего не доходит,
+    данные не продаются и не передаются.</p>
+    <p>Одна необязательная функция отправляет данные стороннему сервису — это и
+    есть категория «история веб-поиска», заявленная в листинге Chrome Web Store:
+    при включённых интеграциях на sponsor.ajay.app уходит только ID
+    просматриваемого видео. Данные не продаются, не используются для целей вне
+    основной функции расширения и не применяются для оценки кредитоспособности.
+    Отключение функции в настройках полностью прекращает эти запросы.</p>
     <p><strong>Локально</strong> хранятся только ваши настройки и последняя
     ширина окна — в <code>storage.sync</code> Chrome, внутри вашего браузера.</p>
     <p><strong>Сетевые запросы:</strong> при включённой функции «интеграции на
