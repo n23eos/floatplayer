@@ -85,6 +85,10 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
    * размеров иконки).
    */
   function ensureButton() {
+    if (YTFP.playerApi.isShortsPage()) {
+      ensureShortsButton();
+      return;
+    }
     if (!YTFP.playerApi.isWatchPage()) {
       return;
     }
@@ -97,6 +101,28 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     // Небольшой зазор, чтобы кнопка читалась как отдельная от группы YouTube.
     button.style.marginRight = "8px";
     rightControls.prepend(button);
+  }
+
+  /** На страницах шортсов — плавающая кнопка в углу плеера. */
+  function ensureShortsButton() {
+    const shortsRoot = document.querySelector(YTFP.SELECTORS.shortsPlayerRoot);
+    if (!shortsRoot || shortsRoot.querySelector(`.${BUTTON_CLASS}`)) {
+      return;
+    }
+    const button = buildButton(null);
+    Object.assign(button.style, {
+      position: "absolute",
+      top: "8px",
+      left: "8px",
+      zIndex: "1000",
+      width: "40px",
+      height: "40px",
+      borderRadius: "50%",
+      background: "rgba(0, 0, 0, 0.55)",
+      cursor: "pointer",
+      border: "0"
+    });
+    shortsRoot.appendChild(button);
   }
 
   // Контролы плеера рендерятся асинхронно после навигации — несколько попыток,
@@ -112,8 +138,9 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 
   function onNavigateFinish() {
     ensureButtonWithRetries();
-    // Ушли со страницы просмотра — окно больше не к чему привязывать.
-    if (!YTFP.playerApi.isWatchPage() && YTFP.pip.isOpen()) {
+    // Ушли со страницы с плеером (watch или shorts) — окно закрываем.
+    // Переходы между шортсами и видео из рекомендаций окно переживает.
+    if (!YTFP.playerApi.isPlayerPage() && YTFP.pip.isOpen()) {
       YTFP.pip.close();
     }
   }

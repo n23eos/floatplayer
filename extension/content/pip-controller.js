@@ -132,9 +132,10 @@ YTFP.pip = (() => {
       return true;
     }
     const playerEl = YTFP.playerApi.getPlayerRoot();
-    if (!playerEl || !YTFP.playerApi.isWatchPage()) {
+    if (!playerEl || !YTFP.playerApi.isPlayerPage()) {
       return false;
     }
+    const isShorts = YTFP.playerApi.isShortsPage();
 
     // Режим «чистое видео»: нативный PiP без рамки Chrome и без панели.
     // Тот же путь — фолбэк для Chrome без Document PiP API.
@@ -189,7 +190,11 @@ YTFP.pip = (() => {
     // перетаскивания окна) и скорость залипает. Наши элементы работают —
     // они слушают click, который синтезируется независимо от propagation.
     const blockPlayerPress = (event) => {
-      if (event.target && event.target.closest && event.target.closest("#movie_player")) {
+      if (
+        event.target &&
+        event.target.closest &&
+        event.target.closest("#movie_player, #shorts-player")
+      ) {
         event.stopPropagation();
       }
     };
@@ -254,6 +259,34 @@ YTFP.pip = (() => {
       }
     };
 
+    // Гарантия «только видео»: плеер внутри окна всегда рисуется строго
+    // в пропорциях видео и по центру (letterbox), какую бы форму окну ни
+    // придали. Панели плеера («О видео» и т.п.) за пределы видео не вылезают.
+    const layoutPlayer = () => {
+      const video = getMovedVideo();
+      const aspect =
+        video && video.videoWidth > 0 && video.videoHeight > 0
+          ? video.videoWidth / video.videoHeight
+          : 16 / 9;
+      const windowWidth = pipWindow.innerWidth;
+      const windowHeight = pipWindow.innerHeight;
+      let width = windowWidth;
+      let height = Math.round(windowWidth / aspect);
+      if (height > windowHeight) {
+        height = windowHeight;
+        width = Math.round(windowHeight * aspect);
+      }
+      const left = Math.round((windowWidth - width) / 2);
+      const top = Math.round((windowHeight - height) / 2);
+      // Инлайновые !important перебивают и наши стили, и стили YouTube.
+      const style = playerEl.style;
+      style.setProperty("position", "absolute", "important");
+      style.setProperty("width", `${width}px`, "important");
+      style.setProperty("height", `${height}px`, "important");
+      style.setProperty("left", `${left}px`, "important");
+      style.setProperty("top", `${top}px`, "important");
+    };
+
     const scheduleSaveSize = () => {
       clearTimeout(state && state.resizeTimer);
       if (!state) {
@@ -267,21 +300,56 @@ YTFP.pip = (() => {
       }, 300);
     };
     pipWindow.addEventListener("resize", () => {
+      layoutPlayer();
       scheduleSaveSize();
       // Пинаем страницу: плеер YouTube пересчитывает размеры по resize.
       window.dispatchEvent(new Event("resize"));
     });
 
-    // Смена видео в окне (рекомендации, плейлист) — новые пропорции,
-    // подгоняем окно под них. Слушатель снимается в restore().
+    // Смена видео в окне (рекомендации, плейлист, следующий шортс) —
+    // новые пропорции: перекладываем плеер и подгоняем окно.
     const movedVideo = getMovedVideo();
+    const onAspectChange = () => {
+      layoutPlayer();
+      snapToVideoAspect();
+    };
     if (movedVideo) {
-      movedVideo.addEventListener("loadedmetadata", snapToVideoAspect);
+      movedVideo.addEventListener("loadedmetadata", onAspectChange);
       state.aspectVideo = movedVideo;
-      state.onAspectChange = snapToVideoAspect;
+      state.onAspectChange = onAspectChange;
+    }
+
+    // Шортсы: автопереход к следующему по окончании ролика.
+    if (isShorts && movedVideo) {
+      let lastAutoNextAt = 0;
+      const AUTO_NEXT_THROTTLE_MS = 1500;
+      const onShortsTime = () => {
+        if (!YTFP.settings.get().shortsAutoNext) {
+          return;
+        }
+        // Шортсы зациклены по умолчанию — снимаем loop, чтобы дойти до конца.
+        if (movedVideo.loop) {
+          movedVideo.loop = false;
+        }
+        const nearEnd =
+          Number.isFinite(movedVideo.duration) &&
+          movedVideo.duration > 0 &&
+          movedVideo.currentTime >= movedVideo.duration - 0.15;
+        if (nearEnd && Date.now() - lastAutoNextAt > AUTO_NEXT_THROTTLE_MS) {
+          lastAutoNextAt = Date.now();
+          const nextButton = document.querySelector(YTFP.SELECTORS.shortsNextButton);
+          if (nextButton) {
+            nextButton.click();
+          }
+        }
+      };
+      movedVideo.addEventListener("timeupdate", onShortsTime);
+      state.shortsVideo = movedVideo;
+      state.onShortsTime = onShortsTime;
     }
 
     // YouTube мог поставить inline-размеры под старый контейнер — пересчёт.
+    layoutPlayer();
     window.dispatchEvent(new Event("resize"));
     return true;
   }
@@ -299,16 +367,28 @@ YTFP.pip = (() => {
     if (!state) {
       return;
     }
-    const { playerEl, placeholder, overlay, controls, progress, related, resizeTimer, aspectVideo, onAspectChange } = state;
+    const {
+      playerEl, placeholder, overlay, controls, progress, related,
+      resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime
+    } = state;
     // Сначала гасим таймер и слушатели, потом обнуляем state.
     clearTimeout(resizeTimer);
     if (aspectVideo && onAspectChange) {
       aspectVideo.removeEventListener("loadedmetadata", onAspectChange);
     }
+    if (shortsVideo && onShortsTime) {
+      shortsVideo.removeEventListener("timeupdate", onShortsTime);
+    }
     controls.cleanup();
     progress.cleanup();
     related.cleanup();
     state = null;
+
+    // Снимаем letterbox-геометрию, которую задавал layoutPlayer, —
+    // иначе плеер вернётся на страницу с фиксированными размерами окна.
+    for (const property of ["position", "width", "height", "left", "top"]) {
+      playerEl.style.removeProperty(property);
+    }
 
     overlay.remove();
 

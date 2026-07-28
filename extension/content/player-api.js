@@ -6,13 +6,25 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 // Работаем только через DOM-свойства <video> и клики по кнопкам плеера —
 // JS-объекты страницы (ytplayer API) из изолированного мира недоступны.
 YTFP.playerApi = (() => {
+  function isShortsPage() {
+    return location.pathname.startsWith("/shorts/");
+  }
+
+  /** Страница, где есть плеер, который можно вынести. */
+  function isPlayerPage() {
+    return isWatchPage() || isShortsPage();
+  }
+
   function getPlayerRoot() {
+    if (isShortsPage()) {
+      return document.querySelector(YTFP.SELECTORS.shortsPlayerRoot);
+    }
     return document.querySelector(YTFP.SELECTORS.playerRoot);
   }
 
   function getVideo() {
     // Ищем внутри переносимого плеера, где бы он сейчас ни был (страница или PiP-окно).
-    const root = YTFP.pip && YTFP.pip.getMovedPlayer ? YTFP.pip.getMovedPlayer() : null;
+    const root = YTFP.pip && YTFP.pip.getMovedPlayer ? YTFP.pip.getMovedPlayer() : getPlayerRoot();
     if (root) {
       return root.querySelector("video.html5-main-video");
     }
@@ -54,5 +66,5 @@ YTFP.playerApi = (() => {
     }
   }
 
-  return { getPlayerRoot, getVideo, isWatchPage, seekBy, togglePlayPause, setSpeed };
+  return { getPlayerRoot, getVideo, isWatchPage, isShortsPage, isPlayerPage, seekBy, togglePlayPause, setSpeed };
 })();

@@ -31,15 +31,25 @@ select {
   app-region: no-drag;
 }
 
-/* Плеер и видео растягиваем на всё окно, перебивая inline-размеры YouTube. */
-#movie_player {
+/* Стартовая геометрия плеера (точную letterbox-раскладку по пропорциям
+   видео задаёт layoutPlayer() инлайн-стилями с !important). */
+#movie_player,
+#shorts-player {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
 }
 
-#movie_player video.html5-main-video {
+/* Внутренние обёртки плеера шортсов растягиваем на контейнер. */
+#shorts-player .html5-video-player,
+#shorts-player .player-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#movie_player video.html5-main-video,
+#shorts-player video.html5-main-video {
   width: 100% !important;
   height: 100% !important;
   left: 0 !important;
@@ -48,11 +58,15 @@ select {
 }
 
 /* В мини-окне родные контролы YouTube скрыты: сверху наша панель,
-   снизу — тонкая красная полоска прогресса. */
+   снизу — тонкая красная полоска прогресса. (И обычный плеер, и шортсы.) */
 #movie_player .ytp-chrome-bottom,
 #movie_player .ytp-gradient-bottom,
 #movie_player .ytp-gradient-top,
-#movie_player .ytp-chrome-top {
+#movie_player .ytp-chrome-top,
+#shorts-player .ytp-chrome-bottom,
+#shorts-player .ytp-gradient-bottom,
+#shorts-player .ytp-gradient-top,
+#shorts-player .ytp-chrome-top {
   display: none !important;
 }
 
