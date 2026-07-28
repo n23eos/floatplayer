@@ -1,0 +1,100 @@
+FloatPlayer, YouTube'u her şeyin üstünde tutar. Oynatıcıdaki düğmeye tek tıklama
+— ya da Alt+P — ve video, kendi kontrollerine sahip küçük bir pencereye geçer.
+Kod yazın, e-postalara yanıt verin, tabloyu düzenleyin: video her uygulamanın
+üstünde görünmeye devam eder.
+
+Bu bir açılır pencere değil, gerçek bir Document Picture-in-Picture penceresidir.
+Çalıştığınız pencerenin arkasına asla düşmez.
+
+
+VİDEO BAŞTAN BAŞLAMAZ
+
+Çoğu «PiP» eklentisi ham video dosyasıyla ikinci bir oynatıcı açar: kaldığınız
+yeri, ayarlarınızı ve altyazıları kaybedersiniz.
+
+FloatPlayer, YouTube oynatıcısının kendisini pencereye taşır. Aynı akış, aynı
+saniye, zaten kullandığınız kalite, aynı altyazılar, oynatma listesindeki aynı
+konum ve aynı izleme geçmişi. Pencereyi kapattığınızda oynatıcı sayfadaki tam
+yerine geri döner. Hiçbir şey yeniden yüklenmez.
+
+Reklamlar engellenmez ve atlanmaz: eklenti YouTube'un kurallarına uyar.
+
+
+YERLEŞİK PICTURE-IN-PICTURE'IN YAPAMADIKLARI
+
+Chrome'un yerleşik PiP'i yalnızca bir oynat düğmesi sunar. FloatPlayer gerçekten
+eksik olanları ekler:
+
+- ileri geri sarma: çubuğa tıklama ve sürükleme, video üzerinde ±10 sn bölgeleri,
+  altında ±30 sn düğmeleri
+- 0,25x ile 3x arası hız, kaydırıcıyla
+- %0 ile %300 arası ses: sessizlikten YouTube'un kendi azamisinin üç katına
+  kadar, kısık kaydedilmiş videolar için
+- bir cümleyi, bir riff'i ya da bir hareketi çalışmak için A-B döngüsü
+- videoyu gerçekten duraklatan uyku zamanlayıcısı, 12 saate kadar
+- bağlantıyı kopyalama, önceki ve sonraki video, açılır sütunda 20 öneriye kadar
+- yerleşik PiP'in hiç ele almadığı Shorts desteği
+- içinde YouTube arayüzü bulunmayan, gerçekten sade bir pencere
+
+Fareyi oynatana kadar her şey gizlidir; yani çoğu zaman yalnızca videoyu
+görürsünüz. Reklam oynarken ayrı bir beyaz şerit ne kadar kaldığını gösterir,
+kırmızı olan ise gerçek konumunuzda donar.
+
+
+SPONSOR BÖLÜMLERİ GÖRÜNÜR VE ATLANABİLİR
+
+Açık olalım: YouTube'un kendi reklamlarına dokunulmaz. Bu, içerik üreticisinin
+videoya kendi eklediği sponsor bölümleriyle ilgilidir.
+
+SponsorBlock topluluğunun bildirdiği bölümler çubukta yeşil görünür ve içindeyken
+«Sponsor bölümünü atla» düğmesi çıkar. sponsor.ajay.app adresine yalnızca video
+kimliği gönderilir — sizinle ilgili hiçbir şey — ve özellik kapatılabilir.
+
+
+SHORTS, GERÇEKTEN DESTEKLENİYOR
+
+«Beğen» düğmesinin üstündeki özel düğme, Short'u 9:16 dikey bir pencerede açar;
+siyah bant ve kırpma yok. Bittiğinde sıradaki kendiliğinden başlar, alttaki oklar
+akışı doğrudan pencereden gezdirir.
+
+
+PENCERE BEKLEDİĞİNİZ GİBİ DAVRANIR
+
+Herhangi bir yerinden sürükleyin: videonun üstünde basılı tutup hareket ettirin —
+düğmeler tıklanabilir kalır. Pencere videonun tam en-boy oranında açılır, elle
+boyutlandırdıktan sonra o orana geri döner ve boyutu yatay videolar ile dikey
+Shorts için ayrı ayrı hatırlar.
+
+Yalnızca video, garanti: penceredeki YouTube arayüzü, videoya, altyazılara ve
+yükleme göstergesine izin veren bir beyaz listeyle kaldırılır — başka hiçbir şeye.
+
+
+KISAYOLLAR VE AYARLAR
+
+Herhangi bir Chrome penceresinden: Alt+P açar veya kapatır (Mac'te ⌥P), Alt+K
+duraklatır, Alt+J ve Alt+L 5 saniye atlar. Pencerede: boşluk veya K duraklatır,
+oklar 5 saniye atlar, M sesi keser. Tümü chrome://extensions/shortcuts adresinden
+değiştirilebilir.
+
+Ayarlar pencere stilini, otomatik PiP'i, SponsorBlock'u, atlama adımını, Shorts
+otomatik geçişini, sıkışık paneli, hız adımını, ses üst sınırını ve dili kapsar.
+Değişiklikler anında uygulanır.
+
+
+GİZLİLİK
+
+Hesap yok, oturum açma yok, izleme yok, analitik yok, reklam yok. Hiçbir şey
+toplanmaz ve gönderilmez; tek istisna, yalnızca o özelliği açık bıraktığınız
+sürece SponsorBlock için gönderilen video kimliğidir.
+
+
+DÜRÜST SINIRLAR
+
+- Chrome 116 veya üzeri gerekir; daha eski sürümlerde yerleşik PiP'e düşülür.
+- Sitenin adresini taşıyan ince Chrome şeridi kaldırılamaz: her Document PiP
+  penceresi için kimlik avına karşı bir gerekliliktir. İmleç uzaklaşınca kendi
+  kendine gizlenir, «sade video» modunda ise hiç yoktur.
+- Saydamlık ve tıklamanın geçmesi Chrome API'sinde mevcut değildir.
+- Tarayıcı başına tek PiP penceresi ve konumu programla belirlenemez — ikisi de
+  tarayıcı sınırıdır.
+- YouTube reklamları sırasında sarma çalışmaz: o anda ana video yüklü değildir.

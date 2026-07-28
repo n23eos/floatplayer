@@ -366,31 +366,36 @@ sponsor.ajay.app.
 Страница **Настройки → Контактная информация**: указать email и подтвердить его
 по ссылке из письма. Без подтверждения публикация блокируется.
 
-## Локализация
+## Локализация — 14 языков полностью
 
-**Интерфейс расширения — 14 языков** (в пакете): en (основной), ru, es, pt_BR,
-de, ja, fr, id, tr, hi, ko, it, pl, uk. Все файлы полные — 51 строка в каждом,
-наборы ключей совпадают. Пересобрать: `python3 scripts/make-icons.py` не нужен,
-локали правятся в `extension/_locales/<язык>/messages.json`.
+Интерфейс расширения (`extension/_locales/`), описание листинга
+(`store/descriptions/`) и скриншоты (`store/assets/screenshots/`) готовы для
+всех четырнадцати языков. Ничего не наследуется от английского.
 
-**Листинг — 8 языков**: описания в `store/descriptions/<язык>.txt`
-(+ `<язык>-short.txt` для краткого описания, все в пределах 132 символов) и
-скриншоты в `store/assets/screenshots/<язык>/`.
+| Язык в консоли | Код | Описание | Краткое | Скриншоты |
+|---|---|---|---|---|
+| English (основной) | en | `en.txt` | `en-short.txt` | `screenshots/en/` |
+| Русский | ru | `ru.txt` | `ru-short.txt` | `screenshots/ru/` |
+| Español | es | `es.txt` | `es-short.txt` | `screenshots/es/` |
+| Português (Brasil) | pt_BR | `pt_BR.txt` | `pt_BR-short.txt` | `screenshots/pt_BR/` |
+| Deutsch | de | `de.txt` | `de-short.txt` | `screenshots/de/` |
+| 日本語 | ja | `ja.txt` | `ja-short.txt` | `screenshots/ja/` |
+| Français | fr | `fr.txt` | `fr-short.txt` | `screenshots/fr/` |
+| Bahasa Indonesia | id | `id.txt` | `id-short.txt` | `screenshots/id/` |
+| Türkçe | tr | `tr.txt` | `tr-short.txt` | `screenshots/tr/` |
+| हिन्दी | hi | `hi.txt` | `hi-short.txt` | `screenshots/hi/` |
+| 한국어 | ko | `ko.txt` | `ko-short.txt` | `screenshots/ko/` |
+| Italiano | it | `it.txt` | `it-short.txt` | `screenshots/it/` |
+| Polski | pl | `pl.txt` | `pl-short.txt` | `screenshots/pl/` |
+| Українська | uk | `uk.txt` | `uk-short.txt` | `screenshots/uk/` |
 
-| Язык в консоли | Описание | Краткое | Скриншоты |
-|---|---|---|---|
-| English (основной) | `en.txt` | из блока выше | `screenshots/en/` |
-| Русский | `ru.txt` | из блока выше | `screenshots/ru/` |
-| Español | `es.txt` | `es-short.txt` | `screenshots/es/` |
-| Português (Brasil) | `pt_BR.txt` | `pt_BR-short.txt` | `screenshots/pt_BR/` |
-| Deutsch | `de.txt` | `de-short.txt` | `screenshots/de/` |
-| 日本語 | `ja.txt` | `ja-short.txt` | `screenshots/ja/` |
-| Français | `fr.txt` | `fr-short.txt` | `screenshots/fr/` |
-| Bahasa Indonesia | `id.txt` | `id-short.txt` | `screenshots/id/` |
+Порядок в консоли: выбрать язык на вкладке Store listing → вставить подробное и
+краткое описание из соответствующих файлов → загрузить пять скриншотов из папки
+того же языка. Английский заполняется первым как основной.
 
-Для tr, hi, ko, it, pl, uk переведён только интерфейс — листинг этих языков
-подтянет английский. Добавить описания позже можно тем же скриптом
-`scripts/make-descriptions.py`.
+Пересборка: `python3 scripts/make-descriptions.py` и
+`scripts/make-descriptions-2.py` для текстов,
+`python3 scripts/make-screenshots.py store/assets/screenshots` для кадров.
 
 ## Скриншоты (локализованные, 1280×800, 24-битный PNG без альфа-канала)
 

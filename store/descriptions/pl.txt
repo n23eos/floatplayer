@@ -1,0 +1,103 @@
+FloatPlayer trzyma YouTube nad wszystkim innym. Jedno kliknięcie przycisku w
+odtwarzaczu — albo Alt+P — i wideo przenosi się do małego okna zawsze na
+wierzchu, z własnymi przyciskami. Pisz kod, odpowiadaj na maile, poprawiaj
+arkusz: obraz pozostaje widoczny nad każdą aplikacją.
+
+To prawdziwe okno Document Picture-in-Picture, a nie popup. Nigdy nie chowa się
+za oknem, w którym pracujesz.
+
+
+WIDEO NIE ZACZYNA SIĘ OD NOWA
+
+Większość rozszerzeń «PiP» otwiera drugi odtwarzacz z surowym plikiem wideo:
+tracisz miejsce, w którym byłeś, swoje ustawienia i napisy.
+
+FloatPlayer przenosi do okna sam odtwarzacz YouTube. Ten sam strumień, ta sama
+sekunda, jakość, którą już miałeś, te same napisy, to samo miejsce na playliście
+i ta sama historia. Po zamknięciu okna odtwarzacz wraca na stronę dokładnie tam,
+gdzie był. Nic się nie przeładowuje.
+
+Reklamy nie są blokowane ani pomijane: rozszerzenie gra według zasad YouTube.
+
+
+CZEGO NIE POTRAFI WBUDOWANY PICTURE-IN-PICTURE
+
+Wbudowany PiP w Chrome daje przycisk odtwarzania i nic więcej. FloatPlayer
+dokłada to, czego naprawdę brakuje:
+
+- przewijanie: kliknięcie i przeciąganie po pasku, strefy ±10 s na samym wideo,
+  przyciski ±30 s pod nim
+- prędkość od 0,25x do 3x na suwaku
+- głośność od 0 do 300%: od ciszy po trzykrotność maksimum samego YouTube, w sam
+  raz do cicho nagranych filmów
+- pętla A-B do ćwiczenia frazy, riffu albo kroku
+- wyłącznik czasowy, który naprawdę wstrzymuje wideo, do 12 godzin
+- kopiowanie linku, poprzedni i następny film oraz do 20 propozycji w wysuwanej
+  kolumnie
+- obsługa Shorts, której wbudowany PiP w ogóle nie ma
+- naprawdę czyste okno, bez interfejsu YouTube w środku
+
+Wszystko jest ukryte, dopóki nie ruszysz myszą, więc przez większość czasu
+widzisz tylko obraz. W trakcie reklamy osobny biały pasek pokazuje, ile jej
+zostało, a czerwony zatrzymuje się na twojej prawdziwej pozycji.
+
+
+FRAGMENTY SPONSOROWANE WIDOCZNE I DO POMINIĘCIA
+
+Dla jasności: reklam samego YouTube rozszerzenie nie rusza. Chodzi o wstawki
+sponsorskie, które twórca sam montuje w filmie.
+
+Fragmenty zgłoszone przez społeczność SponsorBlock są zaznaczone na zielono na
+pasku, a w ich obrębie pojawia się przycisk «Pomiń sponsora». Do
+sponsor.ajay.app trafia wyłącznie identyfikator filmu — nic o tobie — a całą
+funkcję można wyłączyć.
+
+
+SHORTS, PORZĄDNIE OBSŁUŻONE
+
+Osobny przycisk nad «Lubię to» otwiera Shorta w pionowym oknie 9:16, bez czarnych
+pasów i bez przycinania. Gdy się kończy, następny startuje sam, a dolne strzałki
+przewijają feed prosto z okna.
+
+
+OKNO ZACHOWUJE SIĘ TAK, JAK SIĘ SPODZIEWASZ
+
+Przeciągaj je z dowolnego miejsca: przytrzymaj na wideo i przesuń — przyciski
+nadal da się klikać. Okno otwiera się w dokładnych proporcjach filmu, wraca do
+nich po ręcznej zmianie rozmiaru i zapamiętuje wielkość osobno dla filmów
+poziomych i pionowych Shorts.
+
+Tylko wideo, gwarantowane: interfejs YouTube wewnątrz okna usuwa biała lista,
+która przepuszcza obraz, napisy i wskaźnik ładowania — i nic poza tym.
+
+
+SKRÓTY I USTAWIENIA
+
+Z dowolnego okna Chrome: Alt+P otwiera i zamyka (⌥P na Macu), Alt+K wstrzymuje,
+Alt+J i Alt+L przeskakują o 5 sekund. W oknie: spacja lub K wstrzymuje, strzałki
+przeskakują o 5 sekund, M wycisza. Wszystko można zmienić na stronie
+chrome://extensions/shortcuts.
+
+Ustawienia obejmują styl okna, auto-PiP, SponsorBlock, krok przewijania,
+automatyczne Shorts, kompaktowy panel, krok prędkości, limit głośności i język.
+Zmiany działają od razu.
+
+
+PRYWATNOŚĆ
+
+Bez kont, bez logowania, bez śledzenia, bez analityki, bez reklam. Nic nie jest
+zbierane i nic nie jest wysyłane, poza identyfikatorem filmu na potrzeby
+SponsorBlock — i tylko dopóki zostawisz tę funkcję włączoną.
+
+
+UCZCIWE OGRANICZENIA
+
+- Wymaga Chrome 116 lub nowszego; na starszych wersjach zadziała wbudowany PiP.
+- Cienkiego paska Chrome z adresem witryny nie da się usunąć: to wymóg
+  antyphishingowy dla każdego okna Document PiP. Chowa się sam, gdy kursor
+  odjedzie, a tryb «samo wideo» nie ma go wcale.
+- Przezroczystości i klikania na wylot nie ma w API Chrome.
+- Jedno okno PiP na przeglądarkę, a jego pozycji nie da się ustawić programowo —
+  to ograniczenia przeglądarki.
+- W trakcie reklam YouTube przewijanie nie działa: główny film nie jest wtedy
+  wczytany.
