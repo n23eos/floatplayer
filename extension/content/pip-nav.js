@@ -82,7 +82,9 @@ YTFP.pipNav = (() => {
 
     function seekBy(deltaSeconds) {
       const video = getVideo();
-      if (!video || !Number.isFinite(video.duration)) {
+      // Во время рекламы YouTube перемотка запрещена: currentTime — время
+      // рекламного ролика, и сдвиг означал бы его пропуск.
+      if (!video || !Number.isFinite(video.duration) || YTFP.playerApi.isAdShowing()) {
         return;
       }
       video.currentTime = YTFP.utils.clamp(

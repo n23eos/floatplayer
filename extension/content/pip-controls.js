@@ -106,7 +106,9 @@ YTFP.pipControls = (() => {
 
     function onTimeUpdate() {
       const video = getVideo();
-      if (!video) {
+      // Во время рекламы currentTime — время ролика: цикл не применяем,
+      // иначе перемотка стала бы пропуском рекламы.
+      if (!video || YTFP.playerApi.isAdShowing()) {
         return;
       }
       const target = YTFP.utils.abLoopTarget(video.currentTime, pointA, pointB);
@@ -151,7 +153,8 @@ YTFP.pipControls = (() => {
       t("skipTooltip", "Skip ahead (sponsor segment)"),
       () => {
         const video = getVideo();
-        if (!video) {
+        // Реклама не мотается: во время неё currentTime принадлежит ролику.
+        if (!video || YTFP.playerApi.isAdShowing()) {
           return;
         }
         video.currentTime = Math.min(
@@ -424,9 +427,15 @@ YTFP.pipControls = (() => {
           }
           break;
         case "ArrowLeft":
+          if (YTFP.playerApi.isAdShowing()) {
+            break; // реклама не мотается
+          }
           currentVideo.currentTime = Math.max(0, currentVideo.currentTime - YTFP.SEEK_STEP_SECONDS);
           break;
         case "ArrowRight":
+          if (YTFP.playerApi.isAdShowing()) {
+            break;
+          }
           currentVideo.currentTime = Math.min(
             currentVideo.duration || Infinity,
             currentVideo.currentTime + YTFP.SEEK_STEP_SECONDS

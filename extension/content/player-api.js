@@ -35,9 +35,20 @@ YTFP.playerApi = (() => {
     return location.pathname === "/watch";
   }
 
+  /**
+   * Идёт ли сейчас реклама YouTube. Во время рекламы currentTime принадлежит
+   * рекламному ролику, поэтому любая перемотка означала бы пропуск рекламы —
+   * расширение этого не делает.
+   */
+  function isAdShowing() {
+    const video = getVideo();
+    const playerRoot = video && video.closest("#movie_player, #shorts-player");
+    return Boolean(playerRoot && playerRoot.classList.contains("ad-showing"));
+  }
+
   function seekBy(deltaSeconds) {
     const video = getVideo();
-    if (!video || !Number.isFinite(video.duration)) {
+    if (!video || !Number.isFinite(video.duration) || isAdShowing()) {
       return;
     }
     video.currentTime = YTFP.utils.clamp(
@@ -66,5 +77,8 @@ YTFP.playerApi = (() => {
     }
   }
 
-  return { getPlayerRoot, getVideo, isWatchPage, isShortsPage, isPlayerPage, seekBy, togglePlayPause, setSpeed };
+  return {
+    getPlayerRoot, getVideo, isWatchPage, isShortsPage, isPlayerPage,
+    isAdShowing, seekBy, togglePlayPause, setSpeed
+  };
 })();
