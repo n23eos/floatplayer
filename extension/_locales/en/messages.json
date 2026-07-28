@@ -11,6 +11,7 @@
   "sleepOff": { "message": "off" },
   "sleepMinutes": { "message": "min" },
   "skipTooltip": { "message": "Skip ahead (sponsor segment)" },
+  "sbSkip": { "message": "Skip sponsor segment" },
   "boostTooltip": { "message": "Volume: 0–100% quieter, above 100% boost" },
   "returnTooltip": { "message": "Return video to the page" },
   "cmdTogglePip": { "message": "Toggle floating window" },

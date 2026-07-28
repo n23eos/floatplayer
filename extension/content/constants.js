@@ -17,7 +17,8 @@ YTFP.DEFAULT_SETTINGS = {
   speedStep: 0.25,      // шаг ползунка скорости
   volumeBoostMax: 300,  // потолок усиления громкости, %
   compactMode: true,        // прятать панель, показывать при наведении
-  skipStepSeconds: 30       // шаг кнопки промотки интеграций, сек
+  skipStepSeconds: 30,      // шаг кнопки промотки интеграций, сек
+  sponsorSkip: true         // сегменты SponsorBlock на таймлайне + кнопка пропуска
 };
 
 YTFP.SPEED_MIN = 0.25;

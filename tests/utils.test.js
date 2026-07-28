@@ -70,6 +70,67 @@ describe("abLoopTarget", () => {
   });
 });
 
+describe("normalizeSegments", () => {
+  test("returns empty array for empty or invalid input", () => {
+    expect(utils.normalizeSegments([])).toEqual([]);
+    expect(utils.normalizeSegments(null)).toEqual([]);
+    expect(utils.normalizeSegments([[NaN, 5], [3], "junk", [10, 5], [-2, 3]])).toEqual([]);
+  });
+
+  test("maps valid pairs to sorted objects", () => {
+    expect(utils.normalizeSegments([[60, 90], [10, 20]])).toEqual([
+      { start: 10, end: 20 },
+      { start: 60, end: 90 }
+    ]);
+  });
+
+  test("merges overlapping and adjacent segments", () => {
+    expect(utils.normalizeSegments([[10, 20], [15, 30], [30.2, 40]])).toEqual([
+      { start: 10, end: 40 }
+    ]);
+  });
+
+  test("keeps separated segments apart", () => {
+    expect(utils.normalizeSegments([[10, 20], [25, 30]])).toEqual([
+      { start: 10, end: 20 },
+      { start: 25, end: 30 }
+    ]);
+  });
+
+  test("does not shrink a containing segment", () => {
+    expect(utils.normalizeSegments([[10, 50], [20, 30]])).toEqual([
+      { start: 10, end: 50 }
+    ]);
+  });
+});
+
+describe("segmentEndAt", () => {
+  const segments = [
+    { start: 10, end: 20 },
+    { start: 60, end: 90 }
+  ];
+
+  test("returns segment end when time is inside", () => {
+    expect(utils.segmentEndAt(15, segments)).toBe(20);
+    expect(utils.segmentEndAt(60, segments)).toBe(90);
+  });
+
+  test("returns null outside segments", () => {
+    expect(utils.segmentEndAt(5, segments)).toBeNull();
+    expect(utils.segmentEndAt(30, segments)).toBeNull();
+    expect(utils.segmentEndAt(95, segments)).toBeNull();
+  });
+
+  test("returns null right at the segment end (no loop at boundary)", () => {
+    expect(utils.segmentEndAt(20, segments)).toBeNull();
+    expect(utils.segmentEndAt(19.95, segments)).toBeNull();
+  });
+
+  test("returns null for empty segment list", () => {
+    expect(utils.segmentEndAt(15, [])).toBeNull();
+  });
+});
+
 describe("nextSpeed", () => {
   test("increases speed by step", () => {
     expect(utils.nextSpeed(1, 0.25, 1, 0.25, 3)).toBe(1.25);

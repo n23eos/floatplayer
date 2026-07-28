@@ -7,11 +7,13 @@ const DEFAULT_SETTINGS = {
   speedStep: 0.25,
   volumeBoostMax: 300,
   compactMode: true,
-  skipStepSeconds: 30
+  skipStepSeconds: 30,
+  sponsorSkip: true
 };
 
 const elements = {
   autoPip: document.getElementById("autoPip"),
+  sponsorSkip: document.getElementById("sponsorSkip"),
   compactMode: document.getElementById("compactMode"),
   speedStep: document.getElementById("speedStep"),
   skipStepSeconds: document.getElementById("skipStepSeconds"),
@@ -22,6 +24,7 @@ const elements = {
 async function loadIntoForm() {
   const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
   elements.autoPip.checked = Boolean(settings.autoPip);
+  elements.sponsorSkip.checked = Boolean(settings.sponsorSkip);
   elements.compactMode.checked = Boolean(settings.compactMode);
   elements.speedStep.value = String(settings.speedStep);
   elements.skipStepSeconds.value = String(settings.skipStepSeconds);
@@ -33,6 +36,7 @@ let statusTimer = null;
 async function save() {
   await chrome.storage.sync.set({
     autoPip: elements.autoPip.checked,
+    sponsorSkip: elements.sponsorSkip.checked,
     compactMode: elements.compactMode.checked,
     speedStep: Number(elements.speedStep.value),
     skipStepSeconds: Number(elements.skipStepSeconds.value),
@@ -45,7 +49,7 @@ async function save() {
   }, 1500);
 }
 
-for (const key of ["autoPip", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
+for (const key of ["autoPip", "sponsorSkip", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
   elements[key].addEventListener("change", save);
 }
 

@@ -11,6 +11,7 @@
   "sleepOff": { "message": "выкл" },
   "sleepMinutes": { "message": "мин" },
   "skipTooltip": { "message": "Промотать вперёд (интеграция)" },
+  "sbSkip": { "message": "Пропустить интеграцию" },
   "boostTooltip": { "message": "Громкость: 0–100% тише, выше 100% — усиление" },
   "returnTooltip": { "message": "Вернуть видео на страницу" },
   "cmdTogglePip": { "message": "Открыть/закрыть мини-окно" },
