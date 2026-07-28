@@ -156,16 +156,27 @@ YTFP.pip = (() => {
     });
     pipWindow.document.body.appendChild(controls.element);
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls };
+    state = { pipWindow, playerEl, placeholder, overlay, controls, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
 
-    // Запоминаем размер окна (с дебаунсом).
-    let resizeTimer = null;
+    // Запоминаем размер окна (с дебаунсом). Таймер живёт в state,
+    // чтобы restore() мог его погасить — иначе отложенный saveSize
+    // прочитает размеры уже закрытого окна (нули) и затрёт сохранённые.
+    const scheduleSaveSize = () => {
+      clearTimeout(state && state.resizeTimer);
+      if (!state) {
+        return;
+      }
+      state.resizeTimer = setTimeout(() => {
+        if (!pipWindow.closed) {
+          saveSize(pipWindow);
+        }
+      }, 300);
+    };
     pipWindow.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => saveSize(pipWindow), 300);
+      scheduleSaveSize();
       // Пинаем страницу: плеер YouTube пересчитывает размеры по resize.
       window.dispatchEvent(new Event("resize"));
     });
@@ -186,10 +197,12 @@ YTFP.pip = (() => {
     if (!state) {
       return;
     }
-    const { playerEl, placeholder, overlay, controls } = state;
+    const { playerEl, placeholder, overlay, controls, resizeTimer } = state;
+    // Сначала гасим таймер и слушатели, потом обнуляем state.
+    clearTimeout(resizeTimer);
+    controls.cleanup();
     state = null;
 
-    controls.cleanup();
     overlay.remove();
 
     if (placeholder.parentElement) {
