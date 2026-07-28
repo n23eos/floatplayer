@@ -210,6 +210,40 @@ body:hover .ytfp-bar--compact {
   font-variant-numeric: tabular-nums;
 }
 
+/* Панели плеера «Ещё» (три точки: Смотреть позже, Поделиться) и
+   «Поделиться» — тёмные всплывающие карточки поверх видео,
+   а не белые блоки под ним. */
+#movie_player .ytp-overflow-panel,
+#shorts-player .ytp-overflow-panel,
+#movie_player .ytp-share-panel,
+#shorts-player .ytp-share-panel {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 92% !important;
+  max-height: 80% !important;
+  overflow: auto !important;
+  background: rgba(18, 18, 18, 0.94) !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
+  z-index: 10005 !important;
+  color: #fff !important;
+}
+
+#movie_player .ytp-overflow-panel *,
+#shorts-player .ytp-overflow-panel *,
+#movie_player .ytp-share-panel *,
+#shorts-player .ytp-share-panel * {
+  background-color: transparent !important;
+  color: #fff !important;
+  fill: #fff !important;
+}
+
 /* --- Полоски прогресса внизу ------------------------------------------ */
 
 .ytfp-progress-wrap {
