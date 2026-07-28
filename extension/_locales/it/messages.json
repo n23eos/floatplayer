@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "Video di YouTube sempre in primo piano: player completo, loop A-B, velocità e volume amplificato."
+  },
+  "btnTooltip": {
+    "message": "Sempre in primo piano"
+  },
+  "overlayPlaying": {
+    "message": "In riproduzione nella finestra flottante"
+  },
+  "overlayReturn": {
+    "message": "Riportalo qui"
+  },
+  "abTooltip": {
+    "message": "Loop A-B: 1° clic imposta A, 2° imposta B, 3° azzera"
+  },
+  "speedTooltip": {
+    "message": "Velocità di riproduzione"
+  },
+  "speedResetTooltip": {
+    "message": "Riporta la velocità a 1x"
+  },
+  "sleepTooltip": {
+    "message": "Timer di spegnimento: mette in pausa il video allo scadere"
+  },
+  "sleepOff": {
+    "message": "off"
+  },
+  "sleepMinutes": {
+    "message": "min"
+  },
+  "skipTooltip": {
+    "message": "Avanza (segmento sponsorizzato)"
+  },
+  "sbSkip": {
+    "message": "Salta lo sponsor"
+  },
+  "playTooltip": {
+    "message": "Riproduci / pausa"
+  },
+  "navPrev": {
+    "message": "Precedente"
+  },
+  "copyLink": {
+    "message": "Copia il link del video"
+  },
+  "navNext": {
+    "message": "Successivo"
+  },
+  "jumpBack": {
+    "message": "Indietro di 30 secondi"
+  },
+  "jumpForward": {
+    "message": "Avanti di 30 secondi"
+  },
+  "relatedTooltip": {
+    "message": "Consigliati"
+  },
+  "relatedEmpty": {
+    "message": "Nessun video consigliato trovato"
+  },
+  "boostTooltip": {
+    "message": "Volume: 0–100% più basso, oltre il 100% amplificato"
+  },
+  "returnTooltip": {
+    "message": "Riporta il video nella pagina"
+  },
+  "cmdTogglePip": {
+    "message": "Apri o chiudi la finestra flottante"
+  },
+  "cmdPlayPause": {
+    "message": "Riproduci / pausa"
+  },
+  "cmdSeekBack": {
+    "message": "Indietro di 5 secondi"
+  },
+  "cmdSeekForward": {
+    "message": "Avanti di 5 secondi"
+  },
+  "optTitle": {
+    "message": "Impostazioni — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "PiP automatico: estrai il video quando lasci la scheda"
+  },
+  "optAutoPipHint": {
+    "message": "Richiede Chrome 120 o successivo. È Chrome a decidere quando consentirlo."
+  },
+  "optWindowModeLabel": {
+    "message": "Stile della mini-finestra"
+  },
+  "optWindowModeHint": {
+    "message": "«Completo» mostra il pannello dei comandi, ma Chrome disegna in alto una striscia con l'indirizzo del sito (non rimovibile: è un requisito del browser). «Solo video» non ha né striscia né pannello: solo il video e i pulsanti nativi di Chrome."
+  },
+  "optWindowModeFull": {
+    "message": "Completo (con pannello)"
+  },
+  "optWindowModeClean": {
+    "message": "Solo video (senza striscia)"
+  },
+  "optSponsorLabel": {
+    "message": "Segmenti sponsorizzati sulla barra (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "I segmenti sponsorizzati sono evidenziati in verde; al loro interno compare il pulsante «Salta lo sponsor». Dati della comunità SponsorBlock: l'ID del video viene inviato a sponsor.ajay.app."
+  },
+  "optSkipStepLabel": {
+    "message": "Passo dell'avanzamento manuale"
+  },
+  "optSkipStepHint": {
+    "message": "Il pulsante »N nella mini-finestra avanza di questo valore."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: passa automaticamente al successivo"
+  },
+  "optShortsHint": {
+    "message": "Quando uno Short finisce nella mini-finestra, il successivo parte da solo."
+  },
+  "optCompactLabel": {
+    "message": "Pannello compatto"
+  },
+  "optCompactHint": {
+    "message": "Il pannello resta nascosto e appare passando il mouse sulla finestra."
+  },
+  "optSpeedStepLabel": {
+    "message": "Passo del cursore di velocità"
+  },
+  "optBoostLabel": {
+    "message": "Volume massimo nella mini-finestra"
+  },
+  "optBoostHint": {
+    "message": "Il cursore parte sempre da 0%; questo è il limite superiore dell'amplificazione."
+  },
+  "optBoostOff": {
+    "message": "100% (senza amplificazione)"
+  },
+  "optShortcutsHint": {
+    "message": "Le scorciatoie da tastiera si modificano su"
+  },
+  "optSaved": {
+    "message": "Salvato"
+  },
+  "optSec": {
+    "message": "s"
+  },
+  "secShort": {
+    "message": "s"
+  },
+  "sleepCustom": {
+    "message": "personalizzato…"
+  }
+}

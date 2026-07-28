@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "Vidéo YouTube toujours au premier plan : lecteur complet, boucle A-B, vitesse et volume amplifié."
+  },
+  "btnTooltip": {
+    "message": "Toujours au premier plan"
+  },
+  "overlayPlaying": {
+    "message": "Lecture dans la fenêtre flottante"
+  },
+  "overlayReturn": {
+    "message": "Ramener ici"
+  },
+  "abTooltip": {
+    "message": "Boucle A-B : 1er clic pose A, 2e pose B, 3e efface"
+  },
+  "speedTooltip": {
+    "message": "Vitesse de lecture"
+  },
+  "speedResetTooltip": {
+    "message": "Revenir à la vitesse 1x"
+  },
+  "sleepTooltip": {
+    "message": "Minuterie : met la vidéo en pause à la fin du compte"
+  },
+  "sleepOff": {
+    "message": "off"
+  },
+  "sleepMinutes": {
+    "message": "min"
+  },
+  "skipTooltip": {
+    "message": "Avancer (passage sponsorisé)"
+  },
+  "sbSkip": {
+    "message": "Passer le sponsor"
+  },
+  "playTooltip": {
+    "message": "Lecture / pause"
+  },
+  "navPrev": {
+    "message": "Précédente"
+  },
+  "copyLink": {
+    "message": "Copier le lien de la vidéo"
+  },
+  "navNext": {
+    "message": "Suivante"
+  },
+  "jumpBack": {
+    "message": "30 secondes en arrière"
+  },
+  "jumpForward": {
+    "message": "30 secondes en avant"
+  },
+  "relatedTooltip": {
+    "message": "Recommandations"
+  },
+  "relatedEmpty": {
+    "message": "Aucune recommandation trouvée"
+  },
+  "boostTooltip": {
+    "message": "Volume : 0–100 % plus bas, au-delà de 100 % amplifié"
+  },
+  "returnTooltip": {
+    "message": "Remettre la vidéo dans la page"
+  },
+  "cmdTogglePip": {
+    "message": "Ouvrir ou fermer la fenêtre flottante"
+  },
+  "cmdPlayPause": {
+    "message": "Lecture / pause"
+  },
+  "cmdSeekBack": {
+    "message": "Reculer de 5 secondes"
+  },
+  "cmdSeekForward": {
+    "message": "Avancer de 5 secondes"
+  },
+  "optTitle": {
+    "message": "Paramètres — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "PiP automatique : sortir la vidéo en quittant l'onglet"
+  },
+  "optAutoPipHint": {
+    "message": "Nécessite Chrome 120 ou plus récent. Chrome décide quand l'autoriser."
+  },
+  "optWindowModeLabel": {
+    "message": "Style de la mini-fenêtre"
+  },
+  "optWindowModeHint": {
+    "message": "« Complet » affiche le panneau de commandes, mais Chrome dessine en haut un bandeau avec l'adresse du site (impossible à retirer : c'est une exigence du navigateur). « Vidéo seule » n'a ni bandeau ni panneau : juste la vidéo et les boutons natifs de Chrome."
+  },
+  "optWindowModeFull": {
+    "message": "Complet (avec panneau)"
+  },
+  "optWindowModeClean": {
+    "message": "Vidéo seule (sans bandeau)"
+  },
+  "optSponsorLabel": {
+    "message": "Passages sponsorisés sur la barre (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Les passages sponsorisés apparaissent en vert ; à l'intérieur, un bouton « Passer le sponsor » s'affiche. Données de la communauté SponsorBlock : l'identifiant de la vidéo est envoyé à sponsor.ajay.app."
+  },
+  "optSkipStepLabel": {
+    "message": "Pas de l'avance manuelle"
+  },
+  "optSkipStepHint": {
+    "message": "Le bouton »N de la mini-fenêtre avance de cette durée."
+  },
+  "optShortsLabel": {
+    "message": "Shorts : passer automatiquement au suivant"
+  },
+  "optShortsHint": {
+    "message": "Quand un Short se termine dans la mini-fenêtre, le suivant démarre tout seul."
+  },
+  "optCompactLabel": {
+    "message": "Panneau compact"
+  },
+  "optCompactHint": {
+    "message": "Le panneau reste masqué et apparaît au survol de la fenêtre."
+  },
+  "optSpeedStepLabel": {
+    "message": "Pas du curseur de vitesse"
+  },
+  "optBoostLabel": {
+    "message": "Volume maximal dans la mini-fenêtre"
+  },
+  "optBoostHint": {
+    "message": "Le curseur part toujours de 0 % ; ceci est la limite haute de l'amplification."
+  },
+  "optBoostOff": {
+    "message": "100 % (sans amplification)"
+  },
+  "optShortcutsHint": {
+    "message": "Les raccourcis clavier se modifient à l'adresse"
+  },
+  "optSaved": {
+    "message": "Enregistré"
+  },
+  "optSec": {
+    "message": "s"
+  },
+  "secShort": {
+    "message": "s"
+  },
+  "sleepCustom": {
+    "message": "personnalisé…"
+  }
+}

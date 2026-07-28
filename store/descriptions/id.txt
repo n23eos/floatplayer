@@ -1,0 +1,104 @@
+FloatPlayer menjaga YouTube tetap di atas segalanya. Satu klik pada tombol di
+pemutar — atau Alt+P — dan video pindah ke jendela kecil yang selalu di atas,
+lengkap dengan kendalinya sendiri. Menulis kode, membalas email, mengedit
+spreadsheet: videonya tetap terlihat di atas aplikasi apa pun.
+
+Ini jendela Document Picture-in-Picture yang sesungguhnya, bukan popup. Ia tidak
+pernah tenggelam di belakang jendela yang sedang Anda pakai bekerja.
+
+
+VIDEO TIDAK DIULANG DARI AWAL
+
+Kebanyakan ekstensi «PiP» membuka pemutar kedua dengan berkas video mentah:
+posisi tontonan, setelan, dan subtitle Anda hilang.
+
+FloatPlayer memindahkan pemutar YouTube yang asli ke dalam jendela. Aliran yang
+sama, detik yang sama, kualitas yang sudah Anda pakai, subtitle yang sama, posisi
+playlist yang sama, riwayat yang sama. Saat jendela ditutup, pemutar kembali ke
+halaman persis di tempatnya. Tidak ada yang dimuat ulang.
+
+Iklan tidak diblokir dan tidak dilewati: ekstensi ini bermain sesuai aturan
+YouTube.
+
+
+YANG TIDAK BISA DILAKUKAN PICTURE-IN-PICTURE BAWAAN
+
+PiP bawaan Chrome hanya memberi tombol putar. FloatPlayer menambahkan yang
+benar-benar kurang:
+
+- melompat waktu: klik atau seret bilah progres, zona ±10 dtk di atas video,
+  tombol ±30 dtk di bawahnya
+- kecepatan 0,25x sampai 3x lewat penggeser
+- volume 0 sampai 300%: dari senyap hingga tiga kali maksimum YouTube sendiri,
+  cocok untuk video yang direkam pelan
+- pengulangan A-B untuk melatih frasa, riff, atau gerakan
+- pengatur waktu tidur yang benar-benar menjeda video, sampai 12 jam
+- salin tautan, video sebelumnya dan berikutnya, serta hingga 20 rekomendasi
+  dalam kolom geser
+- dukungan Shorts, yang sama sekali tidak ditangani PiP bawaan
+- jendela yang benar-benar bersih, tanpa antarmuka YouTube di dalamnya
+
+Semuanya tersembunyi sampai Anda menggerakkan tetikus, jadi hampir sepanjang
+waktu yang terlihat hanya video. Saat iklan berjalan, bilah putih terpisah
+menunjukkan sisanya dan bilah merah membeku di posisi asli Anda.
+
+
+SEGMEN SPONSOR TERLIHAT DAN BISA DILEWATI
+
+Perlu ditegaskan: iklan YouTube sendiri tidak disentuh. Ini tentang bagian
+sponsor yang disisipkan kreator ke dalam videonya.
+
+Segmen yang dilaporkan komunitas SponsorBlock ditandai hijau pada bilah progres,
+dan di dalamnya muncul tombol «Lewati segmen sponsor». Hanya ID video yang
+dikirim ke sponsor.ajay.app — tidak ada apa pun tentang Anda — dan fiturnya bisa
+dimatikan.
+
+
+SHORTS, DIDUKUNG SEPENUHNYA
+
+Tombol khusus di atas «Suka» membuka Short di jendela vertikal 9:16, tanpa bilah
+hitam dan tanpa terpotong. Setelah selesai, berikutnya mulai sendiri, dan panah
+di bawah menggulir feed langsung dari jendela.
+
+
+JENDELA BEKERJA SEPERTI YANG ANDA HARAPKAN
+
+Seret dari mana saja: tekan dan tahan di atas video lalu gerakkan — tombol tetap
+bisa diklik. Jendela terbuka tepat pada rasio video, kembali ke rasio itu setelah
+Anda ubah ukurannya secara manual, dan mengingat ukuran secara terpisah untuk
+video mendatar dan Shorts tegak.
+
+Hanya video, dijamin: antarmuka YouTube di dalam jendela dihapus dengan daftar
+putih yang hanya mengizinkan video, subtitle, dan indikator pemuatan.
+
+
+PINTASAN DAN SETELAN
+
+Dari jendela Chrome mana pun: Alt+P membuka atau menutup (⌥P di Mac), Alt+K
+menjeda, Alt+J dan Alt+L melompat 5 detik. Di dalam jendela: spasi atau K
+menjeda, panah melompat 5 detik, M membisukan. Semuanya bisa diubah di
+chrome://extensions/shortcuts.
+
+Setelan mencakup gaya jendela, PiP otomatis, SponsorBlock, langkah lompatan,
+Shorts otomatis, panel ringkas, langkah kecepatan, batas volume, dan bahasa.
+Perubahan berlaku seketika.
+
+
+PRIVASI
+
+Tanpa akun, tanpa login, tanpa pelacakan, tanpa analitik, tanpa iklan. Tidak ada
+yang dikumpulkan dan tidak ada yang dikirim, kecuali ID video untuk SponsorBlock
+— dan hanya selama fitur itu Anda biarkan aktif.
+
+
+BATASAN YANG JUJUR
+
+- Membutuhkan Chrome 116 atau lebih baru; versi lama akan memakai PiP bawaan.
+- Bilah tipis Chrome berisi alamat situs tidak bisa dihilangkan: itu ketentuan
+  antiphishing untuk setiap jendela Document PiP. Ia menghilang sendiri saat
+  kursor menjauh, dan mode «video saja» tidak memilikinya.
+- Transparansi dan klik tembus tidak tersedia di API Chrome.
+- Satu jendela PiP per browser, dan posisinya tidak bisa ditentukan lewat
+  program: keduanya batasan browser.
+- Selama iklan YouTube, melompat waktu tidak berfungsi: video utama belum dimuat
+  saat itu.

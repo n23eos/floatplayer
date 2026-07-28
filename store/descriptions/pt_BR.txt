@@ -1,0 +1,102 @@
+O FloatPlayer mantém o YouTube à frente de tudo. Um clique no botão do player —
+ou Alt+P — e o vídeo vai para uma janelinha sempre à frente, com controles
+próprios. Escreva código, responda e-mails, edite uma planilha: o vídeo continua
+visível sobre qualquer aplicativo.
+
+É uma janela Document Picture-in-Picture de verdade, não um popup. Ela nunca
+some atrás da janela em que você está trabalhando.
+
+
+O VÍDEO NÃO RECOMEÇA
+
+A maioria das extensões «PiP» abre um segundo player com o arquivo de vídeo:
+você perde o ponto em que estava, suas configurações e as legendas.
+
+O FloatPlayer move o próprio player do YouTube para a janela. Mesmo stream,
+mesmo segundo, a qualidade que você já tinha, as mesmas legendas, a mesma
+posição na playlist e o mesmo histórico. Ao fechar a janela, o player volta para
+a página exatamente onde estava. Nada recarrega.
+
+Os anúncios não são bloqueados nem pulados: a extensão joga pelas regras do
+YouTube.
+
+
+O QUE O PICTURE-IN-PICTURE NATIVO NÃO FAZ
+
+O PiP embutido do Chrome dá um botão de play e mais nada. O FloatPlayer
+acrescenta o que realmente falta:
+
+- avançar e voltar: clique ou arraste na barra, zonas de ±10 s sobre o vídeo,
+  botões de ±30 s abaixo dele
+- velocidade de 0,25x a 3x num controle deslizante
+- volume de 0 a 300%: do silêncio até três vezes o máximo do YouTube, ótimo
+  para vídeos gravados baixo
+- repetição A-B para treinar uma frase, um riff ou um passo de dança
+- timer que realmente pausa o vídeo, até 12 horas
+- copiar o link, vídeo anterior e próximo, e até 20 recomendações numa coluna
+- suporte a Shorts, que o PiP nativo simplesmente não tem
+- uma janela de fato limpa, sem interface do YouTube dentro
+
+Tudo se esconde até você mexer o mouse, então quase o tempo todo você vê apenas
+o vídeo. Durante um anúncio, uma faixa branca separada mostra quanto falta e a
+vermelha congela na sua posição real.
+
+
+PATROCÍNIOS MARCADOS E PULÁVEIS
+
+Deixando claro: os anúncios do próprio YouTube não são tocados. Isto é sobre os
+merchans inseridos no vídeo pelo criador.
+
+Os trechos marcados pela comunidade SponsorBlock ficam verdes na barra e, dentro
+de um deles, aparece o botão «Pular o patrocínio». Só o ID do vídeo é enviado ao
+sponsor.ajay.app — nada sobre você — e o recurso pode ser desligado.
+
+
+SHORTS DE VERDADE
+
+Um botão acima do «Gostei» abre o Short numa janela vertical 9:16, sem barras
+pretas nem cortes. Quando ele acaba, o próximo começa sozinho, e as setas de
+baixo percorrem o feed direto da janela.
+
+
+A JANELA SE COMPORTA COMO VOCÊ ESPERA
+
+Arraste de qualquer ponto: segure sobre o vídeo e mova; os botões continuam
+clicáveis. Ela abre na proporção exata do vídeo, volta a ela depois que você
+redimensiona na mão e guarda o tamanho separadamente para vídeos horizontais e
+Shorts verticais.
+
+Só vídeo, garantido: a interface do YouTube dentro da janela é removida por uma
+lista branca que permite o vídeo, as legendas e o indicador de carregamento —
+nada além disso.
+
+
+ATALHOS E CONFIGURAÇÕES
+
+De qualquer janela do Chrome: Alt+P abre ou fecha (⌥P no Mac), Alt+K pausa,
+Alt+J e Alt+L pulam 5 segundos. Dentro da janela: espaço ou K pausa, setas pulam
+5 segundos, M tira o som. Tudo reconfigurável em chrome://extensions/shortcuts.
+
+As configurações cobrem estilo da janela, PiP automático, SponsorBlock, passo do
+avanço, Shorts automáticos, painel compacto, passo de velocidade, volume máximo
+e idioma. Aplicam-se na hora.
+
+
+PRIVACIDADE
+
+Sem contas, sem login, sem rastreamento, sem analytics, sem anúncios. Nada é
+coletado e nada é enviado, exceto o ID do vídeo para o SponsorBlock — e só
+enquanto esse recurso estiver ligado.
+
+
+LIMITAÇÕES HONESTAS
+
+- Requer Chrome 116 ou mais recente; em versões antigas usa-se o PiP nativo.
+- A faixa do Chrome com o endereço do site não pode ser removida: é uma
+  exigência antiphishing para toda janela Document PiP. Ela some sozinha quando
+  o cursor sai, e o modo «vídeo limpo» não a tem.
+- Transparência e clique através não existem na API do Chrome.
+- Uma janela PiP por navegador, e a posição dela não pode ser definida por
+  programa: são limites do navegador.
+- Durante os anúncios do YouTube não dá para avançar: o vídeo principal não está
+  carregado naquele momento.

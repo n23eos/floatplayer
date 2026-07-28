@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "Wideo z YouTube zawsze na wierzchu: pełny odtwarzacz, pętla A-B, prędkość i wzmocnienie głośności."
+  },
+  "btnTooltip": {
+    "message": "Zawsze na wierzchu"
+  },
+  "overlayPlaying": {
+    "message": "Odtwarzanie w oknie pływającym"
+  },
+  "overlayReturn": {
+    "message": "Przywróć tutaj"
+  },
+  "abTooltip": {
+    "message": "Pętla A-B: 1. kliknięcie ustawia A, 2. ustawia B, 3. kasuje"
+  },
+  "speedTooltip": {
+    "message": "Prędkość odtwarzania"
+  },
+  "speedResetTooltip": {
+    "message": "Przywróć prędkość 1x"
+  },
+  "sleepTooltip": {
+    "message": "Wyłącznik czasowy: po upływie czasu wstrzymuje wideo"
+  },
+  "sleepOff": {
+    "message": "wył."
+  },
+  "sleepMinutes": {
+    "message": "min"
+  },
+  "skipTooltip": {
+    "message": "Przewiń do przodu (fragment sponsorowany)"
+  },
+  "sbSkip": {
+    "message": "Pomiń sponsora"
+  },
+  "playTooltip": {
+    "message": "Odtwórz / wstrzymaj"
+  },
+  "navPrev": {
+    "message": "Poprzednie"
+  },
+  "copyLink": {
+    "message": "Kopiuj link do filmu"
+  },
+  "navNext": {
+    "message": "Następne"
+  },
+  "jumpBack": {
+    "message": "30 sekund wstecz"
+  },
+  "jumpForward": {
+    "message": "30 sekund do przodu"
+  },
+  "relatedTooltip": {
+    "message": "Polecane"
+  },
+  "relatedEmpty": {
+    "message": "Nie znaleziono polecanych filmów"
+  },
+  "boostTooltip": {
+    "message": "Głośność: 0–100% ciszej, powyżej 100% wzmocnienie"
+  },
+  "returnTooltip": {
+    "message": "Wróć wideo na stronę"
+  },
+  "cmdTogglePip": {
+    "message": "Otwórz lub zamknij okno pływające"
+  },
+  "cmdPlayPause": {
+    "message": "Odtwórz / wstrzymaj"
+  },
+  "cmdSeekBack": {
+    "message": "Cofnij o 5 sekund"
+  },
+  "cmdSeekForward": {
+    "message": "Przewiń o 5 sekund"
+  },
+  "optTitle": {
+    "message": "Ustawienia — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "Auto-PiP: wysuń wideo po opuszczeniu karty"
+  },
+  "optAutoPipHint": {
+    "message": "Wymaga Chrome 120 lub nowszego. To Chrome decyduje, kiedy na to pozwolić."
+  },
+  "optWindowModeLabel": {
+    "message": "Styl mini-okna"
+  },
+  "optWindowModeHint": {
+    "message": "„Pełny” pokazuje panel sterowania, ale Chrome rysuje u góry pasek z adresem witryny (nie da się go usunąć — wymóg przeglądarki). „Samo wideo” nie ma paska ani panelu: tylko obraz i własne przyciski Chrome."
+  },
+  "optWindowModeFull": {
+    "message": "Pełny (z panelem)"
+  },
+  "optWindowModeClean": {
+    "message": "Samo wideo (bez paska)"
+  },
+  "optSponsorLabel": {
+    "message": "Fragmenty sponsorowane na pasku (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Fragmenty sponsorowane są zaznaczone na zielono; wewnątrz pojawia się przycisk „Pomiń sponsora”. Dane społeczności SponsorBlock: identyfikator filmu jest wysyłany do sponsor.ajay.app."
+  },
+  "optSkipStepLabel": {
+    "message": "Krok ręcznego przewijania"
+  },
+  "optSkipStepHint": {
+    "message": "Przycisk »N w mini-oknie przeskakuje o tyle do przodu."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: automatycznie przechodź do następnego"
+  },
+  "optShortsHint": {
+    "message": "Gdy Short kończy się w mini-oknie, następny startuje sam."
+  },
+  "optCompactLabel": {
+    "message": "Kompaktowy panel"
+  },
+  "optCompactHint": {
+    "message": "Panel jest ukryty i pojawia się po najechaniu na okno."
+  },
+  "optSpeedStepLabel": {
+    "message": "Krok suwaka prędkości"
+  },
+  "optBoostLabel": {
+    "message": "Maksymalna głośność w mini-oknie"
+  },
+  "optBoostHint": {
+    "message": "Suwak zawsze zaczyna się od 0%; to górna granica wzmocnienia."
+  },
+  "optBoostOff": {
+    "message": "100% (bez wzmocnienia)"
+  },
+  "optShortcutsHint": {
+    "message": "Skróty klawiszowe można zmienić na stronie"
+  },
+  "optSaved": {
+    "message": "Zapisano"
+  },
+  "optSec": {
+    "message": "s"
+  },
+  "secShort": {
+    "message": "s"
+  },
+  "sleepCustom": {
+    "message": "własna wartość…"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "Video YouTube selalu di atas: pemutar lengkap, pengulangan A-B, kecepatan, dan penguat volume."
+  },
+  "btnTooltip": {
+    "message": "Selalu di atas"
+  },
+  "overlayPlaying": {
+    "message": "Diputar di jendela mengambang"
+  },
+  "overlayReturn": {
+    "message": "Kembalikan ke sini"
+  },
+  "abTooltip": {
+    "message": "Pengulangan A-B: klik 1 menandai A, klik 2 menandai B, klik 3 menghapus"
+  },
+  "speedTooltip": {
+    "message": "Kecepatan pemutaran"
+  },
+  "speedResetTooltip": {
+    "message": "Kembalikan kecepatan ke 1x"
+  },
+  "sleepTooltip": {
+    "message": "Pengatur waktu tidur: menjeda video saat waktunya habis"
+  },
+  "sleepOff": {
+    "message": "mati"
+  },
+  "sleepMinutes": {
+    "message": "mnt"
+  },
+  "skipTooltip": {
+    "message": "Maju (segmen sponsor)"
+  },
+  "sbSkip": {
+    "message": "Lewati segmen sponsor"
+  },
+  "playTooltip": {
+    "message": "Putar / jeda"
+  },
+  "navPrev": {
+    "message": "Sebelumnya"
+  },
+  "copyLink": {
+    "message": "Salin tautan video"
+  },
+  "navNext": {
+    "message": "Berikutnya"
+  },
+  "jumpBack": {
+    "message": "Mundur 30 detik"
+  },
+  "jumpForward": {
+    "message": "Maju 30 detik"
+  },
+  "relatedTooltip": {
+    "message": "Rekomendasi"
+  },
+  "relatedEmpty": {
+    "message": "Rekomendasi tidak ditemukan"
+  },
+  "boostTooltip": {
+    "message": "Volume: 0–100% lebih pelan, di atas 100% diperkuat"
+  },
+  "returnTooltip": {
+    "message": "Kembalikan video ke halaman"
+  },
+  "cmdTogglePip": {
+    "message": "Buka atau tutup jendela mengambang"
+  },
+  "cmdPlayPause": {
+    "message": "Putar / jeda"
+  },
+  "cmdSeekBack": {
+    "message": "Mundur 5 detik"
+  },
+  "cmdSeekForward": {
+    "message": "Maju 5 detik"
+  },
+  "optTitle": {
+    "message": "Setelan — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "PiP otomatis: keluarkan video saat meninggalkan tab"
+  },
+  "optAutoPipHint": {
+    "message": "Membutuhkan Chrome 120 atau lebih baru. Chrome yang menentukan kapan diizinkan."
+  },
+  "optWindowModeLabel": {
+    "message": "Gaya jendela mini"
+  },
+  "optWindowModeHint": {
+    "message": "\"Lengkap\" menampilkan panel kontrol, tetapi Chrome menggambar bilah berisi alamat situs di atasnya (tidak bisa dihapus — ketentuan browser). \"Video saja\" tanpa bilah dan tanpa panel: hanya video dan tombol bawaan Chrome."
+  },
+  "optWindowModeFull": {
+    "message": "Lengkap (dengan panel)"
+  },
+  "optWindowModeClean": {
+    "message": "Video saja (tanpa bilah)"
+  },
+  "optSponsorLabel": {
+    "message": "Segmen sponsor di bilah progres (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Segmen sponsor ditandai hijau; di dalamnya muncul tombol \"Lewati segmen sponsor\". Data komunitas SponsorBlock: ID video dikirim ke sponsor.ajay.app."
+  },
+  "optSkipStepLabel": {
+    "message": "Langkah lompatan manual"
+  },
+  "optSkipStepHint": {
+    "message": "Tombol »N di jendela mini melompat maju sebanyak ini."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: lanjut otomatis ke berikutnya"
+  },
+  "optShortsHint": {
+    "message": "Saat sebuah Short selesai di jendela mini, berikutnya mulai sendiri."
+  },
+  "optCompactLabel": {
+    "message": "Panel ringkas"
+  },
+  "optCompactHint": {
+    "message": "Panel tersembunyi dan muncul saat kursor berada di atas jendela."
+  },
+  "optSpeedStepLabel": {
+    "message": "Langkah penggeser kecepatan"
+  },
+  "optBoostLabel": {
+    "message": "Batas volume di jendela mini"
+  },
+  "optBoostHint": {
+    "message": "Penggeser selalu mulai dari 0%; ini adalah batas atas penguatan."
+  },
+  "optBoostOff": {
+    "message": "100% (tanpa penguatan)"
+  },
+  "optShortcutsHint": {
+    "message": "Pintasan keyboard dapat diubah di"
+  },
+  "optSaved": {
+    "message": "Tersimpan"
+  },
+  "optSec": {
+    "message": "dtk"
+  },
+  "secShort": {
+    "message": "dtk"
+  },
+  "sleepCustom": {
+    "message": "khusus…"
+  }
+}

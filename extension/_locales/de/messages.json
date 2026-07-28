@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "YouTube-Video immer im Vordergrund: vollwertiger Player, A-B-Schleife, Tempo und Lautstärke-Boost."
+  },
+  "btnTooltip": {
+    "message": "Immer im Vordergrund"
+  },
+  "overlayPlaying": {
+    "message": "Läuft im schwebenden Fenster"
+  },
+  "overlayReturn": {
+    "message": "Zurückholen"
+  },
+  "abTooltip": {
+    "message": "A-B-Schleife: 1. Klick setzt A, 2. setzt B, 3. löscht sie"
+  },
+  "speedTooltip": {
+    "message": "Wiedergabegeschwindigkeit"
+  },
+  "speedResetTooltip": {
+    "message": "Tempo auf 1x zurücksetzen"
+  },
+  "sleepTooltip": {
+    "message": "Sleeptimer: pausiert das Video, wenn er abläuft"
+  },
+  "sleepOff": {
+    "message": "aus"
+  },
+  "sleepMinutes": {
+    "message": "Min."
+  },
+  "skipTooltip": {
+    "message": "Vorspulen (Sponsor-Abschnitt)"
+  },
+  "sbSkip": {
+    "message": "Sponsor-Abschnitt überspringen"
+  },
+  "playTooltip": {
+    "message": "Abspielen / pausieren"
+  },
+  "navPrev": {
+    "message": "Zurück"
+  },
+  "copyLink": {
+    "message": "Videolink kopieren"
+  },
+  "navNext": {
+    "message": "Weiter"
+  },
+  "jumpBack": {
+    "message": "30 Sekunden zurück"
+  },
+  "jumpForward": {
+    "message": "30 Sekunden vor"
+  },
+  "relatedTooltip": {
+    "message": "Empfehlungen"
+  },
+  "relatedEmpty": {
+    "message": "Keine Empfehlungen gefunden"
+  },
+  "boostTooltip": {
+    "message": "Lautstärke: 0–100 % leiser, über 100 % verstärkt"
+  },
+  "returnTooltip": {
+    "message": "Video zurück auf die Seite holen"
+  },
+  "cmdTogglePip": {
+    "message": "Schwebendes Fenster öffnen oder schließen"
+  },
+  "cmdPlayPause": {
+    "message": "Abspielen / pausieren"
+  },
+  "cmdSeekBack": {
+    "message": "5 Sekunden zurück"
+  },
+  "cmdSeekForward": {
+    "message": "5 Sekunden vor"
+  },
+  "optTitle": {
+    "message": "Einstellungen — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "Auto-PiP: Video beim Tabwechsel herauslösen"
+  },
+  "optAutoPipHint": {
+    "message": "Erfordert Chrome 120 oder neuer. Chrome entscheidet, wann es erlaubt ist."
+  },
+  "optWindowModeLabel": {
+    "message": "Stil des Mini-Fensters"
+  },
+  "optWindowModeHint": {
+    "message": "„Vollständig“ zeigt das Bedienfeld, aber Chrome zeichnet oben eine Leiste mit der Adresse der Website (nicht entfernbar — Vorgabe des Browsers). „Nur Video“ hat weder Leiste noch Bedienfeld: nur das Video und Chromes eigene Schaltflächen."
+  },
+  "optWindowModeFull": {
+    "message": "Vollständig (mit Bedienfeld)"
+  },
+  "optWindowModeClean": {
+    "message": "Nur Video (ohne Leiste)"
+  },
+  "optSponsorLabel": {
+    "message": "Sponsor-Abschnitte auf der Leiste (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Sponsor-Abschnitte werden grün markiert; darin erscheint die Schaltfläche „Sponsor-Abschnitt überspringen“. Daten der SponsorBlock-Community: Die Video-ID wird an sponsor.ajay.app gesendet."
+  },
+  "optSkipStepLabel": {
+    "message": "Schrittweite beim manuellen Vorspulen"
+  },
+  "optSkipStepHint": {
+    "message": "Die Schaltfläche »N im Mini-Fenster springt um diesen Wert vor."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: automatisch zum nächsten wechseln"
+  },
+  "optShortsHint": {
+    "message": "Wenn ein Short im Mini-Fenster endet, startet der nächste von selbst."
+  },
+  "optCompactLabel": {
+    "message": "Kompaktes Bedienfeld"
+  },
+  "optCompactHint": {
+    "message": "Das Bedienfeld ist verborgen und erscheint, wenn die Maus über dem Fenster ist."
+  },
+  "optSpeedStepLabel": {
+    "message": "Schrittweite des Tempo-Reglers"
+  },
+  "optBoostLabel": {
+    "message": "Maximale Lautstärke im Mini-Fenster"
+  },
+  "optBoostHint": {
+    "message": "Der Regler beginnt immer bei 0 %; dies ist die Obergrenze der Verstärkung."
+  },
+  "optBoostOff": {
+    "message": "100 % (ohne Verstärkung)"
+  },
+  "optShortcutsHint": {
+    "message": "Tastenkürzel lassen sich ändern unter"
+  },
+  "optSaved": {
+    "message": "Gespeichert"
+  },
+  "optSec": {
+    "message": "s"
+  },
+  "secShort": {
+    "message": "s"
+  },
+  "sleepCustom": {
+    "message": "eigener Wert…"
+  }
+}

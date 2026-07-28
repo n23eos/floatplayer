@@ -1,0 +1,107 @@
+FloatPlayer garde YouTube au-dessus de tout le reste. Un clic sur le bouton du
+lecteur — ou Alt+P — et la vidéo passe dans une petite fenêtre toujours au
+premier plan, avec ses propres commandes. Écrivez du code, répondez à vos
+mails, modifiez un tableur : la vidéo reste visible par-dessus n'importe quelle
+application.
+
+C'est une véritable fenêtre Document Picture-in-Picture, pas un popup. Elle ne
+passe jamais derrière la fenêtre dans laquelle vous travaillez.
+
+
+LA VIDÉO NE REPART PAS DE ZÉRO
+
+La plupart des extensions « PiP » ouvrent un second lecteur avec le fichier
+vidéo brut : vous perdez votre position, vos réglages et les sous-titres.
+
+FloatPlayer déplace le lecteur YouTube lui-même dans la fenêtre. Même flux,
+même seconde, la qualité que vous aviez déjà, les mêmes sous-titres, la même
+position dans la playlist, le même historique. À la fermeture, le lecteur
+revient exactement à sa place dans la page. Rien ne se recharge.
+
+Les publicités ne sont ni bloquées ni sautées : l'extension respecte les règles
+de YouTube.
+
+
+CE QUE LE PICTURE-IN-PICTURE NATIF NE SAIT PAS FAIRE
+
+Le PiP intégré de Chrome offre un bouton de lecture et rien d'autre.
+FloatPlayer ajoute ce qui manque vraiment :
+
+- la navigation : clic ou glissement sur la barre, zones de ±10 s sur la vidéo,
+  boutons de ±30 s en dessous
+- la vitesse de 0,25x à 3x avec un curseur
+- le volume de 0 à 300 % : du silence jusqu'à trois fois le maximum de YouTube,
+  parfait pour les vidéos enregistrées trop bas
+- la boucle A-B pour travailler une phrase, un riff ou un pas de danse
+- une minuterie qui met vraiment la vidéo en pause, jusqu'à 12 heures
+- copier le lien, vidéo précédente et suivante, et jusqu'à 20 recommandations
+  dans une colonne dépliable
+- la prise en charge des Shorts, que le PiP natif refuse tout simplement
+- une fenêtre réellement propre, sans interface YouTube à l'intérieur
+
+Tout reste masqué jusqu'à ce que vous bougiez la souris : la plupart du temps,
+vous ne voyez que la vidéo. Pendant une publicité, une barre blanche distincte
+indique ce qu'il en reste et la rouge se fige à votre vraie position.
+
+
+PASSAGES SPONSORISÉS VISIBLES ET ÉVITABLES
+
+Pour être clair : les publicités de YouTube ne sont jamais touchées. Il s'agit
+des placements que le créateur intègre lui-même dans la vidéo.
+
+Les passages signalés par la communauté SponsorBlock apparaissent en vert sur la
+barre, et un bouton « Passer le sponsor » s'affiche à l'intérieur. Seul
+l'identifiant de la vidéo est envoyé à sponsor.ajay.app — rien qui vous
+concerne — et la fonction peut être désactivée.
+
+
+LES SHORTS, VRAIMENT PRIS EN CHARGE
+
+Un bouton dédié au-dessus de « J'aime » ouvre le Short dans une fenêtre
+verticale au format 9:16, sans bandes noires ni recadrage. À la fin, le suivant
+démarre tout seul, et les flèches du bas font défiler le fil depuis la fenêtre.
+
+
+LA FENÊTRE SE COMPORTE COMME PRÉVU
+
+Déplacez-la depuis n'importe quel point : maintenez le clic sur la vidéo et
+bougez — les boutons restent cliquables. Elle s'ouvre au format exact de la
+vidéo, y revient après un redimensionnement manuel et retient sa taille
+séparément pour les vidéos horizontales et les Shorts verticaux.
+
+Rien que la vidéo, garanti : l'interface YouTube à l'intérieur est supprimée par
+une liste blanche qui ne laisse passer que la vidéo, les sous-titres et
+l'indicateur de chargement.
+
+
+RACCOURCIS ET RÉGLAGES
+
+Depuis n'importe quelle fenêtre Chrome : Alt+P ouvre ou ferme (⌥P sur Mac),
+Alt+K met en pause, Alt+J et Alt+L sautent 5 secondes. Dans la fenêtre : espace
+ou K met en pause, les flèches sautent 5 secondes, M coupe le son. Tout est
+réassignable dans chrome://extensions/shortcuts.
+
+Les réglages couvrent le style de fenêtre, le PiP automatique, SponsorBlock, le
+pas d'avance, l'enchaînement des Shorts, le panneau compact, le pas de vitesse,
+le volume maximal et la langue. Les changements s'appliquent immédiatement.
+
+
+CONFIDENTIALITÉ
+
+Pas de compte, pas de connexion, pas de pistage, pas d'analytique, pas de
+publicité. Rien n'est collecté ni envoyé, hormis l'identifiant de la vidéo pour
+SponsorBlock — et uniquement tant que cette fonction est activée.
+
+
+LIMITES ASSUMÉES
+
+- Nécessite Chrome 116 ou plus récent ; les versions antérieures basculent sur
+  le PiP natif.
+- Le fin bandeau Chrome avec l'adresse du site ne peut pas être retiré : c'est
+  une exigence anti-hameçonnage pour toute fenêtre Document PiP. Il se masque
+  seul quand le curseur s'éloigne, et le mode « vidéo seule » n'en a pas.
+- La transparence et le clic traversant n'existent pas dans l'API Chrome.
+- Une seule fenêtre PiP par navigateur, et sa position ne peut pas être définie
+  par programme : ce sont des limites du navigateur.
+- Pendant les publicités YouTube, la navigation est impossible : la vidéo
+  principale n'est pas chargée à ce moment-là.

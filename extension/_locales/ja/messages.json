@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "YouTube動画を常に最前面に。フル機能のプレーヤー、A-Bリピート、速度調整、音量ブースト。"
+  },
+  "btnTooltip": {
+    "message": "常に最前面"
+  },
+  "overlayPlaying": {
+    "message": "フローティングウィンドウで再生中"
+  },
+  "overlayReturn": {
+    "message": "ここに戻す"
+  },
+  "abTooltip": {
+    "message": "A-Bリピート: 1回目でA、2回目でB、3回目で解除"
+  },
+  "speedTooltip": {
+    "message": "再生速度"
+  },
+  "speedResetTooltip": {
+    "message": "速度を1xに戻す"
+  },
+  "sleepTooltip": {
+    "message": "スリープタイマー: 時間が来たら動画を一時停止します"
+  },
+  "sleepOff": {
+    "message": "オフ"
+  },
+  "sleepMinutes": {
+    "message": "分"
+  },
+  "skipTooltip": {
+    "message": "先へ進む（スポンサー部分）"
+  },
+  "sbSkip": {
+    "message": "スポンサー部分をスキップ"
+  },
+  "playTooltip": {
+    "message": "再生 / 一時停止"
+  },
+  "navPrev": {
+    "message": "前へ"
+  },
+  "copyLink": {
+    "message": "動画のリンクをコピー"
+  },
+  "navNext": {
+    "message": "次へ"
+  },
+  "jumpBack": {
+    "message": "30秒戻る"
+  },
+  "jumpForward": {
+    "message": "30秒進む"
+  },
+  "relatedTooltip": {
+    "message": "おすすめ"
+  },
+  "relatedEmpty": {
+    "message": "おすすめが見つかりません"
+  },
+  "boostTooltip": {
+    "message": "音量: 0〜100%は小さく、100%超はブースト"
+  },
+  "returnTooltip": {
+    "message": "動画をページに戻す"
+  },
+  "cmdTogglePip": {
+    "message": "フローティングウィンドウを開く / 閉じる"
+  },
+  "cmdPlayPause": {
+    "message": "再生 / 一時停止"
+  },
+  "cmdSeekBack": {
+    "message": "5秒戻る"
+  },
+  "cmdSeekForward": {
+    "message": "5秒進む"
+  },
+  "optTitle": {
+    "message": "設定 — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "自動PiP: タブを離れたら動画を切り出す"
+  },
+  "optAutoPipHint": {
+    "message": "Chrome 120以降が必要です。許可のタイミングはChromeが判断します。"
+  },
+  "optWindowModeLabel": {
+    "message": "ミニウィンドウの表示"
+  },
+  "optWindowModeHint": {
+    "message": "「フル」は操作パネルを表示しますが、Chromeが上部にサイトのアドレス帯を描画します（ブラウザーの仕様のため消せません）。「動画のみ」は帯もパネルもなく、動画とChrome標準のボタンだけになります。"
+  },
+  "optWindowModeFull": {
+    "message": "フル（パネルあり）"
+  },
+  "optWindowModeClean": {
+    "message": "動画のみ（帯なし）"
+  },
+  "optSponsorLabel": {
+    "message": "シークバー上のスポンサー部分（SponsorBlock）"
+  },
+  "optSponsorHint": {
+    "message": "スポンサー部分が緑色で表示され、その中では「スポンサー部分をスキップ」ボタンが出ます。SponsorBlockコミュニティのデータを利用し、動画IDをsponsor.ajay.appへ送信します。"
+  },
+  "optSkipStepLabel": {
+    "message": "手動スキップの秒数"
+  },
+  "optSkipStepHint": {
+    "message": "ミニウィンドウの »N ボタンはこの秒数だけ進みます。"
+  },
+  "optShortsLabel": {
+    "message": "ショート: 次の動画へ自動で進む"
+  },
+  "optShortsHint": {
+    "message": "ミニウィンドウでショートが終わると、次のショートが自動で始まります。"
+  },
+  "optCompactLabel": {
+    "message": "コンパクトパネル"
+  },
+  "optCompactHint": {
+    "message": "パネルは隠れていて、ウィンドウにマウスを乗せると表示されます。"
+  },
+  "optSpeedStepLabel": {
+    "message": "速度スライダーの刻み"
+  },
+  "optBoostLabel": {
+    "message": "ミニウィンドウの音量上限"
+  },
+  "optBoostHint": {
+    "message": "スライダーは常に0%から始まります。これはブーストの上限値です。"
+  },
+  "optBoostOff": {
+    "message": "100%（ブーストなし）"
+  },
+  "optShortcutsHint": {
+    "message": "キーボードショートカットの変更はこちら"
+  },
+  "optSaved": {
+    "message": "保存しました"
+  },
+  "optSec": {
+    "message": "秒"
+  },
+  "secShort": {
+    "message": "秒"
+  },
+  "sleepCustom": {
+    "message": "カスタム…"
+  }
+}

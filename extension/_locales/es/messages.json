@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "Vídeo de YouTube siempre visible: reproductor completo, bucle A-B, velocidad y volumen ampliado."
+  },
+  "btnTooltip": {
+    "message": "Siempre visible"
+  },
+  "overlayPlaying": {
+    "message": "Reproduciéndose en la ventana flotante"
+  },
+  "overlayReturn": {
+    "message": "Devolver aquí"
+  },
+  "abTooltip": {
+    "message": "Bucle A-B: 1.er clic fija A, 2.º fija B, 3.º lo borra"
+  },
+  "speedTooltip": {
+    "message": "Velocidad de reproducción"
+  },
+  "speedResetTooltip": {
+    "message": "Restablecer la velocidad a 1x"
+  },
+  "sleepTooltip": {
+    "message": "Temporizador: pausa el vídeo cuando se acaba"
+  },
+  "sleepOff": {
+    "message": "no"
+  },
+  "sleepMinutes": {
+    "message": "min"
+  },
+  "skipTooltip": {
+    "message": "Avanzar (segmento patrocinado)"
+  },
+  "sbSkip": {
+    "message": "Saltar el patrocinio"
+  },
+  "playTooltip": {
+    "message": "Reproducir / pausar"
+  },
+  "navPrev": {
+    "message": "Anterior"
+  },
+  "copyLink": {
+    "message": "Copiar el enlace del vídeo"
+  },
+  "navNext": {
+    "message": "Siguiente"
+  },
+  "jumpBack": {
+    "message": "Atrás 30 segundos"
+  },
+  "jumpForward": {
+    "message": "Adelante 30 segundos"
+  },
+  "relatedTooltip": {
+    "message": "Recomendaciones"
+  },
+  "relatedEmpty": {
+    "message": "No se han encontrado recomendaciones"
+  },
+  "boostTooltip": {
+    "message": "Volumen: 0–100 % más bajo, por encima del 100 % amplificado"
+  },
+  "returnTooltip": {
+    "message": "Devolver el vídeo a la página"
+  },
+  "cmdTogglePip": {
+    "message": "Abrir o cerrar la ventana flotante"
+  },
+  "cmdPlayPause": {
+    "message": "Reproducir / pausar"
+  },
+  "cmdSeekBack": {
+    "message": "Retroceder 5 segundos"
+  },
+  "cmdSeekForward": {
+    "message": "Avanzar 5 segundos"
+  },
+  "optTitle": {
+    "message": "Ajustes — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "PiP automático: sacar el vídeo al cambiar de pestaña"
+  },
+  "optAutoPipHint": {
+    "message": "Requiere Chrome 120 o superior. Chrome decide cuándo permitirlo."
+  },
+  "optWindowModeLabel": {
+    "message": "Estilo de la miniventana"
+  },
+  "optWindowModeHint": {
+    "message": "«Completo» muestra el panel de control, pero Chrome dibuja arriba una franja con la dirección del sitio (no se puede quitar: es un requisito del navegador). «Vídeo limpio» no tiene franja ni panel: solo el vídeo y los botones nativos de Chrome."
+  },
+  "optWindowModeFull": {
+    "message": "Completo (con panel)"
+  },
+  "optWindowModeClean": {
+    "message": "Vídeo limpio (sin franja)"
+  },
+  "optSponsorLabel": {
+    "message": "Segmentos patrocinados en la barra (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Los segmentos patrocinados se marcan en verde; dentro de uno aparece el botón «Saltar el patrocinio». Datos de la comunidad SponsorBlock: se envía el ID del vídeo a sponsor.ajay.app."
+  },
+  "optSkipStepLabel": {
+    "message": "Paso del avance manual"
+  },
+  "optSkipStepHint": {
+    "message": "El botón »N de la miniventana avanza esta cantidad."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: pasar al siguiente automáticamente"
+  },
+  "optShortsHint": {
+    "message": "Cuando un Short termina en la miniventana, el siguiente empieza solo."
+  },
+  "optCompactLabel": {
+    "message": "Panel compacto"
+  },
+  "optCompactHint": {
+    "message": "El panel se oculta y aparece al pasar el ratón por la ventana."
+  },
+  "optSpeedStepLabel": {
+    "message": "Paso del control de velocidad"
+  },
+  "optBoostLabel": {
+    "message": "Volumen máximo en la miniventana"
+  },
+  "optBoostHint": {
+    "message": "El control siempre empieza en 0 %; este es el límite superior de amplificación."
+  },
+  "optBoostOff": {
+    "message": "100 % (sin amplificar)"
+  },
+  "optShortcutsHint": {
+    "message": "Los atajos de teclado se cambian en"
+  },
+  "optSaved": {
+    "message": "Guardado"
+  },
+  "optSec": {
+    "message": "s"
+  },
+  "secShort": {
+    "message": "s"
+  },
+  "sleepCustom": {
+    "message": "personalizado…"
+  }
+}

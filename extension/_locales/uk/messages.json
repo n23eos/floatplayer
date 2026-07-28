@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "Відео YouTube поверх усіх вікон: повноцінний плеєр, A-B повтор, швидкість і підсилення гучності."
+  },
+  "btnTooltip": {
+    "message": "Поверх усіх вікон"
+  },
+  "overlayPlaying": {
+    "message": "Відтворюється в плаваючому вікні"
+  },
+  "overlayReturn": {
+    "message": "Повернути сюди"
+  },
+  "abTooltip": {
+    "message": "A-B повтор: 1-й клік — точка A, 2-й — B, 3-й — скидання"
+  },
+  "speedTooltip": {
+    "message": "Швидкість відтворення"
+  },
+  "speedResetTooltip": {
+    "message": "Повернути швидкість 1x"
+  },
+  "sleepTooltip": {
+    "message": "Таймер сну: після завершення ставить відео на паузу"
+  },
+  "sleepOff": {
+    "message": "вимк."
+  },
+  "sleepMinutes": {
+    "message": "хв"
+  },
+  "skipTooltip": {
+    "message": "Перемотати вперед (спонсорська вставка)"
+  },
+  "sbSkip": {
+    "message": "Пропустити спонсора"
+  },
+  "playTooltip": {
+    "message": "Відтворити / пауза"
+  },
+  "navPrev": {
+    "message": "Назад"
+  },
+  "copyLink": {
+    "message": "Скопіювати посилання на відео"
+  },
+  "navNext": {
+    "message": "Уперед"
+  },
+  "jumpBack": {
+    "message": "На 30 секунд назад"
+  },
+  "jumpForward": {
+    "message": "На 30 секунд уперед"
+  },
+  "relatedTooltip": {
+    "message": "Рекомендації"
+  },
+  "relatedEmpty": {
+    "message": "Рекомендацій не знайдено"
+  },
+  "boostTooltip": {
+    "message": "Гучність: 0–100% тихіше, понад 100% — підсилення"
+  },
+  "returnTooltip": {
+    "message": "Повернути відео на сторінку"
+  },
+  "cmdTogglePip": {
+    "message": "Відкрити або закрити плаваюче вікно"
+  },
+  "cmdPlayPause": {
+    "message": "Відтворити / пауза"
+  },
+  "cmdSeekBack": {
+    "message": "На 5 секунд назад"
+  },
+  "cmdSeekForward": {
+    "message": "На 5 секунд уперед"
+  },
+  "optTitle": {
+    "message": "Налаштування — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "Авто-PiP: виносити відео, коли ви залишаєте вкладку"
+  },
+  "optAutoPipHint": {
+    "message": "Потрібен Chrome 120 або новіший. Chrome сам вирішує, коли це дозволити."
+  },
+  "optWindowModeLabel": {
+    "message": "Стиль міні-вікна"
+  },
+  "optWindowModeHint": {
+    "message": "«Повний» показує панель керування, але Chrome малює вгорі смужку з адресою сайту (прибрати не можна — вимога браузера). «Лише відео» не має ані смужки, ані панелі: тільки відео та власні кнопки Chrome."
+  },
+  "optWindowModeFull": {
+    "message": "Повний (з панеллю)"
+  },
+  "optWindowModeClean": {
+    "message": "Лише відео (без смужки)"
+  },
+  "optSponsorLabel": {
+    "message": "Спонсорські вставки на смузі (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Спонсорські вставки підсвічуються зеленим; усередині з’являється кнопка «Пропустити спонсора». Дані спільноти SponsorBlock: ID відео надсилається на sponsor.ajay.app."
+  },
+  "optSkipStepLabel": {
+    "message": "Крок ручного перемотування"
+  },
+  "optSkipStepHint": {
+    "message": "Кнопка »N у міні-вікні стрибає вперед на цей крок."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: автоматично переходити до наступного"
+  },
+  "optShortsHint": {
+    "message": "Коли Short завершується в міні-вікні, наступний починається сам."
+  },
+  "optCompactLabel": {
+    "message": "Компактна панель"
+  },
+  "optCompactHint": {
+    "message": "Панель прихована й з’являється, коли навести курсор на вікно."
+  },
+  "optSpeedStepLabel": {
+    "message": "Крок повзунка швидкості"
+  },
+  "optBoostLabel": {
+    "message": "Максимальна гучність у міні-вікні"
+  },
+  "optBoostHint": {
+    "message": "Повзунок завжди починається з 0%; це верхня межа підсилення."
+  },
+  "optBoostOff": {
+    "message": "100% (без підсилення)"
+  },
+  "optShortcutsHint": {
+    "message": "Комбінації клавіш змінюються на сторінці"
+  },
+  "optSaved": {
+    "message": "Збережено"
+  },
+  "optSec": {
+    "message": "с"
+  },
+  "secShort": {
+    "message": "с"
+  },
+  "sleepCustom": {
+    "message": "власне значення…"
+  }
+}

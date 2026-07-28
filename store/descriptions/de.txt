@@ -1,0 +1,108 @@
+FloatPlayer hält YouTube über allem anderen. Ein Klick auf die Schaltfläche im
+Player — oder Alt+P — und das Video wandert in ein kleines Fenster im
+Vordergrund, mit eigenen Bedienelementen. Code schreiben, Mails beantworten,
+Tabellen pflegen: Das Video bleibt über jeder Anwendung sichtbar.
+
+Das ist ein echtes Document-Picture-in-Picture-Fenster, kein Popup. Es rutscht
+nie hinter das Fenster, in dem du gerade arbeitest.
+
+
+DAS VIDEO BEGINNT NICHT VON VORN
+
+Die meisten „PiP“-Erweiterungen öffnen einen zweiten Player mit der reinen
+Videodatei: Du verlierst die Stelle, deine Einstellungen und die Untertitel.
+
+FloatPlayer verschiebt den echten YouTube-Player ins Fenster. Gleicher Stream,
+gleiche Sekunde, die Qualität, die du schon hattest, dieselben Untertitel,
+dieselbe Position in der Playlist, derselbe Verlauf. Schließt du das Fenster,
+rutscht der Player exakt dorthin zurück, wo er war. Nichts lädt neu.
+
+Werbung wird weder blockiert noch übersprungen: Die Erweiterung hält sich an
+YouTubes Regeln.
+
+
+WAS DAS EINGEBAUTE PICTURE-IN-PICTURE NICHT KANN
+
+Chromes eigenes PiP bietet eine Wiedergabetaste und sonst nichts. FloatPlayer
+ergänzt, was wirklich fehlt:
+
+- Spulen: Klick oder Ziehen auf der Leiste, ±10-s-Zonen auf dem Video,
+  ±30-s-Schaltflächen darunter
+- Tempo von 0,25x bis 3x per Regler
+- Lautstärke von 0 bis 300 %: von Stille bis dreimal so laut wie YouTubes
+  eigenes Maximum, ideal für leise aufgenommene Videos
+- A-B-Schleife, um eine Phrase, ein Riff oder eine Bewegung zu üben
+- Sleeptimer, der das Video wirklich pausiert, bis zu 12 Stunden
+- Link kopieren, vorheriges und nächstes Video sowie bis zu 20 Empfehlungen in
+  einer ausfahrbaren Spalte
+- Shorts-Unterstützung, die das native PiP gar nicht bietet
+- ein wirklich aufgeräumtes Fenster ohne YouTube-Oberfläche darin
+
+Alles bleibt verborgen, bis du die Maus bewegst — meistens siehst du also nur
+das Video. Während Werbung läuft, zeigt ein separater weißer Streifen, wie viel
+davon übrig ist, und der rote friert an deiner echten Position ein.
+
+
+SPONSOR-ABSCHNITTE SICHTBAR UND ÜBERSPRINGBAR
+
+Zur Klarstellung: YouTubes eigene Werbung wird nicht angetastet. Es geht um
+Sponsorenblöcke, die Creator selbst ins Video schneiden.
+
+Von der SponsorBlock-Community gemeldete Abschnitte erscheinen grün auf der
+Leiste, und darin taucht die Schaltfläche „Sponsor überspringen“ auf. An
+sponsor.ajay.app geht nur die Video-ID — nichts über dich — und die Funktion
+lässt sich abschalten.
+
+
+SHORTS, RICHTIG UNTERSTÜTZT
+
+Eine eigene Schaltfläche über „Gefällt mir“ öffnet den Short in einem
+hochkanten 9:16-Fenster, ohne schwarze Balken und ohne Beschnitt. Ist er zu
+Ende, startet der nächste von selbst, und die unteren Pfeile blättern den Feed
+direkt im Fenster.
+
+
+DAS FENSTER VERHÄLT SICH WIE ERWARTET
+
+Zieh es an beliebiger Stelle: auf dem Video gedrückt halten und bewegen — die
+Schaltflächen bleiben klickbar. Es öffnet sich im exakten Seitenverhältnis des
+Videos, kehrt nach manuellem Verändern dorthin zurück und merkt sich die Größe
+getrennt für querformatige Videos und hochkante Shorts.
+
+Nur Video, garantiert: Die YouTube-Oberfläche im Fenster wird über eine
+Positivliste entfernt, die Video, Untertitel und Ladeanzeige durchlässt — sonst
+nichts.
+
+
+TASTENKÜRZEL UND EINSTELLUNGEN
+
+Aus jedem Chrome-Fenster: Alt+P öffnet und schließt (⌥P auf dem Mac), Alt+K
+pausiert, Alt+J und Alt+L springen 5 Sekunden. Im Fenster: Leertaste oder K
+pausiert, Pfeile springen 5 Sekunden, M schaltet stumm. Alles änderbar unter
+chrome://extensions/shortcuts.
+
+Die Einstellungen umfassen Fensterstil, Auto-PiP, SponsorBlock, Sprungweite,
+Shorts-Automatik, kompaktes Bedienfeld, Tempo-Schrittweite, Lautstärkegrenze und
+Sprache. Änderungen wirken sofort.
+
+
+DATENSCHUTZ
+
+Keine Konten, keine Anmeldung, kein Tracking, keine Analytics, keine Werbung. Es
+wird nichts erhoben und nichts verschickt — außer der Video-ID für SponsorBlock,
+und auch nur, solange diese Funktion aktiv ist.
+
+
+EHRLICHE EINSCHRÄNKUNGEN
+
+- Erfordert Chrome 116 oder neuer; ältere Versionen greifen auf das native PiP
+  zurück.
+- Der schmale Chrome-Streifen mit der Website-Adresse lässt sich nicht
+  entfernen: Das ist eine Anti-Phishing-Vorgabe für jedes Document-PiP-Fenster.
+  Er blendet sich von selbst aus, sobald der Cursor weg ist; im Modus „Nur
+  Video“ gibt es ihn gar nicht.
+- Transparenz und Klick-durch bietet die Chrome-API nicht.
+- Ein PiP-Fenster pro Browser, und seine Position lässt sich nicht per Programm
+  setzen — beides sind Browser-Grenzen.
+- Während YouTube-Werbung ist Spulen nicht möglich: Das Hauptvideo ist in diesem
+  Moment gar nicht geladen.

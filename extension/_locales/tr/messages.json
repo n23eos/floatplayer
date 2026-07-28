@@ -1,0 +1,155 @@
+{
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "YouTube videosu her zaman üstte: tam donanımlı oynatıcı, A-B döngüsü, hız ve ses yükseltme."
+  },
+  "btnTooltip": {
+    "message": "Her zaman üstte"
+  },
+  "overlayPlaying": {
+    "message": "Yüzen pencerede oynatılıyor"
+  },
+  "overlayReturn": {
+    "message": "Buraya geri getir"
+  },
+  "abTooltip": {
+    "message": "A-B döngüsü: 1. tıklama A, 2. tıklama B, 3. tıklama sıfırlar"
+  },
+  "speedTooltip": {
+    "message": "Oynatma hızı"
+  },
+  "speedResetTooltip": {
+    "message": "Hızı 1x'e döndür"
+  },
+  "sleepTooltip": {
+    "message": "Uyku zamanlayıcısı: süre dolunca videoyu duraklatır"
+  },
+  "sleepOff": {
+    "message": "kapalı"
+  },
+  "sleepMinutes": {
+    "message": "dk"
+  },
+  "skipTooltip": {
+    "message": "İleri sar (sponsor bölümü)"
+  },
+  "sbSkip": {
+    "message": "Sponsor bölümünü atla"
+  },
+  "playTooltip": {
+    "message": "Oynat / duraklat"
+  },
+  "navPrev": {
+    "message": "Önceki"
+  },
+  "copyLink": {
+    "message": "Video bağlantısını kopyala"
+  },
+  "navNext": {
+    "message": "Sonraki"
+  },
+  "jumpBack": {
+    "message": "30 saniye geri"
+  },
+  "jumpForward": {
+    "message": "30 saniye ileri"
+  },
+  "relatedTooltip": {
+    "message": "Öneriler"
+  },
+  "relatedEmpty": {
+    "message": "Öneri bulunamadı"
+  },
+  "boostTooltip": {
+    "message": "Ses: %0–100 daha kısık, %100 üzeri yükseltilmiş"
+  },
+  "returnTooltip": {
+    "message": "Videoyu sayfaya geri koy"
+  },
+  "cmdTogglePip": {
+    "message": "Yüzen pencereyi aç veya kapat"
+  },
+  "cmdPlayPause": {
+    "message": "Oynat / duraklat"
+  },
+  "cmdSeekBack": {
+    "message": "5 saniye geri sar"
+  },
+  "cmdSeekForward": {
+    "message": "5 saniye ileri sar"
+  },
+  "optTitle": {
+    "message": "Ayarlar — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "Otomatik PiP: sekmeden ayrılınca videoyu çıkar"
+  },
+  "optAutoPipHint": {
+    "message": "Chrome 120 veya üzeri gerekir. Ne zaman izin verileceğine Chrome karar verir."
+  },
+  "optWindowModeLabel": {
+    "message": "Mini pencere stili"
+  },
+  "optWindowModeHint": {
+    "message": "\"Tam\" kontrol panelini gösterir, ancak Chrome üstte sitenin adresini içeren bir şerit çizer (kaldırılamaz — tarayıcı gereği). \"Sade video\"da şerit de panel de yoktur: yalnızca video ve Chrome'un kendi düğmeleri."
+  },
+  "optWindowModeFull": {
+    "message": "Tam (panelli)"
+  },
+  "optWindowModeClean": {
+    "message": "Sade video (şeritsiz)"
+  },
+  "optSponsorLabel": {
+    "message": "Zaman çubuğunda sponsor bölümleri (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Sponsor bölümleri yeşil gösterilir; bölüm içindeyken \"Sponsor bölümünü atla\" düğmesi çıkar. SponsorBlock topluluk verisi: video kimliği sponsor.ajay.app adresine gönderilir."
+  },
+  "optSkipStepLabel": {
+    "message": "Elle ileri sarma adımı"
+  },
+  "optSkipStepHint": {
+    "message": "Mini penceredeki »N düğmesi bu kadar ileri atlar."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: sonrakine otomatik geç"
+  },
+  "optShortsHint": {
+    "message": "Mini pencerede bir Short bitince sonraki kendiliğinden başlar."
+  },
+  "optCompactLabel": {
+    "message": "Sıkışık panel"
+  },
+  "optCompactHint": {
+    "message": "Panel gizlenir ve fare pencerenin üzerine gelince belirir."
+  },
+  "optSpeedStepLabel": {
+    "message": "Hız kaydırıcısı adımı"
+  },
+  "optBoostLabel": {
+    "message": "Mini penceredeki ses üst sınırı"
+  },
+  "optBoostHint": {
+    "message": "Kaydırıcı her zaman %0'dan başlar; bu, yükseltmenin üst sınırıdır."
+  },
+  "optBoostOff": {
+    "message": "%100 (yükseltmesiz)"
+  },
+  "optShortcutsHint": {
+    "message": "Klavye kısayolları şuradan değiştirilebilir:"
+  },
+  "optSaved": {
+    "message": "Kaydedildi"
+  },
+  "optSec": {
+    "message": "sn"
+  },
+  "secShort": {
+    "message": "sn"
+  },
+  "sleepCustom": {
+    "message": "özel…"
+  }
+}
