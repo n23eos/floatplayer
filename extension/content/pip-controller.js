@@ -230,6 +230,9 @@ YTFP.pip = (() => {
     // пользователя) — тогда просто молча пропускаем.
     const ASPECT_SNAP_TOLERANCE_PX = 8;
     const snapToVideoAspect = () => {
+      if (!state || pipWindow.closed) {
+        return;
+      }
       const video = getMovedVideo();
       if (!video || !(video.videoWidth > 0) || !(video.videoHeight > 0)) {
         return;
@@ -269,6 +272,15 @@ YTFP.pip = (() => {
       window.dispatchEvent(new Event("resize"));
     });
 
+    // Смена видео в окне (рекомендации, плейлист) — новые пропорции,
+    // подгоняем окно под них. Слушатель снимается в restore().
+    const movedVideo = getMovedVideo();
+    if (movedVideo) {
+      movedVideo.addEventListener("loadedmetadata", snapToVideoAspect);
+      state.aspectVideo = movedVideo;
+      state.onAspectChange = snapToVideoAspect;
+    }
+
     // YouTube мог поставить inline-размеры под старый контейнер — пересчёт.
     window.dispatchEvent(new Event("resize"));
     return true;
@@ -287,9 +299,12 @@ YTFP.pip = (() => {
     if (!state) {
       return;
     }
-    const { playerEl, placeholder, overlay, controls, progress, related, resizeTimer } = state;
+    const { playerEl, placeholder, overlay, controls, progress, related, resizeTimer, aspectVideo, onAspectChange } = state;
     // Сначала гасим таймер и слушатели, потом обнуляем state.
     clearTimeout(resizeTimer);
+    if (aspectVideo && onAspectChange) {
+      aspectVideo.removeEventListener("loadedmetadata", onAspectChange);
+    }
     controls.cleanup();
     progress.cleanup();
     related.cleanup();
