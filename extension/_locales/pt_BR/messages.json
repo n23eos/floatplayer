@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Encerramento"
+  },
+  "onboardingHint": {
+    "message": "Destaque o vídeo em uma janela — experimente"
   }
 }

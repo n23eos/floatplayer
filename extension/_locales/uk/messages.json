@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Кінцівка"
+  },
+  "onboardingHint": {
+    "message": "Винести відео поверх вікон — спробуйте"
   }
 }

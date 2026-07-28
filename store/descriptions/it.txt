@@ -1,3 +1,19 @@
+Guarda YouTube e lavora davvero. Un clic e il video resta sopra ogni finestra,
+con i comandi che YouTube non ha mai dato.
+
+
+PERCHÉ RESTA INSTALLATA
+
+• Davvero sempre in primo piano: non finisce dietro l'editor
+• Niente riparte: si sposta il lettore YouTube vero e proprio
+• Velocità 0,25–3x e volume fino al 300%
+• Loop A-B per esercitarsi e ripetizione dell'intero video
+• Timer che mette davvero in pausa, fino a 12 ore
+• Segmenti sponsorizzati in verde, saltati con un clic
+• Shorts in finestra verticale che va avanti da sola
+• Solo video: niente schede, niente vetrina, niente rumore
+
+
 FloatPlayer tiene YouTube sopra tutto il resto. Un clic sul pulsante nel lettore
 — o Alt+P — e il video passa in una piccola finestra sempre in primo piano, con
 i suoi comandi. Scrivi codice, rispondi alle mail, sistema un foglio di calcolo:

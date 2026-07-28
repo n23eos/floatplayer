@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Outro"
+  },
+  "onboardingHint": {
+    "message": "Keluarkan video ke jendela mengambang — coba"
   }
 }

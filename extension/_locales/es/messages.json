@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Cierre"
+  },
+  "onboardingHint": {
+    "message": "Saca el vídeo a una ventana flotante — pruébalo"
   }
 }

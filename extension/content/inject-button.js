@@ -7,11 +7,16 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 (() => {
   const BUTTON_CLASS = "ytfp-open-button";
 
-  // Контур экрана с вырезом + мини-окно поверх, нарисовано в сетке 24x24 —
-  // как у родных иконок нового плеера YouTube.
-  const ICON_PATH_24 =
-    "M21 4H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h7v-2H4V6h16v5h2V5a1 1 0 0 0-1-1z" +
-    "M13 13h9a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1z";
+  // Тот же рисунок, что на иконке расширения (треугольник play + мини-окно
+  // поверх него), но в цвете панели плеера, а не на красной плашке.
+  // Сетка 24x24; окно рисуется контуром через fill-rule="evenodd".
+  const ICON_PLAY_PATH = "M4 4.2 15 10.4 4 16.6z";
+  const ICON_WINDOW_PATH =
+    // внешний прямоугольник со скруглением
+    "M13.6 12.6h7.9a1.5 1.5 0 0 1 1.5 1.5v5.4a1.5 1.5 0 0 1-1.5 1.5h-7.9" +
+    "a1.5 1.5 0 0 1-1.5-1.5v-5.4a1.5 1.5 0 0 1 1.5-1.5z" +
+    // внутренний — вырез, чтобы получился контур окна
+    "M13.9 14.5v4.6h7.3v-4.6z";
 
   /**
    * SVG иконки подстраиваем под соседей: копируем width/height/viewBox
@@ -33,18 +38,24 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     svg.setAttribute("height", height);
     svg.setAttribute("viewBox", viewBox);
 
-    const path = document.createElementNS(SVG_NS, "path");
-    path.setAttribute("d", ICON_PATH_24);
-    path.setAttribute("fill", "white");
+    // Цвет наследуем от кнопки плеера — иконка живёт в расцветке панели.
+    const playPath = document.createElementNS(SVG_NS, "path");
+    playPath.setAttribute("d", ICON_PLAY_PATH);
+    playPath.setAttribute("fill", "currentColor");
+
+    const windowPath = document.createElementNS(SVG_NS, "path");
+    windowPath.setAttribute("d", ICON_WINDOW_PATH);
+    windowPath.setAttribute("fill", "currentColor");
+    windowPath.setAttribute("fill-rule", "evenodd");
 
     // В сетке 36x36 (старый UI) центрируем рисунок 24x24 смещением на 6.
     if (viewBox.includes("36")) {
       const group = document.createElementNS(SVG_NS, "g");
       group.setAttribute("transform", "translate(6,6)");
-      group.appendChild(path);
+      group.append(playPath, windowPath);
       svg.appendChild(group);
     } else {
-      svg.appendChild(path);
+      svg.append(playPath, windowPath);
     }
     return svg;
   }
@@ -67,6 +78,8 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     button.style.alignItems = "center";
     button.style.justifyContent = "center";
     button.style.verticalAlign = "top";
+    // Тот же цвет, что у остальных кнопок панели YouTube.
+    button.style.color = "#fff";
     button.appendChild(buildIconSvg(settingsButton));
     // Глушим всплытие: иначе YouTube видит mousedown на плеере, плеер
     // уезжает в PiP-окно до mouseup, и «удержание» включает скорость 2x.
@@ -101,6 +114,104 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     // Небольшой зазор, чтобы кнопка читалась как отдельная от группы YouTube.
     button.style.marginRight = "8px";
     rightControls.prepend(button);
+    maybeShowOnboarding(button);
+  }
+
+  // --- Онбординг: один раз после установки подсвечиваем кнопку --------------
+
+  const ONBOARDING_DURATION_MS = 12000;
+  let onboardingShown = false; // страховка от повторов внутри одной страницы
+
+  function injectOnboardingStyles() {
+    if (document.getElementById("ytfp-onboarding-styles")) {
+      return;
+    }
+    const style = document.createElement("style");
+    style.id = "ytfp-onboarding-styles";
+    style.textContent = `
+      @keyframes ytfp-pulse {
+        0%   { box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.65); }
+        70%  { box-shadow: 0 0 0 12px rgba(255, 45, 45, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 45, 45, 0); }
+      }
+      .ytfp-onboarding {
+        border-radius: 50% !important;
+        animation: ytfp-pulse 1.6s ease-out 6;
+      }
+      .ytfp-onboarding-hint {
+        position: absolute;
+        bottom: 100%;
+        margin-bottom: 10px;
+        transform: translateX(-50%);
+        z-index: 1000;
+        padding: 7px 11px;
+        border-radius: 8px;
+        background: #cc0000;
+        color: #fff;
+        font-family: "Roboto", Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.3;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      .ytfp-onboarding-hint::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border: 5px solid transparent;
+        border-top-color: #cc0000;
+      }
+      .ytfp-onboarding-hint--visible { opacity: 1; }
+    `;
+    document.head.appendChild(style);
+  }
+
+  /** Подсказка над кнопкой; исчезает по клику или по таймауту. */
+  function showOnboardingHint(button) {
+    injectOnboardingStyles();
+    button.classList.add("ytfp-onboarding");
+
+    const hint = document.createElement("div");
+    hint.className = "ytfp-onboarding-hint";
+    hint.textContent = chrome.i18n.getMessage("onboardingHint") || "Pop the video out — try it";
+    // Кнопка внутри панели контролов; ей нужен positioned-родитель.
+    if (getComputedStyle(button).position === "static") {
+      button.style.position = "relative";
+    }
+    button.appendChild(hint);
+    requestAnimationFrame(() => hint.classList.add("ytfp-onboarding-hint--visible"));
+
+    const finish = () => {
+      clearTimeout(hideTimer);
+      button.classList.remove("ytfp-onboarding");
+      hint.remove();
+      button.removeEventListener("click", finish);
+    };
+    const hideTimer = setTimeout(finish, ONBOARDING_DURATION_MS);
+    button.addEventListener("click", finish);
+  }
+
+  async function maybeShowOnboarding(button) {
+    if (onboardingShown) {
+      return;
+    }
+    try {
+      const { onboardingPending } = await chrome.storage.local.get("onboardingPending");
+      if (!onboardingPending) {
+        return;
+      }
+      onboardingShown = true;
+      // Снимаем флаг сразу: подсказка показывается ровно один раз на установку,
+      // даже если открыто несколько вкладок YouTube.
+      await chrome.storage.local.remove("onboardingPending");
+      showOnboardingHint(button);
+    } catch (error) {
+      // Контекст расширения пропал (обновление без перезагрузки вкладки).
+    }
   }
 
   /**
@@ -144,7 +255,9 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
         return;
       }
       // Над лайком: лайк — первый элемент колонки действий.
-      activeActions.prepend(styleShortsButton(buildButton(null)));
+      const shortsButton = styleShortsButton(buildButton(null));
+      activeActions.prepend(shortsButton);
+      maybeShowOnboarding(shortsButton);
       return;
     }
 

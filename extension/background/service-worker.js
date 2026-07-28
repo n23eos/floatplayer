@@ -9,6 +9,15 @@ chrome.runtime.setUninstallURL(UNINSTALL_FEEDBACK_URL).catch((error) => {
   console.warn("[YTFP] setUninstallURL failed:", error);
 });
 
+// Первый запуск: помечаем, что кнопку в плеере нужно один раз подсветить.
+// Флаг снимает content-скрипт после показа, поэтому подсказка не повторяется.
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason !== "install") {
+    return; // обновление версии — подсказку не показываем
+  }
+  chrome.storage.local.set({ onboardingPending: true }).catch(() => {});
+});
+
 // Горячие клавиши (chrome.commands) работают при фокусе в любом окне Chrome.
 // Ищем подходящую вкладку YouTube и пересылаем команду её content-скрипту.
 

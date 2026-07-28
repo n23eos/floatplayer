@@ -1,3 +1,19 @@
+YouTube izleyin ama gerçekten çalışın. Tek tıkla video tüm pencerelerin
+üstünde durur — YouTube'un hiç vermediği kontrollerle.
+
+
+NEDEN SİLİNMİYOR
+
+• Gerçekten her zaman üstte — editörünüzün arkasına düşmez
+• Hiçbir şey baştan başlamaz: YouTube oynatıcısının kendisi taşınır
+• 0,25–3x hız ve %300'e kadar ses
+• Çalışmak için A-B döngüsü, ayrıca videonun tamamını döngüye alma
+• Gerçekten duraklatan uyku zamanlayıcısı, 12 saate kadar
+• Sponsor bölümleri yeşil işaretlenir, tek tıkla atlanır
+• Shorts dikey pencerede kendiliğinden ilerler
+• Yalnızca video — kart yok, vitrin yok, karmaşa yok
+
+
 FloatPlayer, YouTube'u her şeyin üstünde tutar. Oynatıcıdaki düğmeye tek tıklama
 — ya da Alt+P — ve video, kendi kontrollerine sahip küçük bir pencereye geçer.
 Kod yazın, e-postalara yanıt verin, tabloyu düzenleyin: video her uygulamanın

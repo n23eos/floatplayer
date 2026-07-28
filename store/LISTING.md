@@ -358,25 +358,25 @@ chrome://extensions/shortcuts.
 ## Локализация — 14 языков полностью
 
 Интерфейс расширения (`extension/_locales/`), описание листинга
-(`store/descriptions/`) и скриншоты (`store/assets/screenshots/`) готовы для
+(`store/descriptions/`, структура: catch-блок → топ-фичи → подробности) и скриншоты (`store/assets/screenshots/`) готовы для
 всех четырнадцати языков. Ничего не наследуется от английского.
 
-| Язык в консоли | Код | Описание | Краткое | Скриншоты |
-|---|---|---|---|---|
-| English (основной) | en | `en.txt` | `en-short.txt` | `screenshots/en/` |
-| Русский | ru | `ru.txt` | `ru-short.txt` | `screenshots/ru/` |
-| Español | es | `es.txt` | `es-short.txt` | `screenshots/es/` |
-| Português (Brasil) | pt_BR | `pt_BR.txt` | `pt_BR-short.txt` | `screenshots/pt_BR/` |
-| Deutsch | de | `de.txt` | `de-short.txt` | `screenshots/de/` |
-| 日本語 | ja | `ja.txt` | `ja-short.txt` | `screenshots/ja/` |
-| Français | fr | `fr.txt` | `fr-short.txt` | `screenshots/fr/` |
-| Bahasa Indonesia | id | `id.txt` | `id-short.txt` | `screenshots/id/` |
-| Türkçe | tr | `tr.txt` | `tr-short.txt` | `screenshots/tr/` |
-| हिन्दी | hi | `hi.txt` | `hi-short.txt` | `screenshots/hi/` |
-| 한국어 | ko | `ko.txt` | `ko-short.txt` | `screenshots/ko/` |
-| Italiano | it | `it.txt` | `it-short.txt` | `screenshots/it/` |
-| Polski | pl | `pl.txt` | `pl-short.txt` | `screenshots/pl/` |
-| Українська | uk | `uk.txt` | `uk-short.txt` | `screenshots/uk/` |
+| Язык в консоли | Код | Описание | Скриншоты |
+|---|---|---|---|
+| English (основной) | en | `en.txt` | `screenshots/en/` |
+| Русский | ru | `ru.txt` | `screenshots/ru/` |
+| Español | es | `es.txt` | `screenshots/es/` |
+| Português (Brasil) | pt_BR | `pt_BR.txt` | `screenshots/pt_BR/` |
+| Deutsch | de | `de.txt` | `screenshots/de/` |
+| 日本語 | ja | `ja.txt` | `screenshots/ja/` |
+| Français | fr | `fr.txt` | `screenshots/fr/` |
+| Bahasa Indonesia | id | `id.txt` | `screenshots/id/` |
+| Türkçe | tr | `tr.txt` | `screenshots/tr/` |
+| हिन्दी | hi | `hi.txt` | `screenshots/hi/` |
+| 한국어 | ko | `ko.txt` | `screenshots/ko/` |
+| Italiano | it | `it.txt` | `screenshots/it/` |
+| Polski | pl | `pl.txt` | `screenshots/pl/` |
+| Українська | uk | `uk.txt` | `screenshots/uk/` |
 
 Порядок в консоли: выбрать язык на вкладке Store listing → вставить подробное и
 краткое описание из соответствующих файлов → загрузить пять скриншотов из папки
@@ -422,3 +422,9 @@ chrome://extensions/shortcuts.
    разрешений — всё выше.
 5. Скриншоты по списку.
 6. Отправить на ревью (обычно 1–3 дня).
+
+## Краткое описание
+
+Отдельного поля краткого описания в консоли нет — сводка в поиске берётся из
+`description` манифеста, то есть из ключа `extDesc` в `_locales/<язык>/messages.json`.
+Файлы `*-short.txt` удалены как лишняя сущность.

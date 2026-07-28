@@ -1,3 +1,19 @@
+Watch YouTube while you actually work. One click and the video floats
+above every window — with the controls YouTube never gave you.
+
+
+WHY PEOPLE KEEP IT
+
+• Truly always on top — never falls behind your editor
+• Nothing restarts: the real YouTube player moves into the window
+• Speed 0.25–3x and volume up to 300%
+• A-B loop for practice, plus loop the whole video
+• Sleep timer that really pauses, up to 12 hours
+• Sponsor segments marked in green and skipped in one click
+• Shorts in a vertical window that advances by itself
+• Video only — no cards, no shopping overlays, no clutter
+
+
 FloatPlayer keeps YouTube on top of everything else. One click on the button in
 the player — or Alt+P — and the video jumps into a small always-on-top window
 with its own controls. Write code, answer emails, edit a spreadsheet: the video

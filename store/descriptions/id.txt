@@ -1,3 +1,19 @@
+Menonton YouTube sambil benar-benar bekerja. Satu klik dan video mengambang
+di atas semua jendela, dengan kendali yang tak pernah diberikan YouTube.
+
+
+ALASAN ORANG TETAP MEMAKAINYA
+
+• Benar-benar selalu di atas — tak pernah tenggelam di belakang editor
+• Tidak ada yang diulang: pemutar YouTube asli pindah ke jendela
+• Kecepatan 0,25–3x dan volume sampai 300%
+• Pengulangan A-B untuk berlatih, plus loop seluruh video
+• Pengatur waktu tidur yang benar-benar menjeda, sampai 12 jam
+• Segmen sponsor ditandai hijau dan dilewati satu klik
+• Shorts di jendela vertikal yang lanjut sendiri
+• Hanya video — tanpa kartu, tanpa etalase, tanpa gangguan
+
+
 FloatPlayer menjaga YouTube tetap di atas segalanya. Satu klik pada tombol di
 pemutar — atau Alt+P — dan video pindah ke jendela kecil yang selalu di atas,
 lengkap dengan kendalinya sendiri. Menulis kode, membalas email, mengedit

@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Outro"
+  },
+  "onboardingHint": {
+    "message": "Sortez la vidéo en fenêtre flottante — essayez"
   }
 }

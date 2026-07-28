@@ -1,3 +1,19 @@
+Assista ao YouTube e trabalhe de verdade. Um clique e o vídeo flutua sobre
+todas as janelas, com os controles que o YouTube nunca te deu.
+
+
+POR QUE AS PESSOAS MANTÊM
+
+• Sempre à frente de verdade: nunca some atrás do seu editor
+• Nada recomeça: o próprio player do YouTube vai para a janela
+• Velocidade 0,25–3x e volume até 300%
+• Repetição A-B para treinar e loop do vídeo inteiro
+• Timer que pausa de verdade, até 12 horas
+• Patrocínios marcados em verde e pulados com um clique
+• Shorts em janela vertical que avança sozinha
+• Só vídeo: sem cards, sem vitrine, sem bagunça
+
+
 O FloatPlayer mantém o YouTube à frente de tudo. Um clique no botão do player —
 ou Alt+P — e o vídeo vai para uma janelinha sempre à frente, com controles
 próprios. Escreva código, responda e-mails, edite uma planilha: o vídeo continua

@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "आउट्रो"
+  },
+  "onboardingHint": {
+    "message": "वीडियो को फ़्लोटिंग विंडो में निकालें — आज़माएँ"
   }
 }

@@ -1,3 +1,19 @@
+Regardez YouTube et travaillez vraiment. Un clic et la vidéo flotte au-dessus
+de toutes les fenêtres, avec les commandes que YouTube n'a jamais données.
+
+
+POURQUOI ON LE GARDE
+
+• Vraiment au premier plan : ne passe jamais derrière votre éditeur
+• Rien ne redémarre : le vrai lecteur YouTube passe dans la fenêtre
+• Vitesse 0,25–3x et volume jusqu'à 300 %
+• Boucle A-B pour s'entraîner, et répétition de toute la vidéo
+• Minuterie qui met vraiment en pause, jusqu'à 12 heures
+• Passages sponsorisés marqués en vert et évités en un clic
+• Shorts en fenêtre verticale qui enchaîne toute seule
+• Rien que la vidéo : ni cartes, ni boutique, ni fouillis
+
+
 FloatPlayer garde YouTube au-dessus de tout le reste. Un clic sur le bouton du
 lecteur — ou Alt+P — et la vidéo passe dans une petite fenêtre toujours au
 premier plan, avec ses propres commandes. Écrivez du code, répondez à vos

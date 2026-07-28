@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "アウトロ"
+  },
+  "onboardingHint": {
+    "message": "動画を最前面ウィンドウへ — お試しください"
   }
 }

@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Zakończenie"
+  },
+  "onboardingHint": {
+    "message": "Wysuń wideo do pływającego okna — spróbuj"
   }
 }

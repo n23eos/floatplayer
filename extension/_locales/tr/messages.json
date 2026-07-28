@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Kapanış"
+  },
+  "onboardingHint": {
+    "message": "Videoyu yüzen pencereye çıkarın — deneyin"
   }
 }

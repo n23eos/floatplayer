@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "아웃트로"
+  },
+  "onboardingHint": {
+    "message": "영상을 항상 위 창으로 — 눌러 보세요"
   }
 }

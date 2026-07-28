@@ -1,3 +1,19 @@
+Oglądaj YouTube i naprawdę pracuj. Jedno kliknięcie i wideo unosi się nad
+wszystkimi oknami — z przyciskami, których YouTube nigdy nie dał.
+
+
+DLACZEGO ZOSTAJE NA STAŁE
+
+• Naprawdę zawsze na wierzchu — nie chowa się za edytorem
+• Nic się nie restartuje: do okna przenosi się sam odtwarzacz YouTube
+• Prędkość 0,25–3x i głośność do 300%
+• Pętla A-B do ćwiczeń oraz zapętlenie całego filmu
+• Wyłącznik czasowy, który naprawdę wstrzymuje, do 12 godzin
+• Fragmenty sponsorowane na zielono i pomijane jednym kliknięciem
+• Shorts w pionowym oknie, które samo przewija dalej
+• Tylko wideo — bez kart, bez sklepu, bez bałaganu
+
+
 FloatPlayer trzyma YouTube nad wszystkim innym. Jedno kliknięcie przycisku w
 odtwarzaczu — albo Alt+P — i wideo przenosi się do małego okna zawsze na
 wierzchu, z własnymi przyciskami. Pisz kod, odpowiadaj na maile, poprawiaj

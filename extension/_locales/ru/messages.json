@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Концовка"
+  },
+  "onboardingHint": {
+    "message": "Вынести видео поверх окон — попробуйте"
   }
 }

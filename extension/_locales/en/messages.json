@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Outro"
+  },
+  "onboardingHint": {
+    "message": "Pop the video out — try it"
   }
 }

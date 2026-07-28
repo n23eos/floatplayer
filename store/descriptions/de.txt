@@ -1,3 +1,19 @@
+YouTube schauen und wirklich arbeiten. Ein Klick und das Video schwebt über
+allen Fenstern — mit den Bedienelementen, die YouTube nie geliefert hat.
+
+
+WARUM ES INSTALLIERT BLEIBT
+
+• Wirklich immer im Vordergrund — rutscht nie hinter den Editor
+• Nichts startet neu: der echte YouTube-Player zieht ins Fenster um
+• Tempo 0,25–3x und Lautstärke bis 300 %
+• A-B-Schleife zum Üben, dazu das ganze Video wiederholen
+• Sleeptimer, der wirklich pausiert, bis zu 12 Stunden
+• Sponsor-Abschnitte grün markiert und mit einem Klick übersprungen
+• Shorts im Hochkantfenster, das von selbst weiterspringt
+• Nur Video — keine Karten, keine Shopping-Banner, kein Ballast
+
+
 FloatPlayer hält YouTube über allem anderen. Ein Klick auf die Schaltfläche im
 Player — oder Alt+P — und das Video wandert in ein kleines Fenster im
 Vordergrund, mit eigenen Bedienelementen. Code schreiben, Mails beantworten,

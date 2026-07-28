@@ -1,3 +1,19 @@
+Mira YouTube y trabaja de verdad. Un clic y el vídeo flota sobre todas las
+ventanas, con los controles que YouTube nunca te dio.
+
+
+POR QUÉ LA GENTE LO CONSERVA
+
+• Siempre visible de verdad: nunca queda detrás de tu editor
+• Nada se reinicia: el propio reproductor de YouTube pasa a la ventana
+• Velocidad 0,25–3x y volumen hasta el 300 %
+• Bucle A-B para practicar y repetición del vídeo entero
+• Temporizador que pausa de verdad, hasta 12 horas
+• Patrocinios marcados en verde y saltados con un clic
+• Shorts en ventana vertical que avanza sola
+• Solo vídeo: sin tarjetas, sin anuncios de tienda, sin ruido
+
+
 FloatPlayer mantiene YouTube por encima de todo lo demás. Un clic en el botón
 del reproductor —o Alt+P— y el vídeo pasa a una pequeña ventana siempre visible
 con sus propios controles. Escribe código, responde correos, edita una hoja de

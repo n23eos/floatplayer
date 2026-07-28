@@ -205,5 +205,8 @@
   },
   "optCatOutro": {
     "message": "Outro"
+  },
+  "onboardingHint": {
+    "message": "Video ins schwebende Fenster holen — probier es"
   }
 }
