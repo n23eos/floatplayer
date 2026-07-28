@@ -246,9 +246,46 @@ YTFP.pipControls = (() => {
       option.textContent = `${minutes} ${t("sleepMinutes", "min")}`;
       sleepSelect.appendChild(option);
     }
+    // Произвольное значение: пункт «своё…» открывает поле ввода минут.
+    const customOption = pipDocument.createElement("option");
+    customOption.value = "custom";
+    customOption.textContent = t("sleepCustom", "custom…");
+    sleepSelect.appendChild(customOption);
+
+    const sleepCustomInput = pipDocument.createElement("input");
+    sleepCustomInput.type = "number";
+    sleepCustomInput.className = "ytfp-sleep-input";
+    sleepCustomInput.min = "1";
+    sleepCustomInput.max = "720";
+    sleepCustomInput.placeholder = t("sleepMinutes", "min");
+    sleepCustomInput.style.display = "none";
 
     const sleepCountdown = pipDocument.createElement("span");
     sleepCountdown.className = "ytfp-sleep-countdown";
+
+    // Пока таймер идёт, интерфейс окна прячется полностью;
+    // движение мыши показывает его на пару секунд.
+    const PEEK_MS = 3000;
+    let peekTimer = null;
+
+    function onSleepMouseMove() {
+      pipDocument.body.classList.add("ytfp-peek");
+      clearTimeout(peekTimer);
+      peekTimer = setTimeout(() => {
+        pipDocument.body.classList.remove("ytfp-peek");
+      }, PEEK_MS);
+    }
+
+    function setSleepingUi(isSleeping) {
+      pipDocument.body.classList.toggle("ytfp-sleeping", isSleeping);
+      pipDocument.body.classList.remove("ytfp-peek");
+      clearTimeout(peekTimer);
+      if (isSleeping) {
+        pipDocument.addEventListener("mousemove", onSleepMouseMove);
+      } else {
+        pipDocument.removeEventListener("mousemove", onSleepMouseMove);
+      }
+    }
 
     function stopSleepTimer() {
       clearInterval(sleepTicker);
@@ -256,6 +293,9 @@ YTFP.pipControls = (() => {
       sleepDeadline = null;
       sleepCountdown.textContent = "";
       sleepSelect.value = "0";
+      sleepCustomInput.style.display = "none";
+      sleepCustomInput.value = "";
+      setSleepingUi(false);
     }
 
     function tickSleepTimer() {
@@ -271,19 +311,51 @@ YTFP.pipControls = (() => {
       sleepCountdown.textContent = YTFP.utils.formatTime(remainingSeconds);
     }
 
-    sleepSelect.addEventListener("change", () => {
-      const minutes = Number(sleepSelect.value);
+    function startSleepTimer(minutes) {
       clearInterval(sleepTicker);
+      sleepDeadline = Date.now() + minutes * 60 * 1000;
+      sleepTicker = setInterval(tickSleepTimer, 1000);
+      tickSleepTimer();
+      setSleepingUi(true);
+    }
+
+    sleepSelect.addEventListener("change", () => {
+      if (sleepSelect.value === "custom") {
+        // Ввод своего значения: показываем поле, таймер стартует по Enter.
+        clearInterval(sleepTicker);
+        sleepCountdown.textContent = "";
+        sleepCustomInput.style.display = "";
+        sleepCustomInput.focus();
+        return;
+      }
+      sleepCustomInput.style.display = "none";
+      const minutes = Number(sleepSelect.value);
       if (minutes <= 0) {
         stopSleepTimer();
         return;
       }
-      sleepDeadline = Date.now() + minutes * 60 * 1000;
-      sleepTicker = setInterval(tickSleepTimer, 1000);
-      tickSleepTimer();
+      startSleepTimer(minutes);
     });
 
-    sleepWrap.append(createIcon(pipDocument, "sleep"), sleepSelect, sleepCountdown);
+    function commitCustomSleep() {
+      const minutes = Math.floor(Number(sleepCustomInput.value));
+      if (minutes >= 1) {
+        startSleepTimer(Math.min(minutes, 720));
+      } else {
+        stopSleepTimer();
+      }
+    }
+
+    sleepCustomInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        commitCustomSleep();
+      } else if (event.key === "Escape") {
+        stopSleepTimer();
+      }
+    });
+    sleepCustomInput.addEventListener("change", commitCustomSleep);
+
+    sleepWrap.append(createIcon(pipDocument, "sleep"), sleepSelect, sleepCustomInput, sleepCountdown);
 
     // --- Скопировать ссылку на видео -----------------------------------------
     const shareButton = createButton(
@@ -391,6 +463,8 @@ YTFP.pipControls = (() => {
       }
       pipDocument.removeEventListener("keydown", onKeyDown);
       clearInterval(sleepTicker);
+      clearTimeout(peekTimer);
+      pipDocument.removeEventListener("mousemove", onSleepMouseMove);
     }
 
     return { element: bar, cleanup };

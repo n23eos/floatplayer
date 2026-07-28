@@ -250,6 +250,28 @@ body:hover .ytfp-bar--compact {
   font-variant-numeric: tabular-nums;
 }
 
+.ytfp-sleep-input {
+  width: 46px;
+  border: 0;
+  border-radius: 6px;
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #eee;
+  font-size: 12px;
+}
+
+/* Таймер сна активен: интерфейс окна спрятан полностью,
+   движение мыши (класс ytfp-peek) показывает его на пару секунд. */
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bar,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-nav,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-progress-wrap,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* --- Полоски прогресса внизу ------------------------------------------ */
 
 .ytfp-progress-wrap {
