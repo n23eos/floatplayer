@@ -109,9 +109,11 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
    * убираем кнопки из неактивных и ставим в активную (страж-интервал).
    */
   function ensureShortsButton() {
-    const activeActions = document.querySelector(
-      "ytd-reel-video-renderer[is-active] #actions"
-    );
+    // Новый UI шортсов: одна колонка действий reel-action-bar-view-model,
+    // лайк — её первый элемент. Старый UI: #actions активного шортса.
+    const activeActions =
+      document.querySelector("reel-action-bar-view-model") ||
+      document.querySelector("ytd-reel-video-renderer[is-active] #actions");
 
     // Убираем кнопки, оставшиеся в неактивных шортсах.
     for (const stale of document.querySelectorAll(`.${BUTTON_CLASS}--shorts`)) {
