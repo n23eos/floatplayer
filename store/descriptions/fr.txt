@@ -50,7 +50,7 @@ FloatPlayer ajoute ce qui manque vraiment :
   parfait pour les vidéos enregistrées trop bas
 - la boucle A-B pour travailler une phrase, un riff ou un pas de danse
 - une minuterie qui met vraiment la vidéo en pause, jusqu'à 12 heures
-- copier le lien, vidéo précédente et suivante, et jusqu'à 20 recommandations
+- vidéo précédente et suivante, et jusqu'à 20 recommandations
   dans une colonne dépliable
 - la prise en charge des Shorts, que le PiP natif refuse tout simplement
 - une fenêtre réellement propre, sans interface YouTube à l'intérieur

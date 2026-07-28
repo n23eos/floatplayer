@@ -49,7 +49,7 @@ ergänzt, was wirklich fehlt:
   eigenes Maximum, ideal für leise aufgenommene Videos
 - A-B-Schleife, um eine Phrase, ein Riff oder eine Bewegung zu üben
 - Sleeptimer, der das Video wirklich pausiert, bis zu 12 Stunden
-- Link kopieren, vorheriges und nächstes Video sowie bis zu 20 Empfehlungen in
+- vorheriges und nächstes Video sowie bis zu 20 Empfehlungen in
   einer ausfahrbaren Spalte
 - Shorts-Unterstützung, die das native PiP gar nicht bietet
 - ein wirklich aufgeräumtes Fenster ohne YouTube-Oberfläche darin

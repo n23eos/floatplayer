@@ -48,7 +48,7 @@ what is actually missing:
   own maximum, for quietly recorded videos
 - A-B loop for practising a phrase, a riff or a dance move
 - a sleep timer that actually pauses the video, up to 12 hours
-- a copy-link button, prev/next video, and up to 20 recommendations in a
+- prev/next video, and up to 20 recommendations in a
   slide-out column, so you never go back to the tab
 - Shorts support, which native PiP refuses to handle at all
 - a genuinely clean window with no YouTube interface inside
@@ -118,8 +118,7 @@ PRIVACY
 No accounts, no sign-in, no tracking, no analytics, no ads. Nothing is collected
 and nothing is sent anywhere, apart from the video ID for SponsorBlock — and
 only while you leave that feature on. Permissions are the bare minimum: storage
-for your settings, clipboardWrite for the copy-link button, and access to
-youtube.com plus sponsor.ajay.app.
+for your settings, and access to youtube.com plus sponsor.ajay.app.
 
 
 HONEST LIMITATIONS

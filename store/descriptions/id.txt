@@ -49,7 +49,7 @@ benar-benar kurang:
   cocok untuk video yang direkam pelan
 - pengulangan A-B untuk melatih frasa, riff, atau gerakan
 - pengatur waktu tidur yang benar-benar menjeda video, sampai 12 jam
-- salin tautan, video sebelumnya dan berikutnya, serta hingga 20 rekomendasi
+- video sebelumnya dan berikutnya, serta hingga 20 rekomendasi
   dalam kolom geser
 - dukungan Shorts, yang sama sekali tidak ditangani PiP bawaan
 - jendela yang benar-benar bersih, tanpa antarmuka YouTube di dalamnya

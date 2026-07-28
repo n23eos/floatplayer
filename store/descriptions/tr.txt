@@ -48,7 +48,7 @@ eksik olanları ekler:
   kadar, kısık kaydedilmiş videolar için
 - bir cümleyi, bir riff'i ya da bir hareketi çalışmak için A-B döngüsü
 - videoyu gerçekten duraklatan uyku zamanlayıcısı, 12 saate kadar
-- bağlantıyı kopyalama, önceki ve sonraki video, açılır sütunda 20 öneriye kadar
+- önceki ve sonraki video, açılır sütunda 20 öneriye kadar
 - yerleşik PiP'in hiç ele almadığı Shorts desteği
 - içinde YouTube arayüzü bulunmayan, gerçekten sade bir pencere
 - videonun tamamını döngüye alma, ses ön ayarları (gece, ses, bas), çubuk

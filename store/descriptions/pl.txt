@@ -48,7 +48,7 @@ dokłada to, czego naprawdę brakuje:
   raz do cicho nagranych filmów
 - pętla A-B do ćwiczenia frazy, riffu albo kroku
 - wyłącznik czasowy, który naprawdę wstrzymuje wideo, do 12 godzin
-- kopiowanie linku, poprzedni i następny film oraz do 20 propozycji w wysuwanej
+- poprzedni i następny film oraz do 20 propozycji w wysuwanej
   kolumnie
 - obsługa Shorts, której wbudowany PiP w ogóle nie ma
 - naprawdę czyste okno, bez interfejsu YouTube w środku

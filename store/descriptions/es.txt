@@ -49,7 +49,7 @@ FloatPlayer añade lo que de verdad falta:
   YouTube, ideal para vídeos grabados bajo
 - bucle A-B para practicar una frase, un riff o un paso de baile
 - temporizador que pausa el vídeo de verdad, hasta 12 horas
-- copiar el enlace, vídeo anterior y siguiente, y hasta 20 recomendaciones en
+- vídeo anterior y siguiente, y hasta 20 recomendaciones en
   una columna desplegable
 - compatibilidad con Shorts, que el PiP nativo no admite
 - una ventana realmente limpia, sin interfaz de YouTube dentro

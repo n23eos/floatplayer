@@ -49,7 +49,7 @@ acrescenta o que realmente falta:
   para vídeos gravados baixo
 - repetição A-B para treinar uma frase, um riff ou um passo de dança
 - timer que realmente pausa o vídeo, até 12 horas
-- copiar o link, vídeo anterior e próximo, e até 20 recomendações numa coluna
+- vídeo anterior e próximo, e até 20 recomendações numa coluna
 - suporte a Shorts, que o PiP nativo simplesmente não tem
 - uma janela de fato limpa, sem interface do YouTube dentro
 - repetir o vídeo inteiro, predefinições de áudio (noite, voz, grave), marcas de
