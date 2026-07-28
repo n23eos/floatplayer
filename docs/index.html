@@ -100,13 +100,46 @@
   </ul>
 </section>
 
+<section class="wrap" id="donate">
+  <h2>Support the project</h2>
+  <p class="sub">FloatPlayer is free, has no ads and collects nothing. If it saves you time, you can send some ETH.</p>
+  <div class="donate">
+    <div class="donate-head">
+      <span class="chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2 5.5 12.2 12 16l6.5-3.8L12 2zM5.5 13.5 12 22l6.5-8.5L12 17.3l-6.5-3.8z"/></svg> Ethereum</span>
+      <span class="chip chip--muted">ERC-20 · mainnet</span>
+    </div>
+    <code class="addr" id="ethAddr">0x77777da54702AC8789D53fc7cC6201C29a1A88C4</code>
+    <div class="donate-actions">
+      <button class="btn btn--primary" id="copyAddr" type="button">Copy address</button>
+      <a class="btn btn--ghost" href="https://etherscan.io/address/0x77777da54702AC8789D53fc7cC6201C29a1A88C4">View on Etherscan</a>
+    </div>
+    <p class="donate-note">Always verify the address on this page before sending — never trust one pasted to you in a message.</p>
+  </div>
+</section>
+
 <footer class="wrap">
   <span>FloatPlayer — Picture in Picture for YouTube</span>
   <a href="https://x.com/Raincoat_talk">@Raincoat_talk</a>
   <a href="https://x.com/Raincoat_talk">Feedback &amp; support</a>
+  <a href="#donate">Donate</a>
   <a href="privacy.html">Privacy policy</a>
   <span class="spacer">Not affiliated with Google or YouTube.</span>
 </footer>
+
+<script>
+  // Копирование адреса кошелька в буфер обмена.
+  const copyButton = document.getElementById("copyAddr");
+  copyButton.addEventListener("click", async () => {
+    const address = document.getElementById("ethAddr").textContent.trim();
+    try {
+      await navigator.clipboard.writeText(address);
+      copyButton.textContent = "Copied ✓";
+    } catch (error) {
+      copyButton.textContent = "Select it manually";
+    }
+    setTimeout(() => { copyButton.textContent = "Copy address"; }, 1800);
+  });
+</script>
 
 </body>
 </html>

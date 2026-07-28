@@ -105,6 +105,42 @@ ul.plain li::before { content: "—"; position: absolute; left: 0; color: var(--
 a { color: var(--text); }
 a:hover { color: var(--accent); }
 
+/* --- Донат ------------------------------------------------------------- */
+
+.donate {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+}
+
+.donate-head { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 11px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(255, 255, 255, 0.05);
+  font-size: 13px; font-weight: 600;
+}
+.chip svg { opacity: 0.85; }
+.chip--muted { color: var(--muted); font-weight: 500; }
+
+.addr {
+  display: block; overflow-wrap: anywhere;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(13px, 2.1vw, 16px); line-height: 1.5;
+  padding: 14px 16px; border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.donate-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+.donate-note { color: var(--muted); font-size: 13.5px; margin-top: 14px; }
+
+@media (prefers-color-scheme: light) {
+  .addr { background: rgba(0, 0, 0, 0.05); }
+  .chip { background: rgba(0, 0, 0, 0.04); }
+}
+
 footer {
   padding: 40px 0 64px; border-top: 1px solid var(--border);
   color: var(--muted); font-size: 14.5px;

@@ -143,6 +143,14 @@ Build for the Web Store: `npm run build` → `dist/floatplayer-<version>.zip`.
 - Seeking is unavailable during YouTube ads — there is nothing to seek, the
   main video is not loaded at that moment.
 
+## Support
+
+FloatPlayer is free, ad-free and collects nothing. If it saves you time:
+
+[![ETH](https://img.shields.io/badge/ETH-0x7777...88C4-blue?logo=ethereum&style=flat-square)](https://etherscan.io/address/0x77777da54702AC8789D53fc7cC6201C29a1A88C4)
+
+`0x77777da54702AC8789D53fc7cC6201C29a1A88C4`
+
 ## Development
 
 ```

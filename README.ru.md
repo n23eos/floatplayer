@@ -136,6 +136,14 @@ Chrome-расширение (Manifest V3): выносит видео YouTube в 
 - Во время рекламы YouTube перемотка недоступна — мотать нечего, основное
   видео в этот момент не загружено.
 
+## Поддержать
+
+FloatPlayer бесплатный, без рекламы и без сбора данных. Если он экономит вам время:
+
+[![ETH](https://img.shields.io/badge/ETH-0x7777...88C4-blue?logo=ethereum&style=flat-square)](https://etherscan.io/address/0x77777da54702AC8789D53fc7cC6201C29a1A88C4)
+
+`0x77777da54702AC8789D53fc7cC6201C29a1A88C4`
+
 ## Разработка
 
 ```
