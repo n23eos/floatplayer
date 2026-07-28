@@ -54,11 +54,16 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  function buildBar(pipDocument, { getVideo, onReturnRequested }) {
+  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts }) {
     const bar = pipDocument.createElement("div");
     bar.className = "ytfp-bar";
     if (YTFP.settings.get().compactMode) {
       bar.classList.add("ytfp-bar--compact");
+    }
+    // Узкое вертикальное окно шортсов: компактная панель без нишевых
+    // кнопок (A-B и промотки интеграций), с короткими ползунками.
+    if (isShorts) {
+      bar.classList.add("ytfp-bar--narrow");
     }
 
     // --- A-B повтор ---------------------------------------------------------
@@ -309,7 +314,11 @@ YTFP.pipControls = (() => {
     );
     returnButton.classList.add("ytfp-btn--return");
 
-    bar.append(playButton, abButton, skipButton, speedWrap, boostWrap, sleepWrap, shareButton, returnButton);
+    if (isShorts) {
+      bar.append(playButton, speedWrap, boostWrap, sleepWrap, shareButton, returnButton);
+    } else {
+      bar.append(playButton, abButton, skipButton, speedWrap, boostWrap, sleepWrap, shareButton, returnButton);
+    }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
     const video = getVideo();

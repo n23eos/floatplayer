@@ -238,7 +238,8 @@ YTFP.pip = (() => {
 
     const controls = YTFP.pipControls.buildBar(pipWindow.document, {
       getVideo: getMovedVideo,
-      onReturnRequested: close
+      onReturnRequested: close,
+      isShorts
     });
     pipWindow.document.body.appendChild(controls.element);
 

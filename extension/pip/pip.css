@@ -99,6 +99,39 @@ select {
   transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
+/* Узкая панель для вертикального окна шортсов: плотнее, короткие
+   ползунки, перенос на вторую строку при совсем малой ширине. */
+.ytfp-bar--narrow {
+  gap: 4px;
+  padding: 4px 6px;
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+
+.ytfp-bar--narrow .ytfp-btn {
+  padding: 4px 6px;
+}
+
+.ytfp-bar--narrow .ytfp-speed input[type="range"] {
+  width: 44px;
+}
+
+.ytfp-bar--narrow .ytfp-boost input[type="range"] {
+  width: 48px;
+}
+
+.ytfp-bar--narrow .ytfp-boost span {
+  min-width: 28px;
+}
+
+.ytfp-bar--narrow .ytfp-speed-label {
+  min-width: 24px;
+}
+
+.ytfp-bar--narrow .ytfp-sleep-countdown {
+  min-width: 0;
+}
+
 /* Компактный режим: панель спрятана, всплывает при наведении на окно. */
 .ytfp-bar--compact {
   transform: translateY(-8px);
