@@ -133,6 +133,10 @@ or skip YouTube ads.
 интерфейс соответствует продукту; вместо чужого видео нейтральный градиент.
 Пересобрать: `python3 <scratchpad>/shots/gen.py store/assets/screenshots`.
 
+Значок магазина: `store/assets/store-icon-128.png` (он же `extension/icons/icon128.png`
+в ZIP) — 128×128 PNG с альфа-каналом, рисунок ровно 96×96 по центру, по 16 px
+прозрачных полей. Пересобрать все размеры: `python3 scripts/make-icons.py`.
+
 Промо-графика:
 - малый тайл 440×280 — `store/assets/promo-tile-440x280.png`;
 - большое рекламное изображение (marquee) 1400×560 — `store/assets/marquee-1400x560.png`
