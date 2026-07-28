@@ -36,17 +36,17 @@ YTFP.audioBoost = (() => {
   }
 
   /**
-   * Устанавливает усиление в процентах (100 = без усиления).
-   * Возвращает true при успехе.
+   * Устанавливает громкость в процентах: 0 — тишина, 100 — как у YouTube,
+   * выше 100 — усиление (до volumeBoostMax). Возвращает true при успехе.
    */
   function setBoostPercent(video, percent) {
     if (!video) {
       return false;
     }
     const max = YTFP.settings.get().volumeBoostMax;
-    const clamped = YTFP.utils.clamp(percent, 100, max);
+    const clamped = YTFP.utils.clamp(percent, 0, max);
     if (clamped === 100 && !gainNode) {
-      // Усиление не требуется и граф ещё не создан — не трогаем аудио-путь.
+      // Значение нейтральное и граф ещё не создан — не трогаем аудио-путь.
       return true;
     }
     if (!ensureGraph(video)) {

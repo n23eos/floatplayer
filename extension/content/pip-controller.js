@@ -28,22 +28,32 @@ YTFP.pip = (() => {
     }
   }
 
-  async function getSavedSize() {
+  /**
+   * Размер окна: ширину берём сохранённую (или дефолт), высоту считаем
+   * из пропорций текущего видео — окно открывается без чёрных полос.
+   */
+  async function getInitialSize(video) {
+    let width = YTFP.DEFAULT_PIP_SIZE.width;
     try {
-      const { pipWidth, pipHeight } = await chrome.storage.local.get(["pipWidth", "pipHeight"]);
-      if (pipWidth > 0 && pipHeight > 0) {
-        return { width: pipWidth, height: pipHeight };
+      const { pipWidth } = await chrome.storage.local.get("pipWidth");
+      if (pipWidth > 0) {
+        width = pipWidth;
       }
     } catch (error) {
       console.warn("[YTFP] Failed to read saved size:", error);
     }
-    return YTFP.DEFAULT_PIP_SIZE;
+    const hasDimensions = video && video.videoWidth > 0 && video.videoHeight > 0;
+    const aspect = hasDimensions
+      ? video.videoWidth / video.videoHeight
+      : 16 / 9;
+    return { width, height: Math.round(width / aspect) };
   }
 
   function saveSize(pipWindow) {
-    chrome.storage.local
-      .set({ pipWidth: pipWindow.innerWidth, pipHeight: pipWindow.innerHeight })
-      .catch(() => {});
+    if (!(pipWindow.innerWidth > 0)) {
+      return;
+    }
+    chrome.storage.local.set({ pipWidth: pipWindow.innerWidth }).catch(() => {});
   }
 
   /** Заглушка на странице вместо уехавшего плеера. */
@@ -64,11 +74,11 @@ YTFP.pip = (() => {
     icon.textContent = "▶";
 
     const message = document.createElement("div");
-    message.textContent = "Видео играет в мини-окне";
+    message.textContent = chrome.i18n.getMessage("overlayPlaying") || "Видео играет в мини-окне";
 
     const returnButton = document.createElement("button");
     returnButton.className = "ytfp-page-overlay-return";
-    returnButton.textContent = "Вернуть сюда";
+    returnButton.textContent = chrome.i18n.getMessage("overlayReturn") || "Вернуть сюда";
     returnButton.addEventListener("click", close);
 
     inner.append(icon, message, returnButton);
@@ -122,7 +132,7 @@ YTFP.pip = (() => {
       return false;
     }
 
-    const size = await getSavedSize();
+    const size = await getInitialSize(YTFP.playerApi.getVideo());
     let pipWindow;
     try {
       pipWindow = await window.documentPictureInPicture.requestWindow(size);

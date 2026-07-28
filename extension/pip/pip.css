@@ -1,5 +1,5 @@
 /* Стили документа PiP-окна. Плеер YouTube занимает всё окно,
-   наша панель — тонкая полоса снизу. */
+   наша панель — тонкая полоса сверху (низ занят родными контролами YouTube). */
 
 html,
 body {
@@ -9,6 +9,26 @@ body {
   height: 100%;
   overflow: hidden;
   background: #000;
+}
+
+/* Всё окно — зона перетаскивания: держи мышью в любом месте и тащи.
+   Интерактивные элементы ниже исключаются через no-drag. */
+body {
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+/* Контролы YouTube и наша панель должны ловить клики, а не таскать окно. */
+.ytp-chrome-bottom,
+.ytp-chrome-top,
+.ytp-popup,
+.ytp-tooltip,
+.ytfp-bar,
+button,
+input,
+select {
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
 }
 
 /* Плеер и видео растягиваем на всё окно, перебивая inline-размеры YouTube. */
@@ -27,12 +47,13 @@ body {
   object-fit: contain;
 }
 
-/* Панель дополнительных функций расширения. */
+/* Панель дополнительных функций расширения — сверху, чтобы не
+   перекрывать родной таймлайн YouTube внизу. */
 .ytfp-bar {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  top: 0;
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -46,9 +67,9 @@ body {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Компактный режим: панель спрятана, всплывает при наведении на низ окна. */
+/* Компактный режим: панель спрятана, всплывает при наведении на окно. */
 .ytfp-bar--compact {
-  transform: translateY(100%);
+  transform: translateY(-100%);
   opacity: 0;
 }
 
@@ -96,6 +117,11 @@ body:hover .ytfp-bar--compact {
 }
 
 .ytfp-boost input[type="range"] {
-  width: 70px;
+  width: 80px;
   accent-color: #cc0000;
+}
+
+.ytfp-boost span {
+  min-width: 34px;
+  text-align: right;
 }
