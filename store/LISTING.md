@@ -91,7 +91,7 @@ or skip YouTube ads.
 Русский + English (обе локали в пакете).
 
 ## Privacy
-- Privacy policy URL: https://github.com/n23eos/youtube_float_player/blob/master/PRIVACY.md
+- Privacy policy URL: https://github.com/n23eos/floatplayer/blob/master/PRIVACY.md
 - Single purpose: «Показ видео YouTube в окне поверх всех окон с элементами управления воспроизведением».
 
 ### Ответы формы Data Usage

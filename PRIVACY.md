@@ -39,7 +39,7 @@ clipboard only when you click it; nothing is read from the clipboard.
   (only when the feature is enabled).
 
 **Contact:** https://x.com/Raincoat_talk or GitHub issues at
-https://github.com/n23eos/youtube_float_player
+https://github.com/n23eos/floatplayer
 
 ## Русский
 
@@ -76,4 +76,4 @@ FloatPlayer — расширение браузера, показывающее 
   (только при включённой функции).
 
 **Контакт:** https://x.com/Raincoat_talk или issues на
-https://github.com/n23eos/youtube_float_player
+https://github.com/n23eos/floatplayer
