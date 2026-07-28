@@ -48,15 +48,31 @@ YTFP.pip = (() => {
 
   /** Заглушка на странице вместо уехавшего плеера. */
   function buildOverlay(parent) {
+    // Заглушка позиционируется absolute — родитель обязан быть positioned.
+    if (getComputedStyle(parent).position === "static") {
+      parent.style.position = "relative";
+    }
+    // Строим DOM без innerHTML: YouTube включает Trusted Types.
     const overlay = document.createElement("div");
     overlay.className = "ytfp-page-overlay";
-    overlay.innerHTML = `
-      <div class="ytfp-page-overlay-inner">
-        <div class="ytfp-page-overlay-icon">▶</div>
-        <div>Видео играет в мини-окне</div>
-        <button class="ytfp-page-overlay-return">Вернуть сюда</button>
-      </div>`;
-    overlay.querySelector(".ytfp-page-overlay-return").addEventListener("click", close);
+
+    const inner = document.createElement("div");
+    inner.className = "ytfp-page-overlay-inner";
+
+    const icon = document.createElement("div");
+    icon.className = "ytfp-page-overlay-icon";
+    icon.textContent = "▶";
+
+    const message = document.createElement("div");
+    message.textContent = "Видео играет в мини-окне";
+
+    const returnButton = document.createElement("button");
+    returnButton.className = "ytfp-page-overlay-return";
+    returnButton.textContent = "Вернуть сюда";
+    returnButton.addEventListener("click", close);
+
+    inner.append(icon, message, returnButton);
+    overlay.appendChild(inner);
     parent.appendChild(overlay);
     return overlay;
   }

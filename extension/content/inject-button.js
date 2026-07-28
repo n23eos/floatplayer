@@ -7,25 +7,69 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 (() => {
   const BUTTON_CLASS = "ytfp-open-button";
 
-  // Иконка: прямоугольник экрана + маленькое окно поверх (стиль иконок YouTube).
-  const BUTTON_SVG = `
-    <svg height="100%" viewBox="0 0 36 36" width="100%">
-      <path d="M7 9h22v14h-8v-2h6V11H9v10h6v2H7V9z" fill="#fff"></path>
-      <rect x="17" y="19" width="12" height="8" rx="1" fill="#fff"></rect>
-    </svg>`;
+  // Контур экрана с вырезом + мини-окно поверх, нарисовано в сетке 24x24 —
+  // как у родных иконок нового плеера YouTube.
+  const ICON_PATH_24 =
+    "M21 4H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h7v-2H4V6h16v5h2V5a1 1 0 0 0-1-1z" +
+    "M13 13h9a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1z";
 
-  function buildButton() {
+  /**
+   * SVG иконки подстраиваем под соседей: копируем width/height/viewBox
+   * с иконки шестерёнки, чтобы кнопка выглядела нативно и в новом UI
+   * (svg 24x24), и в старом (svg 100% с viewBox 36x36).
+   * Строим через createElementNS: YouTube включает Trusted Types,
+   * innerHTML на странице может быть запрещён.
+   */
+  function buildIconSvg(settingsButton) {
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const reference = settingsButton ? settingsButton.querySelector("svg") : null;
+    const viewBox = (reference && reference.getAttribute("viewBox")) || "0 0 24 24";
+    const width = (reference && reference.getAttribute("width")) || "24";
+    const height = (reference && reference.getAttribute("height")) || "24";
+
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("width", width);
+    svg.setAttribute("height", height);
+    svg.setAttribute("viewBox", viewBox);
+
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", ICON_PATH_24);
+    path.setAttribute("fill", "white");
+
+    // В сетке 36x36 (старый UI) центрируем рисунок 24x24 смещением на 6.
+    if (viewBox.includes("36")) {
+      const group = document.createElementNS(SVG_NS, "g");
+      group.setAttribute("transform", "translate(6,6)");
+      group.appendChild(path);
+      svg.appendChild(group);
+    } else {
+      svg.appendChild(path);
+    }
+    return svg;
+  }
+
+  function buildButton(settingsButton) {
+    const tooltip = chrome.i18n.getMessage("btnTooltip") || "Picture-in-Picture+";
     const button = document.createElement("button");
     button.className = `ytp-button ${BUTTON_CLASS}`;
-    button.title = "Вынести видео поверх всех окон (Alt+P)";
-    button.innerHTML = BUTTON_SVG;
+    button.title = `${tooltip} (Alt+P)`;
+    button.setAttribute("aria-label", tooltip);
+    // Атрибуты нативного тултипа нового плеера (если он его подхватит).
+    button.setAttribute("data-tooltip-title", tooltip);
+    button.appendChild(buildIconSvg(settingsButton));
     button.addEventListener("click", () => {
       YTFP.pip.toggle();
     });
     return button;
   }
 
-  /** Вставляет кнопку в правую группу контролов, если её там ещё нет. */
+  /**
+   * Вставляет кнопку слева от шестерёнки.
+   * В новом UI шестерёнка лежит не в .ytp-right-controls напрямую,
+   * а во вложенном .ytp-right-controls-left — поэтому вставляем через
+   * родителя самой шестерёнки, а не через контейнер.
+   */
   function ensureButton() {
     if (!YTFP.playerApi.isWatchPage()) {
       return;
@@ -35,14 +79,24 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
       return;
     }
     const settingsButton = rightControls.querySelector(".ytp-settings-button");
-    rightControls.insertBefore(buildButton(), settingsButton);
+    if (settingsButton) {
+      settingsButton.parentElement.insertBefore(buildButton(settingsButton), settingsButton);
+    } else {
+      // Шестерёнки нет (нестандартный плеер) — ставим первой в контейнере.
+      rightControls.prepend(buildButton(null));
+    }
   }
 
-  // Контролы плеера рендерятся асинхронно после навигации — несколько попыток.
+  // Контролы плеера рендерятся асинхронно после навигации — несколько попыток,
+  // плюс редкий страховочный таймер: YouTube может пересоздать панель в любой
+  // момент (смена видео, театральный режим), и кнопку нужно вернуть.
   function ensureButtonWithRetries() {
     const RETRY_DELAYS_MS = [0, 500, 1500, 3000];
     RETRY_DELAYS_MS.forEach((delay) => setTimeout(ensureButton, delay));
   }
+
+  const GUARD_INTERVAL_MS = 2000;
+  setInterval(ensureButton, GUARD_INTERVAL_MS);
 
   function onNavigateFinish() {
     ensureButtonWithRetries();

@@ -4,14 +4,23 @@
 // Ищем подходящую вкладку YouTube и пересылаем команду её content-скрипту.
 
 async function findTargetTab() {
+  // Приоритет: активная вкладка последнего окна в фокусе ->
+  // вкладка со звуком -> любая активная -> первая попавшаяся.
+  const [focusedActive] = await chrome.tabs.query({
+    url: "*://www.youtube.com/*",
+    active: true,
+    lastFocusedWindow: true
+  });
+  if (focusedActive) {
+    return focusedActive;
+  }
   const youtubeTabs = await chrome.tabs.query({ url: "*://www.youtube.com/*" });
   if (youtubeTabs.length === 0) {
     return null;
   }
-  // Приоритет: активная вкладка -> вкладка со звуком -> первая попавшаяся.
   return (
-    youtubeTabs.find((tab) => tab.active) ||
     youtubeTabs.find((tab) => tab.audible) ||
+    youtubeTabs.find((tab) => tab.active) ||
     youtubeTabs[0]
   );
 }

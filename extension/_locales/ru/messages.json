@@ -1,6 +1,7 @@
 {
   "extName": { "message": "YouTube FloatPlayer" },
   "extDesc": { "message": "Видео YouTube поверх всех окон: полный плеер, A-B повтор, скорость, усиление громкости." },
+  "btnTooltip": { "message": "Поверх всех окон" },
   "cmdTogglePip": { "message": "Открыть/закрыть мини-окно" },
   "cmdPlayPause": { "message": "Пауза / воспроизведение" },
   "cmdSeekBack": { "message": "Назад на 5 секунд" },
