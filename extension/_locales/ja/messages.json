@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "前へ"
   },
-  "copyLink": {
-    "message": "動画のリンクをコピー"
-  },
   "navNext": {
     "message": "次へ"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "カスタム…"
+  },
+  "loopTooltip": {
+    "message": "この動画をリピート"
+  },
+  "presetTooltip": {
+    "message": "音声プリセット"
+  },
+  "presetOff": {
+    "message": "標準"
+  },
+  "presetNight": {
+    "message": "夜間"
+  },
+  "presetVoice": {
+    "message": "声"
+  },
+  "presetBass": {
+    "message": "低音"
+  },
+  "queueTitle": {
+    "message": "キュー"
+  },
+  "queueAdd": {
+    "message": "キューに追加"
+  },
+  "queueRemove": {
+    "message": "キューから削除"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "再生 / 一時停止（Chrome の外でも動作。キーは手動で設定）"
+  },
+  "optAutoSkipLabel": {
+    "message": "スポンサー区間を自動でスキップ"
+  },
+  "optAutoSkipHint": {
+    "message": "マークされた区間をボタンなしで自動的にスキップします。YouTube の広告には一切触れません。"
+  },
+  "optCategoriesLabel": {
+    "message": "区間のカテゴリ"
+  },
+  "optCategoriesHint": {
+    "message": "SponsorBlock のどのカテゴリを表示・スキップするか。"
+  },
+  "optCatSponsor": {
+    "message": "スポンサー"
+  },
+  "optCatSelfpromo": {
+    "message": "自己宣伝"
+  },
+  "optCatInteraction": {
+    "message": "高評価・登録のお願い"
+  },
+  "optCatIntro": {
+    "message": "イントロ"
+  },
+  "optCatOutro": {
+    "message": "アウトロ"
   }
 }

@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "이전"
   },
-  "copyLink": {
-    "message": "영상 링크 복사"
-  },
   "navNext": {
     "message": "다음"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "직접 입력…"
+  },
+  "loopTooltip": {
+    "message": "이 동영상 반복"
+  },
+  "presetTooltip": {
+    "message": "오디오 프리셋"
+  },
+  "presetOff": {
+    "message": "기본"
+  },
+  "presetNight": {
+    "message": "야간"
+  },
+  "presetVoice": {
+    "message": "음성"
+  },
+  "presetBass": {
+    "message": "저음"
+  },
+  "queueTitle": {
+    "message": "대기열"
+  },
+  "queueAdd": {
+    "message": "대기열에 추가"
+  },
+  "queueRemove": {
+    "message": "대기열에서 제거"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "재생 / 일시정지 (Chrome 밖에서도 작동, 키는 직접 지정)"
+  },
+  "optAutoSkipLabel": {
+    "message": "스폰서 구간 자동 건너뛰기"
+  },
+  "optAutoSkipHint": {
+    "message": "표시된 구간을 버튼 없이 자동으로 건너뜁니다. YouTube 광고는 건드리지 않습니다."
+  },
+  "optCategoriesLabel": {
+    "message": "구간 카테고리"
+  },
+  "optCategoriesHint": {
+    "message": "SponsorBlock의 어떤 카테고리를 표시하고 건너뛸지 선택합니다."
+  },
+  "optCatSponsor": {
+    "message": "스폰서"
+  },
+  "optCatSelfpromo": {
+    "message": "자기 홍보"
+  },
+  "optCatInteraction": {
+    "message": "좋아요/구독 요청"
+  },
+  "optCatIntro": {
+    "message": "인트로"
+  },
+  "optCatOutro": {
+    "message": "아웃트로"
   }
 }

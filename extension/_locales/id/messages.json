@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Sebelumnya"
   },
-  "copyLink": {
-    "message": "Salin tautan video"
-  },
   "navNext": {
     "message": "Berikutnya"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "khusus…"
+  },
+  "loopTooltip": {
+    "message": "Ulangi video ini"
+  },
+  "presetTooltip": {
+    "message": "Prasetel audio"
+  },
+  "presetOff": {
+    "message": "Normal"
+  },
+  "presetNight": {
+    "message": "Malam"
+  },
+  "presetVoice": {
+    "message": "Suara"
+  },
+  "presetBass": {
+    "message": "Bas"
+  },
+  "queueTitle": {
+    "message": "Antrean"
+  },
+  "queueAdd": {
+    "message": "Tambahkan ke antrean"
+  },
+  "queueRemove": {
+    "message": "Hapus dari antrean"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Putar / jeda (bekerja di luar Chrome; atur tombolnya sendiri)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Lewati segmen sponsor otomatis"
+  },
+  "optAutoSkipHint": {
+    "message": "Segmen yang ditandai dilewati otomatis, tanpa tombol. Iklan YouTube tidak pernah disentuh."
+  },
+  "optCategoriesLabel": {
+    "message": "Kategori segmen"
+  },
+  "optCategoriesHint": {
+    "message": "Kategori SponsorBlock mana yang ditandai dan dilewati."
+  },
+  "optCatSponsor": {
+    "message": "Sponsor"
+  },
+  "optCatSelfpromo": {
+    "message": "Promosi diri"
+  },
+  "optCatInteraction": {
+    "message": "Pengingat suka/langganan"
+  },
+  "optCatIntro": {
+    "message": "Intro"
+  },
+  "optCatOutro": {
+    "message": "Outro"
   }
 }

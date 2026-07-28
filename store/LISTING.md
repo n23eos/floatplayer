@@ -52,8 +52,8 @@ what is actually missing:
   own maximum, for quietly recorded videos
 - A-B loop for practising a phrase, a riff or a dance move
 - a sleep timer that actually pauses the video, up to 12 hours
-- a copy-link button, prev/next video, and up to 20 recommendations in a
-  slide-out column, so you never go back to the tab
+- prev/next video and up to 20 recommendations in a slide-out column,
+  so you never go back to the tab
 - Shorts support, which native PiP refuses to handle at all
 - a genuinely clean window with no YouTube interface inside
 
@@ -120,8 +120,7 @@ PRIVACY
 No accounts, no sign-in, no tracking, no analytics, no ads. Nothing is collected
 and nothing is sent anywhere, apart from the video ID for SponsorBlock — and
 only while you leave that feature on. Permissions are the bare minimum: storage
-for your settings, clipboardWrite for the copy-link button, and access to
-youtube.com plus sponsor.ajay.app.
+for your settings, and access to youtube.com plus sponsor.ajay.app.
 
 
 HONEST LIMITATIONS
@@ -179,8 +178,8 @@ FloatPlayer переносит в окно сам плеер YouTube. Тот ж�
   для тихо записанных роликов
 - A-B повтор, чтобы отработать фразу, рифф или движение
 - таймер сна, который действительно ставит видео на паузу, до 12 часов
-- копирование ссылки, переход к предыдущему и следующему видео и до 20
-  рекомендаций в выдвижной колонке — на вкладку возвращаться не нужно
+- переход к предыдущему и следующему видео и до 20 рекомендаций
+  в выдвижной колонке — на вкладку возвращаться не нужно
 - поддержка шортсов, за которые штатный PiP вообще не берётся
 - по-настоящему чистое окно без интерфейса YouTube внутри
 
@@ -245,9 +244,8 @@ chrome://extensions/shortcuts.
 
 Ни аккаунтов, ни входа, ни слежки, ни аналитики, ни рекламы. Ничего не
 собирается и никуда не отправляется, кроме ID видео для SponsorBlock — и только
-пока эта функция включена. Разрешений минимум: storage для ваших настроек,
-clipboardWrite для кнопки копирования ссылки и доступ к youtube.com и
-sponsor.ajay.app.
+пока эта функция включена. Разрешений минимум: storage для ваших настроек
+и доступ к youtube.com и sponsor.ajay.app.
 
 
 ЧЕСТНЫЕ ОГРАНИЧЕНИЯ
@@ -289,8 +287,6 @@ sponsor.ajay.app.
 ### Обоснования разрешений (Permission justification)
 - `storage` — сохранение настроек (режим окна, скорость, громкость, таймер,
   автопереход шортсов) и ширины окна по ориентации.
-- `clipboardWrite` — кнопка «Скопировать ссылку на видео»: запись в буфер
-  только по явному клику пользователя.
 - Host `*://*.youtube.com/*` — вставка кнопок в плеер, перенос плеера в
   PiP-окно, управление воспроизведением на страницах YouTube.
 - Host `https://sponsor.ajay.app/*` — запрос границ спонсорских сегментов
@@ -317,13 +313,6 @@ sponsor.ajay.app.
 > sessions and browser restarts. Only these preferences are stored. No browsing
 > history, no personal data, and nothing is sent anywhere.
 
-### Разрешение `clipboardWrite`
-
-> Used only by the "Copy video link" button in the mini-window control panel.
-> When the user clicks that button, the URL of the video currently playing is
-> written to the clipboard, so the user can share it without returning to the
-> YouTube tab. Nothing is written without an explicit click, and the extension
-> never reads the clipboard.
 
 ### Разрешения на доступ к хостам
 

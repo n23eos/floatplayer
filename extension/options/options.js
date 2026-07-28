@@ -32,14 +32,18 @@ const DEFAULT_SETTINGS = {
   compactMode: true,
   skipStepSeconds: 30,
   sponsorSkip: true,
+  sponsorAutoSkip: false,
+  sponsorCategories: ["sponsor", "selfpromo", "interaction"],
   shortsAutoNext: true,
-  windowMode: "document"
+  windowMode: "document",
+  audioPreset: "off"
 };
 
 const elements = {
   autoPip: document.getElementById("autoPip"),
   windowMode: document.getElementById("windowMode"),
   sponsorSkip: document.getElementById("sponsorSkip"),
+  sponsorAutoSkip: document.getElementById("sponsorAutoSkip"),
   shortsAutoNext: document.getElementById("shortsAutoNext"),
   compactMode: document.getElementById("compactMode"),
   speedStep: document.getElementById("speedStep"),
@@ -48,11 +52,22 @@ const elements = {
   status: document.getElementById("status")
 };
 
+function getCategoryCheckboxes() {
+  return Array.from(document.querySelectorAll(".sb-category"));
+}
+
 async function loadIntoForm() {
   const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
   elements.autoPip.checked = Boolean(settings.autoPip);
   elements.windowMode.value = String(settings.windowMode);
   elements.sponsorSkip.checked = Boolean(settings.sponsorSkip);
+  elements.sponsorAutoSkip.checked = Boolean(settings.sponsorAutoSkip);
+  const categories = Array.isArray(settings.sponsorCategories)
+    ? settings.sponsorCategories
+    : DEFAULT_SETTINGS.sponsorCategories;
+  for (const checkbox of getCategoryCheckboxes()) {
+    checkbox.checked = categories.includes(checkbox.value);
+  }
   elements.shortsAutoNext.checked = Boolean(settings.shortsAutoNext);
   elements.compactMode.checked = Boolean(settings.compactMode);
   elements.speedStep.value = String(settings.speedStep);
@@ -67,6 +82,10 @@ async function save() {
     autoPip: elements.autoPip.checked,
     windowMode: elements.windowMode.value,
     sponsorSkip: elements.sponsorSkip.checked,
+    sponsorAutoSkip: elements.sponsorAutoSkip.checked,
+    sponsorCategories: getCategoryCheckboxes()
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value),
     shortsAutoNext: elements.shortsAutoNext.checked,
     compactMode: elements.compactMode.checked,
     speedStep: Number(elements.speedStep.value),
@@ -80,11 +99,14 @@ async function save() {
   }, 1500);
 }
 
-for (const key of ["autoPip", "windowMode", "sponsorSkip", "shortsAutoNext", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
+for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
   // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
   if (elements[key]) {
     elements[key].addEventListener("change", save);
   }
+}
+for (const checkbox of getCategoryCheckboxes()) {
+  checkbox.addEventListener("change", save);
 }
 
 loadIntoForm();

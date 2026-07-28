@@ -8,17 +8,31 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 // Всё живёт внутри #movie_player, поэтому работает и на странице, и в PiP-окне.
 YTFP.sponsorBlock = (() => {
   const API_URL = "https://sponsor.ajay.app/api/skipSegments";
-  const CATEGORIES = ["sponsor", "selfpromo", "interaction"];
   const MARKER_COLOR = "rgba(0, 212, 0, 0.7)"; // зелёный SponsorBlock
 
   let segments = [];
-  let loadedVideoId = null;
+  // Ключ кэша: videoId + категории — смена категорий в настройках перезагружает.
+  let loadedKey = null;
   let markerContainer = null;
   let skipButton = null;
   let attachedVideo = null;
 
   function isEnabled() {
     return YTFP.settings.get().sponsorSkip;
+  }
+
+  function isAutoSkipEnabled() {
+    return YTFP.settings.get().sponsorAutoSkip;
+  }
+
+  function getCategories() {
+    const stored = YTFP.settings.get().sponsorCategories;
+    // Пустой массив валиден (все категории сняты — сегментов не будет),
+    // не-массив — мусор, берём дефолт.
+    if (!Array.isArray(stored)) {
+      return YTFP.DEFAULT_SETTINGS.sponsorCategories;
+    }
+    return stored.filter((category) => typeof category === "string");
   }
 
   function getVideoIdFromUrl() {
@@ -33,7 +47,7 @@ YTFP.sponsorBlock = (() => {
     try {
       const url =
         `${API_URL}?videoID=${encodeURIComponent(videoId)}` +
-        `&categories=${encodeURIComponent(JSON.stringify(CATEGORIES))}`;
+        `&categories=${encodeURIComponent(JSON.stringify(getCategories()))}`;
       // Таймаут: зависший API не должен вечно держать refresh().
       const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
       if (!response.ok) {
@@ -171,6 +185,13 @@ YTFP.sponsorBlock = (() => {
       hideSkipButton();
       return;
     }
+    // Автопропуск: прыгаем сразу, без кнопки. Реклама YouTube сюда не попадает —
+    // ветка ad-showing выше уже вышла из функции.
+    if (isAutoSkipEnabled()) {
+      video.currentTime = end + 0.05;
+      hideSkipButton();
+      return;
+    }
     const button = ensureSkipButton(playerRoot);
     // Кнопка стоит над таймлайном там, где интеграция заканчивается.
     const duration = video.duration;
@@ -205,19 +226,20 @@ YTFP.sponsorBlock = (() => {
 
     if (!videoId || !YTFP.playerApi.isWatchPage() || !isEnabled()) {
       segments = [];
-      loadedVideoId = null;
+      loadedKey = null;
       removeMarkers();
       hideSkipButton();
       return;
     }
-    if (videoId === loadedVideoId) {
+    const key = `${videoId}|${getCategories().join(",")}`;
+    if (key === loadedKey) {
       renderMarkers(); // видео то же — просто перерисовать (например, после PiP)
       return;
     }
-    loadedVideoId = videoId;
+    loadedKey = key;
     segments = await fetchSegments(videoId);
-    // Пока грузили — могли уйти на другое видео.
-    if (loadedVideoId === videoId) {
+    // Пока грузили — могли уйти на другое видео или сменить категории.
+    if (loadedKey === key) {
       renderMarkers();
     }
   }

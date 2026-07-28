@@ -259,7 +259,7 @@ YTFP.pip = (() => {
     // там навигация по ленте кнопками назад/вперёд.
     const related = isShorts
       ? { cleanup: () => {} }
-      : YTFP.pipRelated.build(pipWindow.document);
+      : YTFP.pipRelated.build(pipWindow.document, { getVideo: getMovedVideo });
     if (related.element) {
       pipWindow.document.body.appendChild(related.element);
     }

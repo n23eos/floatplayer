@@ -156,3 +156,69 @@ describe("nextSpeed", () => {
     expect(utils.nextSpeed(1.13, 0.25, 1, 0.25, 3)).toBe(1.5);
   });
 });
+
+describe("digitSeekTime", () => {
+  test("maps digits to tenths of the duration", () => {
+    expect(utils.digitSeekTime(100, 0)).toBe(0);
+    expect(utils.digitSeekTime(100, 5)).toBe(50);
+    expect(utils.digitSeekTime(100, 9)).toBe(90);
+  });
+
+  test("returns null for invalid duration", () => {
+    expect(utils.digitSeekTime(0, 5)).toBeNull();
+    expect(utils.digitSeekTime(NaN, 5)).toBeNull();
+    expect(utils.digitSeekTime(Infinity, 5)).toBeNull();
+  });
+
+  test("returns null for digit outside 0-9", () => {
+    expect(utils.digitSeekTime(100, -1)).toBeNull();
+    expect(utils.digitSeekTime(100, 10)).toBeNull();
+    expect(utils.digitSeekTime(100, 2.5)).toBeNull();
+  });
+});
+
+describe("chapterFractionsFromWidths", () => {
+  test("converts section widths to chapter start fractions", () => {
+    expect(utils.chapterFractionsFromWidths([300, 100, 100])).toEqual([0, 0.6, 0.8]);
+  });
+
+  test("returns empty array for a single section (no chapters)", () => {
+    expect(utils.chapterFractionsFromWidths([500])).toEqual([]);
+  });
+
+  test("returns empty array for empty or missing input", () => {
+    expect(utils.chapterFractionsFromWidths([])).toEqual([]);
+    expect(utils.chapterFractionsFromWidths(null)).toEqual([]);
+  });
+
+  test("ignores NaN and non-positive widths", () => {
+    expect(utils.chapterFractionsFromWidths([NaN, 300, 0, 100])).toEqual([0, 0.75]);
+  });
+});
+
+describe("parseTimeLabel", () => {
+  test("parses mm:ss", () => {
+    expect(utils.parseTimeLabel("0:00")).toBe(0);
+    expect(utils.parseTimeLabel("1:05")).toBe(65);
+    expect(utils.parseTimeLabel("12:34")).toBe(754);
+  });
+
+  test("parses h:mm:ss", () => {
+    expect(utils.parseTimeLabel("1:02:03")).toBe(3723);
+    expect(utils.parseTimeLabel("4:20:11")).toBe(15611);
+  });
+
+  test("trims surrounding whitespace", () => {
+    expect(utils.parseTimeLabel("  2:30\n")).toBe(150);
+  });
+
+  test("returns null for malformed labels", () => {
+    expect(utils.parseTimeLabel("")).toBeNull();
+    expect(utils.parseTimeLabel("90")).toBeNull();
+    expect(utils.parseTimeLabel("1:2:3:4")).toBeNull();
+    expect(utils.parseTimeLabel("a:bc")).toBeNull();
+    expect(utils.parseTimeLabel("-1:30")).toBeNull();
+    expect(utils.parseTimeLabel(null)).toBeNull();
+    expect(utils.parseTimeLabel(undefined)).toBeNull();
+  });
+});

@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Önceki"
   },
-  "copyLink": {
-    "message": "Video bağlantısını kopyala"
-  },
   "navNext": {
     "message": "Sonraki"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "özel…"
+  },
+  "loopTooltip": {
+    "message": "Bu videoyu tekrarla"
+  },
+  "presetTooltip": {
+    "message": "Ses ön ayarı"
+  },
+  "presetOff": {
+    "message": "Normal"
+  },
+  "presetNight": {
+    "message": "Gece"
+  },
+  "presetVoice": {
+    "message": "Konuşma"
+  },
+  "presetBass": {
+    "message": "Bas"
+  },
+  "queueTitle": {
+    "message": "Sıra"
+  },
+  "queueAdd": {
+    "message": "Sıraya ekle"
+  },
+  "queueRemove": {
+    "message": "Sıradan çıkar"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Oynat / duraklat (Chrome dışında da çalışır; tuşu kendiniz atayın)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Sponsor bölümlerini otomatik atla"
+  },
+  "optAutoSkipHint": {
+    "message": "İşaretlenmiş bölümler düğmeye gerek kalmadan otomatik atlanır. YouTube reklamlarına asla dokunulmaz."
+  },
+  "optCategoriesLabel": {
+    "message": "Bölüm kategorileri"
+  },
+  "optCategoriesHint": {
+    "message": "Hangi SponsorBlock kategorileri işaretlensin ve atlansın."
+  },
+  "optCatSponsor": {
+    "message": "Sponsor"
+  },
+  "optCatSelfpromo": {
+    "message": "Kendi tanıtımı"
+  },
+  "optCatInteraction": {
+    "message": "Beğen/abone ol hatırlatmaları"
+  },
+  "optCatIntro": {
+    "message": "Giriş"
+  },
+  "optCatOutro": {
+    "message": "Kapanış"
   }
 }

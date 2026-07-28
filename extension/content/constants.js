@@ -21,6 +21,10 @@ YTFP.DEFAULT_SETTINGS = {
   compactMode: true,        // прятать панель, показывать при наведении
   skipStepSeconds: 30,      // шаг кнопки промотки интеграций, сек
   sponsorSkip: true,        // сегменты SponsorBlock на таймлайне + кнопка пропуска
+  sponsorAutoSkip: false,   // автопропуск сегментов без кнопки (opt-in)
+  // Какие категории SponsorBlock запрашивать и пропускать.
+  sponsorCategories: ["sponsor", "selfpromo", "interaction"],
+  audioPreset: "off",       // аудио-пресет: off | night | voice | bass
   shortsAutoNext: true,     // шортсы: автопереход к следующему по окончании
   // "document" — окно с панелью настроек (Chrome рисует рамку с origin),
   // "native"   — чистое видео без рамки (нативный PiP, без панели).
@@ -33,4 +37,4 @@ YTFP.SPEED_MAX = 3;
 // Размер PiP-окна по умолчанию (потом запоминаем выбранный пользователем).
 YTFP.DEFAULT_PIP_SIZE = { width: 480, height: 320 };
 
-YTFP.SEEK_STEP_SECONDS = 5;
+YTFP.SEEK_STEP_SECONDS = 10;

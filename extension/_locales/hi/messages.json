@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "पिछला"
   },
-  "copyLink": {
-    "message": "वीडियो लिंक कॉपी करें"
-  },
   "navNext": {
     "message": "अगला"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "अपना मान…"
+  },
+  "loopTooltip": {
+    "message": "इस वीडियो को दोहराएँ"
+  },
+  "presetTooltip": {
+    "message": "ऑडियो प्रीसेट"
+  },
+  "presetOff": {
+    "message": "सामान्य"
+  },
+  "presetNight": {
+    "message": "रात"
+  },
+  "presetVoice": {
+    "message": "आवाज़"
+  },
+  "presetBass": {
+    "message": "बास"
+  },
+  "queueTitle": {
+    "message": "कतार"
+  },
+  "queueAdd": {
+    "message": "कतार में जोड़ें"
+  },
+  "queueRemove": {
+    "message": "कतार से हटाएँ"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "चलाएँ / रोकें (Chrome के बाहर भी काम करता है; कुंजी स्वयं सेट करें)"
+  },
+  "optAutoSkipLabel": {
+    "message": "प्रायोजित हिस्से अपने आप छोड़ें"
+  },
+  "optAutoSkipHint": {
+    "message": "चिह्नित हिस्से बटन के बिना अपने आप छूट जाते हैं। YouTube के विज्ञापनों को कभी नहीं छुआ जाता।"
+  },
+  "optCategoriesLabel": {
+    "message": "हिस्सों की श्रेणियाँ"
+  },
+  "optCategoriesHint": {
+    "message": "SponsorBlock की कौन-सी श्रेणियाँ चिह्नित और छोड़ी जाएँ।"
+  },
+  "optCatSponsor": {
+    "message": "प्रायोजक"
+  },
+  "optCatSelfpromo": {
+    "message": "स्व-प्रचार"
+  },
+  "optCatInteraction": {
+    "message": "लाइक/सब्सक्राइब की याद दिलाना"
+  },
+  "optCatIntro": {
+    "message": "इंट्रो"
+  },
+  "optCatOutro": {
+    "message": "आउट्रो"
   }
 }

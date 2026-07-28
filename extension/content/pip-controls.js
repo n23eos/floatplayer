@@ -17,7 +17,7 @@ YTFP.pipControls = (() => {
     play: "M8 5v14l11-7z",
     pause: "M6 19h4V5H6v14zm8-14v14h4V5h-4z",
     skip: "M4 6v12l8.5-6L4 6zm9 0v12l8.5-6L13 6z",
-    link: "M3.9 12A3.1 3.1 0 0 1 7 8.9h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 1 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z",
+    loop: "M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z",
     volume: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z",
     sleep: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
     back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
@@ -117,6 +117,21 @@ YTFP.pipControls = (() => {
       }
     }
 
+    // --- Loop всего видео -----------------------------------------------------
+    const loopButton = createButton(
+      pipDocument,
+      createIcon(pipDocument, "loop"),
+      t("loopTooltip", "Loop this video"),
+      () => {
+        const video = getVideo();
+        if (!video) {
+          return;
+        }
+        video.loop = !video.loop;
+        loopButton.classList.toggle("ytfp-btn--active", video.loop);
+      }
+    );
+
     // --- Play/pause -------------------------------------------------------------
     // Родные контролы YouTube в окне скрыты, поэтому пауза живёт здесь.
     const playButton = createButton(
@@ -141,6 +156,9 @@ YTFP.pipControls = (() => {
       playButton.replaceChildren(
         createIcon(pipDocument, video && video.paused ? "play" : "pause")
       );
+      // Заодно синхронизируем подсветку loop: у <video> нет события "loop",
+      // а само видео могло смениться (рекомендации, плейлист, шортсы).
+      loopButton.classList.toggle("ytfp-btn--active", Boolean(video && video.loop));
     }
 
     // --- Промотка интеграций --------------------------------------------------
@@ -226,6 +244,52 @@ YTFP.pipControls = (() => {
     });
 
     boostWrap.append(createIcon(pipDocument, "volume"), boostSlider, boostLabel);
+
+    // --- Аудио-пресеты (Web Audio фильтры) ------------------------------------
+    const PRESET_KEYS = [
+      ["off", t("presetOff", "Normal")],
+      ["night", t("presetNight", "Night")],
+      ["voice", t("presetVoice", "Voice")],
+      ["bass", t("presetBass", "Bass")]
+    ];
+    const presetSelect = pipDocument.createElement("select");
+    presetSelect.className = "ytfp-select ytfp-preset";
+    presetSelect.title = t("presetTooltip", "Audio preset");
+    for (const [value, label] of PRESET_KEYS) {
+      const option = pipDocument.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      presetSelect.appendChild(option);
+    }
+    // Значение из настроек может оказаться мусором (правка storage вручную,
+    // старая версия) — тогда select стал бы пустым. Проверяем по списку.
+    const storedPreset = YTFP.settings.get().audioPreset;
+    presetSelect.value = PRESET_KEYS.some(([value]) => value === storedPreset)
+      ? storedPreset
+      : "off";
+
+    function applyPreset(presetName) {
+      const ok = YTFP.audioBoost.setPreset(getVideo(), presetName);
+      if (!ok) {
+        presetSelect.value = "off";
+        return;
+      }
+      presetSelect.value = presetName;
+    }
+
+    presetSelect.addEventListener("change", () => {
+      applyPreset(presetSelect.value);
+      // Запоминаем выбор между сессиями (страница options не нужна).
+      chrome.storage.sync.set({ audioPreset: presetSelect.value }).catch(() => {});
+    });
+    // Пресет из настроек применяем не сразу, а при первом действии пользователя
+    // в окне. Причина: создание AudioContext без пользовательской активации
+    // может остаться в состоянии suspended — тогда весь звук уйдёт в тишину.
+    if (presetSelect.value !== "off") {
+      const applyStoredPreset = () => applyPreset(presetSelect.value);
+      pipDocument.addEventListener("pointerdown", applyStoredPreset, { once: true });
+      pipDocument.addEventListener("keydown", applyStoredPreset, { once: true });
+    }
 
     // --- Таймер сна -----------------------------------------------------------
     // По истечении — пауза. Живёт, пока открыто мини-окно.
@@ -360,26 +424,6 @@ YTFP.pipControls = (() => {
 
     sleepWrap.append(createIcon(pipDocument, "sleep"), sleepSelect, sleepCustomInput, sleepCountdown);
 
-    // --- Скопировать ссылку на видео -----------------------------------------
-    const shareButton = createButton(
-      pipDocument,
-      createIcon(pipDocument, "link"),
-      t("copyLink", "Copy video link"),
-      async () => {
-        try {
-          await navigator.clipboard.writeText(location.href);
-        } catch (error) {
-          console.warn("[YTFP] Clipboard write failed:", error);
-          return;
-        }
-        // Короткое подтверждение: галочка на полторы секунды.
-        shareButton.textContent = "✓";
-        setTimeout(() => {
-          shareButton.replaceChildren(createIcon(pipDocument, "link"));
-        }, 1500);
-      }
-    );
-
     // --- Возврат на страницу ------------------------------------------------
     const returnButton = createButton(
       pipDocument,
@@ -390,9 +434,9 @@ YTFP.pipControls = (() => {
     returnButton.classList.add("ytfp-btn--return");
 
     if (isShorts) {
-      bar.append(playButton, speedWrap, boostWrap, sleepWrap, shareButton, returnButton);
+      bar.append(playButton, speedWrap, boostWrap, presetSelect, sleepWrap, returnButton);
     } else {
-      bar.append(playButton, abButton, skipButton, speedWrap, boostWrap, sleepWrap, shareButton, returnButton);
+      bar.append(playButton, abButton, loopButton, skipButton, speedWrap, boostWrap, presetSelect, sleepWrap, returnButton);
     }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
@@ -414,6 +458,17 @@ YTFP.pipControls = (() => {
       }
       const currentVideo = getVideo();
       if (!currentVideo) {
+        return;
+      }
+      // Цифры 0–9 — прыжок к N×10% видео (как на самом YouTube).
+      if (/^[0-9]$/.test(event.key)) {
+        if (YTFP.playerApi.isAdShowing()) {
+          return; // реклама не мотается
+        }
+        const target = YTFP.utils.digitSeekTime(currentVideo.duration, Number(event.key));
+        if (target !== null) {
+          currentVideo.currentTime = target;
+        }
         return;
       }
       switch (event.key) {
@@ -444,6 +499,22 @@ YTFP.pipControls = (() => {
         case "m":
           currentVideo.muted = !currentVideo.muted;
           break;
+        case "ArrowUp":
+        case "ArrowDown": {
+          // Громкость ±10% через тот же тракт, что и слайдер (0–300%).
+          event.preventDefault();
+          const VOLUME_KEY_STEP_PERCENT = 10;
+          const delta = event.key === "ArrowUp" ? VOLUME_KEY_STEP_PERCENT : -VOLUME_KEY_STEP_PERCENT;
+          const nextPercent = YTFP.audioBoost.getBoostPercent() + delta;
+          const ok = YTFP.audioBoost.setBoostPercent(currentVideo, nextPercent);
+          if (ok) {
+            // Синхронизируем слайдер и подпись с фактическим значением.
+            const applied = YTFP.audioBoost.getBoostPercent();
+            boostSlider.value = String(applied);
+            boostLabel.textContent = `${applied}%`;
+          }
+          break;
+        }
         case "<":
         case ">": {
           const direction = event.key === ">" ? 1 : -1;

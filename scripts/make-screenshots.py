@@ -6,8 +6,25 @@ SHOTS = pathlib.Path(__file__).parent
 OUT = pathlib.Path(sys.argv[1])  # каталог назначения проекта
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
+# Копируем актуальный pip.css перед рендером: макет обязан совпадать с продуктом.
+import shutil
+shutil.copy(
+    "/Users/nickeo23/code_projects/Chrome_youtube_player/extension/pip/pip.css",
+    SHOTS / "pip.css",
+)
+
+import json
+
+LOCALES = pathlib.Path("/Users/nickeo23/code_projects/Chrome_youtube_player/extension/_locales")
+
+def msg(lang, key, fallback=""):
+    """Строка из настоящего messages.json нужного языка."""
+    data = json.loads((LOCALES / lang / "messages.json").read_text())
+    return data.get(key, {}).get("message", fallback)
+
 TEXT = {
     "en": {
+        "presetNormal": "Normal",
         "sleepOff": "off",
         "sbSkip": "Skip sponsor segment → 12:34",
         "brand": "Picture in Picture for YouTube",
@@ -31,6 +48,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> scroll the Shorts feed straight from the window.",
     },
     "ru": {
+        "presetNormal": "Обычный",
         "sleepOff": "выкл",
         "sbSkip": "Пропустить интеграцию → 12:34",
         "brand": "Picture in Picture для YouTube",
@@ -55,6 +73,7 @@ TEXT = {
     },
 
     "es": {
+        "presetNormal": "Normal",
         "sleepOff": "no", "sbSkip": "Saltar el patrocinio → 12:34",
         "brand": "Picture in Picture para YouTube",
         "s1_h": "Sigue viendo mientras trabajas",
@@ -77,6 +96,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> recorren el feed de Shorts desde la ventana.",
     },
     "pt_BR": {
+        "presetNormal": "Normal",
         "sleepOff": "não", "sbSkip": "Pular o patrocínio → 12:34",
         "brand": "Picture in Picture para o YouTube",
         "s1_h": "Continue assistindo enquanto trabalha",
@@ -99,6 +119,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> percorrem o feed de Shorts pela janela.",
     },
     "de": {
+        "presetNormal": "Normal",
         "sleepOff": "aus", "sbSkip": "Sponsor überspringen → 12:34",
         "brand": "Picture in Picture für YouTube",
         "s1_h": "Weiterschauen, während du arbeitest",
@@ -121,6 +142,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> blättern den Shorts-Feed direkt im Fenster.",
     },
     "ja": {
+        "presetNormal": "標準",
         "sleepOff": "オフ", "sbSkip": "スポンサー部分をスキップ → 12:34",
         "brand": "YouTube用ピクチャーインピクチャー",
         "s1_h": "作業しながら見続けられます",
@@ -143,6 +165,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> でウィンドウからショートを送れます。",
     },
     "fr": {
+        "presetNormal": "Normal",
         "sleepOff": "off", "sbSkip": "Passer le sponsor → 12:34",
         "brand": "Picture in Picture pour YouTube",
         "s1_h": "Continuez à regarder pendant que vous travaillez",
@@ -165,6 +188,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> font défiler le fil Shorts depuis la fenêtre.",
     },
     "id": {
+        "presetNormal": "Normal",
         "sleepOff": "mati", "sbSkip": "Lewati segmen sponsor → 12:34",
         "brand": "Picture in Picture untuk YouTube",
         "s1_h": "Tetap menonton sambil bekerja",
@@ -188,6 +212,7 @@ TEXT = {
     },
 
     "tr": {
+        "presetNormal": "Normal",
         "sleepOff": "kapalı", "sbSkip": "Sponsor bölümünü atla → 12:34",
         "brand": "YouTube için Picture in Picture",
         "s1_h": "Çalışırken izlemeye devam edin",
@@ -210,6 +235,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> Shorts akışını pencereden gezdirir.",
     },
     "hi": {
+        "presetNormal": "सामान्य",
         "sleepOff": "बंद", "sbSkip": "स्पॉन्सर हिस्सा छोड़ें → 12:34",
         "brand": "YouTube के लिए Picture in Picture",
         "s1_h": "काम करते हुए देखते रहिए",
@@ -232,6 +258,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> विंडो से ही Shorts फ़ीड आगे बढ़ाते हैं।",
     },
     "ko": {
+        "presetNormal": "기본",
         "sleepOff": "끄기", "sbSkip": "스폰서 구간 건너뛰기 → 12:34",
         "brand": "YouTube용 Picture in Picture",
         "s1_h": "일하면서 계속 보세요",
@@ -254,6 +281,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b>로 창에서 바로 Shorts 피드를 넘깁니다.",
     },
     "it": {
+        "presetNormal": "Normale",
         "sleepOff": "off", "sbSkip": "Salta lo sponsor → 12:34",
         "brand": "Picture in Picture per YouTube",
         "s1_h": "Continua a guardare mentre lavori",
@@ -276,6 +304,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> scorrono il feed Shorts dalla finestra.",
     },
     "pl": {
+        "presetNormal": "Normalny",
         "sleepOff": "wył.", "sbSkip": "Pomiń sponsora → 12:34",
         "brand": "Picture in Picture dla YouTube",
         "s1_h": "Oglądaj dalej podczas pracy",
@@ -298,6 +327,7 @@ TEXT = {
         "s5_n2": "<b>◀ ▶</b> przewijają feed Shorts prosto z okna.",
     },
     "uk": {
+        "presetNormal": "Звичайний",
         "sleepOff": "вимк.", "sbSkip": "Пропустити спонсора → 12:34",
         "brand": "Picture in Picture для YouTube",
         "s1_h": "Дивіться, поки працюєте",
@@ -333,7 +363,7 @@ HEAD = """<!DOCTYPE html><html><head><meta charset="utf-8">
     font-family:"Roboto",Arial,sans-serif; font-size:13px; white-space:nowrap; }}
   .thumb {{ width:86px; aspect-ratio:16/9; border-radius:6px; }}
 </style></head><body><div class="scene">
-<script>window.L = {{ sleepOff: "{sleepOff}" }};</script>
+<script>window.L = {{ sleepOff: "{sleepOff}", presetNormal: "{presetNormal}", queueTitle: "{queueTitle}" }};</script>
 """
 
 FOOT = """<div class="brandline">Float<b>Player</b> — {brand}</div>
@@ -347,7 +377,12 @@ def caption(t, h, p):
 
 
 def build(lang):
-    t = TEXT[lang]
+    t = dict(TEXT[lang])
+    # перебиваем подписи интерфейса значениями из локалей расширения
+    t["sleepOff"] = msg(lang, "sleepOff", t["sleepOff"])
+    t["presetNormal"] = msg(lang, "presetOff", t.get("presetNormal", "Normal"))
+    t["queueTitle"] = msg(lang, "queueTitle", "Queue")
+    t["sbSkip"] = msg(lang, "sbSkip", "Skip sponsor segment") + " → 12:34"
     pages = {}
 
     pages["01"] = HEAD.format(**t) + caption(t, "s1_h", "s1_p") + """
@@ -397,15 +432,22 @@ def build(lang):
   <div class="pipwin-body" style="height:462px" id="b"></div>
 </div>""" + FOOT.format(brand=t["brand"], script=f"""
 const grads = ["#3b4a63,#22293a","#5a3b52,#2c2030","#3d5a4a,#1f2e26","#5a4f3b,#302a20","#42375a,#241f30","#5a3b3b,#2e2020"];
-const r = []; {titles};
-const rows = grads.map((g,i) => `<button class="ytfp-related-item">
+const queueLabel = window.L.queueTitle; const r = []; {titles};
+const rows = grads.map((g,i) => `<div class="ytfp-related-item">
   <div class="thumb" style="background:linear-gradient(135deg, ${{g}})"></div>
-  <span class="ytfp-related-title">${{r[i]}}</span></button>`).join("");
+  <span class="ytfp-related-title">${{r[i]}}</span>
+  <div class="ytfp-queue-add">+</div></div>`).join("");
+const queued = grads.slice(0,2).map((g,i) => `<div class="ytfp-related-item ytfp-queue-item">
+  <div class="thumb" style="background:linear-gradient(135deg, ${{g}})"></div>
+  <span class="ytfp-related-title">${{r[i]}}</span></div>`).join("");
 document.getElementById("b").innerHTML =
   '<div class="videoish"></div>' + bar() + progress({{pos:33}}) +
   `<div class="ytfp-related-root">
      <button class="ytfp-related-toggle ytfp-related-toggle--open">›</button>
-     <div class="ytfp-related-panel ytfp-related-panel--open"><div class="ytfp-related-list">${{rows}}</div></div>
+     <div class="ytfp-related-panel ytfp-related-panel--open">
+       <div class="ytfp-queue"><div class="ytfp-queue-header">${{queueLabel}}</div>
+         <div class="ytfp-related-list">${{queued}}</div></div>
+       <div class="ytfp-related-list">${{rows}}</div></div>
    </div>`;""")
 
     pages["05"] = HEAD.format(**t) + caption(t, "s5_h", "s5_p") + f"""

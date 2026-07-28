@@ -36,6 +36,8 @@ acrescenta o que realmente falta:
 - copiar o link, vídeo anterior e próximo, e até 20 recomendações numa coluna
 - suporte a Shorts, que o PiP nativo simplesmente não tem
 - uma janela de fato limpa, sem interface do YouTube dentro
+- repetir o vídeo inteiro, predefinições de áudio (noite, voz, grave), marcas de
+  capítulo na barra e uma fila que você monta a partir das recomendações
 
 Tudo se esconde até você mexer o mouse, então quase o tempo todo você vê apenas
 o vídeo. Durante um anúncio, uma faixa branca separada mostra quanto falta e a

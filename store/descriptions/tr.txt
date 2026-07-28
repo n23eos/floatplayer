@@ -35,6 +35,8 @@ eksik olanları ekler:
 - bağlantıyı kopyalama, önceki ve sonraki video, açılır sütunda 20 öneriye kadar
 - yerleşik PiP'in hiç ele almadığı Shorts desteği
 - içinde YouTube arayüzü bulunmayan, gerçekten sade bir pencere
+- videonun tamamını döngüye alma, ses ön ayarları (gece, ses, bas), çubuk
+  üzerinde bölüm işaretleri ve önerilerden oluşturduğunuz izleme sırası
 
 Fareyi oynatana kadar her şey gizlidir; yani çoğu zaman yalnızca videoyu
 görürsünüz. Reklam oynarken ayrı bir beyaz şerit ne kadar kaldığını gösterir,

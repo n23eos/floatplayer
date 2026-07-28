@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Previous"
   },
-  "copyLink": {
-    "message": "Copy video link"
-  },
   "navNext": {
     "message": "Next"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "custom…"
+  },
+  "loopTooltip": {
+    "message": "Loop this video"
+  },
+  "presetTooltip": {
+    "message": "Audio preset"
+  },
+  "presetOff": {
+    "message": "Normal"
+  },
+  "presetNight": {
+    "message": "Night"
+  },
+  "presetVoice": {
+    "message": "Voice"
+  },
+  "presetBass": {
+    "message": "Bass"
+  },
+  "queueTitle": {
+    "message": "Queue"
+  },
+  "queueAdd": {
+    "message": "Add to queue"
+  },
+  "queueRemove": {
+    "message": "Remove from queue"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Play/pause (works outside Chrome; set the key manually)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Auto-skip sponsor segments"
+  },
+  "optAutoSkipHint": {
+    "message": "Skips marked segments automatically, without the button. Never touches YouTube ads."
+  },
+  "optCategoriesLabel": {
+    "message": "Segment categories"
+  },
+  "optCategoriesHint": {
+    "message": "Which SponsorBlock categories to highlight and skip."
+  },
+  "optCatSponsor": {
+    "message": "Sponsor"
+  },
+  "optCatSelfpromo": {
+    "message": "Self-promotion"
+  },
+  "optCatInteraction": {
+    "message": "Like/subscribe reminders"
+  },
+  "optCatIntro": {
+    "message": "Intro"
+  },
+  "optCatOutro": {
+    "message": "Outro"
   }
 }

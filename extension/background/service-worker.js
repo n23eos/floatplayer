@@ -40,7 +40,9 @@ chrome.commands.onCommand.addListener(async (command) => {
     if (!tab || !tab.id) {
       return;
     }
-    await chrome.tabs.sendMessage(tab.id, { command });
+    // Глобальная (вне Chrome) пауза — тот же обработчик, что и Alt+K.
+    const normalized = command === "global-play-pause" ? "play-pause" : command;
+    await chrome.tabs.sendMessage(tab.id, { command: normalized });
   } catch (error) {
     // Вкладка без content-скрипта (например, только что открыта) — не критично.
     console.warn("[YTFP] Command dispatch failed:", error);

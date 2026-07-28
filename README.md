@@ -41,7 +41,6 @@ neither blocked nor skipped (Web Store safe).
     maximum (Web Audio);
   - **sleep timer** — 15–90 min presets or a custom value (1–720 min);
     the video pauses when it runs out;
-  - **copy link** to the video (with a ✓ confirmation);
   - return the video to the page.
 - **Bottom button row** (centered, on hover):
   `[−30] [◀ previous] [⏯ play/pause] [▶ next] [+30]`.
@@ -118,7 +117,7 @@ Rebind them at `chrome://extensions/shortcuts`.
 ### Miscellaneous
 
 - A feedback form (Google Form) opens when the extension is uninstalled.
-- Minimal permissions: `storage`, `clipboardWrite` plus the youtube.com and
+- Minimal permissions: `storage` plus the youtube.com and
   sponsor.ajay.app hosts. No bundler, no remote code, no analytics.
 
 ## Installation (development)

@@ -97,7 +97,66 @@ YTFP.utils = (() => {
     return null;
   }
 
-  return { clamp, formatTime, abLoopTarget, nextSpeed, normalizeSegments, segmentEndAt };
+  /**
+   * Время для хоткея-цифры (как у YouTube): 0 — начало, 5 — середина, 9 — 90%.
+   * Некорректная длительность или цифра вне 0–9 -> null.
+   */
+  function digitSeekTime(duration, digit) {
+    if (!Number.isFinite(duration) || duration <= 0) {
+      return null;
+    }
+    if (!Number.isInteger(digit) || digit < 0 || digit > 9) {
+      return null;
+    }
+    return (duration * digit) / 10;
+  }
+
+  /**
+   * Разбирает подпись времени YouTube в секунды: "0:00" -> 0, "1:05" -> 65,
+   * "1:02:03" -> 3723. Мусор или отрицательные части -> null.
+   */
+  function parseTimeLabel(label) {
+    if (typeof label !== "string") {
+      return null;
+    }
+    const parts = label.trim().split(":");
+    if (parts.length < 2 || parts.length > 3) {
+      return null;
+    }
+    let seconds = 0;
+    for (const part of parts) {
+      if (!/^\d+$/.test(part.trim())) {
+        return null;
+      }
+      seconds = seconds * 60 + Number(part);
+    }
+    return seconds;
+  }
+
+  /**
+   * Доли начала глав из ширин секций нативного таймлайна YouTube
+   * (.ytp-chapters-container: у каждой главы своя секция).
+   * [300, 100, 100] -> [0, 0.6, 0.8]. Меньше двух глав или мусор -> [].
+   */
+  function chapterFractionsFromWidths(widths) {
+    const valid = (widths || []).filter((w) => Number.isFinite(w) && w > 0);
+    if (valid.length < 2) {
+      return []; // одна секция — глав нет, насечки не нужны
+    }
+    const total = valid.reduce((sum, w) => sum + w, 0);
+    const fractions = [];
+    let acc = 0;
+    for (const width of valid) {
+      fractions.push(acc / total);
+      acc += width;
+    }
+    return fractions;
+  }
+
+  return {
+    clamp, formatTime, abLoopTarget, nextSpeed, normalizeSegments, segmentEndAt,
+    digitSeekTime, chapterFractionsFromWidths, parseTimeLabel
+  };
 })();
 
 // Экспорт для юнит-тестов (в браузере module не определён — блок не выполняется).

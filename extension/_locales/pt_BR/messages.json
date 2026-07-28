@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Anterior"
   },
-  "copyLink": {
-    "message": "Copiar o link do vídeo"
-  },
   "navNext": {
     "message": "Próximo"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "personalizado…"
+  },
+  "loopTooltip": {
+    "message": "Repetir este vídeo"
+  },
+  "presetTooltip": {
+    "message": "Predefinição de áudio"
+  },
+  "presetOff": {
+    "message": "Normal"
+  },
+  "presetNight": {
+    "message": "Noite"
+  },
+  "presetVoice": {
+    "message": "Voz"
+  },
+  "presetBass": {
+    "message": "Graves"
+  },
+  "queueTitle": {
+    "message": "Fila"
+  },
+  "queueAdd": {
+    "message": "Adicionar à fila"
+  },
+  "queueRemove": {
+    "message": "Remover da fila"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Reproduzir / pausar (funciona fora do Chrome; defina a tecla manualmente)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Pular trechos patrocinados automaticamente"
+  },
+  "optAutoSkipHint": {
+    "message": "Os trechos marcados são pulados sozinhos, sem botão. Os anúncios do YouTube nunca são tocados."
+  },
+  "optCategoriesLabel": {
+    "message": "Categorias de trechos"
+  },
+  "optCategoriesHint": {
+    "message": "Quais categorias do SponsorBlock destacar e pular."
+  },
+  "optCatSponsor": {
+    "message": "Patrocínio"
+  },
+  "optCatSelfpromo": {
+    "message": "Autopromoção"
+  },
+  "optCatInteraction": {
+    "message": "Lembretes de curtir/inscrever-se"
+  },
+  "optCatIntro": {
+    "message": "Introdução"
+  },
+  "optCatOutro": {
+    "message": "Encerramento"
   }
 }

@@ -37,6 +37,8 @@ FloatPlayer añade lo que de verdad falta:
   una columna desplegable
 - compatibilidad con Shorts, que el PiP nativo no admite
 - una ventana realmente limpia, sin interfaz de YouTube dentro
+- repetir todo el vídeo, ecualizaciones (noche, voz, graves), marcas de capítulo
+  en la barra y una cola de reproducción que armas desde las recomendaciones
 
 Todo se oculta hasta que mueves el ratón, así que casi siempre ves solo el
 vídeo. Durante un anuncio, una franja blanca aparte indica cuánto queda y la

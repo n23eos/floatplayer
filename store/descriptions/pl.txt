@@ -36,6 +36,8 @@ dokłada to, czego naprawdę brakuje:
   kolumnie
 - obsługa Shorts, której wbudowany PiP w ogóle nie ma
 - naprawdę czyste okno, bez interfejsu YouTube w środku
+- zapętlenie całego filmu, ustawienia dźwięku (noc, głos, bas), znaczniki
+  rozdziałów na pasku i kolejka odtwarzania budowana z propozycji
 
 Wszystko jest ukryte, dopóki nie ruszysz myszą, więc przez większość czasu
 widzisz tylko obraz. W trakcie reklamy osobny biały pasek pokazuje, ile jej

@@ -36,6 +36,8 @@ what is actually missing:
   slide-out column, so you never go back to the tab
 - Shorts support, which native PiP refuses to handle at all
 - a genuinely clean window with no YouTube interface inside
+- loop the whole video, audio presets (night, voice, bass), chapter marks on
+  the strip and a watch queue you build from the recommendations
 
 Everything hides until you move the mouse, so most of the time you see only the
 video. While an ad plays, a separate white strip shows how much of it is left

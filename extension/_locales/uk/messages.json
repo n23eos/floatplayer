@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Назад"
   },
-  "copyLink": {
-    "message": "Скопіювати посилання на відео"
-  },
   "navNext": {
     "message": "Уперед"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "власне значення…"
+  },
+  "loopTooltip": {
+    "message": "Зациклити це відео"
+  },
+  "presetTooltip": {
+    "message": "Аудіопресет"
+  },
+  "presetOff": {
+    "message": "Звичайний"
+  },
+  "presetNight": {
+    "message": "Нічний"
+  },
+  "presetVoice": {
+    "message": "Голос"
+  },
+  "presetBass": {
+    "message": "Бас"
+  },
+  "queueTitle": {
+    "message": "Черга"
+  },
+  "queueAdd": {
+    "message": "Додати в чергу"
+  },
+  "queueRemove": {
+    "message": "Прибрати з черги"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Відтворення / пауза (працює поза Chrome; клавішу призначте вручну)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Автопропуск спонсорських вставок"
+  },
+  "optAutoSkipHint": {
+    "message": "Позначені сегменти пропускаються автоматично, без кнопки. Рекламу YouTube не зачіпає."
+  },
+  "optCategoriesLabel": {
+    "message": "Категорії сегментів"
+  },
+  "optCategoriesHint": {
+    "message": "Які категорії SponsorBlock підсвічувати та пропускати."
+  },
+  "optCatSponsor": {
+    "message": "Спонсор"
+  },
+  "optCatSelfpromo": {
+    "message": "Самореклама"
+  },
+  "optCatInteraction": {
+    "message": "Нагадування «лайк/підписка»"
+  },
+  "optCatIntro": {
+    "message": "Заставка"
+  },
+  "optCatOutro": {
+    "message": "Кінцівка"
   }
 }

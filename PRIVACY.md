@@ -27,12 +27,8 @@ accounts, and never sells or shares any data.
   standard image host (`i.ytimg.com`), the same way YouTube itself loads
   them.
 
-**Clipboard:** the "Copy video link" button writes the video URL to your
-clipboard only when you click it; nothing is read from the clipboard.
-
 **Permissions used:**
 - `storage` — saving your settings;
-- `clipboardWrite` — the copy-link button described above;
 - access to `youtube.com` — adding the button to the player and controlling
   playback;
 - access to `sponsor.ajay.app` — fetching sponsor-segment timestamps
@@ -65,12 +61,8 @@ FloatPlayer — расширение браузера, показывающее 
 - Обложки в панели рекомендаций загружаются со стандартного хоста картинок
   YouTube (`i.ytimg.com`) — так же, как их грузит сам YouTube.
 
-**Буфер обмена:** кнопка «Скопировать ссылку» записывает адрес видео в буфер
-только по вашему клику; чтение из буфера не выполняется.
-
 **Разрешения:**
 - `storage` — сохранение настроек;
-- `clipboardWrite` — кнопка копирования ссылки (см. выше);
 - доступ к `youtube.com` — кнопка в плеере и управление воспроизведением;
 - доступ к `sponsor.ajay.app` — получение границ спонсорских вставок
   (только при включённой функции).

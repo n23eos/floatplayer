@@ -43,6 +43,29 @@
   </label>
 
   <label class="row">
+    <input type="checkbox" id="sponsorAutoSkip">
+    <span>
+      <span data-i18n="optAutoSkipLabel">Auto-skip sponsor segments</span>
+      <small data-i18n="optAutoSkipHint">Skips marked segments automatically, without the button.
+      Never touches YouTube ads.</small>
+    </span>
+  </label>
+
+  <fieldset class="row" id="sponsorCategoriesRow">
+    <span>
+      <span data-i18n="optCategoriesLabel">Segment categories</span>
+      <small data-i18n="optCategoriesHint">Which SponsorBlock categories to highlight and skip.</small>
+    </span>
+    <span class="checks">
+      <label><input type="checkbox" class="sb-category" value="sponsor"><span data-i18n="optCatSponsor">Sponsor</span></label>
+      <label><input type="checkbox" class="sb-category" value="selfpromo"><span data-i18n="optCatSelfpromo">Self-promotion</span></label>
+      <label><input type="checkbox" class="sb-category" value="interaction"><span data-i18n="optCatInteraction">Like/subscribe reminders</span></label>
+      <label><input type="checkbox" class="sb-category" value="intro"><span data-i18n="optCatIntro">Intro</span></label>
+      <label><input type="checkbox" class="sb-category" value="outro"><span data-i18n="optCatOutro">Outro</span></label>
+    </span>
+  </fieldset>
+
+  <label class="row">
     <span>
       <span data-i18n="optSkipStepLabel">Manual skip step</span>
       <small data-i18n="optSkipStepHint">The »N button in the mini-window jumps forward by this step.</small>

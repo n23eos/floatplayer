@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Precedente"
   },
-  "copyLink": {
-    "message": "Copia il link del video"
-  },
   "navNext": {
     "message": "Successivo"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "personalizzato…"
+  },
+  "loopTooltip": {
+    "message": "Ripeti questo video"
+  },
+  "presetTooltip": {
+    "message": "Preset audio"
+  },
+  "presetOff": {
+    "message": "Normale"
+  },
+  "presetNight": {
+    "message": "Notte"
+  },
+  "presetVoice": {
+    "message": "Voce"
+  },
+  "presetBass": {
+    "message": "Bassi"
+  },
+  "queueTitle": {
+    "message": "Coda"
+  },
+  "queueAdd": {
+    "message": "Aggiungi alla coda"
+  },
+  "queueRemove": {
+    "message": "Rimuovi dalla coda"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Riproduci / pausa (funziona anche fuori da Chrome; imposta il tasto manualmente)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Salta automaticamente i segmenti sponsorizzati"
+  },
+  "optAutoSkipHint": {
+    "message": "I segmenti segnalati vengono saltati da soli, senza pulsante. Gli annunci di YouTube non vengono mai toccati."
+  },
+  "optCategoriesLabel": {
+    "message": "Categorie di segmenti"
+  },
+  "optCategoriesHint": {
+    "message": "Quali categorie di SponsorBlock evidenziare e saltare."
+  },
+  "optCatSponsor": {
+    "message": "Sponsor"
+  },
+  "optCatSelfpromo": {
+    "message": "Autopromozione"
+  },
+  "optCatInteraction": {
+    "message": "Promemoria mi piace/iscrizione"
+  },
+  "optCatIntro": {
+    "message": "Intro"
+  },
+  "optCatOutro": {
+    "message": "Outro"
   }
 }

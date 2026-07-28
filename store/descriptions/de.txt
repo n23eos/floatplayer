@@ -37,6 +37,8 @@ ergänzt, was wirklich fehlt:
   einer ausfahrbaren Spalte
 - Shorts-Unterstützung, die das native PiP gar nicht bietet
 - ein wirklich aufgeräumtes Fenster ohne YouTube-Oberfläche darin
+- das ganze Video wiederholen, Klang-Voreinstellungen (Nacht, Stimme, Bass),
+  Kapitelmarken auf der Leiste und eine Warteschlange aus den Empfehlungen
 
 Alles bleibt verborgen, bis du die Maus bewegst — meistens siehst du also nur
 das Video. Während Werbung läuft, zeigt ein separater weißer Streifen, wie viel

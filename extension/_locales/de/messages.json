@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Zurück"
   },
-  "copyLink": {
-    "message": "Videolink kopieren"
-  },
   "navNext": {
     "message": "Weiter"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "eigener Wert…"
+  },
+  "loopTooltip": {
+    "message": "Dieses Video wiederholen"
+  },
+  "presetTooltip": {
+    "message": "Audio-Voreinstellung"
+  },
+  "presetOff": {
+    "message": "Normal"
+  },
+  "presetNight": {
+    "message": "Nacht"
+  },
+  "presetVoice": {
+    "message": "Stimme"
+  },
+  "presetBass": {
+    "message": "Bass"
+  },
+  "queueTitle": {
+    "message": "Warteschlange"
+  },
+  "queueAdd": {
+    "message": "Zur Warteschlange hinzufügen"
+  },
+  "queueRemove": {
+    "message": "Aus der Warteschlange entfernen"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Abspielen / pausieren (auch außerhalb von Chrome; Taste manuell festlegen)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Sponsor-Abschnitte automatisch überspringen"
+  },
+  "optAutoSkipHint": {
+    "message": "Markierte Abschnitte werden automatisch übersprungen, ohne Schaltfläche. YouTube-Werbung bleibt unberührt."
+  },
+  "optCategoriesLabel": {
+    "message": "Abschnittskategorien"
+  },
+  "optCategoriesHint": {
+    "message": "Welche SponsorBlock-Kategorien markiert und übersprungen werden."
+  },
+  "optCatSponsor": {
+    "message": "Sponsor"
+  },
+  "optCatSelfpromo": {
+    "message": "Eigenwerbung"
+  },
+  "optCatInteraction": {
+    "message": "Erinnerungen an Like/Abo"
+  },
+  "optCatIntro": {
+    "message": "Intro"
+  },
+  "optCatOutro": {
+    "message": "Outro"
   }
 }

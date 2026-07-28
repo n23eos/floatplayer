@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Poprzednie"
   },
-  "copyLink": {
-    "message": "Kopiuj link do filmu"
-  },
   "navNext": {
     "message": "Następne"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "własna wartość…"
+  },
+  "loopTooltip": {
+    "message": "Zapętl ten film"
+  },
+  "presetTooltip": {
+    "message": "Profil dźwięku"
+  },
+  "presetOff": {
+    "message": "Zwykły"
+  },
+  "presetNight": {
+    "message": "Noc"
+  },
+  "presetVoice": {
+    "message": "Głos"
+  },
+  "presetBass": {
+    "message": "Bas"
+  },
+  "queueTitle": {
+    "message": "Kolejka"
+  },
+  "queueAdd": {
+    "message": "Dodaj do kolejki"
+  },
+  "queueRemove": {
+    "message": "Usuń z kolejki"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Odtwórz / wstrzymaj (działa poza Chrome; klawisz ustaw ręcznie)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Automatycznie pomijaj fragmenty sponsorowane"
+  },
+  "optAutoSkipHint": {
+    "message": "Oznaczone fragmenty są pomijane same, bez przycisku. Reklamy YouTube nigdy nie są ruszane."
+  },
+  "optCategoriesLabel": {
+    "message": "Kategorie fragmentów"
+  },
+  "optCategoriesHint": {
+    "message": "Które kategorie SponsorBlock podświetlać i pomijać."
+  },
+  "optCatSponsor": {
+    "message": "Sponsor"
+  },
+  "optCatSelfpromo": {
+    "message": "Autopromocja"
+  },
+  "optCatInteraction": {
+    "message": "Przypomnienia o polubieniu/subskrypcji"
+  },
+  "optCatIntro": {
+    "message": "Intro"
+  },
+  "optCatOutro": {
+    "message": "Zakończenie"
   }
 }

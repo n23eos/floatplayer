@@ -44,9 +44,6 @@
   "navPrev": {
     "message": "Назад"
   },
-  "copyLink": {
-    "message": "Скопировать ссылку на видео"
-  },
   "navNext": {
     "message": "Вперёд"
   },
@@ -151,5 +148,62 @@
   },
   "sleepCustom": {
     "message": "своё…"
+  },
+  "loopTooltip": {
+    "message": "Зациклить это видео"
+  },
+  "presetTooltip": {
+    "message": "Аудио-пресет"
+  },
+  "presetOff": {
+    "message": "Обычный"
+  },
+  "presetNight": {
+    "message": "Ночной"
+  },
+  "presetVoice": {
+    "message": "Голос"
+  },
+  "presetBass": {
+    "message": "Бас"
+  },
+  "queueTitle": {
+    "message": "Очередь"
+  },
+  "queueAdd": {
+    "message": "Добавить в очередь"
+  },
+  "queueRemove": {
+    "message": "Убрать из очереди"
+  },
+  "cmdGlobalPlayPause": {
+    "message": "Пауза/плей (работает вне Chrome; клавишу назначьте вручную)"
+  },
+  "optAutoSkipLabel": {
+    "message": "Автопропуск спонсорских вставок"
+  },
+  "optAutoSkipHint": {
+    "message": "Размеченные сегменты пропускаются автоматически, без кнопки. Реклама YouTube не затрагивается."
+  },
+  "optCategoriesLabel": {
+    "message": "Категории сегментов"
+  },
+  "optCategoriesHint": {
+    "message": "Какие категории SponsorBlock подсвечивать и пропускать."
+  },
+  "optCatSponsor": {
+    "message": "Спонсор"
+  },
+  "optCatSelfpromo": {
+    "message": "Самореклама"
+  },
+  "optCatInteraction": {
+    "message": "Напоминания «лайк/подписка»"
+  },
+  "optCatIntro": {
+    "message": "Заставка"
+  },
+  "optCatOutro": {
+    "message": "Концовка"
   }
 }

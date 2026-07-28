@@ -37,6 +37,8 @@ benar-benar kurang:
   dalam kolom geser
 - dukungan Shorts, yang sama sekali tidak ditangani PiP bawaan
 - jendela yang benar-benar bersih, tanpa antarmuka YouTube di dalamnya
+- mengulang seluruh video, praatur audio (malam, suara, bas), penanda bab pada
+  bilah, dan antrean tontonan yang Anda susun dari rekomendasi
 
 Semuanya tersembunyi sampai Anda menggerakkan tetikus, jadi hampir sepanjang
 waktu yang terlihat hanya video. Saat iklan berjalan, bilah putih terpisah

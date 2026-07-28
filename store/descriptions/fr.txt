@@ -38,6 +38,8 @@ FloatPlayer ajoute ce qui manque vraiment :
   dans une colonne dépliable
 - la prise en charge des Shorts, que le PiP natif refuse tout simplement
 - une fenêtre réellement propre, sans interface YouTube à l'intérieur
+- répéter toute la vidéo, préréglages audio (nuit, voix, basses), repères de
+  chapitre sur la barre et une file d'attente composée depuis les recommandations
 
 Tout reste masqué jusqu'à ce que vous bougiez la souris : la plupart du temps,
 vous ne voyez que la vidéo. Pendant une publicité, une barre blanche distincte
