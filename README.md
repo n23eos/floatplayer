@@ -1,177 +1,187 @@
 # FloatPlayer — Picture in Picture for YouTube
 
-Chrome-расширение (Manifest V3): выносит видео YouTube в окно **поверх всех
-окон** (Document Picture-in-Picture) с собственным мини-плеером. В окне —
-только само видео и элементы управления: весь остальной интерфейс YouTube
-скрыт. Смотри видео и шортсы, пока работаешь в других программах.
+_[Русская версия](README.ru.md)_
 
-- Chrome Web Store: материалы для публикации — [store/LISTING.md](store/LISTING.md)
-- Политика конфиденциальности — [PRIVACY.md](PRIVACY.md)
-- Автор — [@Raincoat_talk](https://x.com/Raincoat_talk)
+A Chrome extension (Manifest V3) that pops YouTube videos into an
+**always-on-top window** (Document Picture-in-Picture) with its own
+mini-player. The window shows the video and playback controls only —
+the rest of YouTube's interface is hidden. Keep watching videos and
+Shorts while you work in other apps.
 
-## Почему лучше нативного PiP и аналогов
+- Chrome Web Store materials — [store/LISTING.md](store/LISTING.md)
+- Privacy policy — [PRIVACY.md](PRIVACY.md)
+- Author — [@Raincoat_talk](https://x.com/Raincoat_talk)
 
-| | Нативный PiP Chrome | Popup-расширения | **FloatPlayer** |
+## Why it beats native PiP and other extensions
+
+| | Chrome native PiP | Popup extensions | **FloatPlayer** |
 |---|---|---|---|
-| Поверх всех окон | ✅ | ❌ (обычное окно) | ✅ (Document PiP) |
-| Перемотка, скорость, громкость | ❌ | ✅ | ✅ |
-| Тот же видеопоток (без перезапуска) | ✅ | ❌ (второй плеер) | ✅ (переносится сам плеер) |
-| Шортсы с автопереходом | ❌ | ❌ | ✅ |
-| Чистое окно без интерфейса YouTube | ❌ | ❌ | ✅ (белый список: только видео) |
+| Always on top | ✅ | ❌ (ordinary window) | ✅ (Document PiP) |
+| Seeking, speed, volume | ❌ | ✅ | ✅ |
+| Same video stream (no restart) | ✅ | ❌ (second player) | ✅ (moves the real player) |
+| Shorts with auto-advance | ❌ | ❌ | ✅ |
+| Clean window without YouTube UI | ❌ | ❌ | ✅ (whitelist: video only) |
 
-Видео не прерывается: в окно переезжает сам плеер YouTube — аккаунт, история,
-качество и субтитры сохраняются. Реклама YouTube не блокируется и не
-пропускается (безопасно для Web Store).
+Playback never restarts: the actual YouTube player moves into the window, so
+your account, history, quality and captions are preserved. YouTube ads are
+neither blocked nor skipped (Web Store safe).
 
-## Возможности
+## Features
 
-### Обычные видео
+### Regular videos
 
-- **Кнопка в плеере** (левее группы кнопок YouTube) или `Alt+P` — видео
-  уезжает в мини-окно.
-- **Верхняя панель** (всплывает при наведении):
-  - пауза/плей;
-  - **A-B повтор** фрагмента: клик 1 — точка A, клик 2 — точка B, клик 3 — сброс;
-  - **промотка интеграций** `»30` — прыжок вперёд на настраиваемый шаг (15–90 сек);
-  - **скорость** — ползунок 0.25x–3x с настраиваемым шагом, клик по «1x» — сброс;
-  - **громкость 0–300%** — тише нуля YouTube и громче максимума (Web Audio);
-  - **таймер сна** — пресеты 15–90 мин или своё значение (1–720 мин):
-    по истечении видео встаёт на паузу;
-  - **копировать ссылку** на видео (галочка-подтверждение);
-  - возврат видео на страницу.
-- **Нижний ряд кнопок** (по центру, при наведении):
-  `[−30] [◀ предыдущее] [⏯ стоп/плей] [▶ следующее] [+30]`.
-- **Красная полоска прогресса** внизу: клик и перетаскивание — перемотка,
-  при наведении утолщается. Во время рекламы над ней отдельная **белая
-  полоска прогресса рекламы** (красная замирает на позиции видео).
-- **Клик-зоны на видео**: левая треть — назад 10 сек, правая — вперёд 10 сек,
-  центр — пауза. У края всплывает подсказка «« 10с» / «» 10с».
-- **Пауза**: в центре появляется полупрозрачный значок ▶ — клик продолжает.
-- **Рекомендации**: стрелка у правого края открывает колонку до 20 видео
-  (обложка + название) — переключение прямо в окне, без возврата на страницу.
-- **SponsorBlock**: вшитые в видео спонсорские вставки подсвечены зелёным на
-  полоске прогресса; внутри вставки появляется кнопка «Пропустить
-  интеграцию» — клик перепрыгивает её. Крауд-данные sponsor.ajay.app
-  (уходит только ID видео), отключается в настройках.
+- **Player button** (to the left of YouTube's own button group) or `Alt+P`
+  pops the video into the mini-window.
+- **Top panel** (appears on hover):
+  - play/pause;
+  - **A-B loop**: click 1 sets point A, click 2 sets point B, click 3 resets;
+  - **sponsor skip** `»30` — jumps forward by a configurable step (15–90 s);
+  - **speed** — 0.25x–3x slider with a configurable step, click "1x" to reset;
+  - **volume 0–300%** — quieter than YouTube's zero and louder than its
+    maximum (Web Audio);
+  - **sleep timer** — 15–90 min presets or a custom value (1–720 min);
+    the video pauses when it runs out;
+  - **copy link** to the video (with a ✓ confirmation);
+  - return the video to the page.
+- **Bottom button row** (centered, on hover):
+  `[−30] [◀ previous] [⏯ play/pause] [▶ next] [+30]`.
+- **Red progress strip** at the bottom: click or drag to seek, thickens on
+  hover. During ads a separate **white ad-progress strip** appears above it
+  (the red one freezes at the video position).
+- **Click zones on the video**: left third seeks back 10 s, right third
+  forward 10 s, center toggles pause. A "« 10s" / "» 10s" pill flashes at
+  the corresponding edge.
+- **Paused state**: a translucent ▶ badge appears in the center — click it
+  to resume.
+- **Recommendations**: an arrow at the right edge opens a column of up to 20
+  videos (thumbnail + title) — switch videos right inside the window.
+- **SponsorBlock**: in-video sponsor segments are highlighted in green on the
+  progress strip; inside a segment a "Skip sponsor segment" button appears
+  and jumps past it. Community data from sponsor.ajay.app (only the video ID
+  is sent); can be turned off in the options.
 
-### Шортсы
+### Shorts
 
-- **Кнопка над «лайком»** в колонке действий — шортс уезжает в вертикальное
-  мини-окно (размер под 9:16).
-- **Автопереход**: ролик закончился — автоматически включается следующий
-  (отключается в настройках).
-- Нижние кнопки ◀/▶ листают ленту шортсов прямо из окна.
-- Компактная версия верхней панели под узкое окно (без A-B и `»30`).
+- **A button above Like** in the action rail pops the short into a vertical
+  mini-window (sized for 9:16).
+- **Auto-advance**: when a short ends the next one starts automatically
+  (can be turned off in the options).
+- The bottom ◀/▶ buttons scroll the Shorts feed straight from the window.
+- A compact version of the top panel fits the narrow window (drops A-B and `»30`).
 
-### Окно
+### The window
 
-- **Перетаскивание за любое место**: зажала мышь на видео, повела — окно
-  едет, отпустила — осталось. Контролы при этом кликабельны.
-- **Пропорции видео**: окно открывается ровно под аспект ролика, после
-  ручного растягивания само подтягивается обратно (snap), при смене видео
-  перестраивается под новые пропорции. Внутри окна плеер всегда letterbox —
-  никакой «технической части» вокруг видео не видно.
-- **Память размера** — раздельная для горизонтальных видео и вертикальных
-  шортсов. (Позицию окна задать нельзя — Document PiP API принимает только
-  размер; Chrome сам частично помнит, где окно стояло.)
-- **Таймер сна прячет интерфейс**: пока идёт отсчёт, все панели скрыты даже
-  под курсором; движение мыши показывает их на 3 секунды.
-- **Только видео**: интерфейс YouTube внутри окна скрыт «белым списком»
-  (видны только видео, субтитры и спиннер) — покупки, карточки, заставки и
-  любые будущие оверлеи YouTube не пролезут.
-- **Режим «чистое видео»** (в настройках): нативный PiP без верхней полоски
-  Chrome вообще — но и без панелей, только видео и системные кнопки.
-- **Авто-PiP** (опция, Chrome 120+): ушла с вкладки — видео само вынеслось.
+- **Drag from anywhere**: press and hold on the video, move — the window
+  follows; release and it stays. Controls remain clickable.
+- **Video proportions**: the window opens at the video's exact aspect ratio,
+  snaps back to it after manual resizing and rebuilds itself when the video
+  changes. Inside the window the player is always letterboxed — no
+  "technical parts" are ever visible around the video.
+- **Size memory** — stored separately for landscape videos and vertical
+  Shorts. (Window position cannot be set — the Document PiP API only accepts
+  a size; Chrome partially remembers where the window was on its own.)
+- **The sleep timer hides the UI**: while it counts down, every panel is
+  hidden even under the cursor; moving the mouse reveals them for 3 seconds.
+- **Video only**: YouTube's interface inside the window is hidden by a
+  whitelist rule (only the video, captions and the loading spinner survive),
+  so shopping overlays, cards, endscreens and any future YouTube overlays
+  can never leak in.
+- **"Clean video" mode** (in the options): native PiP with no Chrome strip at
+  all — but no panels either, just the video and system buttons.
+- **Auto-PiP** (optional, Chrome 120+): leave the tab and the video pops out
+  by itself.
 
-### Горячие клавиши
+### Keyboard shortcuts
 
-| Где | Клавиши | Действие |
+| Where | Keys | Action |
 |---|---|---|
-| Любое окно Chrome | `Alt+P` (⌥P на Mac) | открыть/закрыть мини-окно |
-| Любое окно Chrome | `Alt+K` / `Alt+J` / `Alt+L` | пауза / −5 сек / +5 сек |
-| Внутри мини-окна | `Пробел` или `K` | пауза |
-| Внутри мини-окна | `←` / `→` | ±5 сек |
-| Внутри мини-окна | `M` | mute |
+| Any Chrome window | `Alt+P` (⌥P on Mac) | toggle the mini-window |
+| Any Chrome window | `Alt+K` / `Alt+J` / `Alt+L` | pause / −5 s / +5 s |
+| Inside the window | `Space` or `K` | pause |
+| Inside the window | `←` / `→` | ±5 s |
+| Inside the window | `M` | mute |
 
-Переназначение: `chrome://extensions/shortcuts`.
+Rebind them at `chrome://extensions/shortcuts`.
 
-### Настройки (страница options)
+### Options page
 
-- Стиль мини-окна: полный (с панелями) / чистое видео (без рамки).
-- Авто-PiP при уходе со вкладки.
-- SponsorBlock вкл/выкл.
-- Шаг промотки интеграций (15–90 сек).
-- Автопереход шортсов.
-- Компактный режим панели (прятать до наведения).
-- Шаг ползунка скорости (0.1x / 0.25x / 0.5x).
-- Потолок громкости (100/200/300%).
-- Интерфейс: английский по умолчанию, русский для русскоязычных браузеров.
+- Mini-window style: full (with panels) or clean video (no strip).
+- Auto-PiP when leaving the tab.
+- SponsorBlock on/off.
+- Manual skip step (15–90 s).
+- Shorts auto-advance.
+- Compact panel mode (hide until hover).
+- Speed slider step (0.1x / 0.25x / 0.5x).
+- Volume ceiling (100 / 200 / 300%).
+- Interface language: English by default, Russian for Russian browsers.
 
-### Прочее
+### Miscellaneous
 
-- Форма обратной связи открывается при удалении расширения (Google Form).
-- Минимальные разрешения: `storage`, `clipboardWrite` + хосты youtube.com и
-  sponsor.ajay.app. Без сборщика, без remote code, без аналитики.
+- A feedback form (Google Form) opens when the extension is uninstalled.
+- Minimal permissions: `storage`, `clipboardWrite` plus the youtube.com and
+  sponsor.ajay.app hosts. No bundler, no remote code, no analytics.
 
-## Установка (разработка)
+## Installation (development)
 
-1. `chrome://extensions` → «Режим разработчика».
-2. «Загрузить распакованное расширение» → папка **`extension/`** (именно она,
-   не корень репозитория).
-3. Открыть видео на YouTube; после обновления расширения — F5 на вкладках YouTube.
+1. `chrome://extensions` → enable Developer mode.
+2. "Load unpacked" → pick the **`extension/`** folder (that one, not the
+   repository root).
+3. Open a video on YouTube. After updating the extension, press F5 on open
+   YouTube tabs.
 
-Сборка для Web Store: `npm run build` → `dist/floatplayer-<версия>.zip`.
+Build for the Web Store: `npm run build` → `dist/floatplayer-<version>.zip`.
 
-## Ограничения (честно)
+## Honest limitations
 
-- Chrome 116+ (на старых — фолбэк на нативный PiP).
-- Верхнюю полоску Chrome с адресом сайта убрать нельзя — анти-фишинговое
-  требование браузера для всех Document PiP окон (автоскрывается без
-  наведения). Полностью без полоски — режим «чистое видео».
-- Прозрачность окна и «клик сквозь» невозможны в Chrome API.
-- Одно PiP-окно на браузер.
-- Позиция окна программно не задаётся (только размер).
-- Во время рекламы YouTube перемотка недоступна — мотать нечего, основное
-  видео в этот момент не загружено.
+- Chrome 116+ (older versions fall back to native PiP).
+- The Chrome strip showing the site address cannot be removed — it is an
+  anti-phishing requirement for every Document PiP window (it auto-hides when
+  the cursor is away). For no strip at all, use "clean video" mode.
+- Window transparency and click-through are impossible in the Chrome API.
+- One PiP window per browser.
+- Window position cannot be set programmatically (size only).
+- Seeking is unavailable during YouTube ads — there is nothing to seek, the
+  main video is not loaded at that moment.
 
-## Разработка
+## Development
 
 ```
 extension/
 ├── manifest.json           MV3, default_locale: en
-├── content/                контент-скрипты (порядок загрузки важен)
-│   ├── constants.js        селекторы YouTube + дефолты (единая точка правок)
-│   ├── utils.js            чистая логика (покрыта тестами)
-│   ├── settings.js         chrome.storage.sync + кэш
-│   ├── player-api.js       обёртка над DOM плеера (watch + shorts)
-│   ├── audio-boost.js      Web Audio gain (громкость 0–300%)
-│   ├── pip-controls.js     верхняя панель окна (+ таймер сна)
-│   ├── pip-progress.js     красная/белая полоски прогресса
-│   ├── pip-related.js      колонка рекомендаций
-│   ├── pip-nav.js          нижние кнопки, клик-зоны, значок паузы
-│   ├── pip-controller.js   перенос плеера в Document PiP и обратно
-│   ├── sponsor-block.js    сегменты SponsorBlock + кнопка пропуска
-│   └── inject-button.js    кнопки на страницах, SPA-навигация, хоткеи
-├── pip/pip.css             стили PiP-окна (белый список «только видео»)
-├── background/             service worker (хоткеи, uninstall-форма)
-├── options/                страница настроек (i18n через data-i18n)
-└── _locales/               en (основной) + ru
+├── content/                content scripts (load order matters)
+│   ├── constants.js        YouTube selectors + defaults (single edit point)
+│   ├── utils.js            pure logic (covered by tests)
+│   ├── settings.js         chrome.storage.sync + cache
+│   ├── player-api.js       player DOM wrapper (watch + shorts)
+│   ├── audio-boost.js      Web Audio gain (0–300% volume)
+│   ├── pip-controls.js     top panel (incl. sleep timer)
+│   ├── pip-progress.js     red/white progress strips
+│   ├── pip-related.js      recommendations column
+│   ├── pip-nav.js          bottom buttons, click zones, pause badge
+│   ├── pip-controller.js   moves the player into Document PiP and back
+│   ├── sponsor-block.js    SponsorBlock segments + skip button
+│   └── inject-button.js    page buttons, SPA navigation, hotkeys
+├── pip/pip.css             PiP window styles (video-only whitelist)
+├── background/             service worker (hotkeys, uninstall form)
+├── options/                options page (i18n via data-i18n)
+└── _locales/               en (default) + ru
 ```
 
-Тесты: `npm install && npm test` — vitest, чистые функции
-(A-B логика, скорость, форматирование времени, сегменты SponsorBlock).
+Tests: `npm install && npm test` — vitest over the pure functions
+(A-B logic, speed stepping, time formatting, SponsorBlock segments).
 
-## Ручной E2E-чеклист перед релизом
+## Manual E2E checklist before a release
 
-- [ ] Обычное видео: вынос, все контролы, возврат крестиком и кнопкой.
-- [ ] Клик-зоны: лево/центр/право; пауза со значком ▶; двойного срабатывания нет.
-- [ ] Смена видео из колонки рекомендаций (окно живёт, аспект перестроился).
-- [ ] Плейлист: ◀/▶ из окна.
-- [ ] Реклама: белая полоска над красной, после рекламы всё возвращается.
-- [ ] SponsorBlock: зелёные сегменты + кнопка пропуска (видео с интеграцией).
-- [ ] Шортсы: кнопка над лайком, вертикальное окно, ◀/▶, автопереход.
-- [ ] Таймер сна: пресет и «своё…», интерфейс прячется, по истечении пауза.
-- [ ] Растягивание окна: letterbox без мусора, snap обратно к аспекту.
-- [ ] Хоткеи из другого окна Chrome + внутри окна.
-- [ ] Настройки применяются без перезагрузки; локали en/ru.
-- [ ] Удаление расширения открывает форму обратной связи.
+- [ ] Regular video: pop out, every control, return via the X and the button.
+- [ ] Click zones: left/center/right; ▶ badge while paused; no double toggle.
+- [ ] Switching videos from the recommendations column (window survives,
+      aspect rebuilt).
+- [ ] Playlist: ◀/▶ from the window.
+- [ ] Ads: white strip above the red one, everything restored afterwards.
+- [ ] SponsorBlock: green segments + skip button (on a video with a segment).
+- [ ] Shorts: button above Like, vertical window, ◀/▶, auto-advance.
+- [ ] Sleep timer: preset and "custom…", UI hides, pauses when it runs out.
+- [ ] Resizing: letterboxed with no leftovers, snaps back to the aspect ratio.
+- [ ] Hotkeys from another Chrome window and inside the window.
+- [ ] Options apply without a page reload; en/ru locales.
+- [ ] Uninstalling the extension opens the feedback form.
