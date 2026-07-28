@@ -3,7 +3,7 @@
 Актуально для версии 1.3.x.
 
 ## Название
-YouTube FloatPlayer
+FloatPlayer — Picture in Picture for YouTube
 
 ## Краткое описание (до 132 символов)
 
@@ -124,7 +124,7 @@ or skip YouTube ads.
 1. Аккаунт разработчика: https://chrome.google.com/webstore/devconsole
    ($5 разово). Включить 2FA; для команды — издательская группа
    (support.google.com/chrome/a/answer/9639925).
-2. `npm run build` → загрузить `dist/youtube-floatplayer-<версия>.zip`.
+2. `npm run build` → загрузить `dist/floatplayer-<версия>.zip`.
 3. Заполнить листинг из этого файла (описания, категория, язык).
 4. Privacy: URL policy, single purpose, ответы Data Usage, обоснования
    разрешений — всё выше.

@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 VERSION=$(python3 -c "import json; print(json.load(open('extension/manifest.json'))['version'])")
 mkdir -p dist
-OUT="dist/youtube-floatplayer-${VERSION}.zip"
+OUT="dist/floatplayer-${VERSION}.zip"
 rm -f "$OUT"
 (cd extension && zip -qr "../$OUT" . -x "*.DS_Store")
 echo "Built $OUT"

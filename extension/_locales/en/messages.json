@@ -1,5 +1,5 @@
 {
-  "extName": { "message": "YouTube FloatPlayer" },
+  "extName": { "message": "FloatPlayer — Picture in Picture for YouTube" },
   "extDesc": { "message": "YouTube video always on top: full player, A-B loop, speed control, volume boost." },
   "btnTooltip": { "message": "Always on top" },
   "overlayPlaying": { "message": "Playing in the floating window" },

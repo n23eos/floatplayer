@@ -1,10 +1,10 @@
-# Privacy Policy — YouTube FloatPlayer
+# Privacy Policy — FloatPlayer (Picture in Picture for YouTube)
 
 _Last updated: 2026-07-28_
 
 ## English
 
-YouTube FloatPlayer is a browser extension that shows a YouTube video in an
+FloatPlayer is a browser extension that shows a YouTube video in an
 always-on-top window with playback controls.
 
 **Data we collect: none.** The extension has no analytics, no trackers, no
@@ -43,7 +43,7 @@ https://github.com/n23eos/youtube_float_player
 
 ## Русский
 
-YouTube FloatPlayer — расширение браузера, показывающее видео YouTube в окне
+FloatPlayer — расширение браузера, показывающее видео YouTube в окне
 поверх всех окон с элементами управления.
 
 **Сбор данных: отсутствует.** В расширении нет аналитики, трекеров и

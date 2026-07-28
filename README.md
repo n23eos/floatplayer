@@ -1,4 +1,4 @@
-# YouTube FloatPlayer
+# FloatPlayer — Picture in Picture for YouTube
 
 Chrome-расширение: кнопка в панели плеера YouTube выносит видео в окно
 **поверх всех окон** (Document Picture-in-Picture) с полными контролами.

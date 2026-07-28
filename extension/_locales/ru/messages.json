@@ -1,5 +1,5 @@
 {
-  "extName": { "message": "YouTube FloatPlayer" },
+  "extName": { "message": "FloatPlayer — Picture in Picture for YouTube" },
   "extDesc": { "message": "Видео YouTube поверх всех окон: полный плеер, A-B повтор, скорость, усиление громкости." },
   "btnTooltip": { "message": "Поверх всех окон" },
   "overlayPlaying": { "message": "Видео играет в мини-окне" },

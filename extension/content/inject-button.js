@@ -54,7 +54,7 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     const isMac = navigator.platform.toUpperCase().includes("MAC");
     const shortcut = isMac ? "⌥P" : "Alt+P";
     const action = chrome.i18n.getMessage("btnTooltip") || "Поверх всех окон";
-    const tooltip = `YouTube FloatPlayer — ${action} (${shortcut})`;
+    const tooltip = `FloatPlayer — ${action} (${shortcut})`;
 
     const button = document.createElement("button");
     button.className = `ytp-button ${BUTTON_CLASS}`;
