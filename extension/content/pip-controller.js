@@ -224,6 +224,33 @@ YTFP.pip = (() => {
     // Запоминаем размер окна (с дебаунсом). Таймер живёт в state,
     // чтобы restore() мог его погасить — иначе отложенный saveSize
     // прочитает размеры уже закрытого окна (нули) и затрёт сохранённые.
+    // Подгонка окна под пропорции видео: после ресайза высоту снапим к
+    // аспекту, чтобы не оставалось пустых технических полей вокруг видео.
+    // resizeTo в Document PiP работает не всегда (нужна активация
+    // пользователя) — тогда просто молча пропускаем.
+    const ASPECT_SNAP_TOLERANCE_PX = 8;
+    const snapToVideoAspect = () => {
+      const video = getMovedVideo();
+      if (!video || !(video.videoWidth > 0) || !(video.videoHeight > 0)) {
+        return;
+      }
+      const aspect = video.videoWidth / video.videoHeight;
+      const frameWidth = pipWindow.outerWidth - pipWindow.innerWidth;
+      const frameHeight = pipWindow.outerHeight - pipWindow.innerHeight;
+      const targetInnerHeight = Math.round(pipWindow.innerWidth / aspect);
+      if (Math.abs(targetInnerHeight - pipWindow.innerHeight) <= ASPECT_SNAP_TOLERANCE_PX) {
+        return;
+      }
+      try {
+        pipWindow.resizeTo(
+          pipWindow.innerWidth + frameWidth,
+          targetInnerHeight + frameHeight
+        );
+      } catch (error) {
+        // Нет активации пользователя — Chrome не разрешил, не страшно.
+      }
+    };
+
     const scheduleSaveSize = () => {
       clearTimeout(state && state.resizeTimer);
       if (!state) {
@@ -231,6 +258,7 @@ YTFP.pip = (() => {
       }
       state.resizeTimer = setTimeout(() => {
         if (!pipWindow.closed) {
+          snapToVideoAspect();
           saveSize(pipWindow);
         }
       }, 300);

@@ -2,11 +2,17 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDesc__",
-  "version": "0.2.1",
+  "version": "1.0.0",
+  "homepage_url": "https://github.com/n23eos/youtube_float_player",
   "default_locale": "ru",
   "minimum_chrome_version": "116",
-  "permissions": ["storage"],
-  "host_permissions": ["*://*.youtube.com/*", "https://sponsor.ajay.app/*"],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "https://sponsor.ajay.app/*"
+  ],
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -17,7 +23,9 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://www.youtube.com/*"],
+      "matches": [
+        "*://www.youtube.com/*"
+      ],
       "js": [
         "content/constants.js",
         "content/utils.js",
@@ -36,26 +44,38 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["pip/pip.css"],
-      "matches": ["*://www.youtube.com/*"]
+      "resources": [
+        "pip/pip.css"
+      ],
+      "matches": [
+        "*://www.youtube.com/*"
+      ]
     }
   ],
   "options_page": "options/options.html",
   "commands": {
     "toggle-pip": {
-      "suggested_key": { "default": "Alt+P" },
+      "suggested_key": {
+        "default": "Alt+P"
+      },
       "description": "__MSG_cmdTogglePip__"
     },
     "play-pause": {
-      "suggested_key": { "default": "Alt+K" },
+      "suggested_key": {
+        "default": "Alt+K"
+      },
       "description": "__MSG_cmdPlayPause__"
     },
     "seek-back": {
-      "suggested_key": { "default": "Alt+J" },
+      "suggested_key": {
+        "default": "Alt+J"
+      },
       "description": "__MSG_cmdSeekBack__"
     },
     "seek-forward": {
-      "suggested_key": { "default": "Alt+L" },
+      "suggested_key": {
+        "default": "Alt+L"
+      },
       "description": "__MSG_cmdSeekForward__"
     }
   }

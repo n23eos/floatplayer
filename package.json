@@ -1,11 +1,12 @@
 {
   "name": "youtube-floatplayer",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Chrome extension: YouTube video always on top with full controls",
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build": "bash scripts/build.sh"
   },
   "devDependencies": {
     "vitest": "^3.2.4"
