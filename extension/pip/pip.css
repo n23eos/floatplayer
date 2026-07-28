@@ -70,6 +70,33 @@ select {
   display: none !important;
 }
 
+/* Только видео: всё постороннее — покупки/товары, карточки, подсказки,
+   конечные заставки, названия, «Ещё видео» на паузе, аннотации — скрыто.
+   Остаются видео, субтитры и наши контролы. */
+.ytp-suggested-action,
+[class*="ytp-featured-product"],
+[class*="ytp-shopping"],
+[class*="ytp-suggestion"],
+.ytp-cards-teaser,
+.ytp-cards-button,
+.ytp-ce-element,
+.ytp-endscreen-content,
+.ytp-pause-overlay,
+.ytp-paid-content-overlay,
+.ytp-title,
+.ytp-title-text,
+.ytp-title-channel,
+.ytp-chapter-container,
+.ytp-iv-player-content,
+.ytp-player-content:not(.ytp-caption-window-container),
+.iv-branding,
+.annotation,
+.ytp-info-panel-preview,
+.ytp-visit-advertiser-link,
+.ytp-webgl-spherical-control {
+  display: none !important;
+}
+
 /* Панель дополнительных функций — плавающая «пилюля» сверху. */
 .ytfp-bar {
   position: absolute;
@@ -225,8 +252,8 @@ body:hover .ytfp-bar--compact {
   margin: 0 !important;
   padding: 4px !important;
   border-radius: 50% !important;
-  background: rgba(0, 0, 0, 0.3) !important;
-  opacity: 0.75;
+  background: rgba(0, 0, 0, 0.25) !important;
+  opacity: 0.15;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -234,8 +261,13 @@ body:hover .ytfp-bar--compact {
   transition: opacity 0.12s ease, background 0.12s ease;
 }
 
+/* Почти невидима; проявляется при наведении на окно и полностью — на неё. */
+body:hover .ytp-overflow-button {
+  opacity: 0.5;
+}
+
 .ytp-overflow-button:hover {
-  opacity: 1;
+  opacity: 1 !important;
   background: rgba(0, 0, 0, 0.6) !important;
 }
 
