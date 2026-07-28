@@ -1,0 +1,8 @@
+{
+  "extName": { "message": "YouTube FloatPlayer" },
+  "extDesc": { "message": "YouTube video always on top: full player, A-B loop, speed control, volume boost." },
+  "cmdTogglePip": { "message": "Toggle floating window" },
+  "cmdPlayPause": { "message": "Play / pause" },
+  "cmdSeekBack": { "message": "Seek back 5 seconds" },
+  "cmdSeekForward": { "message": "Seek forward 5 seconds" }
+}

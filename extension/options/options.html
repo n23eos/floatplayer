@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Настройки — YouTube FloatPlayer</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <h1>YouTube FloatPlayer</h1>
+
+  <label class="row">
+    <input type="checkbox" id="autoPip">
+    <span>
+      Авто-PiP: выносить видео при уходе со вкладки
+      <small>Требует Chrome 120+. Chrome сам решает, когда разрешить.</small>
+    </span>
+  </label>
+
+  <label class="row">
+    <input type="checkbox" id="compactMode">
+    <span>
+      Компактный режим панели
+      <small>Панель в мини-окне прячется и появляется при наведении.</small>
+    </span>
+  </label>
+
+  <label class="row">
+    <span>Шаг изменения скорости</span>
+    <select id="speedStep">
+      <option value="0.1">0.1x</option>
+      <option value="0.25">0.25x</option>
+      <option value="0.5">0.5x</option>
+    </select>
+  </label>
+
+  <label class="row">
+    <span>Максимум усиления громкости</span>
+    <select id="volumeBoostMax">
+      <option value="100">Выключено (100%)</option>
+      <option value="200">200%</option>
+      <option value="300">300%</option>
+    </select>
+  </label>
+
+  <p class="hint">
+    Горячие клавиши настраиваются на странице
+    <code>chrome://extensions/shortcuts</code>.
+  </p>
+
+  <p id="status" class="status" hidden>Сохранено</p>
+
+  <script src="options.js"></script>
+</body>
+</html>

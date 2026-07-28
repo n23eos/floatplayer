@@ -1,0 +1,28 @@
+"use strict";
+
+// Общее пространство имён расширения в изолированном мире content-скриптов.
+var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
+
+// Все селекторы YouTube собраны в одном месте: если YouTube поменяет разметку,
+// правим только этот файл.
+YTFP.SELECTORS = {
+  playerRoot: "#movie_player",
+  video: "#movie_player video.html5-main-video",
+  rightControls: "#movie_player .ytp-right-controls",
+  settingsButton: "#movie_player .ytp-settings-button"
+};
+
+YTFP.DEFAULT_SETTINGS = {
+  autoPip: false,       // авто-вынос при уходе со вкладки
+  speedStep: 0.25,      // шаг кнопок скорости
+  volumeBoostMax: 300,  // потолок усиления громкости, %
+  compactMode: true     // прятать панель, показывать при наведении
+};
+
+YTFP.SPEED_MIN = 0.25;
+YTFP.SPEED_MAX = 3;
+
+// Размер PiP-окна по умолчанию (потом запоминаем выбранный пользователем).
+YTFP.DEFAULT_PIP_SIZE = { width: 480, height: 320 };
+
+YTFP.SEEK_STEP_SECONDS = 5;
