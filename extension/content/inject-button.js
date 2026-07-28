@@ -80,10 +80,9 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   }
 
   /**
-   * Вставляет кнопку слева от шестерёнки.
-   * В новом UI шестерёнка лежит не в .ytp-right-controls напрямую,
-   * а во вложенном .ytp-right-controls-left — поэтому вставляем через
-   * родителя самой шестерёнки, а не через контейнер.
+   * Вставляет кнопку особняком — самой левой в правой группе контролов,
+   * до всех кнопок YouTube (шестерёнка нужна только как образец
+   * размеров иконки).
    */
   function ensureButton() {
     if (!YTFP.playerApi.isWatchPage()) {
@@ -94,12 +93,10 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
       return;
     }
     const settingsButton = rightControls.querySelector(".ytp-settings-button");
-    if (settingsButton) {
-      settingsButton.parentElement.insertBefore(buildButton(settingsButton), settingsButton);
-    } else {
-      // Шестерёнки нет (нестандартный плеер) — ставим первой в контейнере.
-      rightControls.prepend(buildButton(null));
-    }
+    const button = buildButton(settingsButton);
+    // Небольшой зазор, чтобы кнопка читалась как отдельная от группы YouTube.
+    button.style.marginRight = "8px";
+    rightControls.prepend(button);
   }
 
   // Контролы плеера рендерятся асинхронно после навигации — несколько попыток,
