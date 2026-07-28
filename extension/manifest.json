@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDesc__",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "homepage_url": "https://github.com/n23eos/youtube_float_player",
   "default_locale": "ru",
   "minimum_chrome_version": "116",
@@ -35,6 +35,7 @@
         "content/pip-controls.js",
         "content/pip-progress.js",
         "content/pip-related.js",
+        "content/pip-nav.js",
         "content/pip-controller.js",
         "content/sponsor-block.js",
         "content/inject-button.js"

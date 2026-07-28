@@ -103,24 +103,60 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     rightControls.prepend(button);
   }
 
-  /** На страницах шортсов — плавающая кнопка в углу плеера. */
+  /**
+   * На страницах шортсов кнопка живёт в колонке действий активного шортса,
+   * над кнопкой «лайк». Колонка своя у каждого шортса — при прокрутке
+   * убираем кнопки из неактивных и ставим в активную (страж-интервал).
+   */
   function ensureShortsButton() {
+    const activeActions = document.querySelector(
+      "ytd-reel-video-renderer[is-active] #actions"
+    );
+
+    // Убираем кнопки, оставшиеся в неактивных шортсах.
+    for (const stale of document.querySelectorAll(`.${BUTTON_CLASS}--shorts`)) {
+      if (!activeActions || !activeActions.contains(stale)) {
+        stale.remove();
+      }
+    }
+
+    const styleShortsButton = (button) => {
+      button.classList.add(`${BUTTON_CLASS}--shorts`);
+      Object.assign(button.style, {
+        width: "48px",
+        height: "48px",
+        borderRadius: "50%",
+        background: "rgba(0, 0, 0, 0.55)",
+        cursor: "pointer",
+        border: "0",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: "8px"
+      });
+      return button;
+    };
+
+    if (activeActions) {
+      if (activeActions.querySelector(`.${BUTTON_CLASS}`)) {
+        return;
+      }
+      // Над лайком: лайк — первый элемент колонки действий.
+      activeActions.prepend(styleShortsButton(buildButton(null)));
+      return;
+    }
+
+    // Фолбэк (разметка шортсов изменилась): плавающая кнопка в углу плеера.
     const shortsRoot = document.querySelector(YTFP.SELECTORS.shortsPlayerRoot);
     if (!shortsRoot || shortsRoot.querySelector(`.${BUTTON_CLASS}`)) {
       return;
     }
-    const button = buildButton(null);
+    const button = styleShortsButton(buildButton(null));
     Object.assign(button.style, {
       position: "absolute",
       top: "8px",
       left: "8px",
-      zIndex: "1000",
-      width: "40px",
-      height: "40px",
-      borderRadius: "50%",
-      background: "rgba(0, 0, 0, 0.55)",
-      cursor: "pointer",
-      border: "0"
+      zIndex: "1000"
     });
     shortsRoot.appendChild(button);
   }

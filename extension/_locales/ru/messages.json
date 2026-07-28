@@ -13,6 +13,8 @@
   "skipTooltip": { "message": "Промотать вперёд (интеграция)" },
   "sbSkip": { "message": "Пропустить интеграцию" },
   "playTooltip": { "message": "Пауза / воспроизведение" },
+  "navPrev": { "message": "Назад" },
+  "navNext": { "message": "Вперёд" },
   "relatedTooltip": { "message": "Рекомендации" },
   "relatedEmpty": { "message": "Рекомендации не найдены" },
   "boostTooltip": { "message": "Громкость: 0–100% тише, выше 100% — усиление" },

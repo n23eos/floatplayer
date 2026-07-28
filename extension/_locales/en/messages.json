@@ -13,6 +13,8 @@
   "skipTooltip": { "message": "Skip ahead (sponsor segment)" },
   "sbSkip": { "message": "Skip sponsor segment" },
   "playTooltip": { "message": "Play / pause" },
+  "navPrev": { "message": "Previous" },
+  "navNext": { "message": "Next" },
   "relatedTooltip": { "message": "Recommendations" },
   "relatedEmpty": { "message": "No recommendations found" },
   "boostTooltip": { "message": "Volume: 0–100% quieter, above 100% boost" },

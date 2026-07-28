@@ -221,7 +221,44 @@ YTFP.pip = (() => {
     const related = YTFP.pipRelated.build(pipWindow.document);
     pipWindow.document.body.appendChild(related.element);
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, resizeTimer: null };
+    // Нижний блок: назад / стоп / вперёд + пауза по клику в центр видео.
+    const goPrev = isShorts
+      ? () => {
+          const button = document.querySelector("#navigation-button-up button");
+          if (button) {
+            button.click();
+          }
+        }
+      : () => {
+          const button = playerEl.querySelector(".ytp-prev-button");
+          const video = getMovedVideo();
+          if (button && !button.disabled && button.getAttribute("aria-disabled") !== "true") {
+            button.click();
+          } else if (video) {
+            video.currentTime = 0; // предыдущего нет — начинаем сначала
+          }
+        };
+    const goNext = isShorts
+      ? () => {
+          const button = document.querySelector(YTFP.SELECTORS.shortsNextButton);
+          if (button) {
+            button.click();
+          }
+        }
+      : () => {
+          const button = playerEl.querySelector(".ytp-next-button");
+          if (button) {
+            button.click();
+          }
+        };
+    const nav = YTFP.pipNav.build(pipWindow.document, {
+      getVideo: getMovedVideo,
+      onPrev: goPrev,
+      onNext: goNext
+    });
+    pipWindow.document.body.appendChild(nav.element);
+
+    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
@@ -368,7 +405,7 @@ YTFP.pip = (() => {
       return;
     }
     const {
-      playerEl, placeholder, overlay, controls, progress, related,
+      playerEl, placeholder, overlay, controls, progress, related, nav,
       resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime
     } = state;
     // Сначала гасим таймер и слушатели, потом обнуляем state.
@@ -382,6 +419,7 @@ YTFP.pip = (() => {
     controls.cleanup();
     progress.cleanup();
     related.cleanup();
+    nav.cleanup();
     state = null;
 
     // Снимаем letterbox-геометрию, которую задавал layoutPlayer, —

@@ -277,6 +277,75 @@ body:hover .ytfp-bar--compact {
   background: rgba(0, 212, 0, 0.8);
 }
 
+/* --- Нижний блок: назад / стоп / вперёд --------------------------------- */
+
+.ytfp-nav {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+body:hover .ytfp-nav {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ytfp-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.ytfp-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.06);
+}
+
+.ytfp-nav-btn--main {
+  width: 54px;
+  height: 54px;
+}
+
+/* Полупрозрачный значок в центре видео (виден на паузе). */
+.ytfp-center-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ytfp-center-badge--visible {
+  display: flex;
+}
+
 /* --- Рекомендации справа ---------------------------------------------- */
 
 .ytfp-related-toggle {
