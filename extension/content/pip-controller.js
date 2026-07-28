@@ -247,9 +247,14 @@ YTFP.pip = (() => {
     const progress = YTFP.pipProgress.build(pipWindow.document, { getVideo: getMovedVideo });
     pipWindow.document.body.appendChild(progress.element);
 
-    // Стрелка справа: колонка рекомендаций.
-    const related = YTFP.pipRelated.build(pipWindow.document);
-    pipWindow.document.body.appendChild(related.element);
+    // Стрелка справа: колонка рекомендаций. В шортсах не нужна —
+    // там навигация по ленте кнопками назад/вперёд.
+    const related = isShorts
+      ? { cleanup: () => {} }
+      : YTFP.pipRelated.build(pipWindow.document);
+    if (related.element) {
+      pipWindow.document.body.appendChild(related.element);
+    }
 
     // Нижний блок: назад / стоп / вперёд + пауза по клику в центр видео.
     const goPrev = isShorts
