@@ -117,10 +117,10 @@ YTFP.pipNav = (() => {
 
     function cleanup() {
       pipDocument.removeEventListener("click", onDocumentClick, true);
-      const currentVideo = getVideo();
-      if (currentVideo) {
-        currentVideo.removeEventListener("play", refreshPlayState);
-        currentVideo.removeEventListener("pause", refreshPlayState);
+      // Тот же элемент, на который вешали, — не результат нового getVideo().
+      if (video) {
+        video.removeEventListener("play", refreshPlayState);
+        video.removeEventListener("pause", refreshPlayState);
       }
     }
 

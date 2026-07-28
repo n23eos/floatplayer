@@ -382,12 +382,12 @@ YTFP.pipControls = (() => {
     pipDocument.addEventListener("keydown", onKeyDown);
 
     function cleanup() {
-      const currentVideo = getVideo();
-      if (currentVideo) {
-        currentVideo.removeEventListener("timeupdate", onTimeUpdate);
-        currentVideo.removeEventListener("ratechange", refreshSpeedControls);
-        currentVideo.removeEventListener("play", refreshPlayIcon);
-        currentVideo.removeEventListener("pause", refreshPlayIcon);
+      // Тот же элемент, на который вешали, — не результат нового getVideo().
+      if (video) {
+        video.removeEventListener("timeupdate", onTimeUpdate);
+        video.removeEventListener("ratechange", refreshSpeedControls);
+        video.removeEventListener("play", refreshPlayIcon);
+        video.removeEventListener("pause", refreshPlayIcon);
       }
       pipDocument.removeEventListener("keydown", onKeyDown);
       clearInterval(sleepTicker);

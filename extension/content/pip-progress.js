@@ -124,10 +124,11 @@ YTFP.pipProgress = (() => {
 
     function cleanup() {
       clearInterval(segmentsTimer);
-      const currentVideo = getVideo();
-      if (currentVideo) {
-        currentVideo.removeEventListener("timeupdate", renderFill);
-        currentVideo.removeEventListener("durationchange", renderSegments);
+      // Снимаем с того же элемента, на который вешали: getVideo() мог бы
+      // вернуть уже другой <video>, и слушатели остались бы на старом.
+      if (video) {
+        video.removeEventListener("timeupdate", renderFill);
+        video.removeEventListener("durationchange", renderSegments);
       }
     }
 
