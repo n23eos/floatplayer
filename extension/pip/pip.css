@@ -210,35 +210,91 @@ body:hover .ytfp-bar--compact {
   font-variant-numeric: tabular-nums;
 }
 
-/* Панели плеера «Ещё» (три точки: Смотреть позже, Поделиться) и
-   «Поделиться» — тёмные всплывающие карточки поверх видео,
-   а не белые блоки под ним. */
-#movie_player .ytp-overflow-panel,
-#shorts-player .ytp-overflow-panel,
-#movie_player .ytp-share-panel,
-#shorts-player .ytp-share-panel {
-  position: absolute !important;
-  left: 50% !important;
-  top: 50% !important;
-  right: auto !important;
+/* «Три точки» (Смотреть позже / Поделиться): сама кнопка — маленький
+   тёмный круг, зафиксированный справа сверху над видео; меню — компактная
+   тёмная карточка под ней. position: fixed привязывает их к окну, поэтому
+   никакое масштабирование и вложенные контейнеры YouTube их не ломают. */
+.ytp-overflow-button {
+  position: fixed !important;
+  top: 46px !important;
+  right: 8px !important;
+  left: auto !important;
   bottom: auto !important;
-  transform: translate(-50%, -50%) !important;
-  width: auto !important;
-  height: auto !important;
-  max-width: 92% !important;
-  max-height: 80% !important;
-  overflow: auto !important;
-  background: rgba(18, 18, 18, 0.94) !important;
-  border-radius: 12px !important;
-  padding: 10px !important;
-  z-index: 10005 !important;
-  color: #fff !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  padding: 6px !important;
+  border-radius: 50% !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 10004 !important;
 }
 
-#movie_player .ytp-overflow-panel *,
-#shorts-player .ytp-overflow-panel *,
-#movie_player .ytp-share-panel *,
-#shorts-player .ytp-share-panel * {
+.ytp-overflow-button svg,
+.ytp-overflow-button .ytp-svg-shadow {
+  width: 20px !important;
+  height: 20px !important;
+  fill: #fff !important;
+}
+
+.ytp-overflow-panel,
+.ytp-share-panel {
+  position: fixed !important;
+  top: 88px !important;
+  right: 8px !important;
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: 180px !important;
+  max-width: 70vw !important;
+  height: auto !important;
+  max-height: 65vh !important;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+  background: rgba(18, 18, 18, 0.95) !important;
+  border-radius: 12px !important;
+  padding: 6px !important;
+  z-index: 10005 !important;
+  color: #fff !important;
+  font-size: 13px !important;
+}
+
+.ytp-overflow-panel::-webkit-scrollbar,
+.ytp-share-panel::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Пункты меню — строка «иконка + подпись» нормального размера. */
+.ytp-overflow-panel button,
+.ytp-share-panel button {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: auto !important;
+  padding: 9px 10px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  text-align: left !important;
+}
+
+.ytp-overflow-panel button:hover,
+.ytp-share-panel button:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.ytp-overflow-panel svg,
+.ytp-share-panel svg {
+  width: 20px !important;
+  height: 20px !important;
+  flex: none !important;
+}
+
+.ytp-overflow-panel *,
+.ytp-share-panel * {
   background-color: transparent !important;
   color: #fff !important;
   fill: #fff !important;
