@@ -10,6 +10,7 @@
   "sleepTooltip": { "message": "Sleep timer: pauses the video when it runs out" },
   "sleepOff": { "message": "off" },
   "sleepMinutes": { "message": "min" },
+  "skipTooltip": { "message": "Skip ahead (sponsor segment)" },
   "boostTooltip": { "message": "Volume: 0–100% quieter, above 100% boost" },
   "returnTooltip": { "message": "Return video to the page" },
   "cmdTogglePip": { "message": "Toggle floating window" },

@@ -9,19 +9,15 @@ YTFP.SELECTORS = {
   playerRoot: "#movie_player",
   video: "#movie_player video.html5-main-video",
   rightControls: "#movie_player .ytp-right-controls",
-  settingsButton: "#movie_player .ytp-settings-button",
-  // Класс на #movie_player, пока крутится реклама.
-  adShowingClass: "ad-showing",
-  // Варианты кнопки «Пропустить рекламу» в разных версиях плеера.
-  skipAdButtons: ".ytp-skip-ad-button, .ytp-ad-skip-button, .ytp-ad-skip-button-modern"
+  settingsButton: "#movie_player .ytp-settings-button"
 };
 
 YTFP.DEFAULT_SETTINGS = {
   autoPip: false,       // авто-вынос при уходе со вкладки
   speedStep: 0.25,      // шаг ползунка скорости
   volumeBoostMax: 300,  // потолок усиления громкости, %
-  compactMode: true,    // прятать панель, показывать при наведении
-  autoSkipAds: true     // автопропуск рекламы (жмёт «Пропустить», мотает к концу)
+  compactMode: true,        // прятать панель, показывать при наведении
+  skipStepSeconds: 30       // шаг кнопки промотки интеграций, сек
 };
 
 YTFP.SPEED_MIN = 0.25;

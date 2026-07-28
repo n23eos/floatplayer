@@ -10,6 +10,7 @@
   "sleepTooltip": { "message": "Таймер сна: по истечении видео ставится на паузу" },
   "sleepOff": { "message": "выкл" },
   "sleepMinutes": { "message": "мин" },
+  "skipTooltip": { "message": "Промотать вперёд (интеграция)" },
   "boostTooltip": { "message": "Громкость: 0–100% тише, выше 100% — усиление" },
   "returnTooltip": { "message": "Вернуть видео на страницу" },
   "cmdTogglePip": { "message": "Открыть/закрыть мини-окно" },

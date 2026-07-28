@@ -26,7 +26,6 @@
         "content/audio-boost.js",
         "content/pip-controls.js",
         "content/pip-controller.js",
-        "content/ad-skip.js",
         "content/inject-button.js"
       ],
       "run_at": "document_idle"

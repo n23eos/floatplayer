@@ -81,6 +81,26 @@ YTFP.pipControls = (() => {
       }
     }
 
+    // --- Промотка интеграций --------------------------------------------------
+    // Один клик — прыжок вперёд на настроенный шаг (по умолчанию 30 сек):
+    // удобно проматывать рекламные интеграции внутри видео.
+    const skipStep = () => YTFP.settings.get().skipStepSeconds;
+    const skipButton = createButton(
+      pipDocument,
+      `»${skipStep()}`,
+      t("skipTooltip", "Промотать вперёд (интеграция)"),
+      () => {
+        const video = getVideo();
+        if (!video) {
+          return;
+        }
+        video.currentTime = Math.min(
+          video.duration || Infinity,
+          video.currentTime + skipStep()
+        );
+      }
+    );
+
     // --- Скорость: ползунок с шагами -----------------------------------------
     const speedWrap = pipDocument.createElement("label");
     speedWrap.className = "ytfp-speed";
@@ -211,7 +231,7 @@ YTFP.pipControls = (() => {
     );
     returnButton.classList.add("ytfp-btn--return");
 
-    bar.append(abButton, speedWrap, boostWrap, sleepWrap, returnButton);
+    bar.append(abButton, skipButton, speedWrap, boostWrap, sleepWrap, returnButton);
 
     // Слушатели на <video>: время (для A-B) и скорость (для ползунка).
     const video = getVideo();
