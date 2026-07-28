@@ -219,15 +219,23 @@ YTFP.pip = (() => {
     // перетаскивания окна) и скорость залипает. Наши элементы работают —
     // они слушают click, который синтезируется независимо от propagation.
     const blockPlayerPress = (event) => {
-      if (
-        event.target &&
-        event.target.closest &&
-        event.target.closest("#movie_player, #shorts-player")
-      ) {
+      if (!event.target || !event.target.closest) {
+        return;
+      }
+      // Наши элементы внутри плеера (кнопка пропуска интеграции) должны
+      // получать клики как обычно.
+      if (event.target.closest(".ytfp-sb-skip")) {
+        return;
+      }
+      if (event.target.closest("#movie_player, #shorts-player")) {
         event.stopPropagation();
       }
     };
-    for (const type of ["pointerdown", "mousedown", "touchstart"]) {
+    // click и dblclick тоже глушим: иначе YouTube сам ставит паузу по клику,
+    // и вместе с нашим обработчиком получается двойное переключение
+    // (пауза и тут же снятие). Наш обработчик клика в pip-nav работает в
+    // capture-фазе на том же document и срабатывает до остановки.
+    for (const type of ["pointerdown", "mousedown", "touchstart", "click", "dblclick"]) {
       pipWindow.document.addEventListener(type, blockPlayerPress, true);
     }
 

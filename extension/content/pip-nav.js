@@ -39,9 +39,16 @@ YTFP.pipNav = (() => {
     root.className = "ytfp-nav-root";
 
     // --- Полупрозрачный значок по центру (виден на паузе) ------------------
+    // Показывает play: клик по нему продолжает воспроизведение.
     const badge = pipDocument.createElement("div");
     badge.className = "ytfp-center-badge";
-    badge.appendChild(createIcon(pipDocument, "pause", 36));
+    badge.appendChild(createIcon(pipDocument, "play", 36));
+    badge.addEventListener("click", () => {
+      const video = getVideo();
+      if (video && video.paused) {
+        video.play().catch(() => {});
+      }
+    });
 
     // --- Нижний ряд кнопок ---------------------------------------------------
     const nav = pipDocument.createElement("div");
@@ -81,20 +88,23 @@ YTFP.pipNav = (() => {
     }
 
     // --- Клик в центр видео = пауза ------------------------------------------
+    // Слушаем в capture-фазе: контроллер глушит click для скриптов YouTube
+    // (stopPropagation на document), но слушатели на самом document в
+    // capture-фазе успевают отработать.
     function onDocumentClick(event) {
       const target = event.target;
       if (!target || !target.closest) {
         return;
       }
       // Наши элементы и любые кнопки обрабатывают клики сами.
-      if (target.closest("button, input, select, .ytfp-bar, .ytfp-nav, .ytfp-progress-wrap, .ytfp-related-root")) {
+      if (target.closest("button, input, select, .ytfp-bar, .ytfp-nav, .ytfp-progress-wrap, .ytfp-related-root, .ytfp-center-badge")) {
         return;
       }
       if (target.closest("#movie_player, #shorts-player")) {
         togglePlayPause();
       }
     }
-    pipDocument.addEventListener("click", onDocumentClick);
+    pipDocument.addEventListener("click", onDocumentClick, true);
 
     const video = getVideo();
     if (video) {
@@ -106,7 +116,7 @@ YTFP.pipNav = (() => {
     root.append(badge, nav);
 
     function cleanup() {
-      pipDocument.removeEventListener("click", onDocumentClick);
+      pipDocument.removeEventListener("click", onDocumentClick, true);
       const currentVideo = getVideo();
       if (currentVideo) {
         currentVideo.removeEventListener("play", refreshPlayState);
