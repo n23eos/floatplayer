@@ -112,7 +112,7 @@ YTFP.sponsorBlock = (() => {
       return skipButton;
     }
     removeSkipButton();
-    const label = chrome.i18n.getMessage("sbSkip") || "Пропустить интеграцию";
+    const label = chrome.i18n.getMessage("sbSkip") || "Skip sponsor segment";
     skipButton = playerRoot.ownerDocument.createElement("button");
     skipButton.className = "ytfp-sb-skip";
     Object.assign(skipButton.style, {

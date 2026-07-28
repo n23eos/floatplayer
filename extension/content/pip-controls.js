@@ -73,7 +73,7 @@ YTFP.pipControls = (() => {
     const abButton = createButton(
       pipDocument,
       "A-B",
-      t("abTooltip", "A-B повтор: клик 1 — точка A, клик 2 — точка B, клик 3 — сброс"),
+      t("abTooltip", "A-B loop: click 1 sets A, click 2 sets B, click 3 resets"),
       () => {
         const video = getVideo();
         if (!video) {
@@ -120,7 +120,7 @@ YTFP.pipControls = (() => {
     const playButton = createButton(
       pipDocument,
       createIcon(pipDocument, "pause"),
-      t("playTooltip", "Пауза / воспроизведение"),
+      t("playTooltip", "Play / pause"),
       () => {
         const video = getVideo();
         if (!video) {
@@ -148,7 +148,7 @@ YTFP.pipControls = (() => {
     const skipButton = createButton(
       pipDocument,
       createIcon(pipDocument, "skip"),
-      t("skipTooltip", "Промотать вперёд (интеграция)"),
+      t("skipTooltip", "Skip ahead (sponsor segment)"),
       () => {
         const video = getVideo();
         if (!video) {
@@ -167,7 +167,7 @@ YTFP.pipControls = (() => {
     // --- Скорость: ползунок с шагами -----------------------------------------
     const speedWrap = pipDocument.createElement("label");
     speedWrap.className = "ytfp-speed";
-    speedWrap.title = t("speedTooltip", "Скорость воспроизведения");
+    speedWrap.title = t("speedTooltip", "Playback speed");
 
     const speedSlider = pipDocument.createElement("input");
     speedSlider.type = "range";
@@ -178,7 +178,7 @@ YTFP.pipControls = (() => {
 
     const speedLabel = pipDocument.createElement("span");
     speedLabel.className = "ytfp-speed-label";
-    speedLabel.title = t("speedResetTooltip", "Сбросить скорость на 1x");
+    speedLabel.title = t("speedResetTooltip", "Reset speed to 1x");
 
     function refreshSpeedControls() {
       const video = getVideo();
@@ -205,7 +205,7 @@ YTFP.pipControls = (() => {
     // --- Громкость 0–300% (Web Audio) ----------------------------------------
     const boostWrap = pipDocument.createElement("label");
     boostWrap.className = "ytfp-boost";
-    boostWrap.title = t("boostTooltip", "Громкость: 0–100% тише, выше 100% — усиление");
+    boostWrap.title = t("boostTooltip", "Volume: 0–100% quieter, above 100% boost");
 
     const boostSlider = pipDocument.createElement("input");
     boostSlider.type = "range";
@@ -219,7 +219,7 @@ YTFP.pipControls = (() => {
 
     boostSlider.addEventListener("input", () => {
       const ok = YTFP.audioBoost.setBoostPercent(getVideo(), Number(boostSlider.value));
-      boostLabel.textContent = ok ? `${boostSlider.value}%` : "н/д";
+      boostLabel.textContent = ok ? `${boostSlider.value}%` : "n/a";
     });
 
     boostWrap.append(createIcon(pipDocument, "volume"), boostSlider, boostLabel);
@@ -232,18 +232,18 @@ YTFP.pipControls = (() => {
 
     const sleepWrap = pipDocument.createElement("label");
     sleepWrap.className = "ytfp-sleep";
-    sleepWrap.title = t("sleepTooltip", "Таймер сна: по истечении видео ставится на паузу");
+    sleepWrap.title = t("sleepTooltip", "Sleep timer: pauses the video when it runs out");
 
     const sleepSelect = pipDocument.createElement("select");
     sleepSelect.className = "ytfp-select";
     const offOption = pipDocument.createElement("option");
     offOption.value = "0";
-    offOption.textContent = t("sleepOff", "выкл");
+    offOption.textContent = t("sleepOff", "off");
     sleepSelect.appendChild(offOption);
     for (const minutes of SLEEP_PRESETS_MIN) {
       const option = pipDocument.createElement("option");
       option.value = String(minutes);
-      option.textContent = `${minutes} ${t("sleepMinutes", "мин")}`;
+      option.textContent = `${minutes} ${t("sleepMinutes", "min")}`;
       sleepSelect.appendChild(option);
     }
 
@@ -289,7 +289,7 @@ YTFP.pipControls = (() => {
     const shareButton = createButton(
       pipDocument,
       createIcon(pipDocument, "link"),
-      t("copyLink", "Скопировать ссылку"),
+      t("copyLink", "Copy video link"),
       async () => {
         try {
           await navigator.clipboard.writeText(location.href);
@@ -309,7 +309,7 @@ YTFP.pipControls = (() => {
     const returnButton = createButton(
       pipDocument,
       createIcon(pipDocument, "back"),
-      t("returnTooltip", "Вернуть видео на страницу"),
+      t("returnTooltip", "Return video to the page"),
       onReturnRequested
     );
     returnButton.classList.add("ytfp-btn--return");

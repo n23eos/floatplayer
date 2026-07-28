@@ -53,7 +53,7 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     // Комбинация клавиш в подсказке — своя для каждой ОС.
     const isMac = navigator.platform.toUpperCase().includes("MAC");
     const shortcut = isMac ? "⌥P" : "Alt+P";
-    const action = chrome.i18n.getMessage("btnTooltip") || "Поверх всех окон";
+    const action = chrome.i18n.getMessage("btnTooltip") || "Always on top";
     const tooltip = `FloatPlayer — ${action} (${shortcut})`;
 
     const button = document.createElement("button");

@@ -1,29 +1,152 @@
 {
-  "extName": { "message": "FloatPlayer — Picture in Picture for YouTube" },
-  "extDesc": { "message": "YouTube video always on top: full player, A-B loop, speed control, volume boost." },
-  "btnTooltip": { "message": "Always on top" },
-  "overlayPlaying": { "message": "Playing in the floating window" },
-  "overlayReturn": { "message": "Bring it back" },
-  "abTooltip": { "message": "A-B loop: click 1 sets A, click 2 sets B, click 3 resets" },
-  "speedTooltip": { "message": "Playback speed" },
-  "speedResetTooltip": { "message": "Reset speed to 1x" },
-  "sleepTooltip": { "message": "Sleep timer: pauses the video when it runs out" },
-  "sleepOff": { "message": "off" },
-  "sleepMinutes": { "message": "min" },
-  "skipTooltip": { "message": "Skip ahead (sponsor segment)" },
-  "sbSkip": { "message": "Skip sponsor segment" },
-  "playTooltip": { "message": "Play / pause" },
-  "navPrev": { "message": "Previous" },
-  "copyLink": { "message": "Copy video link" },
-  "navNext": { "message": "Next" },
-  "jumpBack": { "message": "Back 30 seconds" },
-  "jumpForward": { "message": "Forward 30 seconds" },
-  "relatedTooltip": { "message": "Recommendations" },
-  "relatedEmpty": { "message": "No recommendations found" },
-  "boostTooltip": { "message": "Volume: 0–100% quieter, above 100% boost" },
-  "returnTooltip": { "message": "Return video to the page" },
-  "cmdTogglePip": { "message": "Toggle floating window" },
-  "cmdPlayPause": { "message": "Play / pause" },
-  "cmdSeekBack": { "message": "Seek back 5 seconds" },
-  "cmdSeekForward": { "message": "Seek forward 5 seconds" }
+  "extName": {
+    "message": "FloatPlayer — Picture in Picture for YouTube"
+  },
+  "extDesc": {
+    "message": "YouTube video always on top: full player, A-B loop, speed control, volume boost."
+  },
+  "btnTooltip": {
+    "message": "Always on top"
+  },
+  "overlayPlaying": {
+    "message": "Playing in the floating window"
+  },
+  "overlayReturn": {
+    "message": "Bring it back"
+  },
+  "abTooltip": {
+    "message": "A-B loop: click 1 sets A, click 2 sets B, click 3 resets"
+  },
+  "speedTooltip": {
+    "message": "Playback speed"
+  },
+  "speedResetTooltip": {
+    "message": "Reset speed to 1x"
+  },
+  "sleepTooltip": {
+    "message": "Sleep timer: pauses the video when it runs out"
+  },
+  "sleepOff": {
+    "message": "off"
+  },
+  "sleepMinutes": {
+    "message": "min"
+  },
+  "skipTooltip": {
+    "message": "Skip ahead (sponsor segment)"
+  },
+  "sbSkip": {
+    "message": "Skip sponsor segment"
+  },
+  "playTooltip": {
+    "message": "Play / pause"
+  },
+  "navPrev": {
+    "message": "Previous"
+  },
+  "copyLink": {
+    "message": "Copy video link"
+  },
+  "navNext": {
+    "message": "Next"
+  },
+  "jumpBack": {
+    "message": "Back 30 seconds"
+  },
+  "jumpForward": {
+    "message": "Forward 30 seconds"
+  },
+  "relatedTooltip": {
+    "message": "Recommendations"
+  },
+  "relatedEmpty": {
+    "message": "No recommendations found"
+  },
+  "boostTooltip": {
+    "message": "Volume: 0–100% quieter, above 100% boost"
+  },
+  "returnTooltip": {
+    "message": "Return video to the page"
+  },
+  "cmdTogglePip": {
+    "message": "Toggle floating window"
+  },
+  "cmdPlayPause": {
+    "message": "Play / pause"
+  },
+  "cmdSeekBack": {
+    "message": "Seek back 5 seconds"
+  },
+  "cmdSeekForward": {
+    "message": "Seek forward 5 seconds"
+  },
+  "optTitle": {
+    "message": "Settings — FloatPlayer"
+  },
+  "optAutoPipLabel": {
+    "message": "Auto-PiP: pop out when you leave the tab"
+  },
+  "optAutoPipHint": {
+    "message": "Requires Chrome 120+. Chrome decides when to allow it."
+  },
+  "optWindowModeLabel": {
+    "message": "Mini-window style"
+  },
+  "optWindowModeHint": {
+    "message": "\"Full\" shows the control panel, but Chrome draws a strip with the site address on top (cannot be removed — a browser requirement). \"Clean video\" has no strip and no panel: just the video and Chrome's native buttons."
+  },
+  "optWindowModeFull": {
+    "message": "Full (with panel)"
+  },
+  "optWindowModeClean": {
+    "message": "Clean video (no strip)"
+  },
+  "optSponsorLabel": {
+    "message": "Sponsor segments on the timeline (SponsorBlock)"
+  },
+  "optSponsorHint": {
+    "message": "Sponsor segments are highlighted in green; inside one, a \"Skip sponsor segment\" button appears. Community SponsorBlock data: the video ID is sent to sponsor.ajay.app."
+  },
+  "optSkipStepLabel": {
+    "message": "Manual skip step"
+  },
+  "optSkipStepHint": {
+    "message": "The »N button in the mini-window jumps forward by this step."
+  },
+  "optShortsLabel": {
+    "message": "Shorts: auto-advance to the next one"
+  },
+  "optShortsHint": {
+    "message": "When a short finishes in the mini-window, the next one starts automatically."
+  },
+  "optCompactLabel": {
+    "message": "Compact panel mode"
+  },
+  "optCompactHint": {
+    "message": "The panel hides and appears when you hover the window."
+  },
+  "optSpeedStepLabel": {
+    "message": "Speed slider step"
+  },
+  "optBoostLabel": {
+    "message": "Volume ceiling in the mini-window"
+  },
+  "optBoostHint": {
+    "message": "The slider always starts at 0%; this is the upper boost limit."
+  },
+  "optBoostOff": {
+    "message": "100% (no boost)"
+  },
+  "optShortcutsHint": {
+    "message": "Keyboard shortcuts can be changed at"
+  },
+  "optSaved": {
+    "message": "Saved"
+  },
+  "optSec": {
+    "message": "s"
+  },
+  "secShort": {
+    "message": "s"
+  }
 }

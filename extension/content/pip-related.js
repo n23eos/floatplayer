@@ -64,7 +64,7 @@ YTFP.pipRelated = (() => {
     // Стрелка у правого края.
     const toggle = pipDocument.createElement("button");
     toggle.className = "ytfp-related-toggle";
-    toggle.title = chrome.i18n.getMessage("relatedTooltip") || "Рекомендации";
+    toggle.title = chrome.i18n.getMessage("relatedTooltip") || "Recommendations";
     toggle.textContent = "‹";
 
     const panel = pipDocument.createElement("div");
@@ -83,7 +83,7 @@ YTFP.pipRelated = (() => {
         const empty = pipDocument.createElement("div");
         empty.className = "ytfp-related-empty";
         empty.textContent =
-          chrome.i18n.getMessage("relatedEmpty") || "Рекомендации не найдены";
+          chrome.i18n.getMessage("relatedEmpty") || "No recommendations found";
         list.appendChild(empty);
         return;
       }

@@ -1,5 +1,28 @@
 "use strict";
 
+// Локализация страницы: английский текст зашит в HTML как базовый,
+// chrome.i18n подменяет строки для текущей локали браузера.
+function applyI18n() {
+  for (const el of document.querySelectorAll("[data-i18n]")) {
+    const message = chrome.i18n.getMessage(el.dataset.i18n);
+    if (message) {
+      el.textContent = message;
+    }
+  }
+  // Единица «сек/s» в вариантах шага промотки.
+  const secUnit = chrome.i18n.getMessage("optSec");
+  if (secUnit) {
+    for (const option of document.querySelectorAll("#skipStepSeconds option")) {
+      option.textContent = `${option.value} ${secUnit}`;
+    }
+  }
+  const title = chrome.i18n.getMessage("optTitle");
+  if (title) {
+    document.title = title;
+  }
+}
+applyI18n();
+
 // Страница настроек: читает/пишет chrome.storage.sync.
 // Дефолты дублируем из content/constants.js (options-страница живёт отдельно).
 const DEFAULT_SETTINGS = {

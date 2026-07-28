@@ -1,77 +1,79 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Настройки — FloatPlayer</title>
+  <title data-i18n="optTitle">Settings — FloatPlayer</title>
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
+  <!-- Английский текст — базовый; options.js подменяет строки через
+       chrome.i18n по data-i18n (русская локаль подхватится сама). -->
   <h1>FloatPlayer <small>Picture in Picture for YouTube</small></h1>
 
   <label class="row">
     <input type="checkbox" id="autoPip">
     <span>
-      Авто-PiP: выносить видео при уходе со вкладки
-      <small>Требует Chrome 120+. Chrome сам решает, когда разрешить.</small>
+      <span data-i18n="optAutoPipLabel">Auto-PiP: pop out when you leave the tab</span>
+      <small data-i18n="optAutoPipHint">Requires Chrome 120+. Chrome decides when to allow it.</small>
     </span>
   </label>
 
   <label class="row">
     <span>
-      Стиль мини-окна
-      <small>«Полный» — панель A-B/скорость/громкость/таймер, но Chrome рисует
-      сверху рамку с адресом сайта (убрать её нельзя — требование браузера).
-      «Чистое видео» — совсем без рамки, но и без панели: только видео и
-      нативные кнопки Chrome.</small>
+      <span data-i18n="optWindowModeLabel">Mini-window style</span>
+      <small data-i18n="optWindowModeHint">"Full" shows the control panel, but Chrome draws a strip
+      with the site address on top (cannot be removed — a browser requirement).
+      "Clean video" has no strip and no panel: just the video and Chrome's
+      native buttons.</small>
     </span>
     <select id="windowMode">
-      <option value="document">Полный (с панелью)</option>
-      <option value="native">Чистое видео (без рамки)</option>
+      <option value="document" data-i18n="optWindowModeFull">Full (with panel)</option>
+      <option value="native" data-i18n="optWindowModeClean">Clean video (no strip)</option>
     </select>
   </label>
 
   <label class="row">
     <input type="checkbox" id="sponsorSkip">
     <span>
-      Интеграции на таймлайне (SponsorBlock)
-      <small>Спонсорские вставки подсвечиваются зелёным, при попадании в них
-      появляется кнопка «Пропустить интеграцию». Данные сообщества SponsorBlock:
-      на sponsor.ajay.app отправляется ID видео.</small>
+      <span data-i18n="optSponsorLabel">Sponsor segments on the timeline (SponsorBlock)</span>
+      <small data-i18n="optSponsorHint">Sponsor segments are highlighted in green; inside one, a
+      "Skip sponsor segment" button appears. Community SponsorBlock data:
+      the video ID is sent to sponsor.ajay.app.</small>
     </span>
   </label>
 
   <label class="row">
     <span>
-      Шаг промотки интеграций
-      <small>Кнопка «»N» в мини-окне прыгает вперёд на этот шаг.</small>
+      <span data-i18n="optSkipStepLabel">Manual skip step</span>
+      <small data-i18n="optSkipStepHint">The »N button in the mini-window jumps forward by this step.</small>
     </span>
     <select id="skipStepSeconds">
-      <option value="15">15 сек</option>
-      <option value="30">30 сек</option>
-      <option value="45">45 сек</option>
-      <option value="60">60 сек</option>
-      <option value="90">90 сек</option>
+      <option value="15">15 s</option>
+      <option value="30">30 s</option>
+      <option value="45">45 s</option>
+      <option value="60">60 s</option>
+      <option value="90">90 s</option>
     </select>
   </label>
 
   <label class="row">
     <input type="checkbox" id="shortsAutoNext">
     <span>
-      Шортсы: автопереход к следующему
-      <small>Когда шортс в мини-окне доигрывает, автоматически включается следующий.</small>
+      <span data-i18n="optShortsLabel">Shorts: auto-advance to the next one</span>
+      <small data-i18n="optShortsHint">When a short finishes in the mini-window, the next one starts automatically.</small>
     </span>
   </label>
 
   <label class="row">
     <input type="checkbox" id="compactMode">
     <span>
-      Компактный режим панели
-      <small>Панель в мини-окне прячется и появляется при наведении.</small>
+      <span data-i18n="optCompactLabel">Compact panel mode</span>
+      <small data-i18n="optCompactHint">The panel hides and appears when you hover the window.</small>
     </span>
   </label>
 
   <label class="row">
-    <span>Шаг изменения скорости</span>
+    <span data-i18n="optSpeedStepLabel">Speed slider step</span>
     <select id="speedStep">
       <option value="0.1">0.1x</option>
       <option value="0.25">0.25x</option>
@@ -81,25 +83,25 @@
 
   <label class="row">
     <span>
-      Потолок громкости в мини-окне
-      <small>Слайдер всегда идёт от 0%; это верхняя граница усиления.</small>
+      <span data-i18n="optBoostLabel">Volume ceiling in the mini-window</span>
+      <small data-i18n="optBoostHint">The slider always starts at 0%; this is the upper boost limit.</small>
     </span>
     <select id="volumeBoostMax">
-      <option value="100">100% (без усиления)</option>
+      <option value="100" data-i18n="optBoostOff">100% (no boost)</option>
       <option value="200">200%</option>
       <option value="300">300%</option>
     </select>
   </label>
 
   <p class="hint">
-    Горячие клавиши настраиваются на странице
-    <code>chrome://extensions/shortcuts</code>.
+    <span data-i18n="optShortcutsHint">Keyboard shortcuts can be changed at</span>
+    <code>chrome://extensions/shortcuts</code>
   </p>
 
-  <p id="status" class="status" hidden>Сохранено</p>
+  <p id="status" class="status" hidden data-i18n="optSaved">Saved</p>
 
   <footer class="footer">
-    Автор: <a href="https://x.com/Raincoat_talk" target="_blank" rel="noopener">@Raincoat_talk</a>
+    <a href="https://x.com/Raincoat_talk" target="_blank" rel="noopener">@Raincoat_talk</a>
   </footer>
 
   <script src="options.js"></script>

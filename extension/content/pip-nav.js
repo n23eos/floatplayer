@@ -109,7 +109,7 @@ YTFP.pipNav = (() => {
     let seekIndicatorTimer = null;
 
     function flashSeekIndicator(deltaSeconds) {
-      seekIndicator.textContent = `${deltaSeconds > 0 ? "»" : "«"} ${Math.abs(deltaSeconds)}с`;
+      seekIndicator.textContent = `${deltaSeconds > 0 ? "»" : "«"} ${Math.abs(deltaSeconds)}${t("secShort", "s")}`;
       seekIndicator.classList.toggle("ytfp-seek-indicator--left", deltaSeconds < 0);
       seekIndicator.classList.add("ytfp-seek-indicator--visible");
       clearTimeout(seekIndicatorTimer);
@@ -118,11 +118,11 @@ YTFP.pipNav = (() => {
       }, 600);
     }
 
-    const back30Button = makeJumpButton(`−${JUMP_BUTTON_SECONDS}`, t("jumpBack", "Назад на 30 секунд"), -JUMP_BUTTON_SECONDS);
-    const prevButton = makeButton("prev", t("navPrev", "Назад"), "", () => onPrev());
-    const playButton = makeButton("pause", t("playTooltip", "Пауза / воспроизведение"), "ytfp-nav-btn--main", togglePlayPause);
-    const nextButton = makeButton("next", t("navNext", "Вперёд"), "", () => onNext());
-    const forward30Button = makeJumpButton(`+${JUMP_BUTTON_SECONDS}`, t("jumpForward", "Вперёд на 30 секунд"), JUMP_BUTTON_SECONDS);
+    const back30Button = makeJumpButton(`−${JUMP_BUTTON_SECONDS}`, t("jumpBack", "Back 30 seconds"), -JUMP_BUTTON_SECONDS);
+    const prevButton = makeButton("prev", t("navPrev", "Previous"), "", () => onPrev());
+    const playButton = makeButton("pause", t("playTooltip", "Play / pause"), "ytfp-nav-btn--main", togglePlayPause);
+    const nextButton = makeButton("next", t("navNext", "Next"), "", () => onNext());
+    const forward30Button = makeJumpButton(`+${JUMP_BUTTON_SECONDS}`, t("jumpForward", "Forward 30 seconds"), JUMP_BUTTON_SECONDS);
     nav.append(back30Button, prevButton, playButton, nextButton, forward30Button);
 
     function refreshPlayState() {

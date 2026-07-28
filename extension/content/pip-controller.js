@@ -118,11 +118,11 @@ YTFP.pip = (() => {
     icon.textContent = "▶";
 
     const message = document.createElement("div");
-    message.textContent = chrome.i18n.getMessage("overlayPlaying") || "Видео играет в мини-окне";
+    message.textContent = chrome.i18n.getMessage("overlayPlaying") || "Playing in the floating window";
 
     const returnButton = document.createElement("button");
     returnButton.className = "ytfp-page-overlay-return";
-    returnButton.textContent = chrome.i18n.getMessage("overlayReturn") || "Вернуть сюда";
+    returnButton.textContent = chrome.i18n.getMessage("overlayReturn") || "Bring it back";
     returnButton.addEventListener("click", close);
 
     inner.append(icon, message, returnButton);
