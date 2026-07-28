@@ -216,36 +216,43 @@ body:hover .ytfp-bar--compact {
    никакое масштабирование и вложенные контейнеры YouTube их не ломают. */
 .ytp-overflow-button {
   position: fixed !important;
-  top: 46px !important;
+  top: auto !important;
   right: 8px !important;
   left: auto !important;
-  bottom: auto !important;
-  width: 36px !important;
-  height: 36px !important;
+  bottom: 18px !important;
+  width: 28px !important;
+  height: 28px !important;
   margin: 0 !important;
-  padding: 6px !important;
+  padding: 4px !important;
   border-radius: 50% !important;
-  background: rgba(0, 0, 0, 0.55) !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  opacity: 0.75;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   z-index: 10004 !important;
+  transition: opacity 0.12s ease, background 0.12s ease;
+}
+
+.ytp-overflow-button:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ytp-overflow-button svg,
 .ytp-overflow-button .ytp-svg-shadow {
-  width: 20px !important;
-  height: 20px !important;
+  width: 16px !important;
+  height: 16px !important;
   fill: #fff !important;
 }
 
 .ytp-overflow-panel,
 .ytp-share-panel {
   position: fixed !important;
-  top: 88px !important;
+  top: auto !important;
   right: 8px !important;
   left: auto !important;
-  bottom: auto !important;
+  bottom: 52px !important;
   transform: none !important;
   width: 180px !important;
   max-width: 70vw !important;

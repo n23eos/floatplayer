@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDesc__",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "homepage_url": "https://github.com/n23eos/youtube_float_player",
   "default_locale": "ru",
   "minimum_chrome_version": "116",
