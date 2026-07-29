@@ -36,6 +36,41 @@ YTFP.pipControls = (() => {
     return svg;
   }
 
+  // Ночной режим: во сколько раз давим каждый канал (R, G, B).
+  // Честное масштабирование каналов, как у f.lux: картинка теплеет,
+  // но не мутнеет, как от sepia().
+  const NIGHT_LEVELS = ["off", "warm", "deep"];
+  const NIGHT_MATRICES = {
+    warm: [1, 0.93, 0.72],
+    deep: [1, 0.82, 0.5]
+  };
+
+  /** Скрытый <svg> с фильтрами ночного режима для документа PiP-окна. */
+  function createNightFilters(doc) {
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const svg = doc.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "ytfp-night-defs");
+    svg.setAttribute("aria-hidden", "true");
+    for (const [level, [red, green, blue]] of Object.entries(NIGHT_MATRICES)) {
+      const filter = doc.createElementNS(SVG_NS, "filter");
+      filter.setAttribute("id", `ytfp-night-${level}`);
+      // Явный sRGB: по умолчанию SVG-фильтры считаются в линейном
+      // пространстве, и картинка заметно светлеет.
+      filter.setAttribute("color-interpolation-filters", "sRGB");
+      const matrix = doc.createElementNS(SVG_NS, "feColorMatrix");
+      matrix.setAttribute("type", "matrix");
+      matrix.setAttribute("values", [
+        red, 0, 0, 0, 0,
+        0, green, 0, 0, 0,
+        0, 0, blue, 0, 0,
+        0, 0, 0, 1, 0
+      ].join(" "));
+      filter.appendChild(matrix);
+      svg.appendChild(filter);
+    }
+    return svg;
+  }
+
   /** content — строка или DOM-узел (иконка). */
   function createButton(doc, content, title, onClick) {
     const button = doc.createElement("button");
@@ -291,6 +326,44 @@ YTFP.pipControls = (() => {
       pipDocument.addEventListener("keydown", applyStoredPreset, { once: true });
     }
 
+    // --- Ночной режим ---------------------------------------------------------
+    // Клик по Луне циклом убавляет синий канал: off → warm → deep → off.
+    // Фильтр вешаем классом на <body> PiP-окна, а не инлайном на <video>:
+    // тело окна умирает вместе с окном, поэтому видео возвращается на страницу
+    // чистым и снимать фильтр вручную не нужно.
+    pipDocument.body.appendChild(createNightFilters(pipDocument));
+
+    const storedNight = YTFP.settings.get().nightMode;
+    let nightLevel = NIGHT_LEVELS.includes(storedNight) ? storedNight : "off";
+
+    const nightButton = createButton(
+      pipDocument,
+      createIcon(pipDocument, "sleep"),
+      t("nightTooltip", "Night mode: cuts blue light (click to change strength)"),
+      () => {
+        const nextIndex = (NIGHT_LEVELS.indexOf(nightLevel) + 1) % NIGHT_LEVELS.length;
+        nightLevel = NIGHT_LEVELS[nextIndex];
+        applyNightLevel();
+        // Запоминаем между сессиями (как аудио-пресет выше).
+        chrome.storage.sync.set({ nightMode: nightLevel }).catch(() => {});
+      }
+    );
+    nightButton.classList.add("ytfp-btn--night");
+
+    function applyNightLevel() {
+      for (const level of NIGHT_LEVELS) {
+        pipDocument.body.classList.toggle(
+          `ytfp-night--${level}`,
+          level !== "off" && level === nightLevel
+        );
+      }
+      nightButton.classList.toggle("ytfp-btn--active", nightLevel !== "off");
+      // Заливка кнопки показывает силу режима — отдельной подписи не нужно.
+      nightButton.dataset.night = nightLevel;
+    }
+
+    applyNightLevel();
+
     // --- Таймер сна -----------------------------------------------------------
     // По истечении — пауза. Живёт, пока открыто мини-окно.
     const SLEEP_PRESETS_MIN = [15, 30, 45, 60, 90];
@@ -422,7 +495,9 @@ YTFP.pipControls = (() => {
     });
     sleepCustomInput.addEventListener("change", commitCustomSleep);
 
-    sleepWrap.append(createIcon(pipDocument, "sleep"), sleepSelect, sleepCustomInput, sleepCountdown);
+    // Иконка Луны отсюда уехала в отдельную кнопку ночного режима: внутри
+    // <label> клик по ней открывал бы выпадающий список минут.
+    sleepWrap.append(sleepSelect, sleepCustomInput, sleepCountdown);
 
     // --- Возврат на страницу ------------------------------------------------
     const returnButton = createButton(
@@ -434,9 +509,9 @@ YTFP.pipControls = (() => {
     returnButton.classList.add("ytfp-btn--return");
 
     if (isShorts) {
-      bar.append(playButton, speedWrap, boostWrap, presetSelect, sleepWrap, returnButton);
+      bar.append(playButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
     } else {
-      bar.append(playButton, abButton, loopButton, skipButton, speedWrap, boostWrap, presetSelect, sleepWrap, returnButton);
+      bar.append(playButton, abButton, loopButton, skipButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
     }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).

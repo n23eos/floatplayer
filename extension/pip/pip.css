@@ -182,6 +182,44 @@ body:hover .ytfp-bar--compact {
   margin-left: auto;
 }
 
+/* --- Ночной режим ------------------------------------------------------ */
+
+/* Контейнер с <filter>-определениями: нужен в DOM, но не в разметке. */
+.ytfp-night-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Красим только само видео. Субтитры и панель остаются как есть:
+   белый текст поверх тёплой картинки читается лучше. */
+body.ytfp-night--warm video.html5-main-video {
+  filter: url(#ytfp-night-warm);
+}
+
+body.ytfp-night--deep video.html5-main-video {
+  filter: url(#ytfp-night-deep);
+}
+
+/* Заливка кнопки повторяет силу эффекта вместо общего красного
+   .ytfp-btn--active — так цвет кнопки совпадает с цветом картинки. */
+.ytfp-btn--night[data-night="warm"] {
+  background: #a86a1f;
+}
+
+.ytfp-btn--night[data-night="warm"]:hover {
+  background: #c27d26;
+}
+
+.ytfp-btn--night[data-night="deep"] {
+  background: #c2560f;
+}
+
+.ytfp-btn--night[data-night="deep"]:hover {
+  background: #db6413;
+}
+
 .ytfp-speed,
 .ytfp-boost,
 .ytfp-sleep {

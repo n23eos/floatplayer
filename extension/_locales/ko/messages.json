@@ -23,6 +23,9 @@
   "speedResetTooltip": {
     "message": "속도를 1x로 되돌리기"
   },
+  "nightTooltip": {
+    "message": "야간 모드: 블루라이트를 줄입니다 (클릭하여 강도 변경)"
+  },
   "sleepTooltip": {
     "message": "취침 타이머: 시간이 끝나면 영상을 일시정지합니다"
   },

@@ -23,6 +23,9 @@
   "speedResetTooltip": {
     "message": "Voltar a velocidade para 1x"
   },
+  "nightTooltip": {
+    "message": "Modo noturno: reduz a luz azul (clique para mudar a intensidade)"
+  },
   "sleepTooltip": {
     "message": "Timer: pausa o vídeo quando acabar"
   },

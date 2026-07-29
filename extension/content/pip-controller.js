@@ -155,6 +155,28 @@ YTFP.pip = (() => {
     document.head.appendChild(style);
   }
 
+  // Переход к следующему/предыдущему видео — хоткеями страницы (Shift+N / Shift+P).
+  // Кликать .ytp-next-button / .ytp-prev-button нельзя: это <a href="/watch?v=...">,
+  // и вместе с плеером они уезжают в документ PiP-окна. SPA-роутер YouTube слушает
+  // клики только в документе страницы, поэтому сработало бы дефолтное поведение
+  // якоря: PiP-окно ушло бы на watch-страницу и закрылось, вернув плеер обратно.
+  const NEXT_VIDEO_HOTKEY = { key: "N", code: "KeyN", keyCode: 78 };
+  const PREV_VIDEO_HOTKEY = { key: "P", code: "KeyP", keyCode: 80 };
+
+  function pressPageHotkey({ key, code, keyCode }) {
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key,
+        code,
+        keyCode,
+        which: keyCode,
+        shiftKey: true,
+        bubbles: true,
+        cancelable: true
+      })
+    );
+  }
+
   /** Открыть PiP. Возвращает true при успехе. */
   async function open() {
     if (isOpen()) {
@@ -273,10 +295,12 @@ YTFP.pip = (() => {
           }
         }
       : () => {
+          // Кнопку читаем только как признак «предыдущее видео есть»,
+          // сам переход делает хоткей страницы (см. pressPageHotkey).
           const button = playerEl.querySelector(".ytp-prev-button");
           const video = getMovedVideo();
           if (button && !button.disabled && button.getAttribute("aria-disabled") !== "true") {
-            button.click();
+            pressPageHotkey(PREV_VIDEO_HOTKEY);
           } else if (video) {
             video.currentTime = 0; // предыдущего нет — начинаем сначала
           }
@@ -289,9 +313,9 @@ YTFP.pip = (() => {
           }
         }
       : () => {
-          const button = playerEl.querySelector(".ytp-next-button");
-          if (button) {
-            button.click();
+          // Кнопка — только признак «следующее видео есть».
+          if (playerEl.querySelector(".ytp-next-button")) {
+            pressPageHotkey(NEXT_VIDEO_HOTKEY);
           }
         };
     const nav = YTFP.pipNav.build(pipWindow.document, {

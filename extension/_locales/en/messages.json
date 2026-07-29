@@ -23,6 +23,9 @@
   "speedResetTooltip": {
     "message": "Reset speed to 1x"
   },
+  "nightTooltip": {
+    "message": "Night mode: cuts blue light (click to change strength)"
+  },
   "sleepTooltip": {
     "message": "Sleep timer: pauses the video when it runs out"
   },

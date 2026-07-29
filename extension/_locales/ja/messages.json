@@ -23,6 +23,9 @@
   "speedResetTooltip": {
     "message": "速度を1xに戻す"
   },
+  "nightTooltip": {
+    "message": "ナイトモード: ブルーライトを抑えます（クリックで強さを変更）"
+  },
   "sleepTooltip": {
     "message": "スリープタイマー: 時間が来たら動画を一時停止します"
   },

@@ -25,6 +25,7 @@ YTFP.DEFAULT_SETTINGS = {
   // Какие категории SponsorBlock запрашивать и пропускать.
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
   audioPreset: "off",       // аудио-пресет: off | night | voice | bass
+  nightMode: "off",         // ночной режим (подавление синего): off | warm | deep
   shortsAutoNext: true,     // шортсы: автопереход к следующему по окончании
   // "document" — окно с панелью настроек (Chrome рисует рамку с origin),
   // "native"   — чистое видео без рамки (нативный PiP, без панели).
