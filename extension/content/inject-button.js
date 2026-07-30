@@ -19,45 +19,15 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     "M13.9 14.5v4.6h7.3v-4.6z";
 
   /**
-   * SVG иконки подстраиваем под соседей: копируем width/height/viewBox
-   * с иконки шестерёнки, чтобы кнопка выглядела нативно и в новом UI
-   * (svg 24x24), и в старом (svg 100% с viewBox 36x36).
-   * Строим через createElementNS: YouTube включает Trusted Types,
-   * innerHTML на странице может быть запрещён.
+   * SVG иконки подстраиваем под соседей: размеры берём с иконки шестерёнки,
+   * чтобы кнопка выглядела нативно и в новом UI, и в старом. Общий строитель
+   * живёт в page-controls.js — им же нарисованы Луна и таймер сна.
    */
   function buildIconSvg(settingsButton) {
-    const SVG_NS = "http://www.w3.org/2000/svg";
-    const reference = settingsButton ? settingsButton.querySelector("svg") : null;
-    const viewBox = (reference && reference.getAttribute("viewBox")) || "0 0 24 24";
-    const width = (reference && reference.getAttribute("width")) || "24";
-    const height = (reference && reference.getAttribute("height")) || "24";
-
-    const svg = document.createElementNS(SVG_NS, "svg");
-    svg.setAttribute("fill", "none");
-    svg.setAttribute("width", width);
-    svg.setAttribute("height", height);
-    svg.setAttribute("viewBox", viewBox);
-
-    // Цвет наследуем от кнопки плеера — иконка живёт в расцветке панели.
-    const playPath = document.createElementNS(SVG_NS, "path");
-    playPath.setAttribute("d", ICON_PLAY_PATH);
-    playPath.setAttribute("fill", "currentColor");
-
-    const windowPath = document.createElementNS(SVG_NS, "path");
-    windowPath.setAttribute("d", ICON_WINDOW_PATH);
-    windowPath.setAttribute("fill", "currentColor");
-    windowPath.setAttribute("fill-rule", "evenodd");
-
-    // В сетке 36x36 (старый UI) центрируем рисунок 24x24 смещением на 6.
-    if (viewBox.includes("36")) {
-      const group = document.createElementNS(SVG_NS, "g");
-      group.setAttribute("transform", "translate(6,6)");
-      group.append(playPath, windowPath);
-      svg.appendChild(group);
-    } else {
-      svg.append(playPath, windowPath);
-    }
-    return svg;
+    return YTFP.pageControls.createIcon(settingsButton, [
+      ICON_PLAY_PATH,
+      { d: ICON_WINDOW_PATH, fillRule: "evenodd" }
+    ]);
   }
 
   function buildButton(settingsButton) {
@@ -93,9 +63,9 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   }
 
   /**
-   * Вставляет кнопку особняком — самой левой в правой группе контролов,
+   * Вставляет кнопки особняком — самыми левыми в правой группе контролов,
    * до всех кнопок YouTube (шестерёнка нужна только как образец
-   * размеров иконки).
+   * размеров иконки). Порядок: ночной режим, таймер сна, основная кнопка.
    */
   function ensureButton() {
     if (YTFP.playerApi.isShortsPage()) {
@@ -113,7 +83,10 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     const button = buildButton(settingsButton);
     // Небольшой зазор, чтобы кнопка читалась как отдельная от группы YouTube.
     button.style.marginRight = "8px";
+    // prepend в обратном порядке: каждая следующая встаёт левее предыдущей.
     rightControls.prepend(button);
+    rightControls.prepend(YTFP.pageControls.buildSleepButton(settingsButton));
+    rightControls.prepend(YTFP.pageControls.buildNightButton(settingsButton));
     maybeShowOnboarding(button);
   }
 

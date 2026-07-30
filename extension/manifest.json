@@ -32,6 +32,7 @@
         "content/settings.js",
         "content/player-api.js",
         "content/audio-boost.js",
+        "content/night-mode.js",
         "content/pip-controls.js",
         "content/pip-progress.js",
         "content/pip-related.js",
@@ -39,6 +40,7 @@
         "content/pip-chat.js",
         "content/pip-controller.js",
         "content/sponsor-block.js",
+        "content/page-controls.js",
         "content/inject-button.js"
       ],
       "run_at": "document_idle"
