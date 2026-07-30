@@ -155,12 +155,15 @@ YTFP.pipProgress = (() => {
     function renderChapters() {
       chapters = collectChapters();
       chaptersLayer.replaceChildren();
-      if (!range() || isAdShowing()) {
+      // Границы считаем один раз на всю отрисовку: getSeekRange щупает DOM
+      // плеера, и звать его на каждую главу — лишняя работа.
+      const bounds = range();
+      if (!bounds || isAdShowing()) {
         return;
       }
       // Первую насечку (0:00) не рисуем — край полоски и так виден.
       for (const chapter of chapters.slice(1)) {
-        const fraction = fractionOf(chapter.start);
+        const fraction = YTFP.utils.windowFraction(chapter.start, bounds.start, bounds.end);
         if (fraction === null) {
           continue;
         }

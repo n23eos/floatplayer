@@ -335,7 +335,8 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bar,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-nav,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
-body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-root,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-toggle,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-panel,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-progress-wrap,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   opacity: 0 !important;
@@ -630,16 +631,60 @@ body:hover .ytfp-related-toggle {
 
 /* --- Чат прямого эфира -------------------------------------------------- */
 
+/* Круглая кнопка в нижнем правом углу. Над панелью чата, чтобы ею же
+   закрывать; при открытии отъезжает влево и не садится на поле ввода. */
+.ytfp-chat-toggle {
+  position: absolute;
+  right: 8px;
+  bottom: 14px;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.65);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, right 0.2s ease;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+/* Скрыта на обычном видео: эфира нет — чата нет. */
+.ytfp-chat-toggle[hidden] {
+  display: none;
+}
+
+body:hover .ytfp-chat-toggle {
+  opacity: 1;
+}
+
+.ytfp-chat-toggle:hover {
+  background: rgba(40, 40, 40, 0.9);
+}
+
+.ytfp-chat-toggle--open {
+  right: calc(min(52%, 300px) + 8px);
+  background: #cc0000;
+}
+
 /* Колонка у правого края поверх видео. z-index ниже панели управления и
-   полоски прогресса: иначе чат накрыл бы кнопку, которой его выключают. */
-.ytfp-chat-root {
+   полоски прогресса: иначе чат накрыл бы органы управления. */
+.ytfp-chat-panel {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 4px;
   width: min(52%, 300px);
   z-index: 9998;
-  background: #0f0f0f;
+  /* Полупрозрачный задник. Прозрачность именно фона, а не opacity всей
+     панели: opacity погасил бы и текст сообщений. Фон внутри самой
+     страницы чата гасит pip-chat.js — свой iframe, origin тот же. */
+  background: rgba(15, 15, 15, 0.5);
   transform: translateX(100%);
   transition: transform 0.2s ease;
   overflow: hidden;
@@ -647,7 +692,7 @@ body:hover .ytfp-related-toggle {
   app-region: no-drag;
 }
 
-.ytfp-chat-root--open {
+.ytfp-chat-panel--open {
   transform: translateX(0);
 }
 
@@ -656,18 +701,13 @@ body:hover .ytfp-related-toggle {
   width: 100%;
   height: 100%;
   border: 0;
-  background: #0f0f0f;
+  background: transparent;
 }
 
 /* Рекомендации живут в том же углу: пока чат открыт, убираем их целиком.
    Связь между модулями только здесь — сам pip-related.js об этом не знает. */
 body.ytfp-chat-open .ytfp-related-toggle,
 body.ytfp-chat-open .ytfp-related-panel {
-  display: none;
-}
-
-/* Кнопка чата: скрыта на обычном видео, как и кнопка «В эфире». */
-.ytfp-btn--chat[hidden] {
   display: none;
 }
 

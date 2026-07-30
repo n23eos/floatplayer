@@ -67,22 +67,36 @@ YTFP.playerApi = (() => {
    * video можно передать явно: у полосок и панели свой getVideo(), и брать
    * элемент дважды разными путями — лишний риск разъехаться.
    */
+  // На сколько держимся позади самого края эфира при перемотке.
+  const LIVE_EDGE_BACKOFF_SECONDS = 1;
+
   function getSeekRange(video = getVideo()) {
     if (!video) {
       return null;
     }
+    // Реклама — обычный конечный ролик, её окно всегда от нуля.
+    const isLiveNow = !isAdShowing() && isLive();
+    const hasSeekable = Boolean(video.seekable) && video.seekable.length > 0;
+
+    // У прямого эфира границы берём только из seekable. Доверять duration
+    // нельзя: у стрима она бывает конечной, но завышенной — полоска тогда
+    // не доезжает до конца, отставание считается от несуществующего края,
+    // а перемотка вправо уводит за буфер, где плеер встаёт насовсем.
+    if (hasSeekable && (isLiveNow || !Number.isFinite(video.duration) || video.duration <= 0)) {
+      const start = video.seekable.start(0);
+      const rawEnd = video.seekable.end(video.seekable.length - 1);
+      // Отступ от самого края: последние доли секунды ещё не догружены, и
+      // перемотка ровно в конец подвешивает плеер.
+      const end = isLiveNow ? rawEnd - LIVE_EDGE_BACKOFF_SECONDS : rawEnd;
+      if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
+        return { start, end };
+      }
+    }
+
     if (Number.isFinite(video.duration) && video.duration > 0) {
       return { start: 0, end: video.duration };
     }
-    if (!video.seekable || video.seekable.length === 0) {
-      return null;
-    }
-    const start = video.seekable.start(0);
-    const end = video.seekable.end(video.seekable.length - 1);
-    if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) {
-      return null;
-    }
-    return { start, end };
+    return null;
   }
 
   // ID видео — ровно 11 символов из алфавита YouTube.

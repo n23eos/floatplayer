@@ -21,8 +21,6 @@ YTFP.pipControls = (() => {
     volume: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z",
     sleep: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
     back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z",
-    // Чат: облачко реплики со строками текста.
-    chat: "M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z",
     // Автовоспроизведение: рамка с треугольником play внутри — тот же язык,
     // что у родной кнопки автозапуска YouTube.
     autoplay: "M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 12H5V7h14v10zM10 9.5v5l4-2.5-4-2.5z"
@@ -94,9 +92,7 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  // getChat — функция, возвращающая модуль чата (или null). Именно функция:
-  // панель чата строится позже панели управления.
-  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts, getChat }) {
+  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts }) {
     const bar = pipDocument.createElement("div");
     bar.className = "ytfp-bar";
     if (YTFP.settings.get().compactMode) {
@@ -244,29 +240,10 @@ YTFP.pipControls = (() => {
       }
     });
 
-    // Кнопка чата: тот же признак живого эфира, что и у кнопки «В эфире».
-    const chatButton = createButton(
-      pipDocument,
-      createIcon(pipDocument, "chat"),
-      t("chatTooltip", "Live chat"),
-      () => {
-        const chat = getChat && getChat();
-        if (chat) {
-          chatButton.classList.toggle("ytfp-btn--active", chat.toggle());
-        }
-      }
-    );
-    chatButton.classList.add("ytfp-btn--chat");
-
     function refreshLiveState() {
       const video = getVideo();
       const isLive = Boolean(video) && YTFP.playerApi.isLive();
       liveButton.hidden = !isLive;
-      const chat = getChat && getChat();
-      chatButton.hidden = !isLive || !chat;
-      // Панель могла закрыться сама (эфир кончился) — держим подсветку
-      // синхронной с фактическим состоянием, а не с последним кликом.
-      chatButton.classList.toggle("ytfp-btn--active", Boolean(chat && chat.isOpen()));
       if (!isLive) {
         return;
       }
@@ -599,7 +576,7 @@ YTFP.pipControls = (() => {
     if (isShorts) {
       bar.append(playButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
     } else {
-      bar.append(playButton, liveButton, chatButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
+      bar.append(playButton, liveButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
     }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
