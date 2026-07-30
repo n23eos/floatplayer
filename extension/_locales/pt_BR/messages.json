@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "Repetir este vídeo"
   },
+  "autoplayTooltip": {
+    "message": "Reprodução automática: próximo vídeo quando este terminar"
+  },
+  "liveTooltip": {
+    "message": "Voltar para a transmissão ao vivo"
+  },
+  "liveLabel": {
+    "message": "AO VIVO"
+  },
+  "chatTooltip": {
+    "message": "Chat ao vivo"
+  },
   "presetTooltip": {
     "message": "Predefinição de áudio"
   },

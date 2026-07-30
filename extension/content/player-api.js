@@ -46,15 +46,88 @@ YTFP.playerApi = (() => {
     return Boolean(playerRoot && playerRoot.classList.contains("ad-showing"));
   }
 
+  /**
+   * Прямой эфир: у стрима внутри плеера есть значок «В эфире», у обычного
+   * видео его нет. Ищем от корня плеера — он мог уехать в PiP-окно.
+   */
+  function isLive() {
+    const video = getVideo();
+    const playerRoot = video && video.closest("#movie_player, #shorts-player");
+    return Boolean(playerRoot && playerRoot.querySelector(YTFP.SELECTORS.liveBadge));
+  }
+
+  /**
+   * Куда вообще можно перемотать: { start, end } или null.
+   * Обычное видео — от нуля до длительности. Прямой эфир — длительность не
+   * конечна, и границы берём из seekable: это DVR-буфер, он начинается не в
+   * нуле и едет вперёд вместе с эфиром.
+   * Во время рекламы длительность конечна (это длительность ролика), поэтому
+   * реклама попадает в первую ветку — как было до появления стримов.
+   *
+   * video можно передать явно: у полосок и панели свой getVideo(), и брать
+   * элемент дважды разными путями — лишний риск разъехаться.
+   */
+  function getSeekRange(video = getVideo()) {
+    if (!video) {
+      return null;
+    }
+    if (Number.isFinite(video.duration) && video.duration > 0) {
+      return { start: 0, end: video.duration };
+    }
+    if (!video.seekable || video.seekable.length === 0) {
+      return null;
+    }
+    const start = video.seekable.start(0);
+    const end = video.seekable.end(video.seekable.length - 1);
+    if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) {
+      return null;
+    }
+    return { start, end };
+  }
+
+  // ID видео — ровно 11 символов из алфавита YouTube.
+  const VIDEO_ID_PATTERN = /[?&]v=([\w-]{11})/;
+
+  /**
+   * ID текущего видео или null. Слоями, потому что единственного надёжного
+   * источника нет: на /watch ID лежит в адресе, а на канальных страницах
+   * вида /@канал/live — нет, и адрес приходится обходить.
+   */
+  function getVideoId() {
+    const fromUrl = new URLSearchParams(location.search).get("v");
+    if (fromUrl) {
+      return fromUrl;
+    }
+    // Канонический адрес до загрузки страницы бывает мусорным
+    // (".../@канал/undefined") — поэтому не доверяем, а сверяем с шаблоном.
+    const canonical = document.querySelector(YTFP.SELECTORS.canonicalLink);
+    const matched = canonical && canonical.href.match(VIDEO_ID_PATTERN);
+    if (matched) {
+      return matched[1];
+    }
+    const flexy = document.querySelector(YTFP.SELECTORS.watchFlexy);
+    return (flexy && flexy.getAttribute("video-id")) || null;
+  }
+
+  /** Край прямого эфира — дальняя граница окна. Буфер не набран -> null. */
+  function getLiveEdge() {
+    const bounds = getSeekRange();
+    return bounds ? bounds.end : null;
+  }
+
   function seekBy(deltaSeconds) {
     const video = getVideo();
-    if (!video || !Number.isFinite(video.duration) || isAdShowing()) {
+    if (!video || isAdShowing()) {
+      return;
+    }
+    const bounds = getSeekRange(video);
+    if (!bounds) {
       return;
     }
     video.currentTime = YTFP.utils.clamp(
       video.currentTime + deltaSeconds,
-      0,
-      video.duration
+      bounds.start,
+      bounds.end
     );
   }
 
@@ -79,6 +152,7 @@ YTFP.playerApi = (() => {
 
   return {
     getPlayerRoot, getVideo, isWatchPage, isShortsPage, isPlayerPage,
-    isAdShowing, seekBy, togglePlayPause, setSpeed
+    isAdShowing, isLive, getLiveEdge, getSeekRange, getVideoId,
+    seekBy, togglePlayPause, setSpeed
   };
 })();

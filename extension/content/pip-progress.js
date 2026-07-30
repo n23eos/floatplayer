@@ -47,20 +47,30 @@ YTFP.pipProgress = (() => {
       return Boolean(playerRoot && playerRoot.classList.contains("ad-showing"));
     }
 
-    function duration() {
-      const video = getVideo();
-      return video && Number.isFinite(video.duration) ? video.duration : 0;
+    /** Окно, которое рисует полоска: { start, end } или null. */
+    function range() {
+      return YTFP.playerApi.getSeekRange(getVideo());
+    }
+
+    /** Доля времени в текущем окне (0–1) или null, если окна нет. */
+    function fractionOf(time) {
+      const bounds = range();
+      return bounds
+        ? YTFP.utils.windowFraction(time, bounds.start, bounds.end)
+        : null;
     }
 
     function renderFill() {
       const video = getVideo();
-      const total = duration();
       const showingAd = isAdShowing();
       wrap.classList.toggle("ytfp-progress-wrap--ad", showingAd);
-      if (!video || total <= 0) {
+      if (!video) {
         return;
       }
-      const fraction = video.currentTime / total;
+      const fraction = fractionOf(video.currentTime);
+      if (fraction === null) {
+        return;
+      }
       if (showingAd) {
         // Сейчас currentTime/duration — это рекламный ролик:
         // рисуем белую полоску, красную не трогаем (заморожена).
@@ -72,17 +82,18 @@ YTFP.pipProgress = (() => {
 
     function renderSegments() {
       segmentsLayer.replaceChildren();
-      const total = duration();
+      const bounds = range();
       const segments =
         (YTFP.sponsorBlock && YTFP.sponsorBlock.getSegments && YTFP.sponsorBlock.getSegments()) || [];
-      if (total <= 0 || isAdShowing()) {
+      if (!bounds || isAdShowing()) {
         return;
       }
+      const width = bounds.end - bounds.start;
       for (const segment of segments) {
         const mark = pipDocument.createElement("div");
         mark.className = "ytfp-progress-seg";
-        mark.style.left = `${(segment.start / total) * 100}%`;
-        mark.style.width = `${Math.max(((segment.end - segment.start) / total) * 100, 0.3)}%`;
+        mark.style.left = `${((segment.start - bounds.start) / width) * 100}%`;
+        mark.style.width = `${Math.max(((segment.end - segment.start) / width) * 100, 0.3)}%`;
         segmentsLayer.appendChild(mark);
       }
     }
@@ -120,19 +131,20 @@ YTFP.pipProgress = (() => {
     }
 
     function collectChaptersFromTimeline() {
-      const total = duration();
+      const bounds = range();
       const video = getVideo();
       const playerRoot = video && video.closest("#movie_player");
-      if (!playerRoot || total <= 0) {
+      if (!playerRoot || !bounds) {
         return [];
       }
       const sections = playerRoot.querySelectorAll(
         ".ytp-chapters-container .ytp-chapter-hover-container"
       );
       const widths = Array.from(sections, (el) => parseFloat(el.style.width));
+      const windowWidth = bounds.end - bounds.start;
       return YTFP.utils
         .chapterFractionsFromWidths(widths)
-        .map((fraction) => ({ start: fraction * total, title: null }));
+        .map((fraction) => ({ start: bounds.start + fraction * windowWidth, title: null }));
     }
 
     function collectChapters() {
@@ -143,15 +155,18 @@ YTFP.pipProgress = (() => {
     function renderChapters() {
       chapters = collectChapters();
       chaptersLayer.replaceChildren();
-      const total = duration();
-      if (total <= 0 || isAdShowing()) {
+      if (!range() || isAdShowing()) {
         return;
       }
       // Первую насечку (0:00) не рисуем — край полоски и так виден.
       for (const chapter of chapters.slice(1)) {
+        const fraction = fractionOf(chapter.start);
+        if (fraction === null) {
+          continue;
+        }
         const tick = pipDocument.createElement("div");
         tick.className = "ytfp-chapter-tick";
-        tick.style.left = `${(chapter.start / total) * 100}%`;
+        tick.style.left = `${fraction * 100}%`;
         chaptersLayer.appendChild(tick);
       }
     }
@@ -168,19 +183,21 @@ YTFP.pipProgress = (() => {
     }
 
     function onTrackHover(event) {
-      const total = duration();
-      if (total <= 0 || isAdShowing()) {
+      const bounds = range();
+      if (!bounds || isAdShowing()) {
         tooltip.classList.remove("ytfp-progress-tooltip--visible");
         return;
       }
       const rect = track.getBoundingClientRect();
       const fraction = YTFP.utils.clamp((event.clientX - rect.left) / rect.width, 0, 1);
-      const time = fraction * total;
+      const time = bounds.start + fraction * (bounds.end - bounds.start);
       const chapter = chapterAt(time);
       const title = chapter && chapter.title ? chapter.title : "";
       tooltipTitle.textContent = title;
       tooltipTitle.style.display = title ? "" : "none";
-      tooltipTime.textContent = YTFP.utils.formatTime(time);
+      // От начала окна, а не от абсолютного времени: у обычного видео окно
+      // начинается в нуле и подпись прежняя, у стрима это позиция в буфере.
+      tooltipTime.textContent = YTFP.utils.formatTime(time - bounds.start);
       // Позиция над курсором, но не за краями окна.
       const half = tooltip.offsetWidth / 2 || 40;
       // В узком окне тултип может быть шире доступного места: тогда границы
@@ -207,13 +224,13 @@ YTFP.pipProgress = (() => {
         return;
       }
       const video = getVideo();
-      const total = duration();
-      if (!video || total <= 0) {
+      const bounds = range();
+      if (!video || !bounds) {
         return;
       }
       const rect = track.getBoundingClientRect();
       const fraction = YTFP.utils.clamp((clientX - rect.left) / rect.width, 0, 1);
-      video.currentTime = fraction * total;
+      video.currentTime = bounds.start + fraction * (bounds.end - bounds.start);
       renderFill();
     }
 

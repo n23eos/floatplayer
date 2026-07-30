@@ -84,13 +84,19 @@ YTFP.pipNav = (() => {
       const video = getVideo();
       // Во время рекламы YouTube перемотка запрещена: currentTime — время
       // рекламного ролика, и сдвиг означал бы его пропуск.
-      if (!video || !Number.isFinite(video.duration) || YTFP.playerApi.isAdShowing()) {
+      if (!video || YTFP.playerApi.isAdShowing()) {
+        return;
+      }
+      // Границы, а не длительность: у прямого эфира длительность не конечна,
+      // и мотать надо в пределах DVR-буфера.
+      const bounds = YTFP.playerApi.getSeekRange(video);
+      if (!bounds) {
         return;
       }
       video.currentTime = YTFP.utils.clamp(
         video.currentTime + deltaSeconds,
-        0,
-        video.duration
+        bounds.start,
+        bounds.end
       );
       flashSeekIndicator(deltaSeconds);
     }

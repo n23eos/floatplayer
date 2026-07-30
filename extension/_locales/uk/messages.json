@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "Зациклити це відео"
   },
+  "autoplayTooltip": {
+    "message": "Автовідтворення: наступне відео після завершення поточного"
+  },
+  "liveTooltip": {
+    "message": "Повернутися до прямого ефіру"
+  },
+  "liveLabel": {
+    "message": "В ефірі"
+  },
+  "chatTooltip": {
+    "message": "Чат трансляції"
+  },
   "presetTooltip": {
     "message": "Аудіопресет"
   },

@@ -153,9 +153,54 @@ YTFP.utils = (() => {
     return fractions;
   }
 
+  /**
+   * Название видео из заголовка вкладки YouTube: срезает счётчик уведомлений
+   * в начале и " - YouTube" в конце. "(3) Кино - YouTube" -> "Кино".
+   * Не watch-страница или мусор -> строка как есть (без счётчика).
+   */
+  function videoTitleFromPageTitle(pageTitle) {
+    if (typeof pageTitle !== "string") {
+      return "";
+    }
+    const SUFFIX = " - YouTube";
+    const withoutCounter = pageTitle.replace(/^\(\d+\)\s*/, "").trim();
+    return withoutCounter.endsWith(SUFFIX)
+      ? withoutCounter.slice(0, -SUFFIX.length)
+      : withoutCounter;
+  }
+
+  /**
+   * На сколько секунд отстаём от края прямого эфира. Отрицательную разницу
+   * гасим в 0: край растёт между замерами, и currentTime может его обогнать.
+   * Некорректные значения -> null.
+   */
+  function behindLiveSeconds(liveEdge, currentTime) {
+    if (!Number.isFinite(liveEdge) || !Number.isFinite(currentTime)) {
+      return null;
+    }
+    return Math.max(0, liveEdge - currentTime);
+  }
+
+  /**
+   * Доля позиции внутри окна [start, end] — для полоски прогресса.
+   * У обычного видео окно начинается в нуле, у DVR-стрима — нет.
+   * Вырожденное окно или мусор -> null.
+   */
+  function windowFraction(time, start, end) {
+    if (!Number.isFinite(time) || !Number.isFinite(start) || !Number.isFinite(end)) {
+      return null;
+    }
+    const width = end - start;
+    if (width <= 0) {
+      return null;
+    }
+    return clamp((time - start) / width, 0, 1);
+  }
+
   return {
     clamp, formatTime, abLoopTarget, nextSpeed, normalizeSegments, segmentEndAt,
-    digitSeekTime, chapterFractionsFromWidths, parseTimeLabel
+    digitSeekTime, chapterFractionsFromWidths, parseTimeLabel,
+    videoTitleFromPageTitle, behindLiveSeconds, windowFraction
   };
 })();
 

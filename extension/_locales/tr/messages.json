@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "Bu videoyu tekrarla"
   },
+  "autoplayTooltip": {
+    "message": "Otomatik oynatma: bu video bitince sıradakini başlat"
+  },
+  "liveTooltip": {
+    "message": "Canlı yayına dön"
+  },
+  "liveLabel": {
+    "message": "CANLI"
+  },
+  "chatTooltip": {
+    "message": "Canlı sohbet"
+  },
   "presetTooltip": {
     "message": "Ses ön ayarı"
   },

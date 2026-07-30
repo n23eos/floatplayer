@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "Dieses Video wiederholen"
   },
+  "autoplayTooltip": {
+    "message": "Autoplay: nächstes Video starten, wenn dieses endet"
+  },
+  "liveTooltip": {
+    "message": "Zum Live-Rand springen"
+  },
+  "liveLabel": {
+    "message": "LIVE"
+  },
+  "chatTooltip": {
+    "message": "Live-Chat"
+  },
   "presetTooltip": {
     "message": "Audio-Voreinstellung"
   },

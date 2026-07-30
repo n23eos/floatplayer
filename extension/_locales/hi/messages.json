@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "इस वीडियो को दोहराएँ"
   },
+  "autoplayTooltip": {
+    "message": "ऑटोप्ले: यह वीडियो खत्म होने पर अगला वीडियो चलाएँ"
+  },
+  "liveTooltip": {
+    "message": "लाइव पर वापस जाएँ"
+  },
+  "liveLabel": {
+    "message": "लाइव"
+  },
+  "chatTooltip": {
+    "message": "लाइव चैट"
+  },
   "presetTooltip": {
     "message": "ऑडियो प्रीसेट"
   },

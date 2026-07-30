@@ -92,7 +92,7 @@ YTFP.pipRelated = (() => {
     return items;
   }
 
-  function build(pipDocument, { getVideo } = {}) {
+  function build(pipDocument, { getVideo, onQueueEmptyEnded } = {}) {
     const root = pipDocument.createElement("div");
     root.className = "ytfp-related-root";
 
@@ -232,6 +232,11 @@ YTFP.pipRelated = (() => {
     function onEnded() {
       if (playNextFromQueue()) {
         renderQueue();
+        return;
+      }
+      // Очередь пуста — решение за вызывающим (автовоспроизведение YouTube).
+      if (onQueueEmptyEnded) {
+        onQueueEmptyEnded();
       }
     }
     if (video) {

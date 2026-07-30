@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "Lire cette vidéo en boucle"
   },
+  "autoplayTooltip": {
+    "message": "Lecture automatique : passer à la vidéo suivante à la fin"
+  },
+  "liveTooltip": {
+    "message": "Revenir au direct"
+  },
+  "liveLabel": {
+    "message": "EN DIRECT"
+  },
+  "chatTooltip": {
+    "message": "Chat en direct"
+  },
   "presetTooltip": {
     "message": "Préréglage audio"
   },

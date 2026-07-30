@@ -222,3 +222,79 @@ describe("parseTimeLabel", () => {
     expect(utils.parseTimeLabel(undefined)).toBeNull();
   });
 });
+
+describe("videoTitleFromPageTitle", () => {
+  test("strips the YouTube suffix", () => {
+    expect(utils.videoTitleFromPageTitle("Кино - YouTube")).toBe("Кино");
+  });
+
+  test("strips the notification counter", () => {
+    expect(utils.videoTitleFromPageTitle("(3) Кино - YouTube")).toBe("Кино");
+    expect(utils.videoTitleFromPageTitle("(12) Кино - YouTube")).toBe("Кино");
+  });
+
+  test("keeps a dash that belongs to the video title", () => {
+    expect(utils.videoTitleFromPageTitle("Rush - YYZ (live) - YouTube")).toBe(
+      "Rush - YYZ (live)"
+    );
+  });
+
+  test("returns the title as is when the suffix is missing", () => {
+    expect(utils.videoTitleFromPageTitle("YouTube")).toBe("YouTube");
+    expect(utils.videoTitleFromPageTitle("(1) YouTube")).toBe("YouTube");
+  });
+
+  test("returns empty string for non-string input", () => {
+    expect(utils.videoTitleFromPageTitle(null)).toBe("");
+    expect(utils.videoTitleFromPageTitle(undefined)).toBe("");
+  });
+});
+
+describe("behindLiveSeconds", () => {
+  test("returns the gap between the live edge and the current position", () => {
+    expect(utils.behindLiveSeconds(100, 70)).toBe(30);
+  });
+
+  test("returns 0 at the live edge", () => {
+    expect(utils.behindLiveSeconds(100, 100)).toBe(0);
+  });
+
+  test("clamps to 0 when the position is past the edge", () => {
+    // Край эфира растёт между кадрами: currentTime может обогнать замер.
+    expect(utils.behindLiveSeconds(100, 100.4)).toBe(0);
+  });
+
+  test("returns null for non-finite input", () => {
+    expect(utils.behindLiveSeconds(Infinity, 10)).toBeNull();
+    expect(utils.behindLiveSeconds(100, NaN)).toBeNull();
+    expect(utils.behindLiveSeconds(null, 10)).toBeNull();
+    expect(utils.behindLiveSeconds(100, undefined)).toBeNull();
+  });
+});
+
+describe("windowFraction", () => {
+  test("returns the position inside the window", () => {
+    expect(utils.windowFraction(50, 0, 100)).toBe(0.5);
+  });
+
+  test("counts from the window start, not from zero", () => {
+    // DVR-окно стрима начинается не в нуле.
+    expect(utils.windowFraction(150, 100, 200)).toBe(0.5);
+  });
+
+  test("clamps outside the window", () => {
+    expect(utils.windowFraction(50, 100, 200)).toBe(0);
+    expect(utils.windowFraction(500, 100, 200)).toBe(1);
+  });
+
+  test("returns null for a degenerate window", () => {
+    expect(utils.windowFraction(100, 100, 100)).toBeNull();
+    expect(utils.windowFraction(100, 200, 100)).toBeNull();
+  });
+
+  test("returns null for non-finite input", () => {
+    expect(utils.windowFraction(NaN, 0, 100)).toBeNull();
+    expect(utils.windowFraction(50, 0, Infinity)).toBeNull();
+    expect(utils.windowFraction(50, undefined, 100)).toBeNull();
+  });
+});

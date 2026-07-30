@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "Ulangi video ini"
   },
+  "autoplayTooltip": {
+    "message": "Putar otomatis: mulai video berikutnya saat ini selesai"
+  },
+  "liveTooltip": {
+    "message": "Kembali ke siaran langsung"
+  },
+  "liveLabel": {
+    "message": "LANGSUNG"
+  },
+  "chatTooltip": {
+    "message": "Live chat"
+  },
   "presetTooltip": {
     "message": "Prasetel audio"
   },

@@ -20,7 +20,12 @@ YTFP.pipControls = (() => {
     loop: "M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z",
     volume: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z",
     sleep: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
-    back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+    back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z",
+    // Чат: облачко реплики со строками текста.
+    chat: "M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z",
+    // Автовоспроизведение: рамка с треугольником play внутри — тот же язык,
+    // что у родной кнопки автозапуска YouTube.
+    autoplay: "M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 12H5V7h14v10zM10 9.5v5l4-2.5-4-2.5z"
   };
 
   function createIcon(doc, name) {
@@ -89,7 +94,9 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts }) {
+  // getChat — функция, возвращающая модуль чата (или null). Именно функция:
+  // панель чата строится позже панели управления.
+  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts, getChat }) {
     const bar = pipDocument.createElement("div");
     bar.className = "ytfp-bar";
     if (YTFP.settings.get().compactMode) {
@@ -167,6 +174,25 @@ YTFP.pipControls = (() => {
       }
     );
 
+    // --- Автовоспроизведение --------------------------------------------------
+    // Флаг читает pip-controller по окончании видео (когда очередь пуста).
+    // Здесь только переключатель и его подсветка.
+    // Локальное состояние, а не чтение настроек на каждый клик: кэш настроек
+    // обновляется асинхронно через storage.onChanged, и два быстрых клика
+    // прочитали бы одно и то же значение.
+    let isAutoplayOn = Boolean(YTFP.settings.get().autoplayNext);
+    const autoplayButton = createButton(
+      pipDocument,
+      createIcon(pipDocument, "autoplay"),
+      t("autoplayTooltip", "Autoplay: start the next video when this one ends"),
+      () => {
+        isAutoplayOn = !isAutoplayOn;
+        autoplayButton.classList.toggle("ytfp-btn--active", isAutoplayOn);
+        chrome.storage.sync.set({ autoplayNext: isAutoplayOn }).catch(() => {});
+      }
+    );
+    autoplayButton.classList.toggle("ytfp-btn--active", isAutoplayOn);
+
     // --- Play/pause -------------------------------------------------------------
     // Родные контролы YouTube в окне скрыты, поэтому пауза живёт здесь.
     const playButton = createButton(
@@ -194,6 +220,65 @@ YTFP.pipControls = (() => {
       // Заодно синхронизируем подсветку loop: у <video> нет события "loop",
       // а само видео могло смениться (рекомендации, плейлист, шортсы).
       loopButton.classList.toggle("ytfp-btn--active", Boolean(video && video.loop));
+    }
+
+    // --- Прямой эфир ----------------------------------------------------------
+    // На обычном видео кнопки нет вообще. На стриме: у края эфира горит
+    // красная точка, при отставании — на сколько отстали, клик возвращает.
+    // Отставание меньше секунды считаем эфиром: край растёт непрерывно, и
+    // подпись иначе дёргалась бы на «−0:00».
+    const LIVE_EDGE_TOLERANCE_SECONDS = 1;
+
+    const liveButton = pipDocument.createElement("button");
+    liveButton.className = "ytfp-btn ytfp-btn--live";
+    liveButton.title = t("liveTooltip", "Jump to the live edge");
+    const liveDot = pipDocument.createElement("span");
+    liveDot.className = "ytfp-live-dot";
+    const liveLabel = pipDocument.createElement("span");
+    liveButton.append(liveDot, liveLabel);
+    liveButton.addEventListener("click", () => {
+      const edge = YTFP.playerApi.getLiveEdge();
+      const video = getVideo();
+      if (video && edge !== null) {
+        video.currentTime = edge;
+      }
+    });
+
+    // Кнопка чата: тот же признак живого эфира, что и у кнопки «В эфире».
+    const chatButton = createButton(
+      pipDocument,
+      createIcon(pipDocument, "chat"),
+      t("chatTooltip", "Live chat"),
+      () => {
+        const chat = getChat && getChat();
+        if (chat) {
+          chatButton.classList.toggle("ytfp-btn--active", chat.toggle());
+        }
+      }
+    );
+    chatButton.classList.add("ytfp-btn--chat");
+
+    function refreshLiveState() {
+      const video = getVideo();
+      const isLive = Boolean(video) && YTFP.playerApi.isLive();
+      liveButton.hidden = !isLive;
+      const chat = getChat && getChat();
+      chatButton.hidden = !isLive || !chat;
+      // Панель могла закрыться сама (эфир кончился) — держим подсветку
+      // синхронной с фактическим состоянием, а не с последним кликом.
+      chatButton.classList.toggle("ytfp-btn--active", Boolean(chat && chat.isOpen()));
+      if (!isLive) {
+        return;
+      }
+      const behind = YTFP.utils.behindLiveSeconds(
+        YTFP.playerApi.getLiveEdge(),
+        video.currentTime
+      );
+      const atEdge = behind === null || behind < LIVE_EDGE_TOLERANCE_SECONDS;
+      liveButton.classList.toggle("ytfp-btn--live-edge", atEdge);
+      liveLabel.textContent = atEdge
+        ? t("liveLabel", "LIVE")
+        : `−${YTFP.utils.formatTime(behind)}`;
     }
 
     // --- Промотка интеграций --------------------------------------------------
@@ -322,8 +407,11 @@ YTFP.pipControls = (() => {
     // может остаться в состоянии suspended — тогда весь звук уйдёт в тишину.
     if (presetSelect.value !== "off") {
       const applyStoredPreset = () => applyPreset(presetSelect.value);
-      pipDocument.addEventListener("pointerdown", applyStoredPreset, { once: true });
-      pipDocument.addEventListener("keydown", applyStoredPreset, { once: true });
+      // Capture-фаза: наш обработчик хоткеев и глушилка кликов по плееру
+      // зовут stopPropagation(), и bubble-слушатель на этом же документе до
+      // них не доживает — пресет молча не применился бы.
+      pipDocument.addEventListener("pointerdown", applyStoredPreset, { once: true, capture: true });
+      pipDocument.addEventListener("keydown", applyStoredPreset, { once: true, capture: true });
     }
 
     // --- Ночной режим ---------------------------------------------------------
@@ -511,19 +599,28 @@ YTFP.pipControls = (() => {
     if (isShorts) {
       bar.append(playButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
     } else {
-      bar.append(playButton, abButton, loopButton, skipButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
+      bar.append(playButton, liveButton, chatButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
     }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
     const video = getVideo();
     if (video) {
       video.addEventListener("timeupdate", onTimeUpdate);
+      video.addEventListener("timeupdate", refreshLiveState);
       video.addEventListener("ratechange", refreshSpeedControls);
       video.addEventListener("play", refreshPlayIcon);
       video.addEventListener("pause", refreshPlayIcon);
     }
     refreshSpeedControls();
     refreshPlayIcon();
+    refreshLiveState();
+
+    // Клавиши, которые обрабатываем сами. Всё остальное (f, c, i) уходит
+    // к YouTube без изменений.
+    const HANDLED_KEYS = new Set([
+      " ", "k", "m", "<", ">",
+      "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"
+    ]);
 
     // Горячие клавиши внутри PiP-окна: фокус там, страница их не слышит.
     function onKeyDown(event) {
@@ -535,8 +632,15 @@ YTFP.pipControls = (() => {
       if (!currentVideo) {
         return;
       }
+      const isDigit = /^[0-9]$/.test(event.key);
+      if (isDigit || HANDLED_KEYS.has(event.key)) {
+        // Плеер переехал в это окно вместе со слушателями YouTube, и они
+        // обрабатывают те же клавиши. Без этого пробел давал двойное
+        // переключение: пауза от YouTube и тут же снятие от нас.
+        event.stopPropagation();
+      }
       // Цифры 0–9 — прыжок к N×10% видео (как на самом YouTube).
-      if (/^[0-9]$/.test(event.key)) {
+      if (isDigit) {
         if (YTFP.playerApi.isAdShowing()) {
           return; // реклама не мотается
         }
@@ -556,21 +660,27 @@ YTFP.pipControls = (() => {
             currentVideo.pause();
           }
           break;
+        // Границы берём из getSeekRange: у прямого эфира длительности нет,
+        // а мотать надо в пределах DVR-буфера.
         case "ArrowLeft":
+        case "ArrowRight": {
           if (YTFP.playerApi.isAdShowing()) {
             break; // реклама не мотается
           }
-          currentVideo.currentTime = Math.max(0, currentVideo.currentTime - YTFP.SEEK_STEP_SECONDS);
-          break;
-        case "ArrowRight":
-          if (YTFP.playerApi.isAdShowing()) {
+          const bounds = YTFP.playerApi.getSeekRange(currentVideo);
+          if (!bounds) {
             break;
           }
-          currentVideo.currentTime = Math.min(
-            currentVideo.duration || Infinity,
-            currentVideo.currentTime + YTFP.SEEK_STEP_SECONDS
+          const step = event.key === "ArrowRight"
+            ? YTFP.SEEK_STEP_SECONDS
+            : -YTFP.SEEK_STEP_SECONDS;
+          currentVideo.currentTime = YTFP.utils.clamp(
+            currentVideo.currentTime + step,
+            bounds.start,
+            bounds.end
           );
           break;
+        }
         case "m":
           currentVideo.muted = !currentVideo.muted;
           break;
@@ -606,17 +716,23 @@ YTFP.pipControls = (() => {
           break;
       }
     }
-    pipDocument.addEventListener("keydown", onKeyDown);
+    // Capture-фаза обязательна: слушатели YouTube висят внутри переехавшего
+    // плеера и в bubble-фазе успевают отработать раньше нас. Capture на
+    // документе идёт первым, поэтому stopPropagation() внутри onKeyDown их
+    // отсекает. Заодно пробел на кнопке в фокусе больше не порождает
+    // нативный click — событие до кнопки не доходит.
+    pipDocument.addEventListener("keydown", onKeyDown, true);
 
     function cleanup() {
       // Тот же элемент, на который вешали, — не результат нового getVideo().
       if (video) {
         video.removeEventListener("timeupdate", onTimeUpdate);
+        video.removeEventListener("timeupdate", refreshLiveState);
         video.removeEventListener("ratechange", refreshSpeedControls);
         video.removeEventListener("play", refreshPlayIcon);
         video.removeEventListener("pause", refreshPlayIcon);
       }
-      pipDocument.removeEventListener("keydown", onKeyDown);
+      pipDocument.removeEventListener("keydown", onKeyDown, true);
       clearInterval(sleepTicker);
       clearTimeout(peekTimer);
       pipDocument.removeEventListener("mousemove", onSleepMouseMove);

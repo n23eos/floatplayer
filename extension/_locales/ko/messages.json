@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "이 동영상 반복"
   },
+  "autoplayTooltip": {
+    "message": "자동 재생: 현재 동영상이 끝나면 다음 동영상 재생"
+  },
+  "liveTooltip": {
+    "message": "실시간 지점으로 이동"
+  },
+  "liveLabel": {
+    "message": "실시간"
+  },
+  "chatTooltip": {
+    "message": "실시간 채팅"
+  },
   "presetTooltip": {
     "message": "오디오 프리셋"
   },

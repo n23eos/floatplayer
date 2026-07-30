@@ -11,7 +11,14 @@ YTFP.SELECTORS = {
   shortsNextButton: "#navigation-button-down button",
   video: "#movie_player video.html5-main-video",
   rightControls: "#movie_player .ytp-right-controls",
-  settingsButton: "#movie_player .ytp-settings-button"
+  settingsButton: "#movie_player .ytp-settings-button",
+  // Относительный, от корня плеера: плеер переезжает в PiP-окно, и путь от
+  // document там уже не работает. Есть только на прямых эфирах.
+  liveBadge: ".ytp-live-badge",
+  // Запасные источники ID текущего видео, когда его нет в адресе
+  // (например, канальные страницы вида /@канал/live).
+  canonicalLink: 'link[rel="canonical"]',
+  watchFlexy: "ytd-watch-flexy[video-id]"
 };
 
 YTFP.DEFAULT_SETTINGS = {
@@ -27,6 +34,7 @@ YTFP.DEFAULT_SETTINGS = {
   audioPreset: "off",       // аудио-пресет: off | night | voice | bass
   nightMode: "off",         // ночной режим (подавление синего): off | warm | deep
   shortsAutoNext: true,     // шортсы: автопереход к следующему по окончании
+  autoplayNext: true,       // видео: автопереход к следующему по окончании
   // "document" — окно с панелью настроек (Chrome рисует рамку с origin),
   // "native"   — чистое видео без рамки (нативный PiP, без панели).
   windowMode: "document"

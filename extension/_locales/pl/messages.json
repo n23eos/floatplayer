@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "Zapętl ten film"
   },
+  "autoplayTooltip": {
+    "message": "Autoodtwarzanie: następny film po zakończeniu tego"
+  },
+  "liveTooltip": {
+    "message": "Wróć do transmisji na żywo"
+  },
+  "liveLabel": {
+    "message": "NA ŻYWO"
+  },
+  "chatTooltip": {
+    "message": "Czat na żywo"
+  },
   "presetTooltip": {
     "message": "Profil dźwięku"
   },

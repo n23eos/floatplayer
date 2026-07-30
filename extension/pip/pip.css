@@ -182,6 +182,28 @@ body:hover .ytfp-bar--compact {
   margin-left: auto;
 }
 
+/* --- Прямой эфир -------------------------------------------------------- */
+
+/* Кнопки нет на обычном видео: refreshLiveState ставит hidden. */
+.ytfp-btn--live[hidden] {
+  display: none;
+}
+
+.ytfp-btn--live {
+  font-variant-numeric: tabular-nums; /* подпись не дёргается при счёте секунд */
+}
+
+.ytfp-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #909090; /* отстаём от эфира — точка гаснет */
+}
+
+.ytfp-btn--live-edge .ytfp-live-dot {
+  background: #f00;
+}
+
 /* --- Ночной режим ------------------------------------------------------ */
 
 /* Контейнер с <filter>-определениями: нужен в DOM, но не в разметке. */
@@ -313,6 +335,7 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bar,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-nav,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-root,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-progress-wrap,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   opacity: 0 !important;
@@ -603,6 +626,49 @@ body:hover .ytfp-related-toggle {
 
 .ytfp-related-toggle--open {
   right: min(46%, 240px);
+}
+
+/* --- Чат прямого эфира -------------------------------------------------- */
+
+/* Колонка у правого края поверх видео. z-index ниже панели управления и
+   полоски прогресса: иначе чат накрыл бы кнопку, которой его выключают. */
+.ytfp-chat-root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 4px;
+  width: min(52%, 300px);
+  z-index: 9998;
+  background: #0f0f0f;
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+  overflow: hidden;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.ytfp-chat-root--open {
+  transform: translateX(0);
+}
+
+.ytfp-chat-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #0f0f0f;
+}
+
+/* Рекомендации живут в том же углу: пока чат открыт, убираем их целиком.
+   Связь между модулями только здесь — сам pip-related.js об этом не знает. */
+body.ytfp-chat-open .ytfp-related-toggle,
+body.ytfp-chat-open .ytfp-related-panel {
+  display: none;
+}
+
+/* Кнопка чата: скрыта на обычном видео, как и кнопка «В эфире». */
+.ytfp-btn--chat[hidden] {
+  display: none;
 }
 
 .ytfp-related-list {

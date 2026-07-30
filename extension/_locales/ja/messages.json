@@ -155,6 +155,18 @@
   "loopTooltip": {
     "message": "この動画をリピート"
   },
+  "autoplayTooltip": {
+    "message": "自動再生: この動画が終わったら次の動画を再生"
+  },
+  "liveTooltip": {
+    "message": "ライブの最新位置に移動"
+  },
+  "liveLabel": {
+    "message": "ライブ"
+  },
+  "chatTooltip": {
+    "message": "ライブチャット"
+  },
   "presetTooltip": {
     "message": "音声プリセット"
   },

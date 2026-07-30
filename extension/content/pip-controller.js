@@ -33,6 +33,13 @@ YTFP.pip = (() => {
     return state ? state.playerEl : null;
   }
 
+  // Название видео берём из заголовка страницы, а не из разметки плеера:
+  // YouTube держит <title> актуальным при SPA-навигации, а плеер к этому
+  // моменту уже уехал в PiP-окно.
+  function getPageVideoTitle() {
+    return YTFP.utils.videoTitleFromPageTitle(document.title);
+  }
+
   // Критический минимум стилей на случай, если pip.css не удалось получить
   // (например, расширение обновили, а вкладку не перезагрузили — старый
   // content-script теряет доступ к файлам расширения). Гарантирует чёрный
@@ -163,6 +170,9 @@ YTFP.pip = (() => {
   const NEXT_VIDEO_HOTKEY = { key: "N", code: "KeyN", keyCode: 78 };
   const PREV_VIDEO_HOTKEY = { key: "P", code: "KeyP", keyCode: 80 };
 
+  // Сколько ждём родное автовоспроизведение YouTube, прежде чем перейти самим.
+  const AUTOPLAY_FALLBACK_DELAY_MS = 1200;
+
   function pressPageHotkey({ key, code, keyCode }) {
     document.dispatchEvent(
       new KeyboardEvent("keydown", {
@@ -214,9 +224,29 @@ YTFP.pip = (() => {
     const style = pipWindow.document.createElement("style");
     style.textContent = await loadPipCss();
     pipWindow.document.head.appendChild(style);
-    // Пустой заголовок: в системной полоске окна остаётся только origin
-    // (youtube.com) — совсем убрать её Chrome не позволяет.
-    pipWindow.document.title = "";
+    // Системную полоску окна Chrome убрать не даёт, поэтому пишем в неё
+    // название видео — рядом с origin (youtube.com).
+    pipWindow.document.title = getPageVideoTitle();
+    // Видео меняется без перезагрузки (очередь, рекомендации, «вперёд»),
+    // поэтому следим за заголовком страницы и обновляем надпись.
+    // Наблюдаем <head>, а не сам <title>: при SPA-навигации YouTube иногда
+    // заменяет элемент целиком, и слушатель на старом элементе умирает.
+    // YouTube правит <head> часто (стили, meta), а нас интересует только
+    // заголовок — поэтому сверяемся с текущим значением перед записью.
+    const titleObserver = new MutationObserver(() => {
+      if (!state || pipWindow.closed) {
+        return;
+      }
+      const title = getPageVideoTitle();
+      if (pipWindow.document.title !== title) {
+        pipWindow.document.title = title;
+      }
+    });
+    titleObserver.observe(document.head, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
 
     // Скорость до переноса: защита от YouTube-фичи «удержание = 2x»,
     // которая могла сработать из-за потерянного mouseup при переносе.
@@ -266,12 +296,19 @@ YTFP.pip = (() => {
 
     const getMovedVideo = () => playerEl.querySelector("video.html5-main-video");
 
+    // Чат прямого эфира. У шортсов эфиров не бывает — там панель не строим.
+    const chat = isShorts ? null : YTFP.pipChat.build(pipWindow.document);
+
     const controls = YTFP.pipControls.buildBar(pipWindow.document, {
       getVideo: getMovedVideo,
       onReturnRequested: close,
-      isShorts
+      isShorts,
+      getChat: () => chat
     });
     pipWindow.document.body.appendChild(controls.element);
+    if (chat) {
+      pipWindow.document.body.appendChild(chat.element);
+    }
 
     // Красная полоска прогресса внизу (родные контролы YouTube скрыты в CSS).
     const progress = YTFP.pipProgress.build(pipWindow.document, { getVideo: getMovedVideo });
@@ -281,7 +318,27 @@ YTFP.pip = (() => {
     // там навигация по ленте кнопками назад/вперёд.
     const related = isShorts
       ? { cleanup: () => {} }
-      : YTFP.pipRelated.build(pipWindow.document, { getVideo: getMovedVideo });
+      : YTFP.pipRelated.build(pipWindow.document, {
+          getVideo: getMovedVideo,
+          // Очередь пуста, видео кончилось — идём к следующему видео YouTube.
+          // Обёртка-стрелка обязательна: goNext объявлен ниже, но её тело
+          // исполняется уже после, когда объявление отработало.
+          onQueueEmptyEnded: () => {
+            if (!YTFP.settings.get().autoplayNext) {
+              return;
+            }
+            // У YouTube есть своё автовоспроизведение, и в части случаев оно
+            // работает даже из PiP-окна. Если перейти сразу, получится двойной
+            // переход через видео. Поэтому ждём и переходим только если ролик
+            // всё ещё стоит в конце.
+            setTimeout(() => {
+              const endedVideo = getMovedVideo();
+              if (state && endedVideo && endedVideo.ended) {
+                goNext();
+              }
+            }, AUTOPLAY_FALLBACK_DELAY_MS);
+          }
+        });
     if (related.element) {
       pipWindow.document.body.appendChild(related.element);
     }
@@ -325,7 +382,7 @@ YTFP.pip = (() => {
     });
     pipWindow.document.body.appendChild(nav.element);
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, resizeTimer: null };
+    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, titleObserver, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
@@ -472,11 +529,15 @@ YTFP.pip = (() => {
       return;
     }
     const {
-      playerEl, placeholder, overlay, controls, progress, related, nav,
-      resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime
+      playerEl, placeholder, overlay, controls, progress, related, nav, chat,
+      resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime,
+      titleObserver
     } = state;
     // Сначала гасим таймер и слушатели, потом обнуляем state.
     clearTimeout(resizeTimer);
+    if (titleObserver) {
+      titleObserver.disconnect();
+    }
     if (aspectVideo && onAspectChange) {
       aspectVideo.removeEventListener("loadedmetadata", onAspectChange);
     }
@@ -487,6 +548,9 @@ YTFP.pip = (() => {
     progress.cleanup();
     related.cleanup();
     nav.cleanup();
+    if (chat) {
+      chat.cleanup();
+    }
     state = null;
 
     // Снимаем letterbox-геометрию, которую задавал layoutPlayer, —
