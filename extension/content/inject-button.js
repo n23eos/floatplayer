@@ -65,7 +65,7 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   /**
    * Вставляет кнопки особняком — самыми левыми в правой группе контролов,
    * до всех кнопок YouTube (шестерёнка нужна только как образец
-   * размеров иконки). Порядок: ночной режим, таймер сна, основная кнопка.
+   * размеров иконки). Порядок: ночной режим, основная кнопка.
    */
   function ensureButton() {
     if (YTFP.playerApi.isShortsPage()) {
@@ -85,7 +85,6 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     button.style.marginRight = "8px";
     // prepend в обратном порядке: каждая следующая встаёт левее предыдущей.
     rightControls.prepend(button);
-    rightControls.prepend(YTFP.pageControls.buildSleepButton(settingsButton));
     rightControls.prepend(YTFP.pageControls.buildNightButton(settingsButton));
     maybeShowOnboarding(button);
   }
