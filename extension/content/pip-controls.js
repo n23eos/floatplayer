@@ -254,9 +254,18 @@ YTFP.pipControls = (() => {
 
     const speedSlider = pipDocument.createElement("input");
     speedSlider.type = "range";
-    speedSlider.min = String(YTFP.SPEED_MIN);
-    speedSlider.max = String(YTFP.SPEED_MAX);
-    speedSlider.step = String(YTFP.settings.get().speedStep);
+    // Границы выравниваем по шагу: сетка range считается от min, и при
+    // шаге 0.1 от 0.25 ровной единицы в ней не было — браузер подменял
+    // 1x на ближайшее допустимое 1.05x.
+    const speedStep = YTFP.settings.get().speedStep;
+    const speedRange = YTFP.utils.speedSliderRange(
+      YTFP.SPEED_MIN,
+      YTFP.SPEED_MAX,
+      speedStep
+    );
+    speedSlider.min = String(speedRange.min);
+    speedSlider.max = String(speedRange.max);
+    speedSlider.step = String(speedStep);
     speedSlider.value = "1";
 
     const speedLabel = pipDocument.createElement("span");
@@ -586,12 +595,14 @@ YTFP.pipControls = (() => {
         case "<":
         case ">": {
           const direction = event.key === ">" ? 1 : -1;
+          // Границы те же, что у ползунка: иначе клавиши доводили бы
+          // скорость до значения, которого на ползунке нет.
           currentVideo.playbackRate = YTFP.utils.nextSpeed(
             currentVideo.playbackRate,
-            YTFP.settings.get().speedStep,
+            speedStep,
             direction,
-            YTFP.SPEED_MIN,
-            YTFP.SPEED_MAX
+            speedRange.min,
+            speedRange.max
           );
           break;
         }

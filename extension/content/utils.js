@@ -52,6 +52,27 @@ YTFP.utils = (() => {
   }
 
   /**
+   * Границы ползунка скорости, выровненные по шагу.
+   *
+   * У <input type="range"> допустимые значения считаются от min: при min
+   * 0.25 и шаге 0.1 сетка идёт 0.25, 0.35 … 1.05, и ровной единицы в ней
+   * нет — браузер молча подменяет 1x на 1.05x. Двигаем границы внутрь к
+   * ближайшим кратным шага, чтобы сетка совпала с той, по которой ходят
+   * хоткеи (nextSpeed округляет к кратным шага), а 1x всегда был достижим.
+   */
+  function speedSliderRange(min, max, step) {
+    if (!Number.isFinite(step) || step <= 0) {
+      return { min, max };
+    }
+    // toFixed: 3 * 0.1 в двоичной арифметике даёт 0.30000000000000004.
+    const round = (value) => Number(value.toFixed(4));
+    return {
+      min: round(Math.ceil(min / step) * step),
+      max: round(Math.floor(max / step) * step)
+    };
+  }
+
+  /**
    * Нормализует сырые пары [start, end] (сек) из API SponsorBlock:
    * отбрасывает мусор, сортирует, склеивает пересекающиеся сегменты.
    * Возвращает [{ start, end }].
@@ -198,7 +219,8 @@ YTFP.utils = (() => {
   }
 
   return {
-    clamp, formatTime, abLoopTarget, nextSpeed, normalizeSegments, segmentEndAt,
+    clamp, formatTime, abLoopTarget, nextSpeed, speedSliderRange,
+    normalizeSegments, segmentEndAt,
     digitSeekTime, chapterFractionsFromWidths, parseTimeLabel,
     videoTitleFromPageTitle, behindLiveSeconds, windowFraction
   };

@@ -157,6 +157,29 @@ describe("nextSpeed", () => {
   });
 });
 
+describe("speedSliderRange", () => {
+  test("keeps the range when the step already lands on 1x", () => {
+    expect(utils.speedSliderRange(0.25, 3, 0.25)).toEqual({ min: 0.25, max: 3 });
+  });
+
+  test("raises min so that a 0.1 step can reach exactly 1x", () => {
+    // 0.25 + 0.1n даёт 1.05, но не 1: сетку сдвигаем к 0.3.
+    expect(utils.speedSliderRange(0.25, 3, 0.1)).toEqual({ min: 0.3, max: 3 });
+  });
+
+  test("raises min so that a 0.5 step can reach exactly 1x", () => {
+    expect(utils.speedSliderRange(0.25, 3, 0.5)).toEqual({ min: 0.5, max: 3 });
+  });
+
+  test("lowers max to the last value on the grid", () => {
+    expect(utils.speedSliderRange(0.25, 3, 0.7)).toEqual({ min: 0.7, max: 2.8 });
+  });
+
+  test("falls back to the original range when the step is nonsense", () => {
+    expect(utils.speedSliderRange(0.25, 3, 0)).toEqual({ min: 0.25, max: 3 });
+  });
+});
+
 describe("digitSeekTime", () => {
   test("maps digits to tenths of the duration", () => {
     expect(utils.digitSeekTime(100, 0)).toBe(0);
