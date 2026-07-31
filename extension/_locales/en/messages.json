@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "Disliked — click to undo"
+  },
+  "optLoadError": {
+    "message": "Couldn't load your settings. Reload the page."
+  },
+  "optSaveError": {
+    "message": "Couldn't save. Try again."
   }
 }

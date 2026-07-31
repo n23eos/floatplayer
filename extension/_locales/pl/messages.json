@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "Nielubiane — kliknij, aby cofnąć"
+  },
+  "optLoadError": {
+    "message": "Nie udało się wczytać ustawień. Odśwież stronę."
+  },
+  "optSaveError": {
+    "message": "Nie udało się zapisać. Spróbuj ponownie."
   }
 }

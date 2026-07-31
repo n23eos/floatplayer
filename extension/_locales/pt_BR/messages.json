@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "Você não gostou — clique para desfazer"
+  },
+  "optLoadError": {
+    "message": "Não foi possível carregar as configurações. Recarregue a página."
+  },
+  "optSaveError": {
+    "message": "Não foi possível salvar. Tente novamente."
   }
 }

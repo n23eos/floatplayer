@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "No te gusta — clic para quitar"
+  },
+  "optLoadError": {
+    "message": "No se pudieron cargar los ajustes. Vuelve a cargar la página."
+  },
+  "optSaveError": {
+    "message": "No se pudo guardar. Inténtalo de nuevo."
   }
 }

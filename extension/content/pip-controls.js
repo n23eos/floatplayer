@@ -504,8 +504,15 @@ YTFP.pipControls = (() => {
       // Настройка выключена — молчим: пользователь и не ждёт сегментов.
       sbStatus.hidden = !YTFP.settings.get().sponsorSkip || status !== "error";
     }
-    refreshSponsorStatus(YTFP.sponsorBlock.getStatus());
-    const offSponsorStatus = YTFP.sponsorBlock.onStatusChange(refreshSponsorStatus);
+    // Через guard, как и остальные обращения к модулю, который в манифесте
+    // идёт после этого файла: панель не должна падать целиком из-за отметки.
+    const sponsorBlock = YTFP.sponsorBlock;
+    if (sponsorBlock) {
+      refreshSponsorStatus(sponsorBlock.getStatus());
+    }
+    const offSponsorStatus = sponsorBlock
+      ? sponsorBlock.onStatusChange(refreshSponsorStatus)
+      : () => {};
 
     if (isShorts) {
       bar.append(playButton, speedWrap, boostWrap, nightButton, sleepWrap, sbStatus, returnButton);

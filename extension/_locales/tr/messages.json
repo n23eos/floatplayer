@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "Beğenilmedi — kaldırmak için tıklayın"
+  },
+  "optLoadError": {
+    "message": "Ayarlar yüklenemedi. Sayfayı yeniden yükleyin."
+  },
+  "optSaveError": {
+    "message": "Kaydedilemedi. Tekrar deneyin."
   }
 }

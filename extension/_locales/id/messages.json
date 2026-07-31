@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "Tidak disukai — klik untuk batalkan"
+  },
+  "optLoadError": {
+    "message": "Gagal memuat setelan. Muat ulang halaman."
+  },
+  "optSaveError": {
+    "message": "Gagal menyimpan. Coba lagi."
   }
 }

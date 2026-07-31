@@ -69,10 +69,47 @@ function refreshDependentRows() {
   }
 }
 
+/**
+ * Значение в <select> — только если такой вариант в списке есть. Иначе
+ * DOM молча выставит value="", и ближайшее сохранение записало бы
+ * Number("") === 0: шаг скорости 0 ломает и ползунок, и хоткеи.
+ * Значение не из списка попадает в хранилище из сборки с другим набором
+ * вариантов (синхронизация между версиями) или правкой руками.
+ */
+function setSelectValue(select, value, fallback) {
+  const wanted = String(value);
+  const isKnown = Array.from(select.options).some((option) => option.value === wanted);
+  select.value = isKnown ? wanted : String(fallback);
+}
+
+// Форма готова к сохранению только после успешного чтения настроек:
+// пока её не заполнили, DOM показывает значения по умолчанию из HTML,
+// и запись отсюда затёрла бы реальные настройки пользователя.
+let isFormReady = false;
+// Счётчик сохранений: ответ чтения, начатого до сохранения, устарел —
+// иначе форма скакнула бы обратно на старое значение.
+let saveCount = 0;
+
 async function loadIntoForm() {
-  const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+  const startedAt = saveCount;
+  let settings;
+  try {
+    settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+  } catch (error) {
+    console.warn("[YTFP] Failed to read settings:", error);
+    isFormReady = false;
+    showToast(
+      chrome.i18n.getMessage("optLoadError") ||
+        "Couldn't load your settings. Reload the page.",
+      "error"
+    );
+    return;
+  }
+  if (startedAt !== saveCount) {
+    return; // пока читали, форму уже сохранили — ответ протух
+  }
   elements.autoPip.checked = Boolean(settings.autoPip);
-  elements.windowMode.value = String(settings.windowMode);
+  setSelectValue(elements.windowMode, settings.windowMode, DEFAULT_SETTINGS.windowMode);
   elements.sponsorSkip.checked = Boolean(settings.sponsorSkip);
   elements.sponsorAutoSkip.checked = Boolean(settings.sponsorAutoSkip);
   const categories = Array.isArray(settings.sponsorCategories)
@@ -83,10 +120,19 @@ async function loadIntoForm() {
   }
   elements.shortsAutoNext.checked = Boolean(settings.shortsAutoNext);
   elements.compactMode.checked = Boolean(settings.compactMode);
-  elements.speedStep.value = String(settings.speedStep);
-  elements.skipStepSeconds.value = String(settings.skipStepSeconds);
-  elements.volumeBoostMax.value = String(settings.volumeBoostMax);
+  setSelectValue(elements.speedStep, settings.speedStep, DEFAULT_SETTINGS.speedStep);
+  setSelectValue(
+    elements.skipStepSeconds,
+    settings.skipStepSeconds,
+    DEFAULT_SETTINGS.skipStepSeconds
+  );
+  setSelectValue(
+    elements.volumeBoostMax,
+    settings.volumeBoostMax,
+    DEFAULT_SETTINGS.volumeBoostMax
+  );
   refreshDependentRows();
+  isFormReady = true;
 }
 
 // --- Плашка «Сохранено» ----------------------------------------------------
@@ -96,9 +142,20 @@ const TOAST_FADE_MS = 200; // должно совпадать с --anim в optio
 let hideTimer = null;
 let removeTimer = null;
 
-function showSavedToast() {
+// Текст плашки живёт в отдельном <span> рядом с галочкой: пишем в него,
+// а не в саму плашку, иначе иконка была бы затёрта.
+const toastText = elements.status.querySelector("span");
+// Локализованное «Сохранено» из разметки — им же плашка и остаётся по
+// умолчанию, отдельного ключа не нужно.
+const SAVED_TEXT = toastText ? toastText.textContent : "Saved";
+
+function showToast(text, kind) {
   clearTimeout(hideTimer);
   clearTimeout(removeTimer);
+  if (toastText) {
+    toastText.textContent = text;
+  }
+  elements.status.classList.toggle("toast--error", kind === "error");
   elements.status.hidden = false;
   // Браузер должен «увидеть» скрытое состояние до класса, иначе перехода не
   // будет. Принудительный пересчёт вместо requestAnimationFrame: в неактивной
@@ -115,22 +172,40 @@ function showSavedToast() {
 }
 
 async function save() {
-  await chrome.storage.sync.set({
-    autoPip: elements.autoPip.checked,
-    windowMode: elements.windowMode.value,
-    sponsorSkip: elements.sponsorSkip.checked,
-    sponsorAutoSkip: elements.sponsorAutoSkip.checked,
-    sponsorCategories: getCategoryCheckboxes()
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => checkbox.value),
-    shortsAutoNext: elements.shortsAutoNext.checked,
-    compactMode: elements.compactMode.checked,
-    speedStep: Number(elements.speedStep.value),
-    skipStepSeconds: Number(elements.skipStepSeconds.value),
-    volumeBoostMax: Number(elements.volumeBoostMax.value)
-  });
+  // Форму ещё не заполнили из хранилища — в DOM значения по умолчанию из
+  // HTML, и запись отсюда стёрла бы настройки пользователя.
+  if (!isFormReady) {
+    return;
+  }
+  saveCount += 1;
+  try {
+    await chrome.storage.sync.set({
+      autoPip: elements.autoPip.checked,
+      windowMode: elements.windowMode.value,
+      sponsorSkip: elements.sponsorSkip.checked,
+      sponsorAutoSkip: elements.sponsorAutoSkip.checked,
+      sponsorCategories: getCategoryCheckboxes()
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => checkbox.value),
+      shortsAutoNext: elements.shortsAutoNext.checked,
+      compactMode: elements.compactMode.checked,
+      speedStep: Number(elements.speedStep.value),
+      skipStepSeconds: Number(elements.skipStepSeconds.value),
+      volumeBoostMax: Number(elements.volumeBoostMax.value)
+    });
+  } catch (error) {
+    // Квота записей в минуту, переполнение sync, отвалившийся контекст —
+    // молча промолчать нельзя: тумблер стоит в новом положении, а
+    // сохранения не произошло.
+    console.warn("[YTFP] Failed to save settings:", error);
+    showToast(
+      chrome.i18n.getMessage("optSaveError") || "Couldn't save. Try again.",
+      "error"
+    );
+    return;
+  }
   refreshDependentRows();
-  showSavedToast();
+  showToast(SAVED_TEXT, "ok");
 }
 
 for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {

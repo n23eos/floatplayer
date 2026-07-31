@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "Pas aimé — cliquez pour retirer"
+  },
+  "optLoadError": {
+    "message": "Impossible de charger les paramètres. Rechargez la page."
+  },
+  "optSaveError": {
+    "message": "Échec de l'enregistrement. Réessayez."
   }
 }

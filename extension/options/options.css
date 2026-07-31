@@ -306,6 +306,16 @@ fieldset.row {
   color: #4ad07d;
 }
 
+/* Плашка об ошибке: та же форма, но красная, и без зелёной галочки —
+   иначе сообщение о неудаче выглядело бы как успешное сохранение. */
+.toast--error {
+  background: #8b1a1a;
+}
+
+.toast--error svg {
+  display: none;
+}
+
 .toast--visible {
   opacity: 1;
   transform: translate(-50%, 0);

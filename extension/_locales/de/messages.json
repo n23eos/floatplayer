@@ -346,5 +346,11 @@
   },
   "dislikedTooltip": {
     "message": "Disliked — zum Entfernen klicken"
+  },
+  "optLoadError": {
+    "message": "Einstellungen konnten nicht geladen werden. Seite neu laden."
+  },
+  "optSaveError": {
+    "message": "Speichern fehlgeschlagen. Bitte erneut versuchen."
   }
 }

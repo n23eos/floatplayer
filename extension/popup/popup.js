@@ -62,7 +62,21 @@ async function askContentScript(tabId) {
 }
 
 async function refreshState() {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let tab;
+  try {
+    [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  } catch (error) {
+    // Расширение обновилось, пока попап открывался: контекст недействителен.
+    // Без этой ветки кнопка навсегда осталась бы серой с надписью «Проверяю…».
+    console.warn("[YTFP] Failed to read the active tab:", error);
+    renderState({
+      dot: null,
+      text: t("popupStateReload", "Reload the tab to activate"),
+      action: t("popupOpen", "Pop out the video"),
+      enabled: false
+    });
+    return;
+  }
   if (!tab || !tab.id || !tab.url || !YOUTUBE_URL.test(tab.url)) {
     renderState({
       dot: null,
@@ -140,7 +154,18 @@ async function showShortcut() {
 // --- Быстрые тумблеры ------------------------------------------------------
 
 async function loadQuickSettings() {
-  const settings = await chrome.storage.sync.get(QUICK_SETTINGS);
+  let settings;
+  try {
+    settings = await chrome.storage.sync.get(QUICK_SETTINGS);
+  } catch (error) {
+    // Прочитать не смогли — тумблеры не трогаем и запись запрещаем: иначе
+    // они показали бы «выключено» для всего и первым же кликом это записали.
+    console.warn("[YTFP] Failed to read settings:", error);
+    for (const key of Object.keys(QUICK_SETTINGS)) {
+      elements[key].disabled = true;
+    }
+    return;
+  }
   for (const key of Object.keys(QUICK_SETTINGS)) {
     elements[key].checked = Boolean(settings[key]);
   }
@@ -148,7 +173,13 @@ async function loadQuickSettings() {
 
 for (const key of Object.keys(QUICK_SETTINGS)) {
   elements[key].addEventListener("change", () => {
-    chrome.storage.sync.set({ [key]: elements[key].checked });
+    const value = elements[key].checked;
+    chrome.storage.sync.set({ [key]: value }).catch((error) => {
+      // Не сохранилось (квота записей, переполнение sync) — возвращаем
+      // тумблер назад, чтобы он не показывал несуществующую настройку.
+      console.warn("[YTFP] Failed to save a setting:", error);
+      elements[key].checked = !value;
+    });
   });
 }
 
