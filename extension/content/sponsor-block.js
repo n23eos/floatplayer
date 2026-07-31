@@ -129,21 +129,33 @@ YTFP.sponsorBlock = (() => {
     const label = chrome.i18n.getMessage("sbSkip") || "Skip sponsor segment";
     skipButton = playerRoot.ownerDocument.createElement("button");
     skipButton.className = "ytfp-sb-skip";
+    // Правый нижний угол, над рядом кнопок (он центрирован и занимает
+    // полосу 22–62 px от низа). Раньше кнопка стояла по горизонтали там,
+    // где интеграция заканчивается на таймлайне, и у сегментов в середине
+    // ролика перекрывала play. Место сегмента и так видно по зелёной
+    // засечке на полоске прогресса.
+    // Оформление — как у остальных плашек окна: скруглённая «пилюля».
     Object.assign(skipButton.style, {
       position: "absolute",
-      bottom: "100px", // выше нашей нижней панели в PiP-окне
-      transform: "translateX(-50%)",
+      right: "12px",
+      bottom: "72px",
       zIndex: "10001",
       display: "none",
       border: "0",
-      borderRadius: "4px",
-      padding: "8px 12px",
-      background: "rgba(15, 15, 15, 0.9)",
-      color: "#fff",
+      borderRadius: "10px",
+      padding: "5px 10px",
+      background: "rgba(10, 10, 10, 0.78)",
+      backdropFilter: "blur(10px)",
+      WebkitBackdropFilter: "blur(10px)",
+      color: "#eee",
       fontFamily: '"Roboto", Arial, sans-serif',
-      fontSize: "13px",
+      fontSize: "12px",
+      lineHeight: "1.3",
       cursor: "pointer",
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
+      maxWidth: "calc(100% - 24px)",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
     });
     skipButton.dataset.label = label;
     skipButton.addEventListener("click", () => {
@@ -193,12 +205,6 @@ YTFP.sponsorBlock = (() => {
       return;
     }
     const button = ensureSkipButton(playerRoot);
-    // Кнопка стоит над таймлайном там, где интеграция заканчивается.
-    const duration = video.duration;
-    const positionPercent = Number.isFinite(duration) && duration > 0
-      ? YTFP.utils.clamp((end / duration) * 100, 8, 92)
-      : 50;
-    button.style.left = `${positionPercent}%`;
     button.textContent = `${button.dataset.label} → ${YTFP.utils.formatTime(end)}`;
     button.style.display = "block";
   }
