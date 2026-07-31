@@ -268,9 +268,16 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     }
   }
 
-  // Горячие клавиши приходят сообщениями из service worker.
-  chrome.runtime.onMessage.addListener((message) => {
+  // Сообщения: горячие клавиши из service worker и запросы popup.
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message && message.command) {
+      // Popup рисует по этому ответу строку состояния и главную кнопку.
+      case "get-state":
+        sendResponse({
+          playerPage: YTFP.playerApi.isPlayerPage(),
+          pipOpen: YTFP.pip.isOpen()
+        });
+        break;
       case "toggle-pip":
         YTFP.pip.toggle();
         break;

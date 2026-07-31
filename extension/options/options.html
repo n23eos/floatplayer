@@ -8,124 +8,161 @@
 <body>
   <!-- Английский текст — базовый; options.js подменяет строки через
        chrome.i18n по data-i18n (русская локаль подхватится сама). -->
-  <h1>FloatPlayer <small>Picture in Picture for YouTube</small></h1>
-
-  <label class="row">
-    <input type="checkbox" id="autoPip">
-    <span>
-      <span data-i18n="optAutoPipLabel">Auto-PiP: pop out when you leave the tab</span>
-      <small data-i18n="optAutoPipHint">Requires Chrome 120+. Chrome decides when to allow it.</small>
+  <header class="header">
+    <img class="header-icon" src="../icons/icon48.png" alt="" width="40" height="40">
+    <span class="header-text">
+      <span class="header-name">FloatPlayer</span>
+      <span class="header-sub" data-i18n="optSubtitle">Picture in Picture for YouTube</span>
     </span>
-  </label>
+    <span class="header-version" id="version"></span>
+  </header>
 
-  <label class="row">
-    <span>
-      <span data-i18n="optWindowModeLabel">Mini-window style</span>
-      <small data-i18n="optWindowModeHint">"Full" shows the control panel, but Chrome draws a strip
-      with the site address on top (cannot be removed — a browser requirement).
-      "Clean video" has no strip and no panel: just the video and Chrome's
-      native buttons.</small>
-    </span>
-    <select id="windowMode">
-      <option value="document" data-i18n="optWindowModeFull">Full (with panel)</option>
-      <option value="native" data-i18n="optWindowModeClean">Clean video (no strip)</option>
-    </select>
-  </label>
+  <section class="card">
+    <h2 class="card-title" data-i18n="optSecWindow">Mini-window</h2>
 
-  <label class="row">
-    <input type="checkbox" id="sponsorSkip">
-    <span>
-      <span data-i18n="optSponsorLabel">Sponsor segments on the timeline (SponsorBlock)</span>
-      <small data-i18n="optSponsorHint">Sponsor segments are highlighted in green; inside one, a
-      "Skip sponsor segment" button appears. Community SponsorBlock data:
-      the video ID is sent to sponsor.ajay.app.</small>
-    </span>
-  </label>
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optWindowModeLabel">Mini-window style</span>
+        <small class="row-hint" data-i18n="optWindowModeHint">"Full" shows the control panel, but Chrome draws a strip
+        with the site address on top (cannot be removed — a browser requirement).
+        "Clean video" has no strip and no panel: just the video and Chrome's
+        native buttons.</small>
+      </span>
+      <select id="windowMode">
+        <option value="document" data-i18n="optWindowModeFull">Full (with panel)</option>
+        <option value="native" data-i18n="optWindowModeClean">Clean video (no strip)</option>
+      </select>
+    </label>
 
-  <label class="row">
-    <input type="checkbox" id="sponsorAutoSkip">
-    <span>
-      <span data-i18n="optAutoSkipLabel">Auto-skip sponsor segments</span>
-      <small data-i18n="optAutoSkipHint">Skips marked segments automatically, without the button.
-      Never touches YouTube ads.</small>
-    </span>
-  </label>
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optAutoPipLabel">Auto-PiP: pop out when you leave the tab</span>
+        <small class="row-hint" data-i18n="optAutoPipHint">Requires Chrome 120+. Chrome decides when to allow it.</small>
+      </span>
+      <input type="checkbox" class="toggle" id="autoPip">
+    </label>
 
-  <fieldset class="row" id="sponsorCategoriesRow">
-    <span>
-      <span data-i18n="optCategoriesLabel">Segment categories</span>
-      <small data-i18n="optCategoriesHint">Which SponsorBlock categories to highlight and skip.</small>
-    </span>
-    <span class="checks">
-      <label><input type="checkbox" class="sb-category" value="sponsor"><span data-i18n="optCatSponsor">Sponsor</span></label>
-      <label><input type="checkbox" class="sb-category" value="selfpromo"><span data-i18n="optCatSelfpromo">Self-promotion</span></label>
-      <label><input type="checkbox" class="sb-category" value="interaction"><span data-i18n="optCatInteraction">Like/subscribe reminders</span></label>
-      <label><input type="checkbox" class="sb-category" value="intro"><span data-i18n="optCatIntro">Intro</span></label>
-      <label><input type="checkbox" class="sb-category" value="outro"><span data-i18n="optCatOutro">Outro</span></label>
-    </span>
-  </fieldset>
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optCompactLabel">Compact panel mode</span>
+        <small class="row-hint" data-i18n="optCompactHint">The panel hides and appears when you hover the window.</small>
+      </span>
+      <input type="checkbox" class="toggle" id="compactMode">
+    </label>
+  </section>
 
-  <label class="row">
-    <span>
-      <span data-i18n="optSkipStepLabel">Manual skip step</span>
-      <small data-i18n="optSkipStepHint">The »N button in the mini-window jumps forward by this step.</small>
-    </span>
-    <select id="skipStepSeconds">
-      <option value="15">15 s</option>
-      <option value="30">30 s</option>
-      <option value="45">45 s</option>
-      <option value="60">60 s</option>
-      <option value="90">90 s</option>
-    </select>
-  </label>
+  <section class="card">
+    <h2 class="card-title" data-i18n="optSecSponsor">Sponsor segments</h2>
 
-  <label class="row">
-    <input type="checkbox" id="shortsAutoNext">
-    <span>
-      <span data-i18n="optShortsLabel">Shorts: auto-advance to the next one</span>
-      <small data-i18n="optShortsHint">When a short finishes in the mini-window, the next one starts automatically.</small>
-    </span>
-  </label>
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optSponsorLabel">Sponsor segments on the timeline (SponsorBlock)</span>
+        <small class="row-hint" data-i18n="optSponsorHint">Sponsor segments are highlighted in green; inside one, a
+        "Skip sponsor segment" button appears. Community SponsorBlock data:
+        the video ID is sent to sponsor.ajay.app.</small>
+      </span>
+      <input type="checkbox" class="toggle" id="sponsorSkip">
+    </label>
 
-  <label class="row">
-    <input type="checkbox" id="compactMode">
-    <span>
-      <span data-i18n="optCompactLabel">Compact panel mode</span>
-      <small data-i18n="optCompactHint">The panel hides and appears when you hover the window.</small>
-    </span>
-  </label>
+    <!-- Строки ниже имеют смысл только при включённом SponsorBlock:
+         options.js гасит их классом row--muted, когда он выключен. -->
+    <label class="row" data-requires="sponsorSkip">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optAutoSkipLabel">Auto-skip sponsor segments</span>
+        <small class="row-hint" data-i18n="optAutoSkipHint">Skips marked segments automatically, without the button.
+        Never touches YouTube ads.</small>
+      </span>
+      <input type="checkbox" class="toggle" id="sponsorAutoSkip">
+    </label>
 
-  <label class="row">
-    <span data-i18n="optSpeedStepLabel">Speed slider step</span>
-    <select id="speedStep">
-      <option value="0.1">0.1x</option>
-      <option value="0.25">0.25x</option>
-      <option value="0.5">0.5x</option>
-    </select>
-  </label>
+    <fieldset class="row" data-requires="sponsorSkip" id="sponsorCategoriesRow">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optCategoriesLabel">Segment categories</span>
+        <small class="row-hint" data-i18n="optCategoriesHint">Which SponsorBlock categories to highlight and skip.</small>
+      </span>
+      <span class="chips">
+        <label class="chip"><input type="checkbox" class="sb-category" value="sponsor"><span data-i18n="optCatSponsor">Sponsor</span></label>
+        <label class="chip"><input type="checkbox" class="sb-category" value="selfpromo"><span data-i18n="optCatSelfpromo">Self-promotion</span></label>
+        <label class="chip"><input type="checkbox" class="sb-category" value="interaction"><span data-i18n="optCatInteraction">Like/subscribe reminders</span></label>
+        <label class="chip"><input type="checkbox" class="sb-category" value="intro"><span data-i18n="optCatIntro">Intro</span></label>
+        <label class="chip"><input type="checkbox" class="sb-category" value="outro"><span data-i18n="optCatOutro">Outro</span></label>
+      </span>
+    </fieldset>
+  </section>
 
-  <label class="row">
-    <span>
-      <span data-i18n="optBoostLabel">Volume ceiling in the mini-window</span>
-      <small data-i18n="optBoostHint">The slider always starts at 0%; this is the upper boost limit.</small>
-    </span>
-    <select id="volumeBoostMax">
-      <option value="100" data-i18n="optBoostOff">100% (no boost)</option>
-      <option value="200">200%</option>
-      <option value="300">300%</option>
-    </select>
-  </label>
+  <section class="card">
+    <h2 class="card-title" data-i18n="optSecPlayback">Playback</h2>
+
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optSkipStepLabel">Manual skip step</span>
+        <small class="row-hint" data-i18n="optSkipStepHint">The »N button in the mini-window jumps forward by this step.</small>
+      </span>
+      <select id="skipStepSeconds">
+        <option value="15">15 s</option>
+        <option value="30">30 s</option>
+        <option value="45">45 s</option>
+        <option value="60">60 s</option>
+        <option value="90">90 s</option>
+      </select>
+    </label>
+
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optSpeedStepLabel">Speed slider step</span>
+      </span>
+      <select id="speedStep">
+        <option value="0.1">0.1x</option>
+        <option value="0.25">0.25x</option>
+        <option value="0.5">0.5x</option>
+      </select>
+    </label>
+
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optShortsLabel">Shorts: auto-advance to the next one</span>
+        <small class="row-hint" data-i18n="optShortsHint">When a short finishes in the mini-window, the next one starts automatically.</small>
+      </span>
+      <input type="checkbox" class="toggle" id="shortsAutoNext">
+    </label>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title" data-i18n="optSecAudio">Audio</h2>
+
+    <label class="row">
+      <span class="row-text">
+        <span class="row-label" data-i18n="optBoostLabel">Volume ceiling in the mini-window</span>
+        <small class="row-hint" data-i18n="optBoostHint">The slider always starts at 0%; this is the upper boost limit.</small>
+      </span>
+      <select id="volumeBoostMax">
+        <option value="100" data-i18n="optBoostOff">100% (no boost)</option>
+        <option value="200">200%</option>
+        <option value="300">300%</option>
+      </select>
+    </label>
+  </section>
 
   <p class="hint">
     <span data-i18n="optShortcutsHint">Keyboard shortcuts can be changed at</span>
     <code>chrome://extensions/shortcuts</code>
   </p>
 
-  <p id="status" class="status" hidden data-i18n="optSaved">Saved</p>
-
   <footer class="footer">
+    <a class="footer-report"
+       href="https://docs.google.com/forms/d/e/1FAIpQLSeelldr0OST678sb-5C7eC989Cmx13i6UWDelXaxsXq9MseJg/viewform"
+       target="_blank" rel="noopener" data-i18n="optReportBug">Report a bug</a>
+    <a href="https://n23eos.github.io/floatplayer-site/" target="_blank" rel="noopener" data-i18n="optSite">Website</a>
     <a href="https://x.com/Raincoat_talk" target="_blank" rel="noopener">@Raincoat_talk</a>
   </footer>
+
+  <!-- Плашка сохранения: живёт поверх страницы, всплывает снизу. -->
+  <div class="toast" id="status" hidden>
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <path fill="currentColor" d="M9.6 16.2 4.8 11.4l1.4-1.4 3.4 3.4 8-8 1.4 1.4z"></path>
+    </svg>
+    <span data-i18n="optSaved">Saved</span>
+  </div>
 
   <script src="options.js"></script>
 </body>

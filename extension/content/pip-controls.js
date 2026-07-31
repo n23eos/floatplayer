@@ -48,7 +48,7 @@ YTFP.pipControls = (() => {
     } else {
       button.appendChild(content);
     }
-    button.title = title;
+    YTFP.tooltips.attach(button, title);
     button.addEventListener("click", onClick);
     return button;
   }
@@ -192,7 +192,7 @@ YTFP.pipControls = (() => {
 
     const liveButton = pipDocument.createElement("button");
     liveButton.className = "ytfp-btn ytfp-btn--live";
-    liveButton.title = t("liveTooltip", "Jump to the live edge");
+    YTFP.tooltips.attach(liveButton, t("liveTooltip", "Jump to the live edge"));
     const liveDot = pipDocument.createElement("span");
     liveDot.className = "ytfp-live-dot";
     const liveLabel = pipDocument.createElement("span");
@@ -250,7 +250,7 @@ YTFP.pipControls = (() => {
     // --- Скорость: ползунок с шагами -----------------------------------------
     const speedWrap = pipDocument.createElement("label");
     speedWrap.className = "ytfp-speed";
-    speedWrap.title = t("speedTooltip", "Playback speed");
+    YTFP.tooltips.attach(speedWrap, t("speedTooltip", "Playback speed"));
 
     const speedSlider = pipDocument.createElement("input");
     speedSlider.type = "range";
@@ -270,7 +270,7 @@ YTFP.pipControls = (() => {
 
     const speedLabel = pipDocument.createElement("span");
     speedLabel.className = "ytfp-speed-label";
-    speedLabel.title = t("speedResetTooltip", "Reset speed to 1x");
+    YTFP.tooltips.attach(speedLabel, t("speedResetTooltip", "Reset speed to 1x"));
 
     function refreshSpeedControls() {
       const video = getVideo();
@@ -297,7 +297,7 @@ YTFP.pipControls = (() => {
     // --- Громкость 0–300% (Web Audio) ----------------------------------------
     const boostWrap = pipDocument.createElement("label");
     boostWrap.className = "ytfp-boost";
-    boostWrap.title = t("boostTooltip", "Volume: 0–100% quieter, above 100% boost");
+    YTFP.tooltips.attach(boostWrap, t("boostTooltip", "Volume: 0–100% quieter, above 100% boost"));
 
     const boostSlider = pipDocument.createElement("input");
     boostSlider.type = "range";
@@ -352,7 +352,7 @@ YTFP.pipControls = (() => {
 
     const sleepWrap = pipDocument.createElement("label");
     sleepWrap.className = "ytfp-sleep";
-    sleepWrap.title = t("sleepTooltip", "Sleep timer: pauses the video when it runs out");
+    YTFP.tooltips.attach(sleepWrap, t("sleepTooltip", "Sleep timer: pauses the video when it runs out"));
 
     const sleepSelect = pipDocument.createElement("select");
     sleepSelect.className = "ytfp-select";
@@ -488,10 +488,29 @@ YTFP.pipControls = (() => {
     );
     returnButton.classList.add("ytfp-btn--return");
 
+    // --- Отметка о недоступности базы SponsorBlock ---------------------------
+    // Видна только когда база не ответила. Иначе молчащий SponsorBlock не
+    // отличить от видео без разметки, и это выглядит как поломка.
+    const sbStatus = pipDocument.createElement("span");
+    sbStatus.className = "ytfp-sb-status";
+    sbStatus.textContent = "!";
+    sbStatus.hidden = true;
+    YTFP.tooltips.attach(
+      sbStatus,
+      t("sbUnavailable", "Sponsor segment database is unavailable right now")
+    );
+
+    function refreshSponsorStatus(status) {
+      // Настройка выключена — молчим: пользователь и не ждёт сегментов.
+      sbStatus.hidden = !YTFP.settings.get().sponsorSkip || status !== "error";
+    }
+    refreshSponsorStatus(YTFP.sponsorBlock.getStatus());
+    const offSponsorStatus = YTFP.sponsorBlock.onStatusChange(refreshSponsorStatus);
+
     if (isShorts) {
-      bar.append(playButton, speedWrap, boostWrap, nightButton, sleepWrap, returnButton);
+      bar.append(playButton, speedWrap, boostWrap, nightButton, sleepWrap, sbStatus, returnButton);
     } else {
-      bar.append(playButton, liveButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, nightButton, sleepWrap, returnButton);
+      bar.append(playButton, liveButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, nightButton, sleepWrap, sbStatus, returnButton);
     }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
@@ -627,6 +646,7 @@ YTFP.pipControls = (() => {
         video.removeEventListener("pause", refreshPlayIcon);
       }
       pipDocument.removeEventListener("keydown", onKeyDown, true);
+      offSponsorStatus();
       clearInterval(sleepTicker);
       clearTimeout(peekTimer);
       pipDocument.removeEventListener("mousemove", onSleepMouseMove);

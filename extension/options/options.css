@@ -1,79 +1,350 @@
+/* Токены светлой темы; тёмная переопределяет их одним блоком в конце файла. */
+:root {
+  --bg: #f7f7f7;
+  --surface: #fff;
+  --text: #0f0f0f;
+  --text-dim: #606060;
+  --line: #e5e5e5;
+  --control-bg: #fff;
+  --track: #cfcfcf;
+  --chip-bg: #f2f2f2;
+  --accent: #cc0000;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 14px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --anim: 0.18s ease;
+}
+
 body {
   font-family: "Roboto", Arial, sans-serif;
   font-size: 14px;
-  color: #0f0f0f;
-  max-width: 520px;
+  color: var(--text);
+  background: var(--bg);
+  max-width: 560px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 28px 16px 64px;
 }
 
-h1 {
-  font-size: 20px;
-  margin-bottom: 24px;
+/* --- Шапка --------------------------------------------------------------- */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.header-icon {
+  flex: none;
+  border-radius: var(--radius-sm);
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.header-name {
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.header-sub {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+/* Версия из manifest — вспомогательная метка, поэтому уезжает вправо. */
+.header-version {
+  margin-left: auto;
+  align-self: flex-start;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--text-dim);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Секции -------------------------------------------------------------- */
+
+.card {
+  margin-bottom: 16px;
+  padding: 4px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  margin: 0;
+  padding: 14px 0 10px;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
 .row {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid #e5e5e5;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
 }
 
-.row small {
-  display: block;
-  color: #606060;
-  margin-top: 2px;
+/* У fieldset снимаем рамку и отступы, разделитель берётся от .row. */
+fieldset.row {
+  border-width: 1px 0 0;
+  margin: 0;
+  align-items: flex-start;
 }
+
+.row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.row-hint {
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* Строки, зависящие от выключенной настройки: гасим, но оставляем читаемыми
+   и рабочими — так видно, что настройка существует и почему сейчас не важна. */
+.row--muted {
+  opacity: 0.45;
+}
+
+/* --- Переключатель ------------------------------------------------------- */
+
+.toggle {
+  appearance: none;
+  flex: none;
+  margin: 0 0 0 auto;
+  position: relative;
+  width: 40px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--track);
+  cursor: pointer;
+  transition: background var(--anim);
+}
+
+.toggle::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform var(--anim);
+}
+
+.toggle:checked {
+  background: var(--accent);
+}
+
+.toggle:checked::after {
+  transform: translateX(16px);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Выпадающие списки --------------------------------------------------- */
 
 .row select {
+  flex: none;
   margin-left: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  background: var(--control-bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color var(--anim);
 }
 
-/* Категории SponsorBlock: у fieldset снимаем рамку, но оставляем нижний
-   разделитель, как у остальных строк (стиль и цвет берутся из .row). */
-fieldset.row {
-  border-width: 0 0 1px;
-  margin: 0;
+.row select:hover {
+  border-color: var(--track);
 }
 
-.checks {
+.row select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* --- Категории SponsorBlock: чипы вместо чекбоксов ----------------------- */
+
+.chips {
   margin-left: auto;
-  display: grid;
-  gap: 6px;
-}
-
-.checks label {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 6px;
-  white-space: nowrap;
+  max-width: 260px;
 }
+
+.chip {
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 5px 12px;
+  background: var(--chip-bg);
+  color: var(--text-dim);
+  font-size: 12px;
+  white-space: nowrap;
+  transition: background var(--anim), color var(--anim);
+}
+
+/* Сам чекбокс не рисуем: состояние показывает заливка чипа. Из потока не
+   убираем через display:none — иначе элемент выпадет из фокуса клавиатуры. */
+.chip input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.chip:has(input:checked) {
+  background: var(--accent);
+  color: #fff;
+}
+
+.chip:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Подвал -------------------------------------------------------------- */
 
 .hint {
-  color: #606060;
-  margin-top: 20px;
+  color: var(--text-dim);
+  margin: 20px 4px 0;
+  line-height: 1.5;
 }
 
-.status {
-  color: #0a7a2f;
-  font-weight: 500;
+.hint code {
+  border-radius: 4px;
+  padding: 1px 5px;
+  background: var(--chip-bg);
+  font-size: 12px;
 }
 
 .footer {
-  margin-top: 28px;
-  padding-top: 12px;
-  border-top: 1px solid #e5e5e5;
-  color: #606060;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 4px 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--text-dim);
 }
 
 .footer a {
   color: inherit;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+/* Ссылка на форму отчёта об ошибке: главное действие подвала, поэтому
+   плашкой, а не строчкой. Подчёркивание ей не нужно — она и так заметна. */
+.footer-report {
+  margin-right: auto;
+  border-radius: 999px;
+  padding: 5px 12px;
+  background: var(--chip-bg);
+  transition: background var(--anim), color var(--anim);
+}
+
+.footer-report:hover {
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* --- Плашка «Сохранено» -------------------------------------------------- */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: #0f0f0f;
+  color: #fff;
+  font-size: 13px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  /* Стартовое (скрытое) состояние; класс --visible поднимает плашку. */
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition: opacity var(--anim), transform var(--anim);
+  pointer-events: none;
+}
+
+.toast svg {
+  color: #4ad07d;
+}
+
+.toast--visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* hidden убираем скриптом до анимации, поэтому правило нужно явное:
+   display:flex выше иначе перебил бы атрибут. */
+.toast[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .toggle::after,
+  .toast,
+  .row select {
+    transition: none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
-  .footer { border-color: #303030; color: #aaa; }
-  body { background: #0f0f0f; color: #f1f1f1; }
-  .row { border-color: #303030; }
-  .row small, .hint { color: #aaa; }
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1c1c1c;
+    --text: #f1f1f1;
+    --text-dim: #aaa;
+    --line: #303030;
+    --control-bg: #272727;
+    --track: #555;
+    --chip-bg: #2b2b2b;
+    --shadow: none;
+  }
+
+  .toast {
+    background: #f1f1f1;
+    color: #0f0f0f;
+  }
+
+  .toast svg {
+    color: #0a7a2f;
+  }
 }

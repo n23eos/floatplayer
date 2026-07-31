@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Caricamento…"
+  },
+  "sbUnavailable": {
+    "message": "Il database dei segmenti sponsorizzati non è raggiungibile al momento"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture per YouTube"
+  },
+  "optSecWindow": {
+    "message": "Mini-finestra"
+  },
+  "optSecSponsor": {
+    "message": "Segmenti sponsorizzati"
+  },
+  "optSecPlayback": {
+    "message": "Riproduzione"
+  },
+  "optSecAudio": {
+    "message": "Audio"
+  },
+  "optSite": {
+    "message": "Sito web"
+  },
+  "popupStateChecking": {
+    "message": "Controllo…"
+  },
+  "popupStateNoTab": {
+    "message": "Apri un video su YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Apri un video su YouTube"
+  },
+  "popupStateReload": {
+    "message": "Ricarica la scheda per attivare"
+  },
+  "popupStatePlaying": {
+    "message": "In riproduzione nella mini-finestra"
+  },
+  "popupStateReady": {
+    "message": "Pronto per estrarre il video"
+  },
+  "popupOpen": {
+    "message": "Estrai il video"
+  },
+  "popupReturn": {
+    "message": "Riporta il video"
+  },
+  "popupAutoPip": {
+    "message": "Estrazione automatica"
+  },
+  "popupCompact": {
+    "message": "Pannello solo al passaggio del mouse"
+  },
+  "popupSponsor": {
+    "message": "Segmenti sponsorizzati"
+  },
+  "popupSettings": {
+    "message": "Tutte le impostazioni"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer è pronto"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer è pronto"
+  },
+  "welcomeSub": {
+    "message": "Tre cose da sapere e hai finito."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer è stato aggiornato"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Un rapido promemoria di cosa sa fare."
+  },
+  "welcomeStep1Title": {
+    "message": "Cerca il pulsante nel player"
+  },
+  "welcomeStep1Text": {
+    "message": "In qualsiasi video di YouTube compare un nuovo pulsante nei comandi del player, a sinistra dell'ingranaggio delle impostazioni. Un clic e il video esce in una finestra che resta sopra tutto."
+  },
+  "welcomeStep2Title": {
+    "message": "Oppure usa la tastiera"
+  },
+  "welcomeStep2Text": {
+    "message": "Le scorciatoie funzionano da qualsiasi finestra di Chrome, così puoi estrarre il video senza cambiare scheda."
+  },
+  "welcomeStep3Title": {
+    "message": "Tutto il resto è nella mini-finestra"
+  },
+  "welcomeStep3Text": {
+    "message": "Il pannello in alto nella finestra raccoglie gli extra. Niente da configurare: sono tutti a un clic di distanza."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Velocità di riproduzione e ciclo A-B"
+  },
+  "welcomeFeatBoost": {
+    "message": "Amplificazione del volume fino al 300%"
+  },
+  "welcomeFeatNight": {
+    "message": "Modalità notte e timer di spegnimento"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Segmenti sponsorizzati sulla barra"
+  },
+  "welcomeFeatSide": {
+    "message": "Commenti, chat dal vivo, consigliati e coda"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Apri YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Impostazioni"
+  },
+  "optReportBug": {
+    "message": "Segnala un problema"
   }
 }

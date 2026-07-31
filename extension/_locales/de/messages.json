@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Wird geladen…"
+  },
+  "sbUnavailable": {
+    "message": "Die Datenbank der Sponsor-Abschnitte ist gerade nicht erreichbar"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture für YouTube"
+  },
+  "optSecWindow": {
+    "message": "Mini-Fenster"
+  },
+  "optSecSponsor": {
+    "message": "Sponsor-Abschnitte"
+  },
+  "optSecPlayback": {
+    "message": "Wiedergabe"
+  },
+  "optSecAudio": {
+    "message": "Ton"
+  },
+  "optSite": {
+    "message": "Website"
+  },
+  "popupStateChecking": {
+    "message": "Wird geprüft…"
+  },
+  "popupStateNoTab": {
+    "message": "Öffne ein Video auf YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Öffne ein Video auf YouTube"
+  },
+  "popupStateReload": {
+    "message": "Tab neu laden zum Aktivieren"
+  },
+  "popupStatePlaying": {
+    "message": "Läuft im Mini-Fenster"
+  },
+  "popupStateReady": {
+    "message": "Bereit zum Herauslösen"
+  },
+  "popupOpen": {
+    "message": "Video herauslösen"
+  },
+  "popupReturn": {
+    "message": "Video zurückholen"
+  },
+  "popupAutoPip": {
+    "message": "Automatisch herauslösen"
+  },
+  "popupCompact": {
+    "message": "Bedienfeld nur bei Mouseover"
+  },
+  "popupSponsor": {
+    "message": "Sponsor-Abschnitte"
+  },
+  "popupSettings": {
+    "message": "Alle Einstellungen"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer ist bereit"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer ist bereit"
+  },
+  "welcomeSub": {
+    "message": "Drei Dinge, die du wissen musst — fertig."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer wurde aktualisiert"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Kurz erinnert, was es alles kann."
+  },
+  "welcomeStep1Title": {
+    "message": "Achte auf die Schaltfläche im Player"
+  },
+  "welcomeStep1Text": {
+    "message": "Bei jedem YouTube-Video erscheint eine neue Schaltfläche in den Bedienelementen des Players, links vom Zahnrad. Ein Klick, und das Video springt in ein Fenster, das über allem bleibt."
+  },
+  "welcomeStep2Title": {
+    "message": "Oder nimm die Tastatur"
+  },
+  "welcomeStep2Text": {
+    "message": "Die Tastenkürzel funktionieren aus jedem Chrome-Fenster, du kannst das Video also ohne Tabwechsel herauslösen."
+  },
+  "welcomeStep3Title": {
+    "message": "Alles Weitere steckt im Mini-Fenster"
+  },
+  "welcomeStep3Text": {
+    "message": "Das Bedienfeld oben im Fenster enthält die Extras. Nichts einzurichten — alles ist nur einen Klick entfernt."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Tempo und A-B-Schleife"
+  },
+  "welcomeFeatBoost": {
+    "message": "Lautstärke-Boost bis 300 %"
+  },
+  "welcomeFeatNight": {
+    "message": "Nachtmodus und Sleeptimer"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Sponsor-Abschnitte auf der Leiste"
+  },
+  "welcomeFeatSide": {
+    "message": "Kommentare, Live-Chat, Empfehlungen und Warteschlange"
+  },
+  "welcomeCtaYouTube": {
+    "message": "YouTube öffnen"
+  },
+  "welcomeCtaSettings": {
+    "message": "Einstellungen"
+  },
+  "optReportBug": {
+    "message": "Fehler melden"
   }
 }

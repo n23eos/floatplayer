@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Loading…"
+  },
+  "sbUnavailable": {
+    "message": "Sponsor segment database is unavailable right now"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture for YouTube"
+  },
+  "optSecWindow": {
+    "message": "Mini-window"
+  },
+  "optSecSponsor": {
+    "message": "Sponsor segments"
+  },
+  "optSecPlayback": {
+    "message": "Playback"
+  },
+  "optSecAudio": {
+    "message": "Audio"
+  },
+  "optSite": {
+    "message": "Website"
+  },
+  "popupStateChecking": {
+    "message": "Checking…"
+  },
+  "popupStateNoTab": {
+    "message": "Open a video on YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Open a video on YouTube"
+  },
+  "popupStateReload": {
+    "message": "Reload the tab to activate"
+  },
+  "popupStatePlaying": {
+    "message": "Playing in the mini-window"
+  },
+  "popupStateReady": {
+    "message": "Ready to pop out"
+  },
+  "popupOpen": {
+    "message": "Pop out the video"
+  },
+  "popupReturn": {
+    "message": "Bring the video back"
+  },
+  "popupAutoPip": {
+    "message": "Auto pop-out"
+  },
+  "popupCompact": {
+    "message": "Hide panel until hover"
+  },
+  "popupSponsor": {
+    "message": "Sponsor segments"
+  },
+  "popupSettings": {
+    "message": "All settings"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer is ready"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer is ready"
+  },
+  "welcomeSub": {
+    "message": "Three things to know, and you're done."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer has been updated"
+  },
+  "welcomeUpdatedSub": {
+    "message": "A quick reminder of what it can do."
+  },
+  "welcomeStep1Title": {
+    "message": "Look for the button in the player"
+  },
+  "welcomeStep1Text": {
+    "message": "On any YouTube video a new button appears in the player controls, left of the settings gear. One click and the video pops out into a window that stays on top of everything."
+  },
+  "welcomeStep2Title": {
+    "message": "Or use the keyboard"
+  },
+  "welcomeStep2Text": {
+    "message": "The shortcuts work from any Chrome window, so you can pop the video out without switching tabs."
+  },
+  "welcomeStep3Title": {
+    "message": "Everything else lives in the mini-window"
+  },
+  "welcomeStep3Text": {
+    "message": "The panel at the top of the window holds the extras. Nothing to set up — they are all one click away."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Playback speed and A-B loop"
+  },
+  "welcomeFeatBoost": {
+    "message": "Volume boost up to 300%"
+  },
+  "welcomeFeatNight": {
+    "message": "Night mode and a sleep timer"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Sponsor segments on the timeline"
+  },
+  "welcomeFeatSide": {
+    "message": "Comments, live chat, recommendations and a queue"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Open YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Settings"
+  },
+  "optReportBug": {
+    "message": "Report a bug"
   }
 }

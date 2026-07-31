@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FloatPlayer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Английский текст — базовый; popup.js подменяет строки через chrome.i18n. -->
+  <header class="head">
+    <img class="head-icon" src="../icons/icon48.png" alt="" width="28" height="28">
+    <span class="head-name">FloatPlayer</span>
+  </header>
+
+  <!-- Состояние вкладки: точка + строка. Оба меняет popup.js. -->
+  <p class="state" id="state">
+    <span class="state-dot" id="stateDot"></span>
+    <span id="stateText" data-i18n="popupStateChecking">Checking…</span>
+  </p>
+
+  <button class="primary" id="primary" type="button" disabled>
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <path fill="currentColor" d="M4 4.2 15 10.4 4 16.6z"></path>
+      <path fill="currentColor" fill-rule="evenodd" d="M13.6 12.6h7.9a1.5 1.5 0 0 1 1.5 1.5v5.4a1.5 1.5 0 0 1-1.5 1.5h-7.9a1.5 1.5 0 0 1-1.5-1.5v-5.4a1.5 1.5 0 0 1 1.5-1.5zM13.9 14.5v4.6h7.3v-4.6z"></path>
+    </svg>
+    <span id="primaryText" data-i18n="popupOpen">Pop out the video</span>
+  </button>
+
+  <p class="shortcut" id="shortcut"></p>
+
+  <div class="rows">
+    <label class="row">
+      <span class="row-label" data-i18n="popupAutoPip">Auto pop-out</span>
+      <input type="checkbox" class="toggle" id="autoPip">
+    </label>
+    <label class="row">
+      <span class="row-label" data-i18n="popupCompact">Hide panel until hover</span>
+      <input type="checkbox" class="toggle" id="compactMode">
+    </label>
+    <label class="row">
+      <span class="row-label" data-i18n="popupSponsor">Sponsor segments</span>
+      <input type="checkbox" class="toggle" id="sponsorSkip">
+    </label>
+  </div>
+
+  <footer class="foot">
+    <button class="link" id="openOptions" type="button" data-i18n="popupSettings">All settings</button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

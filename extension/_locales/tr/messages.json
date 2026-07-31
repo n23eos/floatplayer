@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Yükleniyor…"
+  },
+  "sbUnavailable": {
+    "message": "Sponsor bölümü veritabanı şu anda kullanılamıyor"
+  },
+  "optSubtitle": {
+    "message": "YouTube için Picture in Picture"
+  },
+  "optSecWindow": {
+    "message": "Mini pencere"
+  },
+  "optSecSponsor": {
+    "message": "Sponsor bölümleri"
+  },
+  "optSecPlayback": {
+    "message": "Oynatma"
+  },
+  "optSecAudio": {
+    "message": "Ses"
+  },
+  "optSite": {
+    "message": "Web sitesi"
+  },
+  "popupStateChecking": {
+    "message": "Kontrol ediliyor…"
+  },
+  "popupStateNoTab": {
+    "message": "YouTube'da bir video açın"
+  },
+  "popupStateNoVideo": {
+    "message": "YouTube'da bir video açın"
+  },
+  "popupStateReload": {
+    "message": "Etkinleştirmek için sekmeyi yenileyin"
+  },
+  "popupStatePlaying": {
+    "message": "Mini pencerede oynatılıyor"
+  },
+  "popupStateReady": {
+    "message": "Çıkarmaya hazır"
+  },
+  "popupOpen": {
+    "message": "Videoyu çıkar"
+  },
+  "popupReturn": {
+    "message": "Videoyu geri getir"
+  },
+  "popupAutoPip": {
+    "message": "Otomatik çıkarma"
+  },
+  "popupCompact": {
+    "message": "Paneli fare gelene dek gizle"
+  },
+  "popupSponsor": {
+    "message": "Sponsor bölümleri"
+  },
+  "popupSettings": {
+    "message": "Tüm ayarlar"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer hazır"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer hazır"
+  },
+  "welcomeSub": {
+    "message": "Bilmeniz gereken üç şey, hepsi bu."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer güncellendi"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Neler yapabildiğini kısaca hatırlatalım."
+  },
+  "welcomeStep1Title": {
+    "message": "Oynatıcıdaki düğmeye bakın"
+  },
+  "welcomeStep1Text": {
+    "message": "Her YouTube videosunda, oynatıcı kontrollerinde ayar dişlisinin solunda yeni bir düğme belirir. Tek tıklamayla video, her zaman üstte kalan bir pencereye çıkar."
+  },
+  "welcomeStep2Title": {
+    "message": "Ya da klavyeyi kullanın"
+  },
+  "welcomeStep2Text": {
+    "message": "Kısayollar her Chrome penceresinde çalışır; videoyu sekme değiştirmeden çıkarabilirsiniz."
+  },
+  "welcomeStep3Title": {
+    "message": "Gerisi mini pencerede"
+  },
+  "welcomeStep3Text": {
+    "message": "Pencerenin üstündeki panel tüm ekstraları barındırır. Ayar yapmanıza gerek yok — hepsi tek tık uzağınızda."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Oynatma hızı ve A-B döngüsü"
+  },
+  "welcomeFeatBoost": {
+    "message": "%300'e kadar ses yükseltme"
+  },
+  "welcomeFeatNight": {
+    "message": "Gece modu ve uyku zamanlayıcısı"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Zaman çubuğunda sponsor bölümleri"
+  },
+  "welcomeFeatSide": {
+    "message": "Yorumlar, canlı sohbet, öneriler ve sıra"
+  },
+  "welcomeCtaYouTube": {
+    "message": "YouTube'u aç"
+  },
+  "welcomeCtaSettings": {
+    "message": "Ayarlar"
+  },
+  "optReportBug": {
+    "message": "Hata bildir"
   }
 }

@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Chargement…"
+  },
+  "sbUnavailable": {
+    "message": "La base des passages sponsorisés est indisponible pour le moment"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture pour YouTube"
+  },
+  "optSecWindow": {
+    "message": "Mini-fenêtre"
+  },
+  "optSecSponsor": {
+    "message": "Passages sponsorisés"
+  },
+  "optSecPlayback": {
+    "message": "Lecture"
+  },
+  "optSecAudio": {
+    "message": "Audio"
+  },
+  "optSite": {
+    "message": "Site web"
+  },
+  "popupStateChecking": {
+    "message": "Vérification…"
+  },
+  "popupStateNoTab": {
+    "message": "Ouvrez une vidéo sur YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Ouvrez une vidéo sur YouTube"
+  },
+  "popupStateReload": {
+    "message": "Rechargez l'onglet pour activer"
+  },
+  "popupStatePlaying": {
+    "message": "Lecture dans la mini-fenêtre"
+  },
+  "popupStateReady": {
+    "message": "Prêt à sortir la vidéo"
+  },
+  "popupOpen": {
+    "message": "Sortir la vidéo"
+  },
+  "popupReturn": {
+    "message": "Remettre la vidéo"
+  },
+  "popupAutoPip": {
+    "message": "Sortie automatique"
+  },
+  "popupCompact": {
+    "message": "Masquer le panneau hors survol"
+  },
+  "popupSponsor": {
+    "message": "Passages sponsorisés"
+  },
+  "popupSettings": {
+    "message": "Tous les paramètres"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer est prêt"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer est prêt"
+  },
+  "welcomeSub": {
+    "message": "Trois choses à savoir, et c'est tout."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer a été mis à jour"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Petit rappel de ce qu'il sait faire."
+  },
+  "welcomeStep1Title": {
+    "message": "Repérez le bouton dans le lecteur"
+  },
+  "welcomeStep1Text": {
+    "message": "Sur toute vidéo YouTube, un nouveau bouton apparaît dans les commandes du lecteur, à gauche de la roue dentée des paramètres. Un clic et la vidéo sort dans une fenêtre qui reste au-dessus de tout."
+  },
+  "welcomeStep2Title": {
+    "message": "Ou utilisez le clavier"
+  },
+  "welcomeStep2Text": {
+    "message": "Les raccourcis fonctionnent depuis n'importe quelle fenêtre de Chrome : vous pouvez sortir la vidéo sans changer d'onglet."
+  },
+  "welcomeStep3Title": {
+    "message": "Tout le reste est dans la mini-fenêtre"
+  },
+  "welcomeStep3Text": {
+    "message": "Le panneau en haut de la fenêtre regroupe les extras. Rien à configurer : tout est à un clic."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Vitesse de lecture et boucle A-B"
+  },
+  "welcomeFeatBoost": {
+    "message": "Amplification du volume jusqu'à 300 %"
+  },
+  "welcomeFeatNight": {
+    "message": "Mode nuit et minuterie de veille"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Passages sponsorisés sur la barre"
+  },
+  "welcomeFeatSide": {
+    "message": "Commentaires, chat en direct, recommandations et file d’attente"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Ouvrir YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Paramètres"
+  },
+  "optReportBug": {
+    "message": "Signaler un bug"
   }
 }

@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Загрузка…"
+  },
+  "sbUnavailable": {
+    "message": "База сегментов SponsorBlock сейчас недоступна"
+  },
+  "optSubtitle": {
+    "message": "Картинка в картинке для YouTube"
+  },
+  "optSecWindow": {
+    "message": "Мини-окно"
+  },
+  "optSecSponsor": {
+    "message": "Спонсорские вставки"
+  },
+  "optSecPlayback": {
+    "message": "Воспроизведение"
+  },
+  "optSecAudio": {
+    "message": "Звук"
+  },
+  "optSite": {
+    "message": "Сайт"
+  },
+  "popupStateChecking": {
+    "message": "Проверяем…"
+  },
+  "popupStateNoTab": {
+    "message": "Откройте видео на YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Откройте видео на YouTube"
+  },
+  "popupStateReload": {
+    "message": "Перезагрузите вкладку"
+  },
+  "popupStatePlaying": {
+    "message": "Играет в мини-окне"
+  },
+  "popupStateReady": {
+    "message": "Готово к выносу"
+  },
+  "popupOpen": {
+    "message": "Вынести видео"
+  },
+  "popupReturn": {
+    "message": "Вернуть видео"
+  },
+  "popupAutoPip": {
+    "message": "Выносить автоматически"
+  },
+  "popupCompact": {
+    "message": "Прятать панель"
+  },
+  "popupSponsor": {
+    "message": "Спонсорские вставки"
+  },
+  "popupSettings": {
+    "message": "Все настройки"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer готов"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer готов"
+  },
+  "welcomeSub": {
+    "message": "Три вещи, и можно пользоваться."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer обновился"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Коротко напоминаем, что он умеет."
+  },
+  "welcomeStep1Title": {
+    "message": "Найдите кнопку в плеере"
+  },
+  "welcomeStep1Text": {
+    "message": "На любом видео YouTube в панели плеера появилась новая кнопка — слева от шестерёнки. Один клик, и видео уезжает в окно, которое держится поверх всех остальных."
+  },
+  "welcomeStep2Title": {
+    "message": "Или нажмите горячую клавишу"
+  },
+  "welcomeStep2Text": {
+    "message": "Комбинации работают из любого окна Chrome, так что переключаться на вкладку с видео не нужно."
+  },
+  "welcomeStep3Title": {
+    "message": "Всё остальное — в самом мини-окне"
+  },
+  "welcomeStep3Text": {
+    "message": "Панель сверху собирает дополнительные функции. Настраивать нечего: всё в один клик."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Скорость воспроизведения и A-B повтор"
+  },
+  "welcomeFeatBoost": {
+    "message": "Усиление громкости до 300%"
+  },
+  "welcomeFeatNight": {
+    "message": "Ночной режим и таймер сна"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Спонсорские вставки на таймлайне"
+  },
+  "welcomeFeatSide": {
+    "message": "Комментарии, чат эфира, рекомендации и очередь"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Открыть YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Настройки"
+  },
+  "optReportBug": {
+    "message": "Сообщить об ошибке"
   }
 }

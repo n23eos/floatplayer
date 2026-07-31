@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Wczytywanie…"
+  },
+  "sbUnavailable": {
+    "message": "Baza fragmentów sponsorowanych jest teraz niedostępna"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture dla YouTube"
+  },
+  "optSecWindow": {
+    "message": "Mini-okno"
+  },
+  "optSecSponsor": {
+    "message": "Fragmenty sponsorowane"
+  },
+  "optSecPlayback": {
+    "message": "Odtwarzanie"
+  },
+  "optSecAudio": {
+    "message": "Dźwięk"
+  },
+  "optSite": {
+    "message": "Strona"
+  },
+  "popupStateChecking": {
+    "message": "Sprawdzanie…"
+  },
+  "popupStateNoTab": {
+    "message": "Otwórz film na YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Otwórz film na YouTube"
+  },
+  "popupStateReload": {
+    "message": "Odśwież kartę, aby aktywować"
+  },
+  "popupStatePlaying": {
+    "message": "Odtwarzanie w mini-oknie"
+  },
+  "popupStateReady": {
+    "message": "Gotowe do wysunięcia"
+  },
+  "popupOpen": {
+    "message": "Wysuń wideo"
+  },
+  "popupReturn": {
+    "message": "Przywróć wideo"
+  },
+  "popupAutoPip": {
+    "message": "Automatyczne wysuwanie"
+  },
+  "popupCompact": {
+    "message": "Ukryj panel do najechania"
+  },
+  "popupSponsor": {
+    "message": "Fragmenty sponsorowane"
+  },
+  "popupSettings": {
+    "message": "Wszystkie ustawienia"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer jest gotowy"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer jest gotowy"
+  },
+  "welcomeSub": {
+    "message": "Trzy rzeczy do poznania i gotowe."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer został zaktualizowany"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Krótkie przypomnienie, co potrafi."
+  },
+  "welcomeStep1Title": {
+    "message": "Poszukaj przycisku w odtwarzaczu"
+  },
+  "welcomeStep1Text": {
+    "message": "Przy każdym filmie na YouTube w sterowaniu odtwarzacza pojawia się nowy przycisk, na lewo od koła zębatego. Jedno kliknięcie i wideo wysuwa się do okna, które jest zawsze na wierzchu."
+  },
+  "welcomeStep2Title": {
+    "message": "Albo użyj klawiatury"
+  },
+  "welcomeStep2Text": {
+    "message": "Skróty działają w każdym oknie Chrome, więc wideo wysuniesz bez przełączania kart."
+  },
+  "welcomeStep3Title": {
+    "message": "Cała reszta jest w mini-oknie"
+  },
+  "welcomeStep3Text": {
+    "message": "Panel u góry okna zawiera dodatki. Nic nie trzeba ustawiać — wszystko jest o jedno kliknięcie."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Prędkość odtwarzania i pętla A-B"
+  },
+  "welcomeFeatBoost": {
+    "message": "Wzmocnienie głośności do 300%"
+  },
+  "welcomeFeatNight": {
+    "message": "Tryb nocny i wyłącznik czasowy"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Fragmenty sponsorowane na pasku"
+  },
+  "welcomeFeatSide": {
+    "message": "Komentarze, czat na żywo, polecane i kolejka"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Otwórz YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Ustawienia"
+  },
+  "optReportBug": {
+    "message": "Zgłoś błąd"
   }
 }

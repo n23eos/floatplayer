@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title data-i18n="welcomeTitle">FloatPlayer is ready</title>
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+  <!-- Английский текст — базовый; welcome.js подменяет строки через chrome.i18n.
+       Заголовок отличается для установки и для обновления (?mode=update). -->
+  <main class="page">
+    <header class="hero">
+      <img class="hero-icon" src="../icons/icon128.png" alt="" width="72" height="72">
+      <h1 class="hero-title" id="heroTitle" data-i18n="welcomeHeading">FloatPlayer is ready</h1>
+      <p class="hero-sub" id="heroSub" data-i18n="welcomeSub">Three things to know, and you're done.</p>
+      <span class="hero-version" id="version"></span>
+    </header>
+
+    <ol class="steps">
+      <li class="step">
+        <span class="step-num">1</span>
+        <div class="step-body">
+          <h2 class="step-title" data-i18n="welcomeStep1Title">Look for the button in the player</h2>
+          <p class="step-text" data-i18n="welcomeStep1Text">On any YouTube video, a new button appears in the player
+          controls, left of the settings gear. One click and the video pops out into
+          a window that stays on top of everything.</p>
+          <div class="step-visual" aria-hidden="true">
+            <span class="fake-controls">
+              <span class="fake-btn fake-btn--ours">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor" d="M4 4.2 15 10.4 4 16.6z"></path>
+                  <path fill="currentColor" fill-rule="evenodd" d="M13.6 12.6h7.9a1.5 1.5 0 0 1 1.5 1.5v5.4a1.5 1.5 0 0 1-1.5 1.5h-7.9a1.5 1.5 0 0 1-1.5-1.5v-5.4a1.5 1.5 0 0 1 1.5-1.5zM13.9 14.5v4.6h7.3v-4.6z"></path>
+                </svg>
+              </span>
+              <span class="fake-btn"></span>
+              <span class="fake-btn"></span>
+              <span class="fake-btn"></span>
+            </span>
+          </div>
+        </div>
+      </li>
+
+      <li class="step">
+        <span class="step-num">2</span>
+        <div class="step-body">
+          <h2 class="step-title" data-i18n="welcomeStep2Title">Or use the keyboard</h2>
+          <p class="step-text" data-i18n="welcomeStep2Text">The shortcuts work from any Chrome window, so you can pop the
+          video out without switching tabs.</p>
+          <!-- Комбинации подставляет welcome.js: у macOS они свои. -->
+          <dl class="keys" id="keys"></dl>
+        </div>
+      </li>
+
+      <li class="step">
+        <span class="step-num">3</span>
+        <div class="step-body">
+          <h2 class="step-title" data-i18n="welcomeStep3Title">Everything else lives in the mini-window</h2>
+          <p class="step-text" data-i18n="welcomeStep3Text">The panel at the top of the window holds the extras. Nothing to
+          set up — they are all one click away.</p>
+          <ul class="features">
+            <li data-i18n="welcomeFeatSpeed">Playback speed and A-B loop</li>
+            <li data-i18n="welcomeFeatBoost">Volume boost up to 300%</li>
+            <li data-i18n="welcomeFeatNight">Night mode and a sleep timer</li>
+            <li data-i18n="welcomeFeatSponsor">Sponsor segments on the timeline</li>
+            <li data-i18n="welcomeFeatSide">Comments, live chat, recommendations and a queue</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+
+    <div class="cta">
+      <a class="btn btn--primary" href="https://www.youtube.com/" data-i18n="welcomeCtaYouTube">Open YouTube</a>
+      <button class="btn" id="openOptions" type="button" data-i18n="welcomeCtaSettings">Settings</button>
+    </div>
+
+    <footer class="foot">
+      <a href="https://n23eos.github.io/floatplayer-site/" target="_blank" rel="noopener" data-i18n="optSite">Website</a>
+      <a href="https://x.com/Raincoat_talk" target="_blank" rel="noopener">@Raincoat_talk</a>
+    </footer>
+  </main>
+
+  <script src="welcome.js"></script>
+</body>
+</html>

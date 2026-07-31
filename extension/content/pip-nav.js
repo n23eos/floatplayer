@@ -62,7 +62,7 @@ YTFP.pipNav = (() => {
     function makeButton(name, title, extraClass, onClick) {
       const button = pipDocument.createElement("button");
       button.className = `ytfp-nav-btn ${extraClass}`.trim();
-      button.title = title;
+      YTFP.tooltips.attach(button, title);
       button.appendChild(createIcon(pipDocument, name, extraClass ? 26 : 20));
       button.addEventListener("click", onClick);
       return button;
@@ -105,7 +105,7 @@ YTFP.pipNav = (() => {
     function makeJumpButton(label, title, deltaSeconds) {
       const button = pipDocument.createElement("button");
       button.className = "ytfp-nav-btn ytfp-nav-btn--text";
-      button.title = title;
+      YTFP.tooltips.attach(button, title);
       button.textContent = label;
       button.addEventListener("click", () => seekBy(deltaSeconds));
       return button;

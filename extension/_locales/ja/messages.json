@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "読み込み中…"
+  },
+  "sbUnavailable": {
+    "message": "スポンサー区間のデータベースに現在アクセスできません"
+  },
+  "optSubtitle": {
+    "message": "YouTube用ピクチャー・イン・ピクチャー"
+  },
+  "optSecWindow": {
+    "message": "ミニウィンドウ"
+  },
+  "optSecSponsor": {
+    "message": "スポンサー区間"
+  },
+  "optSecPlayback": {
+    "message": "再生"
+  },
+  "optSecAudio": {
+    "message": "音声"
+  },
+  "optSite": {
+    "message": "ウェブサイト"
+  },
+  "popupStateChecking": {
+    "message": "確認中…"
+  },
+  "popupStateNoTab": {
+    "message": "YouTubeで動画を開いてください"
+  },
+  "popupStateNoVideo": {
+    "message": "YouTubeで動画を開いてください"
+  },
+  "popupStateReload": {
+    "message": "タブを再読み込みすると有効になります"
+  },
+  "popupStatePlaying": {
+    "message": "ミニウィンドウで再生中"
+  },
+  "popupStateReady": {
+    "message": "切り出す準備ができました"
+  },
+  "popupOpen": {
+    "message": "動画を切り出す"
+  },
+  "popupReturn": {
+    "message": "動画をページに戻す"
+  },
+  "popupAutoPip": {
+    "message": "自動で切り出す"
+  },
+  "popupCompact": {
+    "message": "パネルを隠す"
+  },
+  "popupSponsor": {
+    "message": "スポンサー区間"
+  },
+  "popupSettings": {
+    "message": "すべての設定"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayerの準備ができました"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayerの準備ができました"
+  },
+  "welcomeSub": {
+    "message": "3つのポイントを押さえれば準備完了です。"
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayerが更新されました"
+  },
+  "welcomeUpdatedSub": {
+    "message": "できることをおさらいしましょう。"
+  },
+  "welcomeStep1Title": {
+    "message": "プレーヤーのボタンを探す"
+  },
+  "welcomeStep1Text": {
+    "message": "YouTubeのどの動画でも、プレーヤーの操作列に新しいボタンが設定の歯車の左に表示されます。クリックすると、動画が常に最前面のウィンドウへ飛び出します。"
+  },
+  "welcomeStep2Title": {
+    "message": "キーボードでも操作できます"
+  },
+  "welcomeStep2Text": {
+    "message": "ショートカットはChromeのどのウィンドウからでも使えるので、タブを切り替えずに動画を切り出せます。"
+  },
+  "welcomeStep3Title": {
+    "message": "残りはすべてミニウィンドウの中に"
+  },
+  "welcomeStep3Text": {
+    "message": "ウィンドウ上部のパネルに追加機能がまとまっています。設定は不要で、どれもワンクリックです。"
+  },
+  "welcomeFeatSpeed": {
+    "message": "再生速度とA-Bリピート"
+  },
+  "welcomeFeatBoost": {
+    "message": "最大300%の音量ブースト"
+  },
+  "welcomeFeatNight": {
+    "message": "ナイトモードとスリープタイマー"
+  },
+  "welcomeFeatSponsor": {
+    "message": "シークバー上のスポンサー区間"
+  },
+  "welcomeFeatSide": {
+    "message": "コメント、ライブチャット、おすすめ、キュー"
+  },
+  "welcomeCtaYouTube": {
+    "message": "YouTubeを開く"
+  },
+  "welcomeCtaSettings": {
+    "message": "設定"
+  },
+  "optReportBug": {
+    "message": "不具合を報告"
   }
 }

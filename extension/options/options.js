@@ -23,6 +23,9 @@ function applyI18n() {
 }
 applyI18n();
 
+// Версию берём из манифеста, чтобы она не разъезжалась с релизом.
+document.getElementById("version").textContent = `v${chrome.runtime.getManifest().version}`;
+
 // Страница настроек: читает/пишет chrome.storage.sync.
 // Дефолты дублируем из content/constants.js (options-страница живёт отдельно).
 const DEFAULT_SETTINGS = {
@@ -55,6 +58,17 @@ function getCategoryCheckboxes() {
   return Array.from(document.querySelectorAll(".sb-category"));
 }
 
+/**
+ * Строки с data-requires гасим, когда настройка-родитель выключена:
+ * видно, что они есть, но сейчас ни на что не влияют.
+ */
+function refreshDependentRows() {
+  for (const row of document.querySelectorAll("[data-requires]")) {
+    const parent = elements[row.dataset.requires];
+    row.classList.toggle("row--muted", Boolean(parent) && !parent.checked);
+  }
+}
+
 async function loadIntoForm() {
   const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
   elements.autoPip.checked = Boolean(settings.autoPip);
@@ -72,9 +86,33 @@ async function loadIntoForm() {
   elements.speedStep.value = String(settings.speedStep);
   elements.skipStepSeconds.value = String(settings.skipStepSeconds);
   elements.volumeBoostMax.value = String(settings.volumeBoostMax);
+  refreshDependentRows();
 }
 
-let statusTimer = null;
+// --- Плашка «Сохранено» ----------------------------------------------------
+
+const TOAST_VISIBLE_MS = 1600;
+const TOAST_FADE_MS = 200; // должно совпадать с --anim в options.css
+let hideTimer = null;
+let removeTimer = null;
+
+function showSavedToast() {
+  clearTimeout(hideTimer);
+  clearTimeout(removeTimer);
+  elements.status.hidden = false;
+  // Браузер должен «увидеть» скрытое состояние до класса, иначе перехода не
+  // будет. Принудительный пересчёт вместо requestAnimationFrame: в неактивной
+  // вкладке кадры не рисуются, и плашка так и осталась бы прозрачной.
+  void elements.status.offsetWidth;
+  elements.status.classList.add("toast--visible");
+
+  hideTimer = setTimeout(() => {
+    elements.status.classList.remove("toast--visible");
+    removeTimer = setTimeout(() => {
+      elements.status.hidden = true;
+    }, TOAST_FADE_MS);
+  }, TOAST_VISIBLE_MS);
+}
 
 async function save() {
   await chrome.storage.sync.set({
@@ -91,11 +129,8 @@ async function save() {
     skipStepSeconds: Number(elements.skipStepSeconds.value),
     volumeBoostMax: Number(elements.volumeBoostMax.value)
   });
-  elements.status.hidden = false;
-  clearTimeout(statusTimer);
-  statusTimer = setTimeout(() => {
-    elements.status.hidden = true;
-  }, 1500);
+  refreshDependentRows();
+  showSavedToast();
 }
 
 for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
@@ -107,5 +142,12 @@ for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "s
 for (const checkbox of getCategoryCheckboxes()) {
   checkbox.addEventListener("change", save);
 }
+
+// Настройки могут поменяться из popup — форма не должна показывать старое.
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "sync") {
+    loadIntoForm();
+  }
+});
 
 loadIntoForm();

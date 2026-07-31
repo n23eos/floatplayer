@@ -4,3 +4,4 @@ dist/
 
 # Сборки расширения, если их собрали мимо dist/
 floatplayer-*.zip
+scripts/shots/build/

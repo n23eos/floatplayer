@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Cargando…"
+  },
+  "sbUnavailable": {
+    "message": "La base de segmentos patrocinados no está disponible ahora mismo"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture para YouTube"
+  },
+  "optSecWindow": {
+    "message": "Miniventana"
+  },
+  "optSecSponsor": {
+    "message": "Segmentos patrocinados"
+  },
+  "optSecPlayback": {
+    "message": "Reproducción"
+  },
+  "optSecAudio": {
+    "message": "Audio"
+  },
+  "optSite": {
+    "message": "Sitio web"
+  },
+  "popupStateChecking": {
+    "message": "Comprobando…"
+  },
+  "popupStateNoTab": {
+    "message": "Abre un vídeo en YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Abre un vídeo en YouTube"
+  },
+  "popupStateReload": {
+    "message": "Recarga la pestaña para activarlo"
+  },
+  "popupStatePlaying": {
+    "message": "Reproduciéndose en la miniventana"
+  },
+  "popupStateReady": {
+    "message": "Listo para sacar el vídeo"
+  },
+  "popupOpen": {
+    "message": "Sacar el vídeo"
+  },
+  "popupReturn": {
+    "message": "Devolver el vídeo"
+  },
+  "popupAutoPip": {
+    "message": "Sacar automáticamente"
+  },
+  "popupCompact": {
+    "message": "Ocultar el panel salvo al pasar el ratón"
+  },
+  "popupSponsor": {
+    "message": "Segmentos patrocinados"
+  },
+  "popupSettings": {
+    "message": "Todos los ajustes"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer está listo"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer está listo"
+  },
+  "welcomeSub": {
+    "message": "Tres cosas que saber y ya está."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer se ha actualizado"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Un recordatorio rápido de lo que puede hacer."
+  },
+  "welcomeStep1Title": {
+    "message": "Busca el botón en el reproductor"
+  },
+  "welcomeStep1Text": {
+    "message": "En cualquier vídeo de YouTube aparece un botón nuevo en los controles del reproductor, a la izquierda del engranaje de ajustes. Un clic y el vídeo sale a una ventana que se queda encima de todo."
+  },
+  "welcomeStep2Title": {
+    "message": "O usa el teclado"
+  },
+  "welcomeStep2Text": {
+    "message": "Los atajos funcionan desde cualquier ventana de Chrome, así que puedes sacar el vídeo sin cambiar de pestaña."
+  },
+  "welcomeStep3Title": {
+    "message": "Todo lo demás está en la miniventana"
+  },
+  "welcomeStep3Text": {
+    "message": "El panel de la parte superior de la ventana reúne los extras. No hay nada que configurar: están todos a un clic."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Velocidad de reproducción y bucle A-B"
+  },
+  "welcomeFeatBoost": {
+    "message": "Amplificación de volumen hasta el 300 %"
+  },
+  "welcomeFeatNight": {
+    "message": "Modo noche y temporizador de apagado"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Segmentos patrocinados en la barra"
+  },
+  "welcomeFeatSide": {
+    "message": "Comentarios, chat en directo, recomendaciones y cola"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Abrir YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Ajustes"
+  },
+  "optReportBug": {
+    "message": "Informar de un error"
   }
 }

@@ -152,8 +152,7 @@ YTFP.pipChat = (() => {
       mode = nextMode;
       const isChat = mode === "chat";
       const title = isChat ? t("chatTooltip", "Live chat") : t("commentsTooltip", "Comments");
-      toggle.title = title;
-      toggle.setAttribute("aria-label", title);
+      YTFP.tooltips.attach(toggle, title);
       toggle.replaceChildren(createIcon(pipDocument, isChat ? CHAT_ICON : COMMENTS_ICON));
       frame.hidden = !isChat;
       comments.element.hidden = isChat;

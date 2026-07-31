@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "लोड हो रहा है…"
+  },
+  "sbUnavailable": {
+    "message": "प्रायोजित हिस्सों का डेटाबेस अभी उपलब्ध नहीं है"
+  },
+  "optSubtitle": {
+    "message": "YouTube के लिए पिक्चर इन पिक्चर"
+  },
+  "optSecWindow": {
+    "message": "मिनी विंडो"
+  },
+  "optSecSponsor": {
+    "message": "प्रायोजित हिस्से"
+  },
+  "optSecPlayback": {
+    "message": "प्लेबैक"
+  },
+  "optSecAudio": {
+    "message": "ऑडियो"
+  },
+  "optSite": {
+    "message": "वेबसाइट"
+  },
+  "popupStateChecking": {
+    "message": "जाँच रहे हैं…"
+  },
+  "popupStateNoTab": {
+    "message": "YouTube पर कोई वीडियो खोलें"
+  },
+  "popupStateNoVideo": {
+    "message": "YouTube पर कोई वीडियो खोलें"
+  },
+  "popupStateReload": {
+    "message": "चालू करने के लिए टैब रीलोड करें"
+  },
+  "popupStatePlaying": {
+    "message": "मिनी विंडो में चल रहा है"
+  },
+  "popupStateReady": {
+    "message": "निकालने के लिए तैयार"
+  },
+  "popupOpen": {
+    "message": "वीडियो निकालें"
+  },
+  "popupReturn": {
+    "message": "वीडियो वापस लाएँ"
+  },
+  "popupAutoPip": {
+    "message": "अपने आप निकालें"
+  },
+  "popupCompact": {
+    "message": "पैनल छिपाएँ"
+  },
+  "popupSponsor": {
+    "message": "प्रायोजित हिस्से"
+  },
+  "popupSettings": {
+    "message": "सभी सेटिंग्स"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer तैयार है"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer तैयार है"
+  },
+  "welcomeSub": {
+    "message": "तीन बातें जान लें, बस इतना ही।"
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer अपडेट हो गया"
+  },
+  "welcomeUpdatedSub": {
+    "message": "यह क्या-क्या कर सकता है, एक झलक।"
+  },
+  "welcomeStep1Title": {
+    "message": "प्लेयर में बटन देखें"
+  },
+  "welcomeStep1Text": {
+    "message": "हर YouTube वीडियो के प्लेयर कंट्रोल में सेटिंग्स गियर के बाईं ओर एक नया बटन दिखता है। एक क्लिक और वीडियो ऐसी विंडो में निकल आता है जो हमेशा सबसे ऊपर रहती है।"
+  },
+  "welcomeStep2Title": {
+    "message": "या कीबोर्ड से करें"
+  },
+  "welcomeStep2Text": {
+    "message": "शॉर्टकट Chrome की किसी भी विंडो से काम करते हैं, इसलिए टैब बदले बिना वीडियो निकाला जा सकता है।"
+  },
+  "welcomeStep3Title": {
+    "message": "बाकी सब मिनी विंडो में है"
+  },
+  "welcomeStep3Text": {
+    "message": "विंडो के ऊपर वाले पैनल में सारी अतिरिक्त सुविधाएँ हैं। कुछ सेट करने की जरूरत नहीं — सब एक क्लिक दूर हैं।"
+  },
+  "welcomeFeatSpeed": {
+    "message": "प्लेबैक स्पीड और A-B लूप"
+  },
+  "welcomeFeatBoost": {
+    "message": "300% तक वॉल्यूम बूस्ट"
+  },
+  "welcomeFeatNight": {
+    "message": "नाइट मोड और स्लीप टाइमर"
+  },
+  "welcomeFeatSponsor": {
+    "message": "टाइमलाइन पर प्रायोजित हिस्से"
+  },
+  "welcomeFeatSide": {
+    "message": "टिप्पणियां, लाइव चैट, सुझाव और कतार"
+  },
+  "welcomeCtaYouTube": {
+    "message": "YouTube खोलें"
+  },
+  "welcomeCtaSettings": {
+    "message": "सेटिंग्स"
+  },
+  "optReportBug": {
+    "message": "समस्या की रिपोर्ट करें"
   }
 }

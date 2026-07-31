@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Завантаження…"
+  },
+  "sbUnavailable": {
+    "message": "База спонсорських вставок зараз недоступна"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture для YouTube"
+  },
+  "optSecWindow": {
+    "message": "Міні-вікно"
+  },
+  "optSecSponsor": {
+    "message": "Спонсорські вставки"
+  },
+  "optSecPlayback": {
+    "message": "Відтворення"
+  },
+  "optSecAudio": {
+    "message": "Звук"
+  },
+  "optSite": {
+    "message": "Сайт"
+  },
+  "popupStateChecking": {
+    "message": "Перевіряємо…"
+  },
+  "popupStateNoTab": {
+    "message": "Відкрийте відео на YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Відкрийте відео на YouTube"
+  },
+  "popupStateReload": {
+    "message": "Оновіть вкладку, щоб активувати"
+  },
+  "popupStatePlaying": {
+    "message": "Відтворюється в міні-вікні"
+  },
+  "popupStateReady": {
+    "message": "Готово до винесення"
+  },
+  "popupOpen": {
+    "message": "Винести відео"
+  },
+  "popupReturn": {
+    "message": "Повернути відео"
+  },
+  "popupAutoPip": {
+    "message": "Автовинесення"
+  },
+  "popupCompact": {
+    "message": "Ховати панель до наведення"
+  },
+  "popupSponsor": {
+    "message": "Спонсорські вставки"
+  },
+  "popupSettings": {
+    "message": "Усі налаштування"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer готовий"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer готовий"
+  },
+  "welcomeSub": {
+    "message": "Три речі, які варто знати, — і все."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer оновлено"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Коротко нагадуємо, що він уміє."
+  },
+  "welcomeStep1Title": {
+    "message": "Шукайте кнопку в плеєрі"
+  },
+  "welcomeStep1Text": {
+    "message": "На будь-якому відео YouTube у панелі плеєра з’являється нова кнопка — ліворуч від шестерні. Один клік, і відео виноситься в окреме вікно поверх усіх інших."
+  },
+  "welcomeStep2Title": {
+    "message": "Або скористайтеся клавіатурою"
+  },
+  "welcomeStep2Text": {
+    "message": "Комбінації працюють у будь-якому вікні Chrome, тож винести відео можна, не перемикаючи вкладки."
+  },
+  "welcomeStep3Title": {
+    "message": "Усе інше — в міні-вікні"
+  },
+  "welcomeStep3Text": {
+    "message": "Панель угорі вікна містить усі додаткові можливості. Нічого налаштовувати не треба — усе за один клік."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Швидкість відтворення й A-B повтор"
+  },
+  "welcomeFeatBoost": {
+    "message": "Підсилення гучності до 300%"
+  },
+  "welcomeFeatNight": {
+    "message": "Нічний режим і таймер сну"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Спонсорські вставки на смузі"
+  },
+  "welcomeFeatSide": {
+    "message": "Коментарі, чат трансляції, рекомендації та черга"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Відкрити YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Налаштування"
+  },
+  "optReportBug": {
+    "message": "Повідомити про помилку"
   }
 }

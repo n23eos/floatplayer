@@ -167,11 +167,14 @@ extension/
 │   ├── pip-nav.js          bottom buttons, click zones, pause badge
 │   ├── pip-controller.js   moves the player into Document PiP and back
 │   ├── sponsor-block.js    SponsorBlock segments + skip button
+│   ├── pip-tooltip.js      in-window tooltips instead of native title
 │   └── inject-button.js    page buttons, SPA navigation, hotkeys
 ├── pip/pip.css             PiP window styles (video-only whitelist)
-├── background/             service worker (hotkeys, uninstall form)
+├── background/             service worker (hotkeys, install/update pages)
 ├── options/                options page (i18n via data-i18n)
-└── _locales/               en (default) + ru
+├── popup/                  toolbar popup: tab state and quick switches
+├── welcome/                first-run and post-update page
+└── _locales/               14 languages, en is the default
 ```
 
 Tests: `npm install && npm test` — vitest over the pure functions

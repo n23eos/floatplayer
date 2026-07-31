@@ -99,7 +99,7 @@ YTFP.pipRelated = (() => {
     // Стрелка у правого края.
     const toggle = pipDocument.createElement("button");
     toggle.className = "ytfp-related-toggle";
-    toggle.title = chrome.i18n.getMessage("relatedTooltip") || "Recommendations";
+    YTFP.tooltips.attach(toggle, chrome.i18n.getMessage("relatedTooltip") || "Recommendations");
     toggle.textContent = "‹";
 
     const panel = pipDocument.createElement("div");
@@ -142,7 +142,7 @@ YTFP.pipRelated = (() => {
 
         const removeButton = pipDocument.createElement("button");
         removeButton.className = "ytfp-queue-remove";
-        removeButton.title = t("queueRemove", "Remove from queue");
+        YTFP.tooltips.attach(removeButton, t("queueRemove", "Remove from queue"));
         removeButton.textContent = "×";
         removeButton.addEventListener("click", () => {
           queue = queue.filter((_, i) => i !== index);
@@ -199,7 +199,7 @@ YTFP.pipRelated = (() => {
         if (item.videoId) {
           const addButton = pipDocument.createElement("button");
           addButton.className = "ytfp-queue-add";
-          addButton.title = t("queueAdd", "Add to queue");
+          YTFP.tooltips.attach(addButton, t("queueAdd", "Add to queue"));
           addButton.textContent = "+";
           addButton.addEventListener("click", (event) => {
             event.stopPropagation(); // не переключать видео кликом по строке

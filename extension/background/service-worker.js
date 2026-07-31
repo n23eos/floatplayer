@@ -9,13 +9,33 @@ chrome.runtime.setUninstallURL(UNINSTALL_FEEDBACK_URL).catch((error) => {
   console.warn("[YTFP] setUninstallURL failed:", error);
 });
 
-// Первый запуск: помечаем, что кнопку в плеере нужно один раз подсветить.
-// Флаг снимает content-скрипт после показа, поэтому подсказка не повторяется.
+const WELCOME_PAGE = "welcome/welcome.html";
+
+/** «1.11.1» → «1.11»: патчи считаем незаметными для пользователя. */
+function minorVersion(version) {
+  return String(version).split(".").slice(0, 2).join(".");
+}
+
 chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason !== "install") {
-    return; // обновление версии — подсказку не показываем
+  if (details.reason === "install") {
+    // Первый запуск: страница приветствия плюс флаг подсветки кнопки в плеере.
+    // Флаг снимает content-скрипт после показа, поэтому подсказка не повторяется.
+    chrome.storage.local.set({ onboardingPending: true }).catch(() => {});
+    chrome.tabs.create({ url: chrome.runtime.getURL(WELCOME_PAGE) }).catch(() => {});
+    return;
   }
-  chrome.storage.local.set({ onboardingPending: true }).catch(() => {});
+  if (details.reason !== "update" || !details.previousVersion) {
+    return;
+  }
+  // Обновление показываем только при смене минорной версии: патч-релизы
+  // не должны открывать вкладку каждый раз.
+  const current = chrome.runtime.getManifest().version;
+  if (minorVersion(details.previousVersion) === minorVersion(current)) {
+    return;
+  }
+  chrome.tabs
+    .create({ url: chrome.runtime.getURL(`${WELCOME_PAGE}?mode=update`) })
+    .catch(() => {});
 });
 
 // Горячие клавиши (chrome.commands) работают при фокусе в любом окне Chrome.

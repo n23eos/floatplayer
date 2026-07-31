@@ -388,6 +388,10 @@ YTFP.pip = (() => {
     injectOverlayStyles();
     const overlay = buildOverlay(parent);
 
+    // Подсказки для всех органов управления окна: один общий узел, который
+    // модули ниже наполняют через YTFP.tooltips.attach().
+    YTFP.tooltips.install(pipWindow.document);
+
     const getMovedVideo = () => playerEl.querySelector("video.html5-main-video");
 
     // Чат прямого эфира. У шортсов эфиров не бывает — там панель не строим.

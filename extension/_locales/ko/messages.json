@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "불러오는 중…"
+  },
+  "sbUnavailable": {
+    "message": "스폰서 구간 데이터베이스를 지금 사용할 수 없습니다"
+  },
+  "optSubtitle": {
+    "message": "YouTube용 화면 속 화면"
+  },
+  "optSecWindow": {
+    "message": "미니 창"
+  },
+  "optSecSponsor": {
+    "message": "스폰서 구간"
+  },
+  "optSecPlayback": {
+    "message": "재생"
+  },
+  "optSecAudio": {
+    "message": "오디오"
+  },
+  "optSite": {
+    "message": "웹사이트"
+  },
+  "popupStateChecking": {
+    "message": "확인 중…"
+  },
+  "popupStateNoTab": {
+    "message": "YouTube에서 동영상을 열어 주세요"
+  },
+  "popupStateNoVideo": {
+    "message": "YouTube에서 동영상을 열어 주세요"
+  },
+  "popupStateReload": {
+    "message": "탭을 새로고침하면 켜집니다"
+  },
+  "popupStatePlaying": {
+    "message": "미니 창에서 재생 중"
+  },
+  "popupStateReady": {
+    "message": "꺼낼 준비 완료"
+  },
+  "popupOpen": {
+    "message": "동영상 꺼내기"
+  },
+  "popupReturn": {
+    "message": "동영상 되돌리기"
+  },
+  "popupAutoPip": {
+    "message": "자동으로 꺼내기"
+  },
+  "popupCompact": {
+    "message": "패널 숨기기"
+  },
+  "popupSponsor": {
+    "message": "스폰서 구간"
+  },
+  "popupSettings": {
+    "message": "전체 설정"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer 준비 완료"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer 준비 완료"
+  },
+  "welcomeSub": {
+    "message": "세 가지만 알면 끝입니다."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer가 업데이트되었습니다"
+  },
+  "welcomeUpdatedSub": {
+    "message": "무엇을 할 수 있는지 간단히 다시 봅니다."
+  },
+  "welcomeStep1Title": {
+    "message": "플레이어의 버튼을 찾으세요"
+  },
+  "welcomeStep1Text": {
+    "message": "모든 YouTube 동영상의 플레이어 조작줄, 설정 톱니바퀴 왼쪽에 새 버튼이 생깁니다. 한 번 누르면 동영상이 항상 위에 떠 있는 창으로 빠져나옵니다."
+  },
+  "welcomeStep2Title": {
+    "message": "키보드로도 됩니다"
+  },
+  "welcomeStep2Text": {
+    "message": "단축키는 Chrome의 어느 창에서나 작동하므로 탭을 바꾸지 않고 동영상을 꺼낼 수 있습니다."
+  },
+  "welcomeStep3Title": {
+    "message": "나머지는 미니 창 안에 있습니다"
+  },
+  "welcomeStep3Text": {
+    "message": "창 위쪽 패널에 부가 기능이 모여 있습니다. 따로 설정할 것 없이 모두 한 번의 클릭이면 됩니다."
+  },
+  "welcomeFeatSpeed": {
+    "message": "재생 속도와 A-B 반복"
+  },
+  "welcomeFeatBoost": {
+    "message": "최대 300% 음량 부스트"
+  },
+  "welcomeFeatNight": {
+    "message": "야간 모드와 취침 타이머"
+  },
+  "welcomeFeatSponsor": {
+    "message": "재생바의 스폰서 구간"
+  },
+  "welcomeFeatSide": {
+    "message": "댓글, 실시간 채팅, 추천, 대기열"
+  },
+  "welcomeCtaYouTube": {
+    "message": "YouTube 열기"
+  },
+  "welcomeCtaSettings": {
+    "message": "설정"
+  },
+  "optReportBug": {
+    "message": "버그 신고"
   }
 }

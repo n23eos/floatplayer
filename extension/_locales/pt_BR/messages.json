@@ -220,5 +220,119 @@
   },
   "commentsLoading": {
     "message": "Carregando…"
+  },
+  "sbUnavailable": {
+    "message": "A base de trechos patrocinados está indisponível agora"
+  },
+  "optSubtitle": {
+    "message": "Picture in Picture para o YouTube"
+  },
+  "optSecWindow": {
+    "message": "Minijanela"
+  },
+  "optSecSponsor": {
+    "message": "Trechos patrocinados"
+  },
+  "optSecPlayback": {
+    "message": "Reprodução"
+  },
+  "optSecAudio": {
+    "message": "Áudio"
+  },
+  "optSite": {
+    "message": "Site"
+  },
+  "popupStateChecking": {
+    "message": "Verificando…"
+  },
+  "popupStateNoTab": {
+    "message": "Abra um vídeo no YouTube"
+  },
+  "popupStateNoVideo": {
+    "message": "Abra um vídeo no YouTube"
+  },
+  "popupStateReload": {
+    "message": "Recarregue a aba para ativar"
+  },
+  "popupStatePlaying": {
+    "message": "Reproduzindo na minijanela"
+  },
+  "popupStateReady": {
+    "message": "Pronto para destacar"
+  },
+  "popupOpen": {
+    "message": "Destacar o vídeo"
+  },
+  "popupReturn": {
+    "message": "Trazer o vídeo de volta"
+  },
+  "popupAutoPip": {
+    "message": "Destaque automático"
+  },
+  "popupCompact": {
+    "message": "Ocultar painel até passar o mouse"
+  },
+  "popupSponsor": {
+    "message": "Trechos patrocinados"
+  },
+  "popupSettings": {
+    "message": "Todas as configurações"
+  },
+  "welcomeTitle": {
+    "message": "FloatPlayer está pronto"
+  },
+  "welcomeHeading": {
+    "message": "FloatPlayer está pronto"
+  },
+  "welcomeSub": {
+    "message": "Três coisas para saber e pronto."
+  },
+  "welcomeUpdatedHeading": {
+    "message": "FloatPlayer foi atualizado"
+  },
+  "welcomeUpdatedSub": {
+    "message": "Um lembrete rápido do que ele faz."
+  },
+  "welcomeStep1Title": {
+    "message": "Procure o botão no player"
+  },
+  "welcomeStep1Text": {
+    "message": "Em qualquer vídeo do YouTube aparece um novo botão nos controles do player, à esquerda da engrenagem. Um clique e o vídeo sai em uma janela que fica à frente de tudo."
+  },
+  "welcomeStep2Title": {
+    "message": "Ou use o teclado"
+  },
+  "welcomeStep2Text": {
+    "message": "Os atalhos funcionam em qualquer janela do Chrome, então dá para destacar o vídeo sem trocar de aba."
+  },
+  "welcomeStep3Title": {
+    "message": "O resto fica na minijanela"
+  },
+  "welcomeStep3Text": {
+    "message": "O painel no topo da janela reúne os extras. Nada para configurar — está tudo a um clique."
+  },
+  "welcomeFeatSpeed": {
+    "message": "Velocidade e repetição A-B"
+  },
+  "welcomeFeatBoost": {
+    "message": "Volume amplificado até 300%"
+  },
+  "welcomeFeatNight": {
+    "message": "Modo noturno e timer de desligamento"
+  },
+  "welcomeFeatSponsor": {
+    "message": "Trechos patrocinados na barra"
+  },
+  "welcomeFeatSide": {
+    "message": "Comentários, chat ao vivo, recomendações e fila"
+  },
+  "welcomeCtaYouTube": {
+    "message": "Abrir o YouTube"
+  },
+  "welcomeCtaSettings": {
+    "message": "Configurações"
+  },
+  "optReportBug": {
+    "message": "Relatar um erro"
   }
 }
