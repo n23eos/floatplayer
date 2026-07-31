@@ -77,30 +77,64 @@ select {
   display: none !important;
 }
 
-/* Название видео у верхнего края. В рамке окна Chrome показывает только
-   origin (youtube.com), название туда не попадает, поэтому пишем сами.
-   Градиент вместо плашки: поверх тёмного кадра надпись почти не видна,
-   поверх светлого — читается. Клики проходят насквозь (pointer-events),
-   чтобы верх кадра остался зоной паузы и перетаскивания окна. */
-.ytfp-title {
+/* Верхняя колонка: панель, под ней плашка названия. Колонка кликов не
+   ловит — их принимают только сами элементы, поэтому свободное место
+   сверху остаётся зоной паузы и перетаскивания окна. */
+.ytfp-top {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 9999;
-  padding: 6px 10px 16px;
-  background: linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
-  color: #fff;
+  left: 8px;
+  right: 8px;
+  top: 8px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Название видео. В рамке окна Chrome показывает только origin
+   (youtube.com), название туда не попадает, поэтому пишем сами —
+   плашкой в стилистике панели: кружок канала и текст.
+   Клики проходят насквозь: под плашкой всё ещё видео. */
+.ytfp-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 5px 12px 5px 5px;
+  border-radius: 10px;
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #eee;
   font-family: "Roboto", Arial, sans-serif;
   font-size: 12px;
   line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   pointer-events: none;
   transform: translateY(0);
   transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.ytfp-title-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex: none;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ytfp-title-avatar[hidden] {
+  display: none;
+}
+
+/* Длинное название обрезаем многоточием, кружок при этом не сжимаем. */
+.ytfp-title-text {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Компактный режим: название спрятано и всплывает вместе с панелью,
@@ -115,14 +149,12 @@ body:hover .ytfp-title--compact {
   opacity: 1;
 }
 
-/* Панель дополнительных функций — плавающая «пилюля» сверху.
-   Ниже строки названия, чтобы не перекрывать её. */
+/* Панель дополнительных функций — «пилюля» в верхней колонке (.ytfp-top),
+   название видео идёт под ней. */
 .ytfp-bar {
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  top: 30px;
-  z-index: 10000;
+  width: 100%;
+  box-sizing: border-box;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 8px;

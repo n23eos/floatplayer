@@ -45,6 +45,35 @@ YTFP.pip = (() => {
     return YTFP.utils.videoTitleFromPageTitle(document.title);
   }
 
+  // Блоки страницы, где лежит аватарка канала: для обычного видео и для
+  // шортсов. Ищем по контейнеру, а не по классам самой картинки: имена
+  // классов YouTube меняет часто, а блок автора живёт на месте.
+  const CHANNEL_AVATAR_SCOPES = [
+    "ytd-watch-metadata #owner",
+    "#owner",
+    "ytd-reel-video-renderer[is-active] reel-channel-bar-view-model",
+    "ytd-reel-video-renderer[is-active]",
+    "ytd-reel-player-header-renderer"
+  ];
+
+  /** Аватарка канала со страницы или "" — плеер уже мог уехать в окно. */
+  function getChannelAvatarUrl() {
+    for (const scope of CHANNEL_AVATAR_SCOPES) {
+      const root = document.querySelector(scope);
+      if (!root) {
+        continue;
+      }
+      // Аватарки лежат на отдельном хосте — по нему и отличаем их от
+      // превью и прочих картинок внутри блока.
+      const image =
+        root.querySelector('img[src*="yt3."]') || root.querySelector("img[src]");
+      if (image && image.src) {
+        return image.src;
+      }
+    }
+    return "";
+  }
+
   // Критический минимум стилей на случай, если pip.css не удалось получить
   // (например, расширение обновили, а вкладку не перезагрузили — старый
   // content-script теряет доступ к файлам расширения). Гарантирует чёрный
@@ -55,7 +84,11 @@ YTFP.pip = (() => {
     #movie_player video.html5-main-video, #shorts-player video.html5-main-video { width: 100% !important; height: 100% !important; left: 0 !important; top: 0 !important; object-fit: contain !important; }
     #movie_player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip),
     #shorts-player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip) { display: none !important; }
-    .ytfp-title { position: absolute; left: 0; right: 0; top: 0; z-index: 9999; padding: 6px 10px 16px; color: #fff; font: 12px "Roboto", Arial, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); pointer-events: none; }
+    .ytfp-top { position: absolute; left: 8px; right: 8px; top: 8px; z-index: 10000; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; pointer-events: none; }
+    .ytfp-bar { width: 100%; box-sizing: border-box; pointer-events: auto; }
+    .ytfp-title { display: flex; align-items: center; gap: 8px; max-width: 100%; padding: 5px 12px 5px 5px; border-radius: 10px; background: rgba(10, 10, 10, 0.78); color: #eee; font: 12px "Roboto", Arial, sans-serif; pointer-events: none; }
+    .ytfp-title-avatar { width: 22px; height: 22px; border-radius: 50%; flex: none; }
+    .ytfp-title-text { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .ytfp-title--compact { opacity: 0; }
     body:hover .ytfp-title--compact { opacity: 1; }
   `;
@@ -254,7 +287,7 @@ YTFP.pip = (() => {
     pipWindow.document.head.appendChild(style);
     // Название видео. В системную полоску окна Chrome пишет только origin
     // (youtube.com) и document.title там не показывает, поэтому рисуем
-    // надпись сами — узкой строкой у верхнего края окна.
+    // надпись сами — плашкой под основной панелью: кружок канала и текст.
     const titleBar = pipWindow.document.createElement("div");
     titleBar.className = "ytfp-title";
     // Компактный режим — тот же, что у панели: название всплывает вместе
@@ -263,15 +296,31 @@ YTFP.pip = (() => {
       titleBar.classList.add("ytfp-title--compact");
     }
 
+    const avatar = pipWindow.document.createElement("img");
+    avatar.className = "ytfp-title-avatar";
+    avatar.alt = "";
+    const titleText = pipWindow.document.createElement("span");
+    titleText.className = "ytfp-title-text";
+    titleBar.append(avatar, titleText);
+
     const applyTitle = () => {
       const title = getPageVideoTitle();
       // document.title — для переключателя окон ОС, наша строка — для глаз.
       if (pipWindow.document.title !== title) {
         pipWindow.document.title = title;
       }
-      if (titleBar.textContent !== title) {
-        titleBar.textContent = title;
+      if (titleText.textContent !== title) {
+        titleText.textContent = title;
       }
+      // Аватарку читаем на каждом обновлении: при переходе к следующему
+      // видео разметка страницы перерисовывается, и картинка приезжает
+      // не сразу — к моменту очередной правки <head> она уже на месте.
+      const avatarUrl = getChannelAvatarUrl();
+      if (avatarUrl && avatar.src !== avatarUrl) {
+        avatar.src = avatarUrl;
+      }
+      // Канал не нашёлся — показываем одно название, без пустого кружка.
+      avatar.hidden = !avatar.src;
     };
     applyTitle();
 
@@ -349,8 +398,13 @@ YTFP.pip = (() => {
       onReturnRequested: close,
       isShorts
     });
-    pipWindow.document.body.appendChild(titleBar);
-    pipWindow.document.body.appendChild(controls.element);
+    // Панель и плашка названия — одной колонкой сверху: название всегда
+    // под панелью, какой бы высоты она ни оказалась (в узком окне шортсов
+    // кнопки переносятся на вторую строку).
+    const topStack = pipWindow.document.createElement("div");
+    topStack.className = "ytfp-top";
+    topStack.append(controls.element, titleBar);
+    pipWindow.document.body.appendChild(topStack);
     if (chat) {
       pipWindow.document.body.appendChild(chat.element);
     }
