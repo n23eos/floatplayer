@@ -13,8 +13,17 @@ YTFP.SELECTORS = {
   rightControls: "#movie_player .ytp-right-controls",
   settingsButton: "#movie_player .ytp-settings-button",
   // Относительный, от корня плеера: плеер переезжает в PiP-окно, и путь от
-  // document там уже не работает. Есть только на прямых эфирах.
-  liveBadge: ".ytp-live-badge",
+  // document там уже не работает.
+  //
+  // Сам значок .ytp-live-badge лежит в разметке всегда, и на обычном видео
+  // тоже — видимым его делает класс ytp-live на предке, правилом самого
+  // YouTube: `.ytp-chrome-controls .ytp-live .ytp-live-badge { display:
+  // inline-block }`. Поэтому спрашиваем про предка, а не про значок.
+  //
+  // Именно класс, а не вычисленный display: в PiP-окне вся панель контролов
+  // скрыта нашим же CSS, и любая проверка видимости там всегда сказала бы
+  // «не эфир».
+  liveBadge: ".ytp-live .ytp-live-badge",
   // Запасные источники ID текущего видео, когда его нет в адресе
   // (например, канальные страницы вида /@канал/live).
   canonicalLink: 'link[rel="canonical"]',
