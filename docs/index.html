@@ -4,13 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FloatPlayer — Picture in Picture for YouTube</title>
-<meta name="description" content="Chrome extension that pops YouTube videos and Shorts into an always-on-top window with A-B loop, speed control, volume boost up to 300%, sleep timer and sponsor-segment skipping.">
+<meta name="description" content="Chrome extension that pops YouTube videos and Shorts into an always-on-top window with A-B loop, speed control, volume boost up to 300%, night mode, sleep timer, comments, live chat and sponsor-segment skipping.">
 <meta property="og:title" content="FloatPlayer — Picture in Picture for YouTube">
-<meta property="og:description" content="YouTube in an always-on-top mini-player: A-B loop, speed, 300% volume, sleep timer, Shorts auto-advance.">
+<meta property="og:description" content="YouTube in an always-on-top mini-player: A-B loop, speed, 300% volume, night mode, comments and live chat, Shorts auto-advance.">
 <meta property="og:image" content="assets/promo-tile-440x280.png">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/promo-tile-440x280.png">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
+<!-- Прятать блоки до появления можно только там, где скрипт их покажет:
+     без JavaScript класс не появится, и весь текст останется видимым. -->
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
 
@@ -19,66 +22,121 @@
   <h1>YouTube that stays<br><span>on top of everything</span></h1>
   <p class="lead">
     A Chrome extension that pops the real YouTube player into an always-on-top
-    window — with A-B loop, 0.25–3x speed, 0–300% volume, a sleep timer,
-    sponsor-segment skipping and Shorts auto-advance. Playback never restarts.
+    window — with A-B loop, 0.25–3x speed, 0–300% volume, night mode, a sleep
+    timer, sponsor-segment skipping, and comments and live chat right beside the
+    video. Playback never restarts.
   </p>
   <div class="cta">
     <a class="btn btn--primary" href="https://x.com/Raincoat_talk">Coming to the Chrome Web Store — follow for the launch</a>
     <a class="btn btn--ghost" href="privacy.html">Privacy</a>
   </div>
-  <img class="hero-shot" src="assets/screenshot-1-always-on-top.png" alt="FloatPlayer mini-window floating above another application">
+
+  <!-- Анимированная сцена вместо статичного кадра: окно уезжает из страницы
+       и возвращается обратно по кругу. Декоративная, поэтому aria-hidden. -->
+  <div class="stage" aria-hidden="true">
+    <div class="stage-page">
+      <div class="stage-bar"><i></i><i></i><i></i><span class="stage-url">youtube.com/watch</span></div>
+      <div class="stage-body">
+        <div class="stage-main">
+          <div class="stage-slot"><span>Playing in the floating window</span></div>
+          <div class="stage-line" style="width:72%"></div>
+          <div class="stage-line" style="width:44%"></div>
+          <div class="stage-line" style="width:58%"></div>
+        </div>
+        <div class="stage-side">
+          <div class="stage-rec"><i></i><span></span></div>
+          <div class="stage-rec"><i></i><span></span></div>
+          <div class="stage-rec"><i></i><span></span></div>
+          <div class="stage-rec"><i></i><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-float">
+      <div class="float-chrome">youtube.com<b>— ▢ ✕</b></div>
+      <div class="float-body">
+        <div class="float-panel">
+          <span class="fp-btn"><svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></span>
+          <span class="fp-btn fp-text fp-opt">A-B</span>
+          <span class="fp-slider" style="--fill:38%"><i></i></span>
+          <span class="fp-text">1x</span>
+          <span class="fp-slider fp-slider--wide fp-opt" style="--fill:52%"><i></i></span>
+          <span class="fp-text fp-opt">150%</span>
+          <span class="fp-btn"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+          <span class="fp-btn fp-back"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></span>
+        </div>
+        <div class="float-title"><i></i><span>How the deep ocean shapes the climate</span></div>
+        <div class="float-nav">
+          <span class="fn-btn fn-small">−30</span>
+          <span class="fn-btn"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM18 18l-8.5-6L18 6v12z"/></svg></span>
+          <span class="fn-btn fn-main"><svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></span>
+          <span class="fn-btn"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6h2v12h-2z"/></svg></span>
+          <span class="fn-btn fn-small">+30</span>
+        </div>
+        <div class="float-progress"><i></i><b></b></div>
+      </div>
+    </div>
+  </div>
 </header>
 
 <section class="wrap">
-  <h2>What it does</h2>
-  <p class="sub">Everything lives in one hover panel, one button row and one progress strip.</p>
+  <h2 class="reveal">What it does</h2>
+  <p class="sub reveal">Everything lives in one hover panel, one button row and one progress strip.</p>
   <div class="grid">
-    <div class="card"><h3>Always on top, for real</h3><p>Document Picture-in-Picture gives a genuine OS-level window — not a popup that falls behind your editor.</p></div>
-    <div class="card"><h3>The same video stream</h3><p>The actual YouTube player is moved, so your account, history, quality and captions carry over without a restart.</p></div>
-    <div class="card"><h3>Video only</h3><p>Shopping overlays, cards, endscreens and descriptions are hidden by a whitelist — the window shows the video and nothing else.</p></div>
-    <div class="card"><h3>A-B loop</h3><p>Mark two points and repeat a fragment — for language practice, music, tutorials or technique review.</p></div>
-    <div class="card"><h3>Volume 0–300%</h3><p>Web Audio gain goes quieter than YouTube's zero and far louder than its maximum for quiet recordings.</p></div>
-    <div class="card"><h3>Sleep timer</h3><p>Presets or your own value up to 12 hours. While it counts down the interface hides itself completely.</p></div>
-    <div class="card"><h3>Sponsor segments</h3><p>Community SponsorBlock data marks in-video sponsor reads in green; one click jumps past them.</p></div>
-    <div class="card"><h3>Shorts mode</h3><p>A button above Like pops a short into a vertical window; the next one starts automatically when it ends.</p></div>
-    <div class="card"><h3>Snaps to the video</h3><p>The window opens at the video's aspect ratio and snaps back after resizing — no black margins, no stray UI.</p></div>
+    <div class="card reveal"><h3>Always on top, for real</h3><p>Document Picture-in-Picture gives a genuine OS-level window — not a popup that falls behind your editor.</p></div>
+    <div class="card reveal"><h3>The same video stream</h3><p>The actual YouTube player is moved, so your account, history, quality and captions carry over without a restart.</p></div>
+    <div class="card reveal"><h3>Video only</h3><p>Shopping overlays, cards, endscreens and descriptions are hidden by a whitelist — the window shows the video and nothing else.</p></div>
+    <div class="card reveal"><h3>A-B loop</h3><p>Mark two points and repeat a fragment — for language practice, music, tutorials or technique review.</p></div>
+    <div class="card reveal"><h3>Volume 0–300%</h3><p>Web Audio gain goes quieter than YouTube's zero and far louder than its maximum for quiet recordings.</p></div>
+    <div class="card reveal"><h3>Night mode</h3><p>Two strengths pull the blue out of the picture for late viewing, without touching the captions or the panel.</p></div>
+    <div class="card reveal"><h3>Sleep timer</h3><p>Presets or your own value up to 12 hours. While it counts down the interface hides itself completely.</p></div>
+    <div class="card reveal"><h3>Comments and live chat</h3><p>A side column brings YouTube's comments — scrolling endlessly — or a stream's live chat next to the video.</p></div>
+    <div class="card reveal"><h3>Sponsor segments</h3><p>Community SponsorBlock data marks in-video sponsor reads in green; skip them yourself or let it skip automatically.</p></div>
+    <div class="card reveal"><h3>Live streams</h3><p>A LIVE badge shows how far behind you are and returns you to the edge; seeking works across the DVR buffer.</p></div>
+    <div class="card reveal"><h3>Shorts mode</h3><p>A button above Like pops a short into a vertical window; the next one starts automatically when it ends.</p></div>
+    <div class="card reveal"><h3>Snaps to the video</h3><p>The window opens at the video's aspect ratio and snaps back after resizing — no black margins, no stray UI.</p></div>
   </div>
 </section>
 
 <section class="wrap">
-  <h2>See it</h2>
-  <p class="sub">Regular videos, Shorts and the options page.</p>
+  <h2 class="reveal">See it</h2>
+  <p class="sub reveal">Regular videos, Shorts and the options page.</p>
   <div class="shots">
-    <figure><img src="assets/screenshot-2-controls.png" alt="Control panel with A-B loop, speed, volume and sleep timer"><figcaption>Hover panel: A-B loop, speed, volume, sleep timer.</figcaption></figure>
-    <figure><img src="assets/screenshot-3-sponsorblock.png" alt="Sponsor segment marked on the progress strip"><figcaption>Sponsor segments in green with a one-click skip button.</figcaption></figure>
-    <figure><img src="assets/screenshot-4-recommendations.png" alt="Recommendations column inside the window"><figcaption>Recommendations slide out — switch videos without leaving the window.</figcaption></figure>
-    <figure><img src="assets/screenshot-5-shorts.png" alt="Vertical Shorts window"><figcaption>Shorts get a vertical window with feed navigation.</figcaption></figure>
+    <figure class="reveal"><img src="assets/screenshot-1-always-on-top.png" alt="FloatPlayer mini-window floating above another application"><figcaption>The player leaves the tab and stays above every window.</figcaption></figure>
+    <figure class="reveal"><img src="assets/screenshot-2-controls.png" alt="Control panel with A-B loop, speed, volume and sleep timer"><figcaption>Hover panel: A-B loop, speed, volume, night mode, sleep timer.</figcaption></figure>
+    <figure class="reveal"><img src="assets/screenshot-3-sponsorblock.png" alt="Sponsor segment marked on the progress strip"><figcaption>Sponsor segments in green with a one-click skip button.</figcaption></figure>
+    <figure class="reveal"><img src="assets/screenshot-4-recommendations.png" alt="Recommendations column inside the window"><figcaption>Recommendations and your queue slide out on the right.</figcaption></figure>
+    <figure class="reveal"><img src="assets/screenshot-5-shorts.png" alt="Vertical Shorts window"><figcaption>Shorts get a vertical window with feed navigation.</figcaption></figure>
   </div>
 </section>
 
 <section class="wrap">
-  <h2>Keyboard shortcuts</h2>
-  <p class="sub">Rebind them at <code>chrome://extensions/shortcuts</code>.</p>
-  <table>
+  <h2 class="reveal">Keyboard shortcuts</h2>
+  <p class="sub reveal">Rebind them at <code>chrome://extensions/shortcuts</code>. The toolbar icon also opens a small panel with the tab state and one button to pop the video out.</p>
+  <table class="reveal">
     <tr><th>Where</th><th>Keys</th><th>Action</th></tr>
     <tr><td>Any Chrome window</td><td><kbd>Alt</kbd>+<kbd>P</kbd> (<kbd>⌥P</kbd> on Mac)</td><td>Toggle the mini-window</td></tr>
     <tr><td>Any Chrome window</td><td><kbd>Alt</kbd>+<kbd>K</kbd> / <kbd>J</kbd> / <kbd>L</kbd></td><td>Pause / −5 s / +5 s</td></tr>
     <tr><td>Inside the window</td><td><kbd>Space</kbd> or <kbd>K</kbd></td><td>Pause</td></tr>
     <tr><td>Inside the window</td><td><kbd>←</kbd> / <kbd>→</kbd></td><td>±5 s</td></tr>
+    <tr><td>Inside the window</td><td><kbd>0</kbd>–<kbd>9</kbd></td><td>Jump to 0–90% of the video</td></tr>
+    <tr><td>Inside the window</td><td><kbd>&lt;</kbd> / <kbd>&gt;</kbd></td><td>Step the playback speed</td></tr>
     <tr><td>Inside the window</td><td><kbd>M</kbd></td><td>Mute</td></tr>
     <tr><td>On the video</td><td>Click left / center / right third</td><td>−10 s / pause / +10 s</td></tr>
   </table>
 </section>
 
 <section class="wrap">
-  <h2>Settings</h2>
-  <p class="sub">Everything optional is a switch, nothing is forced on you.</p>
-  <img class="hero-shot" src="assets/screenshot-6-options.png" alt="FloatPlayer options page" style="margin-top:0">
-  <table style="margin-top:26px">
+  <h2 class="reveal">Settings</h2>
+  <p class="sub reveal">Everything optional is a switch, nothing is forced on you.</p>
+  <img class="hero-shot reveal" src="assets/screenshot-6-options.png" alt="FloatPlayer options page" style="margin-top:0">
+  <table class="reveal" style="margin-top:26px">
     <tr><th>Option</th><th>Values</th></tr>
     <tr><td>Mini-window style</td><td>Full (with panels) · Clean video (frameless native PiP)</td></tr>
     <tr><td>Auto-PiP when leaving the tab</td><td>on / off (Chrome 120+)</td></tr>
     <tr><td>Sponsor segments (SponsorBlock)</td><td>on / off</td></tr>
+    <tr><td>Auto-skip sponsor segments</td><td>on / off</td></tr>
+    <tr><td>Segment categories</td><td>sponsor · self-promotion · like/subscribe reminders · intro · outro</td></tr>
     <tr><td>Manual skip step</td><td>15 / 30 / 45 / 60 / 90 s</td></tr>
     <tr><td>Shorts auto-advance</td><td>on / off</td></tr>
     <tr><td>Compact panel mode</td><td>on / off</td></tr>
@@ -89,8 +147,8 @@
 </section>
 
 <section class="wrap">
-  <h2>Requirements and honest limits</h2>
-  <ul class="plain">
+  <h2 class="reveal">Requirements and honest limits</h2>
+  <ul class="plain reveal">
     <li>Chrome 116 or newer; older versions fall back to native Picture-in-Picture.</li>
     <li>Chrome always draws a small strip with the site address on top of any Document PiP window — an anti-phishing rule no extension can remove. It hides itself when the cursor is away, and "clean video" mode has no strip at all.</li>
     <li>Window position cannot be set programmatically; only its size is remembered.</li>
@@ -101,9 +159,9 @@
 </section>
 
 <section class="wrap" id="donate">
-  <h2>Support the project</h2>
-  <p class="sub">FloatPlayer is free, has no ads and collects nothing. If it saves you time, you can send some ETH — on mainnet or any major Ethereum L2.</p>
-  <div class="donate">
+  <h2 class="reveal">Support the project</h2>
+  <p class="sub reveal">FloatPlayer is free, has no ads and collects nothing. If it saves you time, you can send some ETH — on mainnet or any major Ethereum L2.</p>
+  <div class="donate reveal">
     <div class="donate-head">
       <span class="chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2 5.5 12.2 12 16l6.5-3.8L12 2zM5.5 13.5 12 22l6.5-8.5L12 17.3l-6.5-3.8z"/></svg> Ethereum &amp; L2</span>
       <span class="chip chip--muted">ETH · ERC-20</span>
@@ -150,6 +208,36 @@
     }
     setTimeout(() => { copyButton.textContent = "Copy address"; }, 1800);
   });
+
+  // Появление блоков при прокрутке. Без наблюдателя (старый браузер или
+  // отключённые анимации) всё просто остаётся видимым — класс уже в разметке
+  // ничего не прячет, прячет только CSS, и он же уважает prefers-reduced-motion.
+  const revealed = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) {
+          continue;
+        }
+        entry.target.classList.add("is-in");
+        observer.unobserve(entry.target);
+      }
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+    // Соседние карточки появляются с небольшой задержкой друг за другом.
+    let index = 0;
+    let previousTop = null;
+    for (const element of revealed) {
+      const top = Math.round(element.getBoundingClientRect().top);
+      index = previousTop !== null && Math.abs(top - previousTop) < 8 ? index + 1 : 0;
+      previousTop = top;
+      element.style.setProperty("--delay", `${Math.min(index, 5) * 70}ms`);
+      observer.observe(element);
+    }
+  } else {
+    for (const element of revealed) {
+      element.classList.add("is-in");
+    }
+  }
 </script>
 
 </body>

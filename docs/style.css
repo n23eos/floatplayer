@@ -176,3 +176,297 @@ footer .spacer { margin-left: auto; }
   :root { --bg: #f7f7f9; --panel: rgba(0,0,0,0.035); --border: rgba(0,0,0,0.1); --text: #101014; --muted: #5c5c66; }
   body { background: radial-gradient(110% 90% at 15% 0%, #ffffff 0%, #f2f2f5 45%, var(--bg) 100%); }
 }
+
+/* --- Появление блоков при прокрутке ------------------------------------- */
+
+/* Скрываем только при работающем скрипте: класс js ставит инлайновая строка
+   в <head>, а без неё блоки просто видны сразу. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s ease var(--delay, 0ms),
+    transform 0.55s cubic-bezier(0.22, 0.7, 0.28, 1) var(--delay, 0ms);
+}
+.js .reveal.is-in { opacity: 1; transform: none; }
+
+/* --- Анимированная сцена в шапке ---------------------------------------- */
+
+/* Цикл один на всю сцену: окно уезжает из страницы, висит, возвращается.
+   Проценты в keyframes ниже привязаны к этой длительности. */
+.stage {
+  position: relative;
+  margin-top: 44px;
+  width: 100%;
+  /* Ниже 16:9: сцена должна помещаться в первый экран вместе с заголовком,
+     иначе развязка анимации оказывается под сгибом. */
+  aspect-ratio: 16 / 8.6;
+  --cycle: 11s;
+}
+
+/* Мягкое свечение под сценой — тот же приём, что на кадрах магазина. */
+.stage::before {
+  content: "";
+  position: absolute;
+  left: 6%; right: 6%; top: 12%; bottom: 6%;
+  border-radius: 50%;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(255, 45, 45, 0.16), transparent 70%);
+  filter: blur(38px);
+  animation: stage-glow var(--cycle) ease-in-out infinite;
+}
+
+/* Окно страницы YouTube — то, из чего видео уезжает. */
+.stage-page {
+  position: absolute;
+  left: 0; top: 2%;
+  width: 72%; height: 76%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.stage-bar {
+  display: flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border);
+}
+.stage-bar i {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+}
+.stage-url {
+  margin-left: 12px; padding: 3px 12px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted); font-size: 11.5px;
+}
+
+.stage-body { display: flex; gap: 3%; padding: 4% 4% 0; }
+.stage-main { flex: 1 1 auto; min-width: 0; }
+.stage-side { flex: 0 0 26%; display: grid; gap: 8px; align-content: start; }
+
+/* Место видео на странице. Пока окно снаружи — тут плашка «играет в окне». */
+.stage-slot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    radial-gradient(46% 62% at 27% 32%, rgba(120, 156, 224, 0.5), transparent 68%),
+    radial-gradient(44% 58% at 74% 66%, rgba(196, 92, 132, 0.42), transparent 70%),
+    linear-gradient(168deg, #26304a 0%, #171b28 52%, #0d0f16 100%);
+}
+.stage-slot::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: rgba(8, 8, 10, 0.86);
+  opacity: 0;
+  animation: slot-dim var(--cycle) ease-in-out infinite;
+}
+.stage-slot span {
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  text-align: center; color: var(--muted);
+  font-size: clamp(10px, 1.3vw, 13px);
+  opacity: 0;
+  animation: slot-dim var(--cycle) ease-in-out infinite;
+}
+
+.stage-line {
+  height: 8px; margin-top: 12px; border-radius: 4px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.stage-rec { display: flex; align-items: center; gap: 8px; }
+.stage-rec i {
+  flex: none; width: 44%; aspect-ratio: 16 / 9; border-radius: 4px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.05));
+}
+.stage-rec span {
+  flex: 1 1 auto; height: 7px; border-radius: 4px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* --- Мини-окно, которое улетает ----------------------------------------- */
+
+.stage-float {
+  position: absolute;
+  right: 0; top: 26%;
+  width: 54%;
+  /* Точка отсчёта в левом верхнем углу: с ней сдвиг и масштаб в keyframes
+     считаются от одного угла, и «пристыкованное» состояние точно попадает
+     на место видео внутри страницы. */
+  transform-origin: 0 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0f0f11;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 30px 70px rgba(0, 0, 0, 0.55);
+  animation: popout var(--cycle) cubic-bezier(0.22, 0.72, 0.24, 1) infinite;
+}
+
+.float-chrome {
+  display: flex; align-items: center;
+  height: 26px; padding: 0 11px;
+  background: #202024;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #b9b9c2; font-size: 11px;
+}
+.float-chrome b { margin-left: auto; color: #74747f; font-weight: 400; letter-spacing: 2px; }
+
+.float-body {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background:
+    radial-gradient(46% 62% at 27% 32%, rgba(120, 156, 224, 0.5), transparent 68%),
+    radial-gradient(44% 58% at 74% 66%, rgba(196, 92, 132, 0.42), transparent 70%),
+    linear-gradient(168deg, #26304a 0%, #171b28 52%, #0d0f16 100%);
+}
+
+/* Панель и плашка названия проявляются чуть позже самого окна. */
+.float-panel,
+.float-title {
+  position: absolute; left: 8px; right: 8px;
+  display: flex; align-items: center;
+  border-radius: 9px;
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #eee;
+  opacity: 0;
+  animation: panel-in var(--cycle) ease-out infinite;
+}
+.float-panel { top: 8px; gap: 7px; padding: 5px 9px; }
+.float-title {
+  top: 46px; right: auto; max-width: calc(100% - 16px);
+  gap: 7px; padding: 4px 10px 4px 4px; font-size: 10.5px;
+}
+.float-title i {
+  flex: none; width: 18px; height: 18px; border-radius: 50%;
+  background: linear-gradient(135deg, #c2506b, #5a3b8c);
+}
+.float-title span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+.fp-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 5px; padding: 3px 5px;
+}
+.fp-btn svg { width: 12px; height: 12px; fill: currentColor; opacity: 0.9; }
+.fp-text { font-size: 10.5px; color: #ddd; }
+.fp-back { margin-left: auto; }
+
+/* Ползунки скорости и громкости: дорожка с красной заполненной частью. */
+.fp-slider {
+  position: relative; width: 44px; height: 3px; border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+}
+.fp-slider--wide { width: 54px; }
+.fp-slider i {
+  position: absolute; top: 50%; left: var(--fill); width: 8px; height: 8px;
+  margin: -4px 0 0 -4px; border-radius: 50%; background: var(--accent);
+}
+.fp-slider::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: var(--fill);
+  border-radius: 2px; background: var(--accent);
+}
+
+.float-nav {
+  position: absolute; left: 50%; bottom: 14px;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 8px;
+  opacity: 0;
+  animation: panel-in var(--cycle) ease-out infinite;
+}
+.fn-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55); color: #fff;
+}
+.fn-btn svg { width: 13px; height: 13px; fill: currentColor; }
+.fn-main { width: 34px; height: 34px; }
+.fn-main svg { width: 16px; height: 16px; }
+.fn-small { font-size: 9px; }
+
+/* Полоска прогресса: красная заливка бежит по кругу, зелёный сегмент стоит. */
+.float-progress {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 4px; background: rgba(255, 255, 255, 0.25);
+}
+.float-progress i {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: #f00;
+  animation: progress-fill 7s linear infinite;
+}
+.float-progress b {
+  position: absolute; top: 0; bottom: 0; left: 64%; width: 12%;
+  background: rgba(0, 212, 0, 0.8);
+}
+
+/* --- Ключевые кадры ------------------------------------------------------ */
+
+/* Окно стоит на месте видео, выезжает наружу, ждёт и возвращается. */
+@keyframes popout {
+  0%, 5%    { opacity: 0; transform: translate(-62%, -14%) scale(0.62); }
+  11%       { opacity: 1; }
+  22%       { opacity: 1; transform: translate(0, 0) scale(1); }
+  27%       { transform: translate(0, -1.6%) scale(1); }
+  84%       { opacity: 1; transform: translate(0, 0) scale(1); }
+  96%, 100% { opacity: 0; transform: translate(-62%, -14%) scale(0.62); }
+}
+
+@keyframes panel-in {
+  0%, 20%  { opacity: 0; }
+  30%, 82% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+
+@keyframes slot-dim {
+  0%, 12%  { opacity: 0; }
+  24%, 84% { opacity: 1; }
+  94%, 100% { opacity: 0; }
+}
+
+@keyframes stage-glow {
+  0%, 100% { opacity: 0.35; }
+  40%, 70% { opacity: 1; }
+}
+
+@keyframes progress-fill {
+  from { width: 6%; }
+  to   { width: 96%; }
+}
+
+/* Узкий экран: страница и окно перестают помещаться рядом, поэтому окно
+   занимает почти всю ширину и уезжает вниз, а не вбок. */
+@media (max-width: 640px) {
+  .stage { aspect-ratio: 4 / 3.6; }
+  .stage-page { width: 100%; height: 70%; }
+  .stage-float { top: 40%; width: 76%; }
+  /* На узком экране панель не помещается целиком: оставляем паузу, скорость,
+     ночной режим и возврат — остальное только мешало бы читать. */
+  .float-title, .float-nav, .fp-opt { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .stage::before,
+  .stage-slot::after,
+  .stage-slot span,
+  .stage-float,
+  .float-panel,
+  .float-title,
+  .float-nav,
+  .float-progress i { animation: none; }
+  /* Без анимации показываем конечное состояние: окно снаружи, панель видна. */
+  .stage-slot::after, .stage-slot span, .float-panel, .float-title, .float-nav { opacity: 1; }
+  .float-progress i { width: 58%; }
+}
+
+@media (prefers-color-scheme: light) {
+  .stage-page { background: rgba(0, 0, 0, 0.02); }
+  .stage-bar { background: rgba(0, 0, 0, 0.04); }
+  .stage-url { background: rgba(0, 0, 0, 0.05); }
+  .stage-slot span { color: #d8d8de; }
+}
