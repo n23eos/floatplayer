@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "실시간 채팅"
   },
-  "presetTooltip": {
-    "message": "오디오 프리셋"
-  },
-  "presetOff": {
-    "message": "기본"
-  },
-  "presetNight": {
-    "message": "야간"
-  },
-  "presetVoice": {
-    "message": "음성"
-  },
-  "presetBass": {
-    "message": "저음"
-  },
   "queueTitle": {
     "message": "대기열"
   },

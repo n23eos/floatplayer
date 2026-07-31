@@ -307,55 +307,6 @@ YTFP.pipControls = (() => {
 
     boostWrap.append(createIcon(pipDocument, "volume"), boostSlider, boostLabel);
 
-    // --- Аудио-пресеты (Web Audio фильтры) ------------------------------------
-    const PRESET_KEYS = [
-      ["off", t("presetOff", "Normal")],
-      ["night", t("presetNight", "Night")],
-      ["voice", t("presetVoice", "Voice")],
-      ["bass", t("presetBass", "Bass")]
-    ];
-    const presetSelect = pipDocument.createElement("select");
-    presetSelect.className = "ytfp-select ytfp-preset";
-    presetSelect.title = t("presetTooltip", "Audio preset");
-    for (const [value, label] of PRESET_KEYS) {
-      const option = pipDocument.createElement("option");
-      option.value = value;
-      option.textContent = label;
-      presetSelect.appendChild(option);
-    }
-    // Значение из настроек может оказаться мусором (правка storage вручную,
-    // старая версия) — тогда select стал бы пустым. Проверяем по списку.
-    const storedPreset = YTFP.settings.get().audioPreset;
-    presetSelect.value = PRESET_KEYS.some(([value]) => value === storedPreset)
-      ? storedPreset
-      : "off";
-
-    function applyPreset(presetName) {
-      const ok = YTFP.audioBoost.setPreset(getVideo(), presetName);
-      if (!ok) {
-        presetSelect.value = "off";
-        return;
-      }
-      presetSelect.value = presetName;
-    }
-
-    presetSelect.addEventListener("change", () => {
-      applyPreset(presetSelect.value);
-      // Запоминаем выбор между сессиями (страница options не нужна).
-      chrome.storage.sync.set({ audioPreset: presetSelect.value }).catch(() => {});
-    });
-    // Пресет из настроек применяем не сразу, а при первом действии пользователя
-    // в окне. Причина: создание AudioContext без пользовательской активации
-    // может остаться в состоянии suspended — тогда весь звук уйдёт в тишину.
-    if (presetSelect.value !== "off") {
-      const applyStoredPreset = () => applyPreset(presetSelect.value);
-      // Capture-фаза: наш обработчик хоткеев и глушилка кликов по плееру
-      // зовут stopPropagation(), и bubble-слушатель на этом же документе до
-      // них не доживает — пресет молча не применился бы.
-      pipDocument.addEventListener("pointerdown", applyStoredPreset, { once: true, capture: true });
-      pipDocument.addEventListener("keydown", applyStoredPreset, { once: true, capture: true });
-    }
-
     // --- Ночной режим ---------------------------------------------------------
     // Клик по Луне циклом убавляет синий канал: off → warm → deep → off.
     pipDocument.body.appendChild(YTFP.nightMode.createFilters(pipDocument));
@@ -369,7 +320,7 @@ YTFP.pipControls = (() => {
       () => {
         nightLevel = YTFP.nightMode.next(nightLevel);
         applyNightLevel();
-        // Запоминаем между сессиями (как аудио-пресет выше).
+        // Запоминаем между сессиями.
         chrome.storage.sync.set({ nightMode: nightLevel }).catch(() => {});
       }
     );
@@ -529,9 +480,9 @@ YTFP.pipControls = (() => {
     returnButton.classList.add("ytfp-btn--return");
 
     if (isShorts) {
-      bar.append(playButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
+      bar.append(playButton, speedWrap, boostWrap, nightButton, sleepWrap, returnButton);
     } else {
-      bar.append(playButton, liveButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, presetSelect, nightButton, sleepWrap, returnButton);
+      bar.append(playButton, liveButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, nightButton, sleepWrap, returnButton);
     }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).

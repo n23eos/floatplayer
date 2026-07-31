@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Live chat"
   },
-  "presetTooltip": {
-    "message": "Prasetel audio"
-  },
-  "presetOff": {
-    "message": "Normal"
-  },
-  "presetNight": {
-    "message": "Malam"
-  },
-  "presetVoice": {
-    "message": "Suara"
-  },
-  "presetBass": {
-    "message": "Bas"
-  },
   "queueTitle": {
     "message": "Antrean"
   },

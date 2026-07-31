@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Live-Chat"
   },
-  "presetTooltip": {
-    "message": "Audio-Voreinstellung"
-  },
-  "presetOff": {
-    "message": "Normal"
-  },
-  "presetNight": {
-    "message": "Nacht"
-  },
-  "presetVoice": {
-    "message": "Stimme"
-  },
-  "presetBass": {
-    "message": "Bass"
-  },
   "queueTitle": {
     "message": "Warteschlange"
   },

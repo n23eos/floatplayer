@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Чат трансляції"
   },
-  "presetTooltip": {
-    "message": "Аудіопресет"
-  },
-  "presetOff": {
-    "message": "Звичайний"
-  },
-  "presetNight": {
-    "message": "Нічний"
-  },
-  "presetVoice": {
-    "message": "Голос"
-  },
-  "presetBass": {
-    "message": "Бас"
-  },
   "queueTitle": {
     "message": "Черга"
   },

@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Chat en directo"
   },
-  "presetTooltip": {
-    "message": "Preajuste de audio"
-  },
-  "presetOff": {
-    "message": "Normal"
-  },
-  "presetNight": {
-    "message": "Noche"
-  },
-  "presetVoice": {
-    "message": "Voz"
-  },
-  "presetBass": {
-    "message": "Graves"
-  },
   "queueTitle": {
     "message": "Cola"
   },

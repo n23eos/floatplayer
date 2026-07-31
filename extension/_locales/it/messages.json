@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Chat dal vivo"
   },
-  "presetTooltip": {
-    "message": "Preset audio"
-  },
-  "presetOff": {
-    "message": "Normale"
-  },
-  "presetNight": {
-    "message": "Notte"
-  },
-  "presetVoice": {
-    "message": "Voce"
-  },
-  "presetBass": {
-    "message": "Bassi"
-  },
   "queueTitle": {
     "message": "Coda"
   },

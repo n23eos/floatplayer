@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Czat na żywo"
   },
-  "presetTooltip": {
-    "message": "Profil dźwięku"
-  },
-  "presetOff": {
-    "message": "Zwykły"
-  },
-  "presetNight": {
-    "message": "Noc"
-  },
-  "presetVoice": {
-    "message": "Głos"
-  },
-  "presetBass": {
-    "message": "Bas"
-  },
   "queueTitle": {
     "message": "Kolejka"
   },

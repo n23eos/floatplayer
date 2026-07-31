@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "लाइव चैट"
   },
-  "presetTooltip": {
-    "message": "ऑडियो प्रीसेट"
-  },
-  "presetOff": {
-    "message": "सामान्य"
-  },
-  "presetNight": {
-    "message": "रात"
-  },
-  "presetVoice": {
-    "message": "आवाज़"
-  },
-  "presetBass": {
-    "message": "बास"
-  },
   "queueTitle": {
     "message": "कतार"
   },

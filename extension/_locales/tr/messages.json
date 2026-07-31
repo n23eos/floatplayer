@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Canlı sohbet"
   },
-  "presetTooltip": {
-    "message": "Ses ön ayarı"
-  },
-  "presetOff": {
-    "message": "Normal"
-  },
-  "presetNight": {
-    "message": "Gece"
-  },
-  "presetVoice": {
-    "message": "Konuşma"
-  },
-  "presetBass": {
-    "message": "Bas"
-  },
   "queueTitle": {
     "message": "Sıra"
   },

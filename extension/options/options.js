@@ -35,8 +35,7 @@ const DEFAULT_SETTINGS = {
   sponsorAutoSkip: false,
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
   shortsAutoNext: true,
-  windowMode: "document",
-  audioPreset: "off"
+  windowMode: "document"
 };
 
 const elements = {

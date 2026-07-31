@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "ライブチャット"
   },
-  "presetTooltip": {
-    "message": "音声プリセット"
-  },
-  "presetOff": {
-    "message": "標準"
-  },
-  "presetNight": {
-    "message": "夜間"
-  },
-  "presetVoice": {
-    "message": "声"
-  },
-  "presetBass": {
-    "message": "低音"
-  },
   "queueTitle": {
     "message": "キュー"
   },

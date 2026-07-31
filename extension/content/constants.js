@@ -40,7 +40,6 @@ YTFP.DEFAULT_SETTINGS = {
   sponsorAutoSkip: false,   // автопропуск сегментов без кнопки (opt-in)
   // Какие категории SponsorBlock запрашивать и пропускать.
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
-  audioPreset: "off",       // аудио-пресет: off | night | voice | bass
   nightMode: "off",         // ночной режим (подавление синего): off | warm | deep
   shortsAutoNext: true,     // шортсы: автопереход к следующему по окончании
   autoplayNext: true,       // видео: автопереход к следующему по окончании

@@ -167,21 +167,6 @@
   "chatTooltip": {
     "message": "Chat en direct"
   },
-  "presetTooltip": {
-    "message": "Préréglage audio"
-  },
-  "presetOff": {
-    "message": "Normal"
-  },
-  "presetNight": {
-    "message": "Nuit"
-  },
-  "presetVoice": {
-    "message": "Voix"
-  },
-  "presetBass": {
-    "message": "Basses"
-  },
   "queueTitle": {
     "message": "File d’attente"
   },
