@@ -334,5 +334,11 @@
   },
   "optReportBug": {
     "message": "Сообщить об ошибке"
+  },
+  "likeTooltip": {
+    "message": "Поставить лайк"
+  },
+  "likedTooltip": {
+    "message": "Лайк стоит — снять"
   }
 }

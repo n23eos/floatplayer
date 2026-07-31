@@ -27,7 +27,21 @@ YTFP.SELECTORS = {
   // Запасные источники ID текущего видео, когда его нет в адресе
   // (например, канальные страницы вида /@канал/live).
   canonicalLink: 'link[rel="canonical"]',
-  watchFlexy: "ytd-watch-flexy[video-id]"
+  watchFlexy: "ytd-watch-flexy[video-id]",
+  // Кнопка «нравится» на самой странице: плеер уезжает в PiP-окно, а она
+  // остаётся в разметке страницы, поэтому нажимаем именно её.
+  //
+  // Порядок важен: сначала активный шортс (в ленте одновременно живёт
+  // несколько шортсов, лайкнуть нужно видимый), потом обычная страница
+  // просмотра, в конце — разметка старого UI как запасной вариант.
+  likeButtons: [
+    "ytd-reel-video-renderer[is-active] like-button-view-model button",
+    "reel-action-bar-view-model like-button-view-model button",
+    "ytd-watch-metadata like-button-view-model button",
+    "#top-level-buttons-computed like-button-view-model button",
+    "segmented-like-dislike-button-view-model like-button-view-model button",
+    "#top-level-buttons-computed ytd-toggle-button-renderer:first-of-type button"
+  ]
 };
 
 YTFP.DEFAULT_SETTINGS = {

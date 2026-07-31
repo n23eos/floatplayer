@@ -334,5 +334,11 @@
   },
   "optReportBug": {
     "message": "Повідомити про помилку"
+  },
+  "likeTooltip": {
+    "message": "Поставити лайк"
+  },
+  "likedTooltip": {
+    "message": "Лайк стоїть — зняти"
   }
 }

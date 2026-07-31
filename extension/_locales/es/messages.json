@@ -334,5 +334,11 @@
   },
   "optReportBug": {
     "message": "Informar de un error"
+  },
+  "likeTooltip": {
+    "message": "Me gusta"
+  },
+  "likedTooltip": {
+    "message": "Te gusta — clic para quitar"
   }
 }

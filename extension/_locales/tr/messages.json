@@ -334,5 +334,11 @@
   },
   "optReportBug": {
     "message": "Hata bildir"
+  },
+  "likeTooltip": {
+    "message": "Videoyu beğen"
+  },
+  "likedTooltip": {
+    "message": "Beğenildi — kaldırmak için tıklayın"
   }
 }

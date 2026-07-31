@@ -476,6 +476,7 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-nav,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-toggle,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-like-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-panel,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-progress-wrap,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-tip,
@@ -843,6 +844,53 @@ body:hover .ytfp-chat-toggle {
 /* Явное правило: display: block выше перебил бы атрибут hidden, и на
    обычном видео чат остался бы висеть под комментариями. */
 .ytfp-chat-frame[hidden] {
+  display: none;
+}
+
+/* --- Кнопка «нравится» ---------------------------------------------------- */
+
+/* Левый нижний угол — зеркально кнопке чата. Появляется по наведению на окно,
+   как остальные элементы поверх видео. */
+.ytfp-like-toggle {
+  position: absolute;
+  left: 8px;
+  bottom: 14px;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ytfp-tab-bg);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--ytfp-anim), background var(--ytfp-anim);
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+body:hover .ytfp-like-toggle {
+  opacity: 1;
+}
+
+.ytfp-like-toggle:hover {
+  background: var(--ytfp-tab-hover);
+}
+
+/* Лайк стоит — заливка фирменным цветом, как у активных кнопок панели. */
+.ytfp-like-toggle--on {
+  background: var(--ytfp-accent);
+}
+
+.ytfp-like-toggle--on:hover {
+  background: var(--ytfp-accent-hover);
+}
+
+/* Разметку кнопки на странице ещё не нашли — показывать нечего. */
+.ytfp-like-toggle[hidden] {
   display: none;
 }
 
