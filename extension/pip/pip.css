@@ -476,7 +476,7 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-nav,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-toggle,
-body.ytfp-sleeping:not(.ytfp-peek) .ytfp-like-toggle,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-reactions,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-panel,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-progress-wrap,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-tip,
@@ -847,15 +847,29 @@ body:hover .ytfp-chat-toggle {
   display: none;
 }
 
-/* --- Кнопка «нравится» ---------------------------------------------------- */
+/* --- Оценки видео ---------------------------------------------------------- */
 
-/* Левый нижний угол — зеркально кнопке чата. Появляется по наведению на окно,
+/* Левый нижний угол — зеркально кнопке чата. Появляются по наведению на окно,
    как остальные элементы поверх видео. */
-.ytfp-like-toggle {
+.ytfp-reactions {
   position: absolute;
   left: 8px;
   bottom: 14px;
   z-index: 10002;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity var(--ytfp-anim);
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+body:hover .ytfp-reactions {
+  opacity: 1;
+}
+
+.ytfp-reaction {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -866,32 +880,36 @@ body:hover .ytfp-chat-toggle {
   background: var(--ytfp-tab-bg);
   color: #fff;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity var(--ytfp-anim), background var(--ytfp-anim);
-  -webkit-app-region: no-drag;
-  app-region: no-drag;
+  transition: background var(--ytfp-anim), color var(--ytfp-anim);
 }
 
-body:hover .ytfp-like-toggle {
-  opacity: 1;
-}
-
-.ytfp-like-toggle:hover {
+.ytfp-reaction:hover {
   background: var(--ytfp-tab-hover);
 }
 
-/* Лайк стоит — заливка фирменным цветом, как у активных кнопок панели. */
-.ytfp-like-toggle--on {
+/* Пары на странице нет (например, у шортса нет «не нравится») — кнопки нет. */
+.ytfp-reaction[hidden] {
+  display: none;
+}
+
+/* Оценка стоит. «Нравится» — фирменный красный, как у активных кнопок панели;
+   «не нравится» — светлая заливка: тем же красным две разные оценки читались
+   бы одинаково. */
+.ytfp-reaction--like.ytfp-reaction--on {
   background: var(--ytfp-accent);
 }
 
-.ytfp-like-toggle--on:hover {
+.ytfp-reaction--like.ytfp-reaction--on:hover {
   background: var(--ytfp-accent-hover);
 }
 
-/* Разметку кнопки на странице ещё не нашли — показывать нечего. */
-.ytfp-like-toggle[hidden] {
-  display: none;
+.ytfp-reaction--dislike.ytfp-reaction--on {
+  background: #f1f1f1;
+  color: #0f0f0f;
+}
+
+.ytfp-reaction--dislike.ytfp-reaction--on:hover {
+  background: #fff;
 }
 
 /* --- Комментарии обычного видео ----------------------------------------- */

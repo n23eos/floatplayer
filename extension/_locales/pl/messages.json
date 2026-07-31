@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "Polubione — kliknij, aby cofnąć"
+  },
+  "dislikeTooltip": {
+    "message": "Nie lubię tego filmu"
+  },
+  "dislikedTooltip": {
+    "message": "Nielubiane — kliknij, aby cofnąć"
   }
 }

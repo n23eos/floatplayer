@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "Beğenildi — kaldırmak için tıklayın"
+  },
+  "dislikeTooltip": {
+    "message": "Videoyu beğenme"
+  },
+  "dislikedTooltip": {
+    "message": "Beğenilmedi — kaldırmak için tıklayın"
   }
 }

@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "Geliked — zum Entfernen klicken"
+  },
+  "dislikeTooltip": {
+    "message": "Video disliken"
+  },
+  "dislikedTooltip": {
+    "message": "Disliked — zum Entfernen klicken"
   }
 }

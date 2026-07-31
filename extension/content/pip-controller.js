@@ -397,8 +397,8 @@ YTFP.pip = (() => {
     // Чат прямого эфира. У шортсов эфиров не бывает — там панель не строим.
     const chat = isShorts ? null : YTFP.pipChat.build(pipWindow.document);
 
-    // Кнопка «нравится» в левом нижнем углу — есть и на видео, и на шортсах.
-    const like = YTFP.pipLike.build(pipWindow.document);
+    // Оценки в левом нижнем углу — «нравится» и «не нравится».
+    const reactions = YTFP.pipReactions.build(pipWindow.document);
 
     const controls = YTFP.pipControls.buildBar(pipWindow.document, {
       getVideo: getMovedVideo,
@@ -415,7 +415,7 @@ YTFP.pip = (() => {
     if (chat) {
       pipWindow.document.body.appendChild(chat.element);
     }
-    pipWindow.document.body.appendChild(like.element);
+    pipWindow.document.body.appendChild(reactions.element);
 
     // Красная полоска прогресса внизу (родные контролы YouTube скрыты в CSS).
     const progress = YTFP.pipProgress.build(pipWindow.document, { getVideo: getMovedVideo });
@@ -489,7 +489,7 @@ YTFP.pip = (() => {
     });
     pipWindow.document.body.appendChild(nav.element);
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, like, titleObserver, resizeTimer: null };
+    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, titleObserver, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
@@ -646,7 +646,7 @@ YTFP.pip = (() => {
       return;
     }
     const {
-      playerEl, placeholder, overlay, controls, progress, related, nav, chat, like,
+      playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions,
       resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime,
       titleObserver
     } = state;
@@ -668,7 +668,7 @@ YTFP.pip = (() => {
     if (chat) {
       chat.cleanup();
     }
-    like.cleanup();
+    reactions.cleanup();
     state = null;
 
     // Снимаем letterbox-геометрию, которую задавал layoutPlayer, —

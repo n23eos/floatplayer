@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "लाइक किया — हटाने के लिए क्लिक करें"
+  },
+  "dislikeTooltip": {
+    "message": "वीडियो को डिसलाइक करें"
+  },
+  "dislikedTooltip": {
+    "message": "डिसलाइक किया — हटाने के लिए क्लिक करें"
   }
 }

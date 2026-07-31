@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "Лайк стоїть — зняти"
+  },
+  "dislikeTooltip": {
+    "message": "Поставити дизлайк"
+  },
+  "dislikedTooltip": {
+    "message": "Дизлайк стоїть — зняти"
   }
 }

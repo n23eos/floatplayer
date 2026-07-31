@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "高く評価済み — クリックで取り消し"
+  },
+  "dislikeTooltip": {
+    "message": "低く評価"
+  },
+  "dislikedTooltip": {
+    "message": "低く評価済み — クリックで取り消し"
   }
 }

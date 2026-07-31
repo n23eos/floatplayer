@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "Liked — click to undo"
+  },
+  "dislikeTooltip": {
+    "message": "Dislike this video"
+  },
+  "dislikedTooltip": {
+    "message": "Disliked — click to undo"
   }
 }

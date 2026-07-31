@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "Disukai — klik untuk batalkan"
+  },
+  "dislikeTooltip": {
+    "message": "Tidak suka video ini"
+  },
+  "dislikedTooltip": {
+    "message": "Tidak disukai — klik untuk batalkan"
   }
 }

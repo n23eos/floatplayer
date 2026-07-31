@@ -49,7 +49,7 @@
         "content/pip-nav.js",
         "content/pip-comments.js",
         "content/pip-chat.js",
-        "content/pip-like.js",
+        "content/pip-reactions.js",
         "content/pip-controller.js",
         "content/sponsor-block.js",
         "content/page-controls.js",

@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "Aimé — cliquez pour retirer"
+  },
+  "dislikeTooltip": {
+    "message": "Je n'aime pas"
+  },
+  "dislikedTooltip": {
+    "message": "Pas aimé — cliquez pour retirer"
   }
 }

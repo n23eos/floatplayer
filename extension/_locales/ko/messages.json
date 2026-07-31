@@ -340,5 +340,11 @@
   },
   "likedTooltip": {
     "message": "좋아요 완료 — 클릭하면 취소"
+  },
+  "dislikeTooltip": {
+    "message": "싫어요"
+  },
+  "dislikedTooltip": {
+    "message": "싫어요 완료 — 클릭하면 취소"
   }
 }

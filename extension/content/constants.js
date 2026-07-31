@@ -41,6 +41,16 @@ YTFP.SELECTORS = {
     "#top-level-buttons-computed like-button-view-model button",
     "segmented-like-dislike-button-view-model like-button-view-model button",
     "#top-level-buttons-computed ytd-toggle-button-renderer:first-of-type button"
+  ],
+  // «Не нравится» — та же логика. На шортсах этой кнопки в разметке может
+  // не быть вовсе; тогда в окне она просто не показывается.
+  dislikeButtons: [
+    "ytd-reel-video-renderer[is-active] dislike-button-view-model button",
+    "reel-action-bar-view-model dislike-button-view-model button",
+    "ytd-watch-metadata dislike-button-view-model button",
+    "#top-level-buttons-computed dislike-button-view-model button",
+    "segmented-like-dislike-button-view-model dislike-button-view-model button",
+    "#top-level-buttons-computed ytd-toggle-button-renderer:nth-of-type(2) button"
   ]
 };
 
