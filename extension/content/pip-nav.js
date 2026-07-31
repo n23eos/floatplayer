@@ -174,7 +174,10 @@ YTFP.pipNav = (() => {
     }
     refreshPlayState();
 
-    root.append(badge, nav, seekIndicator);
+    // Ряд кнопок в корень не кладём: его забирает нижняя капсула
+    // (pip-controller). Здесь остаётся то, что рисуется поверх кадра —
+    // значок паузы по центру и всплывающая подпись перемотки.
+    root.append(badge, seekIndicator);
 
     function cleanup() {
       clearTimeout(seekIndicatorTimer);
@@ -186,7 +189,8 @@ YTFP.pipNav = (() => {
       }
     }
 
-    return { element: root, cleanup };
+    // element — слой поверх видео, row — ряд кнопок для нижней капсулы.
+    return { element: root, row: nav, cleanup };
   }
 
   return { build };

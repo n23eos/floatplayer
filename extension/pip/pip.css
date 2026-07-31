@@ -184,6 +184,11 @@ body:hover .ytfp-title--compact {
   pointer-events: auto;
   display: flex;
   align-items: center;
+  /* Содержимое панели шире окна по умолчанию (480 px): без переноса
+     правый край — ночной режим, таймер сна и кнопка возврата — уезжал
+     за границу окна, и добраться до него было нельзя. */
+  flex-wrap: wrap;
+  row-gap: 4px;
   gap: 8px;
   padding: 6px 10px;
   border-radius: var(--ytfp-radius);
@@ -472,11 +477,9 @@ body.ytfp-night--deep video.html5-main-video {
    движение мыши (класс ytfp-peek) показывает его на пару секунд. */
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-title,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bar,
-body.ytfp-sleeping:not(.ytfp-peek) .ytfp-nav,
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
-body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-toggle,
-body.ytfp-sleeping:not(.ytfp-peek) .ytfp-reactions,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-panel,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-progress-wrap,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-tip,
@@ -607,15 +610,24 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
 
 /* --- Нижний блок: назад / стоп / вперёд --------------------------------- */
 
-.ytfp-nav {
+/* Нижняя капсула: оценки, навигация и кнопка комментариев одной плашкой
+   в стилистике верхней панели. Появляется по наведению на окно — без
+   курсора в окне видно только видео. */
+.ytfp-bottom {
   position: absolute;
   left: 50%;
-  bottom: 22px;
+  bottom: 18px;
   transform: translateX(-50%);
-  z-index: 10000;
+  z-index: 10002;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
+  max-width: calc(100% - 16px);
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--ytfp-panel-bg);
+  backdrop-filter: var(--ytfp-panel-blur);
+  -webkit-backdrop-filter: var(--ytfp-panel-blur);
   opacity: 0;
   transition: opacity var(--ytfp-anim);
   pointer-events: none;
@@ -623,33 +635,52 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   app-region: no-drag;
 }
 
-body:hover .ytfp-nav {
+body:hover .ytfp-bottom {
   opacity: 1;
   pointer-events: auto;
 }
 
+/* Ряд навигации — уже внутри капсулы, собственного позиционирования и
+   видимости ему больше не нужно. */
+.ytfp-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Совсем узкое окно: кнопки ±30 уходят первыми — перемотка остаётся на
+   клике по краям кадра и на стрелках. Иначе капсула шире окна. */
+@media (max-width: 430px) {
+  .ytfp-bottom .ytfp-nav-btn--text {
+    display: none;
+  }
+}
+
+/* Кнопки внутри капсулы: без собственной подложки — она есть у самой
+   капсулы, и кружок на кружке выглядел бы грязно. Остаётся подсветка
+   при наведении. */
 .ytfp-nav-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border: 0;
   border-radius: 50%;
-  background: var(--ytfp-scrim);
+  background: transparent;
   color: #fff;
   cursor: pointer;
-  transition: background var(--ytfp-anim-fast), transform var(--ytfp-anim-fast);
+  transition: background var(--ytfp-anim-fast);
 }
 
 .ytfp-nav-btn:hover {
-  background: var(--ytfp-scrim-hover);
-  transform: scale(1.06);
+  background: var(--ytfp-hover);
 }
 
+/* Play крупнее соседей — центр капсулы виден без подложки. */
 .ytfp-nav-btn--main {
-  width: 54px;
-  height: 54px;
+  width: 42px;
+  height: 42px;
 }
 
 .ytfp-nav-btn--text {
@@ -773,13 +804,9 @@ body:hover .ytfp-related-toggle {
 
 /* --- Боковая панель: чат эфира или комментарии --------------------------- */
 
-/* Круглая кнопка в нижнем правом углу. Над панелью, чтобы ею же
-   закрывать; при открытии отъезжает влево и не садится на поле ввода. */
+/* Правая группа нижней капсулы: одна кнопка, открывающая колонку.
+   Позиционирование и видимость — у капсулы. */
 .ytfp-chat-toggle {
-  position: absolute;
-  right: 8px;
-  bottom: 14px;
-  z-index: 10002;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -787,25 +814,19 @@ body:hover .ytfp-related-toggle {
   height: 32px;
   border: 0;
   border-radius: 50%;
-  background: var(--ytfp-tab-bg);
+  background: transparent;
   color: #fff;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity var(--ytfp-anim), background var(--ytfp-anim), right var(--ytfp-anim-slow);
-  -webkit-app-region: no-drag;
-  app-region: no-drag;
-}
-
-body:hover .ytfp-chat-toggle {
-  opacity: 1;
+  transition: background var(--ytfp-anim);
 }
 
 .ytfp-chat-toggle:hover {
-  background: var(--ytfp-tab-hover);
+  background: var(--ytfp-hover);
 }
 
+/* Колонка открыта — кнопка горит. Отъезжать ей больше некуда: она
+   стоит в капсуле по центру низа, а колонка открывается правее. */
 .ytfp-chat-toggle--open {
-  right: calc(min(52%, 300px) + 8px);
   background: var(--ytfp-accent);
 }
 
@@ -849,24 +870,12 @@ body:hover .ytfp-chat-toggle {
 
 /* --- Оценки видео ---------------------------------------------------------- */
 
-/* Левый нижний угол — зеркально кнопке чата. Появляются по наведению на окно,
-   как остальные элементы поверх видео. */
+/* Левая группа нижней капсулы. Своего позиционирования и видимости не
+   имеет — и то и другое у капсулы. */
 .ytfp-reactions {
-  position: absolute;
-  left: 8px;
-  bottom: 14px;
-  z-index: 10002;
   display: flex;
   align-items: center;
-  gap: 8px;
-  opacity: 0;
-  transition: opacity var(--ytfp-anim);
-  -webkit-app-region: no-drag;
-  app-region: no-drag;
-}
-
-body:hover .ytfp-reactions {
-  opacity: 1;
+  gap: 2px;
 }
 
 .ytfp-reaction {
@@ -877,14 +886,14 @@ body:hover .ytfp-reactions {
   height: 32px;
   border: 0;
   border-radius: 50%;
-  background: var(--ytfp-tab-bg);
+  background: transparent;
   color: #fff;
   cursor: pointer;
   transition: background var(--ytfp-anim), color var(--ytfp-anim);
 }
 
 .ytfp-reaction:hover {
-  background: var(--ytfp-tab-hover);
+  background: var(--ytfp-hover);
 }
 
 /* Пары на странице нет (например, у шортса нет «не нравится») — кнопки нет. */

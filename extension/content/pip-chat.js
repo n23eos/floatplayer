@@ -80,7 +80,9 @@ YTFP.pipChat = (() => {
     const comments = YTFP.pipComments.create(pipDocument);
 
     panel.append(frame, comments.element);
-    root.append(toggle, panel);
+    // Кнопку в корень не кладём: её забирает нижняя капсула
+    // (pip-controller), а корень остаётся выдвижной колонкой у края.
+    root.append(panel);
 
     let isOpen = false;
     // "chat" на эфире, "comments" на обычном видео. null — режим ещё не
@@ -188,7 +190,8 @@ YTFP.pipChat = (() => {
       pipDocument.body.classList.remove("ytfp-chat-open");
     }
 
-    return { element: root, cleanup };
+    // element — колонка у края, toggle — кнопка для нижней капсулы.
+    return { element: root, toggle, cleanup };
   }
 
   return { build };

@@ -430,9 +430,10 @@ YTFP.pip = (() => {
     topStack.append(controls.element, titleBar);
     pipWindow.document.body.appendChild(topStack);
     if (chat) {
+      // Сама выдвижная колонка чата/комментариев — у правого края окна;
+      // её кнопка уезжает в нижнюю капсулу ниже.
       pipWindow.document.body.appendChild(chat.element);
     }
-    pipWindow.document.body.appendChild(reactions.element);
 
     // Красная полоска прогресса внизу (родные контролы YouTube скрыты в CSS).
     const progress = YTFP.pipProgress.build(pipWindow.document, { getVideo: getMovedVideo });
@@ -504,7 +505,20 @@ YTFP.pip = (() => {
       onPrev: goPrev,
       onNext: goNext
     });
+    // Слой поверх кадра: значок паузы по центру и подпись перемотки.
     pipWindow.document.body.appendChild(nav.element);
+
+    // Нижняя капсула: оценки, ряд навигации и кнопка комментариев/чата
+    // одной полупрозрачной плашкой — как панель сверху. Собственные
+    // подложки у кнопок снимает CSS, иначе внутри капсулы получались бы
+    // кружки на кружке.
+    const bottomBar = pipWindow.document.createElement("div");
+    bottomBar.className = "ytfp-bottom";
+    bottomBar.append(reactions.element, nav.row);
+    if (chat) {
+      bottomBar.appendChild(chat.toggle);
+    }
+    pipWindow.document.body.appendChild(bottomBar);
 
     state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, titleObserver, titleTicker, resizeTimer: null };
 
