@@ -303,6 +303,11 @@ YTFP.pip = (() => {
     titleText.className = "ytfp-title-text";
     titleBar.append(avatar, titleText);
 
+    // Какому видео принадлежит показанная сейчас аватарка. На шортсах ID из
+    // адреса не достать, поэтому запасной ключ — сам путь: он там меняется
+    // при переходе к следующему ролику.
+    let avatarVideoKey = null;
+
     const applyTitle = () => {
       const title = getPageVideoTitle();
       // document.title — для переключателя окон ОС, наша строка — для глаз.
@@ -312,9 +317,14 @@ YTFP.pip = (() => {
       if (titleText.textContent !== title) {
         titleText.textContent = title;
       }
-      // Аватарку читаем на каждом обновлении: при переходе к следующему
-      // видео разметка страницы перерисовывается, и картинка приезжает
-      // не сразу — к моменту очередной правки <head> она уже на месте.
+      // Видео сменилось — старую аватарку убираем сразу, не дожидаясь новой.
+      // Иначе, пока разметка страницы перерисовывается, в плашке висел бы
+      // кружок предыдущего канала, а это хуже, чем пустое место.
+      const videoKey = YTFP.playerApi.getVideoId() || location.pathname;
+      if (videoKey !== avatarVideoKey) {
+        avatarVideoKey = videoKey;
+        avatar.removeAttribute("src");
+      }
       const avatarUrl = getChannelAvatarUrl();
       if (avatarUrl && avatar.src !== avatarUrl) {
         avatar.src = avatarUrl;
@@ -323,6 +333,13 @@ YTFP.pip = (() => {
       avatar.hidden = !avatar.src;
     };
     applyTitle();
+
+    // Заголовок страницы YouTube меняет сразу, а блок автора перерисовывает
+    // позже — правок <head> к этому моменту уже не бывает, и одной только
+    // подпиской ниже аватарка осталась бы от прошлого видео. Поэтому ещё и
+    // периодическая сверка, как у чата и оценок.
+    const TITLE_SYNC_INTERVAL_MS = 1000;
+    const titleTicker = setInterval(applyTitle, TITLE_SYNC_INTERVAL_MS);
 
     // Видео меняется без перезагрузки (очередь, рекомендации, «вперёд»),
     // поэтому следим за заголовком страницы и обновляем надпись.
@@ -489,7 +506,7 @@ YTFP.pip = (() => {
     });
     pipWindow.document.body.appendChild(nav.element);
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, titleObserver, resizeTimer: null };
+    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, titleObserver, titleTicker, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
@@ -648,10 +665,11 @@ YTFP.pip = (() => {
     const {
       playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions,
       resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime,
-      titleObserver
+      titleObserver, titleTicker
     } = state;
-    // Сначала гасим таймер и слушатели, потом обнуляем state.
+    // Сначала гасим таймеры и слушатели, потом обнуляем state.
     clearTimeout(resizeTimer);
+    clearInterval(titleTicker);
     if (titleObserver) {
       titleObserver.disconnect();
     }
