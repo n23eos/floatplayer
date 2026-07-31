@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Video ins schwebende Fenster holen — probier es"
+  },
+  "commentsTooltip": {
+    "message": "Kommentare"
+  },
+  "commentsEmpty": {
+    "message": "Keine Kommentare"
+  },
+  "commentsError": {
+    "message": "Kommentare konnten nicht geladen werden"
+  },
+  "commentsLoading": {
+    "message": "Wird geladen…"
   }
 }

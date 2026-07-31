@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "영상을 항상 위 창으로 — 눌러 보세요"
+  },
+  "commentsTooltip": {
+    "message": "댓글"
+  },
+  "commentsEmpty": {
+    "message": "댓글 없음"
+  },
+  "commentsError": {
+    "message": "댓글을 불러오지 못했습니다"
+  },
+  "commentsLoading": {
+    "message": "불러오는 중…"
   }
 }

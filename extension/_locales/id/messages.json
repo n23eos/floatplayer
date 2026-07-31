@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Keluarkan video ke jendela mengambang — coba"
+  },
+  "commentsTooltip": {
+    "message": "Komentar"
+  },
+  "commentsEmpty": {
+    "message": "Tidak ada komentar"
+  },
+  "commentsError": {
+    "message": "Tidak dapat memuat komentar"
+  },
+  "commentsLoading": {
+    "message": "Memuat…"
   }
 }

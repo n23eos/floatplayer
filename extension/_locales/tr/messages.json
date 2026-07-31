@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Videoyu yüzen pencereye çıkarın — deneyin"
+  },
+  "commentsTooltip": {
+    "message": "Yorumlar"
+  },
+  "commentsEmpty": {
+    "message": "Yorum yok"
+  },
+  "commentsError": {
+    "message": "Yorumlar yüklenemedi"
+  },
+  "commentsLoading": {
+    "message": "Yükleniyor…"
   }
 }

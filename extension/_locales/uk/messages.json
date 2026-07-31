@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Винести відео поверх вікон — спробуйте"
+  },
+  "commentsTooltip": {
+    "message": "Коментарі"
+  },
+  "commentsEmpty": {
+    "message": "Коментарів немає"
+  },
+  "commentsError": {
+    "message": "Не вдалося завантажити коментарі"
+  },
+  "commentsLoading": {
+    "message": "Завантаження…"
   }
 }

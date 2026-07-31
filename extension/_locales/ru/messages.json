@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Вынести видео поверх окон — попробуйте"
+  },
+  "commentsTooltip": {
+    "message": "Комментарии"
+  },
+  "commentsEmpty": {
+    "message": "Комментариев нет"
+  },
+  "commentsError": {
+    "message": "Не удалось загрузить комментарии"
+  },
+  "commentsLoading": {
+    "message": "Загрузка…"
   }
 }

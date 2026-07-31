@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Destaque o vídeo em uma janela — experimente"
+  },
+  "commentsTooltip": {
+    "message": "Comentários"
+  },
+  "commentsEmpty": {
+    "message": "Sem comentários"
+  },
+  "commentsError": {
+    "message": "Não foi possível carregar os comentários"
+  },
+  "commentsLoading": {
+    "message": "Carregando…"
   }
 }

@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "वीडियो को फ़्लोटिंग विंडो में निकालें — आज़माएँ"
+  },
+  "commentsTooltip": {
+    "message": "टिप्पणियां"
+  },
+  "commentsEmpty": {
+    "message": "कोई टिप्पणी नहीं"
+  },
+  "commentsError": {
+    "message": "टिप्पणियां लोड नहीं हो सकीं"
+  },
+  "commentsLoading": {
+    "message": "लोड हो रहा है…"
   }
 }

@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "動画を最前面ウィンドウへ — お試しください"
+  },
+  "commentsTooltip": {
+    "message": "コメント"
+  },
+  "commentsEmpty": {
+    "message": "コメントはありません"
+  },
+  "commentsError": {
+    "message": "コメントを読み込めませんでした"
+  },
+  "commentsLoading": {
+    "message": "読み込み中…"
   }
 }

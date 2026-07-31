@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Sortez la vidéo en fenêtre flottante — essayez"
+  },
+  "commentsTooltip": {
+    "message": "Commentaires"
+  },
+  "commentsEmpty": {
+    "message": "Aucun commentaire"
+  },
+  "commentsError": {
+    "message": "Impossible de charger les commentaires"
+  },
+  "commentsLoading": {
+    "message": "Chargement…"
   }
 }

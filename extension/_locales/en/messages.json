@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Pop the video out — try it"
+  },
+  "commentsTooltip": {
+    "message": "Comments"
+  },
+  "commentsEmpty": {
+    "message": "No comments"
+  },
+  "commentsError": {
+    "message": "Could not load comments"
+  },
+  "commentsLoading": {
+    "message": "Loading…"
   }
 }

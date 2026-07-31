@@ -223,5 +223,17 @@
   },
   "onboardingHint": {
     "message": "Wysuń wideo do pływającego okna — spróbuj"
+  },
+  "commentsTooltip": {
+    "message": "Komentarze"
+  },
+  "commentsEmpty": {
+    "message": "Brak komentarzy"
+  },
+  "commentsError": {
+    "message": "Nie udało się wczytać komentarzy"
+  },
+  "commentsLoading": {
+    "message": "Wczytywanie…"
   }
 }

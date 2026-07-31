@@ -37,6 +37,7 @@
         "content/pip-progress.js",
         "content/pip-related.js",
         "content/pip-nav.js",
+        "content/pip-comments.js",
         "content/pip-chat.js",
         "content/pip-controller.js",
         "content/sponsor-block.js",
