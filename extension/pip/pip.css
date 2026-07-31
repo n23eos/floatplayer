@@ -99,6 +99,20 @@ select {
   text-overflow: ellipsis;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   pointer-events: none;
+  transform: translateY(0);
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+/* Компактный режим: название спрятано и всплывает вместе с панелью,
+   когда курсор входит в окно (те же длительности, что у .ytfp-bar). */
+.ytfp-title--compact {
+  transform: translateY(-8px);
+  opacity: 0;
+}
+
+body:hover .ytfp-title--compact {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 /* Панель дополнительных функций — плавающая «пилюля» сверху.

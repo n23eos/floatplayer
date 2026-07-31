@@ -56,6 +56,8 @@ YTFP.pip = (() => {
     #movie_player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip),
     #shorts-player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip) { display: none !important; }
     .ytfp-title { position: absolute; left: 0; right: 0; top: 0; z-index: 9999; padding: 6px 10px 16px; color: #fff; font: 12px "Roboto", Arial, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); pointer-events: none; }
+    .ytfp-title--compact { opacity: 0; }
+    body:hover .ytfp-title--compact { opacity: 1; }
   `;
 
   // Стили тянем один раз при старте скрипта, пока контекст расширения
@@ -255,6 +257,11 @@ YTFP.pip = (() => {
     // надпись сами — узкой строкой у верхнего края окна.
     const titleBar = pipWindow.document.createElement("div");
     titleBar.className = "ytfp-title";
+    // Компактный режим — тот же, что у панели: название всплывает вместе
+    // с ней при наведении, а без курсора в окне видно только видео.
+    if (YTFP.settings.get().compactMode) {
+      titleBar.classList.add("ytfp-title--compact");
+    }
 
     const applyTitle = () => {
       const title = getPageVideoTitle();
