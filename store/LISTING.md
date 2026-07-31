@@ -66,61 +66,67 @@ FloatPlayer — Picture in Picture for YouTube
 
 ### Описание цели (Single purpose)
 
-> FloatPlayer has a single purpose: showing the YouTube video the user is
-> currently watching in an always-on-top Picture-in-Picture window with playback
-> controls. Every feature — play/pause, seeking, playback speed, volume, A-B
-> loop, sleep timer, sponsor-segment skipping and Shorts navigation — controls
-> the playback of that one video. The extension does nothing outside YouTube
-> playback.
+Поле «Описание цели», лимит 1000 символов (сейчас 694).
+
+> FloatPlayer has a single purpose: playing the YouTube video the user is already watching inside an always-on-top Picture-in-Picture window, with the controls such a window needs.
+> 
+> Everything it does serves that one video — play/pause and seeking, playback speed, volume, A-B and full-video loop, chapter marks, night mode, a sleep timer, live-stream controls, Shorts navigation, skipping in-video sponsor segments, and a side column showing that same video's comments, live chat and recommendations so the user does not have to switch back to the tab.
+> 
+> The extension runs only on youtube.com and does nothing outside YouTube playback. It has no accounts, no analytics and no servers of its own.
 
 ### Разрешение `storage`
 
-> Stores the user's own preferences (mini-window style, speed slider step,
-> volume ceiling, sleep-timer choice, Shorts auto-advance, panel behaviour) and
-> the last mini-window width, so the extension behaves consistently across
-> sessions and browser restarts. Only these preferences are stored. No browsing
-> history, no personal data, and nothing is sent anywhere.
+Поле «Обоснование (storage)», лимит 1000 символов (сейчас 657).
 
+> Stores the user's own preferences in storage.sync: mini-window style, auto-PiP, compact panel, speed slider step, volume ceiling, manual skip step, night-mode level, autoplay, Shorts auto-advance, and the SponsorBlock switches and categories.
+> 
+> In storage.local it keeps the last mini-window width — separately for landscape videos and vertical Shorts, so the window reopens at the size the user left it — and a one-time flag recording that the first-run hint has already been shown, so it is not repeated.
+> 
+> That is all: the choices the user made on the options page plus that window size. No browsing history, no personal data, and nothing is sent anywhere.
 
 ### Разрешения на доступ к хостам
 
-> `*://*.youtube.com/*` — the extension must run on YouTube watch and Shorts
-> pages to add its button to the player, move the player element into the
-> Document Picture-in-Picture window and control playback inside that window.
-> This is the core function and cannot be done without access to YouTube pages.
->
-> `https://sponsor.ajay.app/*` — used by the optional "sponsor segments"
-> feature: the extension requests community-labelled sponsor-segment timestamps
-> for the current video so they can be marked on the progress bar and skipped
-> with one click. Only the video ID is sent, no cookies or account data, and the
-> feature can be switched off in the extension options.
+Поле «Обоснование (Разрешение на доступ к хостам)», лимит 1000 (сейчас 910).
+
+> *://*.youtube.com/* — the extension runs on YouTube watch and Shorts pages to add its button to the player, move the real player element into the Document Picture-in-Picture window and control playback inside that window. The same access reads the current video's title, chapters and recommendations, and — only when the user opens that column — loads the video's comments and a stream's live chat from YouTube's own endpoints, under the session the user is already signed in to on that page. This is the core function and cannot be done without access to YouTube pages.
+> 
+> https://sponsor.ajay.app/* — used by the optional "sponsor segments" feature: it requests community-labelled timestamps for the current video so in-video sponsor reads can be marked on the progress bar and skipped in one click. Only the video ID is sent, no cookies and no account data, and the feature can be switched off in the options.
 
 ### Использование удалённого кода
 
-Выбрать **«Нет, я не использую удалённый код»**. Если попросят пояснение:
+Выбрать **«Нет, я не использую удалённый код»**, поле обоснования оставить
+пустым. Проверено по коду: ни `eval`, ни `new Function`, ни создания тегов
+`<script>`, ни `chrome.scripting`, ни исполнения в MAIN-мире. Весь JS и CSS
+лежат в пакете. Сетевые ответы (сегменты SponsorBlock, JSON комментариев)
+разбираются как данные и никогда не исполняются. Внешние URL в HTML
+расширения — только ссылки-переходы в `<a href>`.
 
-> All JavaScript and CSS are bundled inside the extension package. Network
-> requests only fetch data, never code: sponsor timestamps from
-> sponsor.ajay.app, and — when the user opens the comments column — comment
-> JSON from YouTube's own endpoint on the page the extension already runs on.
-> Both responses are parsed as data and never evaluated or injected as code.
+### Передача данных — какие категории отмечать
 
-### Использование данных
+Отметить **одну**: «История веб-поиска» (Web history).
 
-- Категория: **Web history** — расширение передаёт ID просматриваемого видео
-  стороннему API SponsorBlock (только при включённой функции). Пояснение:
+Причина: единственное, что покидает устройство в сторону не-YouTube, — ID
+просматриваемого видео, уходящий на sponsor.ajay.app при включённых
+спонсорских вставках. Он сообщает стороннему серверу, какую страницу смотрит
+пользователь, а это и есть определение категории.
 
-> The extension has no servers and stores nothing remotely. When the optional
-> sponsor-segment feature is enabled, the ID of the video being watched is sent
-> to the community API sponsor.ajay.app to look up sponsor timestamps. It is not
-> collected, stored or profiled by the developer, and the feature can be
-> disabled in the options. Comments and live chat are fetched from YouTube
-> itself, from the YouTube tab and under the session the user is already signed
-> in to, so nothing about the user leaves YouTube for us or anyone else.
+Остальные категории не отмечать:
 
-- Три обязательные галочки-подтверждения — отметить все, они верны:
-  данные не продаются третьим лицам; не используются для целей, не связанных с
-  основной функцией; не используются для оценки кредитоспособности.
+- «Информация, позволяющая идентифицировать личность», «Медицинская
+  информация», «Финансовые и платёжные данные», «Данные для аутентификации»,
+  «Личная коммуникация», «Данные о местоположении» — ничего подобного
+  расширение не читает и не передаёт.
+- «Действия пользователей» — клики и нажатия обрабатываются только для
+  управления плеером, никуда не отправляются и нигде не сохраняются.
+- «Содержимое сайтов» — название видео, главы, комментарии и рекомендации
+  читаются и показываются локально, в окне на устройстве пользователя;
+  разработчику и третьим лицам они не передаются. Запросы комментариев и чата
+  идут к самому YouTube, со вкладки YouTube и под уже открытой сессией
+  пользователя, поэтому новой передачи данных не создают.
+
+Три обязательные галочки-подтверждения — отметить все, они верны: данные не
+продаются третьим лицам; не используются для целей, не связанных с основной
+функцией; не используются для оценки кредитоспособности.
 
 ### Контактный адрес издателя
 
