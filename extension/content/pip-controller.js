@@ -55,6 +55,7 @@ YTFP.pip = (() => {
     #movie_player video.html5-main-video, #shorts-player video.html5-main-video { width: 100% !important; height: 100% !important; left: 0 !important; top: 0 !important; object-fit: contain !important; }
     #movie_player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip),
     #shorts-player > :not(.html5-video-container):not(.ytp-caption-window-container):not(.ytp-spinner):not(.ytfp-sb-skip) { display: none !important; }
+    .ytfp-title { position: absolute; left: 0; right: 0; top: 0; z-index: 9999; padding: 6px 10px 16px; color: #fff; font: 12px "Roboto", Arial, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); pointer-events: none; }
   `;
 
   // Стили тянем один раз при старте скрипта, пока контекст расширения
@@ -249,9 +250,24 @@ YTFP.pip = (() => {
     const style = pipWindow.document.createElement("style");
     style.textContent = cssText;
     pipWindow.document.head.appendChild(style);
-    // Системную полоску окна Chrome убрать не даёт, поэтому пишем в неё
-    // название видео — рядом с origin (youtube.com).
-    pipWindow.document.title = getPageVideoTitle();
+    // Название видео. В системную полоску окна Chrome пишет только origin
+    // (youtube.com) и document.title там не показывает, поэтому рисуем
+    // надпись сами — узкой строкой у верхнего края окна.
+    const titleBar = pipWindow.document.createElement("div");
+    titleBar.className = "ytfp-title";
+
+    const applyTitle = () => {
+      const title = getPageVideoTitle();
+      // document.title — для переключателя окон ОС, наша строка — для глаз.
+      if (pipWindow.document.title !== title) {
+        pipWindow.document.title = title;
+      }
+      if (titleBar.textContent !== title) {
+        titleBar.textContent = title;
+      }
+    };
+    applyTitle();
+
     // Видео меняется без перезагрузки (очередь, рекомендации, «вперёд»),
     // поэтому следим за заголовком страницы и обновляем надпись.
     // Наблюдаем <head>, а не сам <title>: при SPA-навигации YouTube иногда
@@ -262,10 +278,7 @@ YTFP.pip = (() => {
       if (!state || pipWindow.closed) {
         return;
       }
-      const title = getPageVideoTitle();
-      if (pipWindow.document.title !== title) {
-        pipWindow.document.title = title;
-      }
+      applyTitle();
     });
     titleObserver.observe(document.head, {
       childList: true,
@@ -329,6 +342,7 @@ YTFP.pip = (() => {
       onReturnRequested: close,
       isShorts
     });
+    pipWindow.document.body.appendChild(titleBar);
     pipWindow.document.body.appendChild(controls.element);
     if (chat) {
       pipWindow.document.body.appendChild(chat.element);

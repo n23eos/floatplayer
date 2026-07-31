@@ -77,12 +77,37 @@ select {
   display: none !important;
 }
 
-/* Панель дополнительных функций — плавающая «пилюля» сверху. */
+/* Название видео у верхнего края. В рамке окна Chrome показывает только
+   origin (youtube.com), название туда не попадает, поэтому пишем сами.
+   Градиент вместо плашки: поверх тёмного кадра надпись почти не видна,
+   поверх светлого — читается. Клики проходят насквозь (pointer-events),
+   чтобы верх кадра остался зоной паузы и перетаскивания окна. */
+.ytfp-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9999;
+  padding: 6px 10px 16px;
+  background: linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
+  color: #fff;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+/* Панель дополнительных функций — плавающая «пилюля» сверху.
+   Ниже строки названия, чтобы не перекрывать её. */
 .ytfp-bar {
   position: absolute;
   left: 8px;
   right: 8px;
-  top: 8px;
+  top: 30px;
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -322,6 +347,7 @@ body.ytfp-night--deep video.html5-main-video {
 
 /* Таймер сна активен: интерфейс окна спрятан полностью,
    движение мыши (класс ytfp-peek) показывает его на пару секунд. */
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-title,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bar,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-nav,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
