@@ -8,8 +8,9 @@ POURQUOI ON LE GARDE
 • Rien ne redémarre : le vrai lecteur YouTube passe dans la fenêtre
 • Vitesse 0,25–3x et volume jusqu'à 300 %
 • Boucle A-B pour s'entraîner, et répétition de toute la vidéo
-• Minuterie qui met vraiment en pause, jusqu'à 12 heures
+• Mode nuit qui coupe la lumière bleue, et minuterie qui met vraiment en pause
 • Passages sponsorisés marqués en vert et évités en un clic
+• Commentaires, chat en direct et recommandations sans revenir à l'onglet
 • Shorts en fenêtre verticale qui enchaîne toute seule
 • Rien que la vidéo : ni cartes, ni boutique, ni fouillis
 
@@ -18,7 +19,7 @@ FloatPlayer garde YouTube au-dessus de tout le reste. Un clic sur le bouton du
 lecteur — ou Alt+P — et la vidéo passe dans une petite fenêtre toujours au
 premier plan, avec ses propres commandes. Écrivez du code, répondez à vos
 mails, modifiez un tableur : la vidéo reste visible par-dessus n'importe quelle
-application.
+application et n'importe quelle autre fenêtre.
 
 C'est une véritable fenêtre Document Picture-in-Picture, pas un popup. Elle ne
 passe jamais derrière la fenêtre dans laquelle vous travaillez.
@@ -32,7 +33,8 @@ vidéo brut : vous perdez votre position, vos réglages et les sous-titres.
 FloatPlayer déplace le lecteur YouTube lui-même dans la fenêtre. Même flux,
 même seconde, la qualité que vous aviez déjà, les mêmes sous-titres, la même
 position dans la playlist, le même historique. À la fermeture, le lecteur
-revient exactement à sa place dans la page. Rien ne se recharge.
+revient exactement à sa place dans la page : rien ne se recharge, rien ne se
+remet en mémoire tampon.
 
 Les publicités ne sont ni bloquées ni sautées : l'extension respecte les règles
 de YouTube.
@@ -43,83 +45,136 @@ CE QUE LE PICTURE-IN-PICTURE NATIF NE SAIT PAS FAIRE
 Le PiP intégré de Chrome offre un bouton de lecture et rien d'autre.
 FloatPlayer ajoute ce qui manque vraiment :
 
-- la navigation : clic ou glissement sur la barre, zones de ±10 s sur la vidéo,
-  boutons de ±30 s en dessous
-- la vitesse de 0,25x à 3x avec un curseur
-- le volume de 0 à 300 % : du silence jusqu'à trois fois le maximum de YouTube,
-  parfait pour les vidéos enregistrées trop bas
-- la boucle A-B pour travailler une phrase, un riff ou un pas de danse
+- la navigation : clic ou glissement sur la barre de progression, zones de
+  ±10 s sur la vidéo elle-même, boutons de ±30 s en dessous
+- la vitesse de lecture de 0,25x à 3x avec un curseur
+- le volume de 0 à 300 % : du silence jusqu'à trois fois le maximum de YouTube
+  lui-même, pour les vidéos enregistrées trop bas
+- la boucle A-B pour travailler une phrase, un riff ou un pas de danse, et la
+  répétition de toute la vidéo
+- un mode nuit à deux intensités, qui retire le bleu de l'image pour les
+  visionnages tardifs
 - une minuterie qui met vraiment la vidéo en pause, jusqu'à 12 heures
-- vidéo précédente et suivante, et jusqu'à 20 recommandations
-  dans une colonne dépliable
+- vidéo précédente et suivante, et jusqu'à 20 recommandations dans une colonne
+  dépliable
+- des repères de chapitre sur la barre de progression, avec le nom du chapitre
+  sous le curseur
 - la prise en charge des Shorts, que le PiP natif refuse tout simplement
 - une fenêtre réellement propre, sans interface YouTube à l'intérieur
-- répéter toute la vidéo, préréglages audio (nuit, voix, basses), repères de
-  chapitre sur la barre et une file d'attente composée depuis les recommandations
 
 Tout reste masqué jusqu'à ce que vous bougiez la souris : la plupart du temps,
-vous ne voyez que la vidéo. Pendant une publicité, une barre blanche distincte
-indique ce qu'il en reste et la rouge se fige à votre vraie position.
+vous ne voyez que la vidéo et son titre. Pendant une publicité, une barre
+blanche distincte indique ce qu'il en reste et la rouge se fige à votre vraie
+position. Pendant le décompte de la minuterie, tous les panneaux restent
+masqués même sous le curseur — comme il se doit quand on s'endort.
+
+
+TOUT CE POUR QUOI L'ONGLET SERVAIT ENCORE
+
+La fenêtre n'est pas qu'un lecteur. Une colonne latérale amène les parties de
+la page pour lesquelles il faudrait sinon revenir en arrière :
+
+- les commentaires, chargés directement depuis YouTube et défilant à l'infini,
+  avec les commentaires épinglés et ceux du créateur marqués comme sur le site
+- le chat en direct des streams, dans la même colonne
+- les recommandations, et une file d'attente que vous composez vous-même
+- le titre de la vidéo et l'avatar de la chaîne sur un bandeau sous le panneau,
+  parce que le cadre de fenêtre de Chrome n'affiche que l'adresse
 
 
 PASSAGES SPONSORISÉS VISIBLES ET ÉVITABLES
 
 Pour être clair : les publicités de YouTube ne sont jamais touchées. Il s'agit
-des placements que le créateur intègre lui-même dans la vidéo.
+des placements intégrés dans la vidéo elle-même.
 
-Les passages signalés par la communauté SponsorBlock apparaissent en vert sur la
-barre, et un bouton « Passer le sponsor » s'affiche à l'intérieur. Seul
-l'identifiant de la vidéo est envoyé à sponsor.ajay.app — rien qui vous
-concerne — et la fonction peut être désactivée.
+Les passages signalés par la communauté SponsorBlock apparaissent en vert sur
+la barre de progression, vous voyez donc arriver le placement, et un bouton
+« Passer le sponsor » vous fait sauter par-dessus en un clic. Activez le saut
+automatique et vous ne les verrez plus du tout. Vous choisissez les catégories
+qui comptent : sponsor, autopromotion, rappels de like et d'abonnement,
+intro, outro. Seul l'identifiant de la vidéo est envoyé à sponsor.ajay.app —
+rien sur vous, rien sur votre navigation — et la fonction entière peut être
+désactivée.
+
+
+DIRECTS
+
+Sur un direct, le panneau affiche un badge LIVE avec un point rouge. Si vous
+prenez du retard, le point devient gris et l'écart exact s'affiche à côté ; un
+clic vous ramène au bord du direct. La navigation reste dans la mémoire tampon
+DVR, vous pouvez donc rembobiner un direct comme une vidéo.
 
 
 LES SHORTS, VRAIMENT PRIS EN CHARGE
 
 Un bouton dédié au-dessus de « J'aime » ouvre le Short dans une fenêtre
-verticale au format 9:16, sans bandes noires ni recadrage. À la fin, le suivant
-démarre tout seul, et les flèches du bas font défiler le fil depuis la fenêtre.
+verticale au format 9:16 — sans bandes noires ni recadrage. À la fin d'un
+Short, le suivant démarre tout seul, et les flèches du bas font défiler le fil
+directement depuis la fenêtre. Vous pouvez laisser tourner les Shorts dans un
+coin de l'écran comme une télévision, sans toucher au navigateur.
 
 
 LA FENÊTRE SE COMPORTE COMME PRÉVU
 
 Déplacez-la depuis n'importe quel point : maintenez le clic sur la vidéo et
-bougez — les boutons restent cliquables. Elle s'ouvre au format exact de la
-vidéo, y revient après un redimensionnement manuel et retient sa taille
-séparément pour les vidéos horizontales et les Shorts verticaux.
+bougez — les boutons restent cliquables, le déplacement ne déclenche donc
+jamais une commande par accident. Elle s'ouvre au format exact de la vidéo, y
+revient après un redimensionnement manuel et se reconstruit pour les vidéos
+d'autres proportions, en retenant séparément les vidéos horizontales et les
+Shorts verticaux.
 
-Rien que la vidéo, garanti : l'interface YouTube à l'intérieur est supprimée par
-une liste blanche qui ne laisse passer que la vidéo, les sous-titres et
-l'indicateur de chargement.
+Rien que la vidéo, garanti : l'interface YouTube à l'intérieur est supprimée
+par une liste blanche qui ne laisse passer que la vidéo, les sous-titres et
+l'indicateur de chargement. Les incrustations boutique, les fiches info, les
+écrans de fin et toute surcouche que YouTube inventera à l'avenir ne peuvent
+tout simplement pas apparaître.
+
+Vous en voulez encore moins ? Le mode « vidéo seule » utilise le PiP natif sans
+aucun bandeau Chrome. Et le PiP automatique optionnel (Chrome 120+) sort la
+vidéo tout seul quand vous changez d'onglet.
 
 
 RACCOURCIS ET RÉGLAGES
 
-Depuis n'importe quelle fenêtre Chrome : Alt+P ouvre ou ferme (⌥P sur Mac),
-Alt+K met en pause, Alt+J et Alt+L sautent 5 secondes. Dans la fenêtre : espace
-ou K met en pause, les flèches sautent 5 secondes, M coupe le son. Tout est
-réassignable dans chrome://extensions/shortcuts.
+Depuis n'importe quelle fenêtre Chrome : Alt+P ouvre ou ferme la fenêtre (⌥P
+sur Mac), Alt+K met en pause, Alt+J et Alt+L sautent 5 secondes. Dans la
+fenêtre : espace ou K met en pause, les flèches sautent 5 secondes, les
+chiffres 0–9 sautent dans la vidéo, M coupe le son, < et > changent la vitesse.
+Tout est réassignable dans chrome://extensions/shortcuts.
 
-Les réglages couvrent le style de fenêtre, le PiP automatique, SponsorBlock, le
-pas d'avance, l'enchaînement des Shorts, le panneau compact, le pas de vitesse,
-le volume maximal et la langue. Les changements s'appliquent immédiatement.
+L'icône de la barre d'outils ouvre un petit panneau : ce que fait l'onglet
+actuel, un bouton pour sortir la vidéo ou la ramener, et les interrupteurs que
+vous changez le plus souvent. La page de réglages complète couvre le style de
+fenêtre, le PiP automatique, SponsorBlock et ses catégories, le pas d'avance,
+l'enchaînement des Shorts, les panneaux compacts, le pas de vitesse et le
+volume maximal. Les changements s'appliquent immédiatement.
+
+L'interface parle 14 langues et suit votre navigateur : anglais, russe,
+allemand, espagnol, français, italien, portugais (Brésil), polonais, turc,
+ukrainien, japonais, coréen, hindi et indonésien.
 
 
 CONFIDENTIALITÉ
 
 Pas de compte, pas de connexion, pas de pistage, pas d'analytique, pas de
-publicité. Rien n'est collecté ni envoyé, hormis l'identifiant de la vidéo pour
-SponsorBlock — et uniquement tant que cette fonction est activée.
+publicité. Rien n'est collecté ni envoyé où que ce soit, hormis l'identifiant
+de la vidéo pour SponsorBlock — et uniquement tant que vous laissez cette
+fonction activée. Les autorisations sont réduites au strict minimum : le
+stockage pour vos réglages, et l'accès à youtube.com plus sponsor.ajay.app.
 
 
 LIMITES ASSUMÉES
+
+Mieux vaut le savoir avant d'installer que d'être déçu après :
 
 - Nécessite Chrome 116 ou plus récent ; les versions antérieures basculent sur
   le PiP natif.
 - Le fin bandeau Chrome avec l'adresse du site ne peut pas être retiré : c'est
   une exigence anti-hameçonnage pour toute fenêtre Document PiP. Il se masque
-  seul quand le curseur s'éloigne, et le mode « vidéo seule » n'en a pas.
+  seul quand le curseur s'éloigne, et le mode « vidéo seule » n'en a pas du
+  tout.
 - La transparence et le clic traversant n'existent pas dans l'API Chrome.
 - Une seule fenêtre PiP par navigateur, et sa position ne peut pas être définie
-  par programme : ce sont des limites du navigateur.
+  par programme : ce sont des limites du navigateur, pas les nôtres.
 - Pendant les publicités YouTube, la navigation est impossible : la vidéo
-  principale n'est pas chargée à ce moment-là.
+  principale n'est pas chargée à ce moment-là, il n'y a donc rien à parcourir.

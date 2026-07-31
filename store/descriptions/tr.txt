@@ -5,19 +5,21 @@ YouTube izleyin ama gerçekten çalışın. Tek tıkla video tüm pencerelerin
 NEDEN SİLİNMİYOR
 
 • Gerçekten her zaman üstte — editörünüzün arkasına düşmez
-• Hiçbir şey baştan başlamaz: YouTube oynatıcısının kendisi taşınır
-• 0,25–3x hız ve %300'e kadar ses
+• Hiçbir şey baştan başlamaz: YouTube oynatıcısının kendisi pencereye taşınır
+• 0.25–3x hız ve %300'e kadar ses
 • Çalışmak için A-B döngüsü, ayrıca videonun tamamını döngüye alma
-• Gerçekten duraklatan uyku zamanlayıcısı, 12 saate kadar
+• Mavi ışığı kısan gece modu ve gerçekten duraklatan uyku zamanlayıcısı
 • Sponsor bölümleri yeşil işaretlenir, tek tıkla atlanır
+• Yorumlar, canlı sohbet ve öneriler — sekmeye dönmeden
 • Shorts dikey pencerede kendiliğinden ilerler
 • Yalnızca video — kart yok, vitrin yok, karmaşa yok
 
 
 FloatPlayer, YouTube'u her şeyin üstünde tutar. Oynatıcıdaki düğmeye tek tıklama
-— ya da Alt+P — ve video, kendi kontrollerine sahip küçük bir pencereye geçer.
-Kod yazın, e-postalara yanıt verin, tabloyu düzenleyin: video her uygulamanın
-üstünde görünmeye devam eder.
+— ya da Alt+P — ve video, kendi kontrollerine sahip küçük ve her zaman üstte
+duran bir pencereye geçer. Kod yazın, e-postalara yanıt verin, tabloyu
+düzenleyin: video her uygulamanın ve her pencerenin üstünde görünmeye devam
+eder.
 
 Bu bir açılır pencere değil, gerçek bir Document Picture-in-Picture penceresidir.
 Çalıştığınız pencerenin arkasına asla düşmez.
@@ -30,8 +32,9 @@ yeri, ayarlarınızı ve altyazıları kaybedersiniz.
 
 FloatPlayer, YouTube oynatıcısının kendisini pencereye taşır. Aynı akış, aynı
 saniye, zaten kullandığınız kalite, aynı altyazılar, oynatma listesindeki aynı
-konum ve aynı izleme geçmişi. Pencereyi kapattığınızda oynatıcı sayfadaki tam
-yerine geri döner. Hiçbir şey yeniden yüklenmez.
+konum, aynı izleme geçmişi. Pencereyi kapatın, oynatıcı sayfadaki tam yerine
+geri kayar — hiçbir şey yeniden yüklenmez, hiçbir şey yeniden arabelleğe
+alınmaz.
 
 Reklamlar engellenmez ve atlanmaz: eklenti YouTube'un kurallarına uyar.
 
@@ -41,78 +44,125 @@ YERLEŞİK PICTURE-IN-PICTURE'IN YAPAMADIKLARI
 Chrome'un yerleşik PiP'i yalnızca bir oynat düğmesi sunar. FloatPlayer gerçekten
 eksik olanları ekler:
 
-- ileri geri sarma: çubuğa tıklama ve sürükleme, video üzerinde ±10 sn bölgeleri,
-  altında ±30 sn düğmeleri
-- 0,25x ile 3x arası hız, kaydırıcıyla
-- %0 ile %300 arası ses: sessizlikten YouTube'un kendi azamisinin üç katına
+- ileri geri sarma — ilerleme çubuğuna tıklama ve sürükleme, videonun kendi
+  üzerinde ±10 sn bölgeleri, altında ±30 sn düğmeleri
+- kaydırıcıyla 0.25x ile 3x arası oynatma hızı
+- %0 ile %300 arası ses — sessizlikten YouTube'un kendi azamisinin üç katına
   kadar, kısık kaydedilmiş videolar için
-- bir cümleyi, bir riff'i ya da bir hareketi çalışmak için A-B döngüsü
-- videoyu gerçekten duraklatan uyku zamanlayıcısı, 12 saate kadar
+- bir cümleyi, bir riff'i ya da bir dans hareketini çalışmak için A-B döngüsü ve
+  videonun tamamını döngüye alma
+- geç saatte izlemek için görüntüdeki maviyi çeken, iki kademeli gece modu
+- videoyu gerçekten duraklatan, 12 saate kadar uyku zamanlayıcısı
 - önceki ve sonraki video, açılır sütunda 20 öneriye kadar
+- ilerleme çubuğunda bölüm işaretleri ve imlecin altında bölüm adı
 - yerleşik PiP'in hiç ele almadığı Shorts desteği
 - içinde YouTube arayüzü bulunmayan, gerçekten sade bir pencere
-- videonun tamamını döngüye alma, ses ön ayarları (gece, ses, bas), çubuk
-  üzerinde bölüm işaretleri ve önerilerden oluşturduğunuz izleme sırası
 
-Fareyi oynatana kadar her şey gizlidir; yani çoğu zaman yalnızca videoyu
-görürsünüz. Reklam oynarken ayrı bir beyaz şerit ne kadar kaldığını gösterir,
-kırmızı olan ise gerçek konumunuzda donar.
+Fareyi oynatana kadar her şey gizlidir; yani çoğu zaman yalnızca videoyu ve
+başlığını görürsünüz. Reklam oynarken ayrı bir beyaz şerit ne kadar kaldığını
+gösterir, kırmızı olan ise gerçek konumunuzda donar. Uyku zamanlayıcısı geri
+sayarken imleç üzerine gelse bile paneller gizli kalır — uykuya dalarken olması
+gerektiği gibi.
+
+
+SEKMEYE DÖNMENİZİ GEREKTİREN HER ŞEY
+
+Pencere yalnızca bir oynatıcı değil. Yan sütun, sayfanın aksi halde geri
+döneceğiniz parçalarını da getirir:
+
+- doğrudan YouTube'dan yüklenen ve sonsuz kayan yorumlar; sabitlenmiş ve içerik
+  üreticisine ait olanlar, sitedeki gibi işaretli
+- yayınların canlı sohbeti, aynı sütunda
+- öneriler ve onlardan kendiniz oluşturduğunuz izleme sırası
+- panelin altındaki bir levhada video başlığı ve kanal avatarı, çünkü Chrome'un
+  kendi pencere çerçevesi yalnızca adresi gösterir
 
 
 SPONSOR BÖLÜMLERİ GÖRÜNÜR VE ATLANABİLİR
 
-Açık olalım: YouTube'un kendi reklamlarına dokunulmaz. Bu, içerik üreticisinin
-videoya kendi eklediği sponsor bölümleriyle ilgilidir.
+Açık olalım: YouTube'un kendi reklamlarına asla dokunulmaz. Konu, videonun
+içine gömülmüş sponsor bölümleri.
 
-SponsorBlock topluluğunun bildirdiği bölümler çubukta yeşil görünür ve içindeyken
-«Sponsor bölümünü atla» düğmesi çıkar. sponsor.ajay.app adresine yalnızca video
-kimliği gönderilir — sizinle ilgili hiçbir şey — ve özellik kapatılabilir.
+SponsorBlock topluluğunun bildirdiği bölümler ilerleme çubuğunda yeşile boyanır,
+böylece gelen sponsor okumasını önceden görürsünüz; «Sponsor bölümünü atla»
+düğmesi ise tek tıkla sizi ötesine taşır. Otomatik atlamayı açın, onları hiç
+görmeyin. Hangi kategorilerin sayılacağını siz seçin — sponsor, kendi tanıtımı,
+beğen ve abone ol hatırlatmaları, intro, outro. sponsor.ajay.app adresine
+yalnızca video kimliği gönderilir — sizinle ilgili hiçbir şey, gezintinizle
+ilgili hiçbir şey — ve özelliğin tamamı kapatılabilir.
+
+
+CANLI YAYINLAR
+
+Yayında panelde kırmızı noktalı bir LIVE rozeti belirir. Geride kalırsanız nokta
+grileşir ve yanında aradaki tam fark görünür; tek tıkla canlı noktaya dönersiniz.
+Sarma DVR arabelleği içinde çalışır, yani bir yayını da tıpkı bir video gibi geri
+sarabilirsiniz.
 
 
 SHORTS, GERÇEKTEN DESTEKLENİYOR
 
-«Beğen» düğmesinin üstündeki özel düğme, Short'u 9:16 dikey bir pencerede açar;
-siyah bant ve kırpma yok. Bittiğinde sıradaki kendiliğinden başlar, alttaki oklar
-akışı doğrudan pencereden gezdirir.
+«Beğen» düğmesinin üstündeki özel düğme, Short'u 9:16 için biçilmiş dikey bir
+pencerede açar — siyah bant yok, kırpma yok. Bir Short bittiğinde sıradaki
+kendiliğinden başlar, alttaki oklar akışı doğrudan pencereden gezdirir. Shorts'u
+tarayıcıya hiç dokunmadan, ekranın köşesinde televizyon gibi çalıştırabilirsiniz.
 
 
 PENCERE BEKLEDİĞİNİZ GİBİ DAVRANIR
 
 Herhangi bir yerinden sürükleyin: videonun üstünde basılı tutup hareket ettirin —
-düğmeler tıklanabilir kalır. Pencere videonun tam en-boy oranında açılır, elle
-boyutlandırdıktan sonra o orana geri döner ve boyutu yatay videolar ile dikey
-Shorts için ayrı ayrı hatırlar.
+düğmeler tıklanabilir kalır, böylece sürükleme asla yanlışlıkla bir kontrolü
+tetiklemez. Pencere videonun tam en-boy oranında açılır, elle boyutlandırdıktan
+sonra o orana geri döner ve farklı oranlı videolar için kendini yeniden kurar;
+yatay videolarla dikey Shorts'u ayrı ayrı hatırlar.
 
 Yalnızca video, garanti: penceredeki YouTube arayüzü, videoya, altyazılara ve
-yükleme göstergesine izin veren bir beyaz listeyle kaldırılır — başka hiçbir şeye.
+yükleme göstergesine izin verip başka hiçbir şeye izin vermeyen bir beyaz
+listeyle kaldırılır. Alışveriş katmanları, bilgi kartları, bitiş ekranları ve
+YouTube'un gelecekte icat edeceği her katman basitçe görünemez.
+
+Daha da azı mı? «Sade video» modu, Chrome şeridi hiç olmadan yerleşik PiP'i
+kullanır. İsteğe bağlı otomatik PiP (Chrome 120+) ise sekme değiştirdiğinizde
+videoyu kendiliğinden dışarı çıkarır.
 
 
 KISAYOLLAR VE AYARLAR
 
-Herhangi bir Chrome penceresinden: Alt+P açar veya kapatır (Mac'te ⌥P), Alt+K
-duraklatır, Alt+J ve Alt+L 5 saniye atlar. Pencerede: boşluk veya K duraklatır,
-oklar 5 saniye atlar, M sesi keser. Tümü chrome://extensions/shortcuts adresinden
+Herhangi bir Chrome penceresinden: Alt+P pencereyi açar veya kapatır (Mac'te
+⌥P), Alt+K duraklatır, Alt+J ve Alt+L 5 saniye atlar. Pencerede: boşluk veya K
+duraklatır, oklar 5 saniye atlar, 0–9 rakamları videoda ilerler, M sesi keser,
+< ve > hızı değiştirir. Tümü chrome://extensions/shortcuts adresinden
 değiştirilebilir.
 
-Ayarlar pencere stilini, otomatik PiP'i, SponsorBlock'u, atlama adımını, Shorts
-otomatik geçişini, sıkışık paneli, hız adımını, ses üst sınırını ve dili kapsar.
-Değişiklikler anında uygulanır.
+Araç çubuğu simgesi küçük bir panel açar: geçerli sekmede ne olduğu, videoyu
+dışarı çıkarmak ya da geri getirmek için tek düğme ve en sık değiştirdiğiniz
+anahtarlar. Tam ayarlar sayfası pencere stilini, otomatik PiP'i, SponsorBlock'u
+ve kategorilerini, atlama adımını, Shorts otomatik geçişini, sıkışık panelleri,
+hız adımını ve ses üst sınırını kapsar. Değişiklikler anında uygulanır.
+
+Arayüz 14 dil konuşur ve tarayıcınızı izler: İngilizce, Rusça, Almanca,
+İspanyolca, Fransızca, İtalyanca, Portekizce (Brezilya), Lehçe, Türkçe,
+Ukraynaca, Japonca, Korece, Hintçe ve Endonezce.
 
 
 GİZLİLİK
 
 Hesap yok, oturum açma yok, izleme yok, analitik yok, reklam yok. Hiçbir şey
-toplanmaz ve gönderilmez; tek istisna, yalnızca o özelliği açık bıraktığınız
-sürece SponsorBlock için gönderilen video kimliğidir.
+toplanmaz ve hiçbir yere gönderilmez; tek istisna, yalnızca o özelliği açık
+bıraktığınız sürece SponsorBlock için gönderilen video kimliğidir. İzinler asgari
+düzeyde: ayarlarınız için depolama ve youtube.com ile sponsor.ajay.app erişimi.
 
 
 DÜRÜST SINIRLAR
 
+Kurduktan sonra hayal kırıklığına uğramaktansa önceden bilmek daha iyi:
+
 - Chrome 116 veya üzeri gerekir; daha eski sürümlerde yerleşik PiP'e düşülür.
-- Sitenin adresini taşıyan ince Chrome şeridi kaldırılamaz: her Document PiP
+- Sitenin adresini taşıyan ince Chrome şeridi kaldırılamaz — her Document PiP
   penceresi için kimlik avına karşı bir gerekliliktir. İmleç uzaklaşınca kendi
   kendine gizlenir, «sade video» modunda ise hiç yoktur.
 - Saydamlık ve tıklamanın geçmesi Chrome API'sinde mevcut değildir.
 - Tarayıcı başına tek PiP penceresi ve konumu programla belirlenemez — ikisi de
-  tarayıcı sınırıdır.
-- YouTube reklamları sırasında sarma çalışmaz: o anda ana video yüklü değildir.
+  bizim değil, tarayıcının sınırı.
+- YouTube reklamları sırasında sarma çalışmaz: o anda ana video yüklü değildir,
+  dolayısıyla sarılacak bir şey yoktur.

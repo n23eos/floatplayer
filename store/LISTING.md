@@ -1,273 +1,35 @@
 # Материалы для Chrome Web Store
 
-Актуально для версии 1.3.x.
+Актуально для версии 1.12.x.
 
 ## Название
 FloatPlayer — Picture in Picture for YouTube
 
 ## Краткое описание (до 132 символов)
 
-**RU:** YouTube поверх всех окон: мини-плеер без лишнего, шортсы с автопереходом, A-B повтор, скорость, громкость до 300%.
+**RU:** YouTube поверх всех окон: скорость, громкость до 300%, A-B повтор, ночной режим, комментарии и чат прямо в мини-окне.
 
-**EN:** YouTube always on top: clean mini-player, shorts with auto-next, A-B loop, speed control, volume boost up to 300%.
+**EN:** YouTube always on top: speed, volume to 300%, A-B loop, night mode, comments and live chat right inside the mini-window.
 
-## Подробное описание (EN, 5317 символов из 16 000)
+## Подробное описание
 
-Готово к вставке в поле Detailed description. Факты сверены с кодом: скорость
-0.25–3x, потолок громкости 300%, до 20 рекомендаций, таймер сна до 12 часов,
-Chrome 116+.
+Единственный источник — файлы `store/descriptions/<язык>.txt`. Раньше тексты
+дублировались ещё и здесь, и копии разошлись с оригиналом; теперь в консоль
+вставляется содержимое файла нужного языка как есть.
 
-```
-FloatPlayer keeps YouTube on top of everything else. One click on the button in
-the player — or Alt+P — and the video jumps into a small always-on-top window
-with its own controls. Write code, answer emails, edit a spreadsheet: the video
-stays visible above every other app and every other window.
+- английский: `store/descriptions/en.txt`
+- остальные 13 языков: файл с тем же кодом языка рядом
 
-This is a real Document Picture-in-Picture window, not a popup. It never falls
-behind the window you are working in.
-
-
-THE VIDEO NEVER RESTARTS
-
-Most "PiP" extensions open a second player with the raw video file: you lose
-your place, your settings and your captions.
-
-FloatPlayer moves the actual YouTube player into the window. Same stream, same
-timestamp, the quality you already had, same captions, same playlist position,
-same watch history. Close the window and the player slides back into the page
-exactly where it was — nothing reloads, nothing buffers again.
-
-Ads are not blocked and not skipped: the extension plays by YouTube's rules.
-
-
-WHAT NATIVE PICTURE-IN-PICTURE CANNOT DO
-
-Chrome's built-in PiP gives you a play button and nothing else. FloatPlayer adds
-what is actually missing:
-
-- seeking — click or drag the progress strip, ±10 s click zones on the video
-  itself, ±30 s buttons under it
-- playback speed from 0.25x to 3x on a slider
-- volume from 0 to 300% — from silence up to three times louder than YouTube's
-  own maximum, for quietly recorded videos
-- A-B loop for practising a phrase, a riff or a dance move
-- a sleep timer that actually pauses the video, up to 12 hours
-- prev/next video and up to 20 recommendations in a slide-out column,
-  so you never go back to the tab
-- Shorts support, which native PiP refuses to handle at all
-- a genuinely clean window with no YouTube interface inside
-
-Everything hides until you move the mouse, so most of the time you see only the
-video. While an ad plays, a separate white strip shows how much of it is left
-and the red one freezes at your real position. While the sleep timer counts
-down, every panel stays hidden even under the cursor — the way it should be when
-you are falling asleep.
-
-
-SPONSOR SEGMENTS, MARKED AND SKIPPABLE
-
-To be clear: YouTube's own ads are never touched. This is about sponsor reads
-baked into the video itself.
-
-Segments reported by the SponsorBlock community are painted green on the
-progress strip, so you see an ad read coming, and a "Skip sponsor segment"
-button takes you past it in one click. Only the video ID is sent to
-sponsor.ajay.app — nothing about you, nothing about your browsing — and the
-whole feature can be switched off.
-
-
-SHORTS, PROPERLY SUPPORTED
-
-A dedicated button above Like opens a short in a vertical window shaped for
-9:16 — no black bars, no cropping. When a short ends the next one starts on its
-own, and the bottom arrows scroll the feed straight from the window. You can run
-Shorts in the corner of the screen like a television, without touching the
-browser.
-
-
-THE WINDOW BEHAVES THE WAY YOU EXPECT
-
-Drag it from anywhere: press and hold on the video and move — the buttons stay
-clickable, so dragging never triggers a control by accident. It opens at the
-video's exact aspect ratio, snaps back to it after you resize by hand, and
-rebuilds itself for videos with different proportions, remembering horizontal
-videos and vertical Shorts separately.
-
-Video only, guaranteed: the YouTube interface inside the window is removed by a
-whitelist that allows the video, the captions and the loading spinner and
-nothing else. Shopping overlays, info cards, end screens and any overlay YouTube
-invents in the future simply cannot appear.
-
-Want even less? "Clean video" mode uses native PiP with no Chrome strip at all.
-And optional Auto-PiP (Chrome 120+) pops the video out by itself when you switch
-tabs.
-
-
-SHORTCUTS AND SETTINGS
-
-From any Chrome window: Alt+P opens or closes the window (⌥P on Mac), Alt+K
-pauses, Alt+J and Alt+L step 5 seconds. Inside the window: Space or K pauses,
-arrows step 5 seconds, M mutes. All reassignable at chrome://extensions/shortcuts.
-
-The options page covers window style, Auto-PiP, SponsorBlock, skip step, Shorts
-auto-advance, compact panels, speed step, volume ceiling and interface language
-(English by default, Russian for Russian-language browsers). Changes apply
-immediately.
-
-
-PRIVACY
-
-No accounts, no sign-in, no tracking, no analytics, no ads. Nothing is collected
-and nothing is sent anywhere, apart from the video ID for SponsorBlock — and
-only while you leave that feature on. Permissions are the bare minimum: storage
-for your settings, and access to youtube.com plus sponsor.ajay.app.
-
-
-HONEST LIMITATIONS
-
-Better to know before installing than to be disappointed after:
-
-- Requires Chrome 116 or newer; older versions fall back to native PiP.
-- The thin Chrome strip with the site address cannot be removed — it is an
-  anti-phishing requirement for every Document PiP window. It hides on its own
-  when the cursor moves away, and "clean video" mode has no strip at all.
-- Transparency and click-through are not available in the Chrome API.
-- One PiP window per browser, and its position cannot be set programmatically —
-  both are browser limits, not ours.
-- Seeking does not work during YouTube ads: the main video is not loaded at that
-  moment, so there is nothing to seek through.
-```
-
-## Подробное описание (RU, 5295 символов из 16 000)
-
-Вставлять при переключении языка листинга на русский. Совпадает по структуре и
-фактам с английской версией.
-
-```
-FloatPlayer держит YouTube поверх всего остального. Один клик по кнопке в
-плеере — или Alt+P — и видео переезжает в маленькое окно поверх всех окон со
-своими элементами управления. Пишите код, разбирайте почту, правьте таблицу:
-видео остаётся на виду поверх любого приложения и любого окна.
-
-Это настоящее окно Document Picture-in-Picture, а не popup. Оно никогда не
-проваливается за то окно, в котором вы работаете.
-
-
-ВИДЕО НЕ НАЧИНАЕТСЯ ЗАНОВО
-
-Большинство «PiP»-расширений открывают второй плеер с сырым видеофайлом: вы
-теряете место, на котором остановились, свои настройки и субтитры.
-
-FloatPlayer переносит в окно сам плеер YouTube. Тот же поток, та же секунда,
-то качество, которое уже было, те же субтитры, то же место в плейлисте, та же
-история просмотра. Закрываете окно — плеер возвращается на страницу ровно туда,
-где стоял. Ничего не перезагружается и не буферизуется заново.
-
-Реклама не блокируется и не пропускается: расширение играет по правилам YouTube.
-
-
-ЧЕГО НЕ УМЕЕТ ВСТРОЕННЫЙ PICTURE-IN-PICTURE
-
-Штатный PiP в Chrome даёт кнопку паузы и больше ничего. FloatPlayer добавляет
-то, чего действительно не хватает:
-
-- перемотка — клик и перетаскивание по полоске прогресса, зоны ±10 сек на самом
-  видео, кнопки ±30 сек под ним
-- скорость от 0.25x до 3x ползунком
-- громкость от 0 до 300% — от тишины до втрое громче максимума самого YouTube,
-  для тихо записанных роликов
-- A-B повтор, чтобы отработать фразу, рифф или движение
-- таймер сна, который действительно ставит видео на паузу, до 12 часов
-- переход к предыдущему и следующему видео и до 20 рекомендаций
-  в выдвижной колонке — на вкладку возвращаться не нужно
-- поддержка шортсов, за которые штатный PiP вообще не берётся
-- по-настоящему чистое окно без интерфейса YouTube внутри
-
-Всё прячется, пока не двинете мышью, так что почти всё время вы видите только
-видео. Пока идёт реклама, отдельная белая полоска показывает, сколько её
-осталось, а красная замирает на вашей настоящей позиции. Пока идёт таймер сна,
-панели скрыты даже под курсором — как и должно быть, когда вы засыпаете.
-
-
-СПОНСОРСКИЕ ВСТАВКИ ВИДНО, И ИХ МОЖНО ПРОПУСТИТЬ
-
-Сразу оговорка: рекламу самого YouTube расширение не трогает. Речь про
-спонсорские вставки, вшитые в видео автором.
-
-Сегменты, размеченные сообществом SponsorBlock, подсвечиваются зелёным на
-полоске прогресса — вставку видно заранее, — а кнопка «Пропустить интеграцию»
-перепрыгивает её одним кликом. На sponsor.ajay.app уходит только ID видео,
-ничего о вас и ничего о вашем просмотре, и всю функцию можно выключить.
-
-
-ШОРТСЫ — ПОЛНОЦЕННО
-
-Отдельная кнопка над «лайком» открывает шортс в вертикальном окне под 9:16 —
-без чёрных полей и без обрезки. Ролик закончился — сам включается следующий,
-нижние стрелки листают ленту прямо из окна, а панель переключается на
-компактный вид под узкое окно. Ленту шортсов можно держать в углу экрана как
-телевизор, не трогая браузер.
-
-
-ОКНО ВЕДЁТ СЕБЯ ТАК, КАК ВЫ ОЖИДАЕТЕ
-
-Тащите его за любое место: зажали мышь на видео и повели — кнопки при этом
-остаются кликабельными, так что перетаскивание не срабатывает случайно.
-Окно открывается точно в пропорциях видео, возвращается к ним после ручного
-растягивания и перестраивается под ролики с другими пропорциями, запоминая
-размер отдельно для горизонтальных видео и вертикальных шортсов.
-
-Только видео, гарантированно: интерфейс YouTube внутри окна убран «белым
-списком», который пропускает видео, субтитры и индикатор загрузки — и больше
-ничего. Плашки товаров, подсказки, конечные заставки и любые оверлеи, которые
-YouTube придумает в будущем, просто не могут появиться.
-
-Хочется ещё меньше? Режим «чистое видео» использует штатный PiP вообще без
-полоски Chrome. А необязательный авто-PiP (Chrome 120+) выносит видео сам,
-когда вы переключаете вкладку.
-
-
-ГОРЯЧИЕ КЛАВИШИ И НАСТРОЙКИ
-
-Из любого окна Chrome: Alt+P открывает и закрывает окно (⌥P на Mac), Alt+K
-ставит паузу, Alt+J и Alt+L мотают на 5 секунд. Внутри окна: пробел или K —
-пауза, стрелки — 5 секунд, M — звук. Всё переназначается на странице
-chrome://extensions/shortcuts.
-
-На странице настроек: стиль окна, авто-PiP, SponsorBlock, шаг промотки,
-автопереход шортсов, компактные панели, шаг скорости, потолок громкости и язык
-интерфейса (английский по умолчанию, русский для русскоязычных браузеров).
-Изменения применяются сразу.
-
-
-КОНФИДЕНЦИАЛЬНОСТЬ
-
-Ни аккаунтов, ни входа, ни слежки, ни аналитики, ни рекламы. Ничего не
-собирается и никуда не отправляется, кроме ID видео для SponsorBlock — и только
-пока эта функция включена. Разрешений минимум: storage для ваших настроек
-и доступ к youtube.com и sponsor.ajay.app.
-
-
-ЧЕСТНЫЕ ОГРАНИЧЕНИЯ
-
-Лучше знать до установки, чем разочароваться после:
-
-- Нужен Chrome 116 или новее; на старых версиях будет штатный PiP.
-- Тонкую полоску Chrome с адресом сайта убрать нельзя — это антифишинговое
-  требование для любого окна Document Picture-in-Picture. Она сама скрывается,
-  когда курсор уходит, а в режиме «чистое видео» её нет совсем.
-- Прозрачность и клик сквозь окно в Chrome API недоступны.
-- Одно PiP-окно на браузер, и позицию окна нельзя задать программно — это
-  ограничения браузера, а не наши.
-- Во время рекламы YouTube перемотка не работает: основное видео в этот момент
-  не загружено, мотать физически нечего.
-```
+Правится только `en.txt`, остальные приводятся к нему переводом. Скрипты
+`scripts/make-descriptions*.py` относятся к прежнему поколению текстов и больше
+не используются.
 
 ## Категория
 Производительность (Productivity).
 
 ## Язык
-Русский + English (обе локали в пакете).
+14 локалей в пакете (см. таблицу «Локализация» ниже). Основной язык
+листинга — English.
 
 ## Сайт
 - Лендинг: https://n23eos.github.io/floatplayer-site/
@@ -382,13 +144,16 @@ chrome://extensions/shortcuts.
 краткое описание из соответствующих файлов → загрузить пять скриншотов из папки
 того же языка. Английский заполняется первым как основной.
 
-Пересборка: `python3 scripts/make-descriptions.py` и
-`scripts/make-descriptions-2.py` для текстов,
-`python3 scripts/make-screenshots.py store/assets/screenshots` для кадров.
+Пересборка кадров: `python3 scripts/make-screenshots.py store/assets/screenshots`
+(можно с перечнем языков: `... store/assets/screenshots en ru`). Подписи к
+кадрам лежат в `scripts/shots/captions.json`, вёрстка сцены — в
+`scripts/shots/base.css` и `scripts/shots/parts.js`. Сам интерфейс окна на
+кадрах берётся из настоящего `extension/pip/pip.css`, поэтому кадры не могут
+разойтись с продуктом по оформлению.
 
 ## Скриншоты (локализованные, 1280×800, 24-битный PNG без альфа-канала)
 
-Лимит 5 на язык, у нас ровно 5 в каждом из 8 наборов. На локализованных кадрах
+Лимит 5 на язык, у нас ровно 5 в каждом из 14 наборов. На локализованных кадрах
 интерфейс окна тоже на нужном языке. Пересобрать все наборы:
 `python3 scripts/make-screenshots.py store/assets/screenshots`.
 
@@ -407,10 +172,16 @@ chrome://extensions/shortcuts.
 в ZIP) — 128×128 PNG с альфа-каналом, рисунок ровно 96×96 по центру, по 16 px
 прозрачных полей. Пересобрать все размеры: `python3 scripts/make-icons.py`.
 
-Промо-графика:
+Промо-графика собирается тем же способом, что и кадры, — из настоящих стилей
+мини-окна: `python3 scripts/make-promo.py`. Копии кладутся сразу и в
+`store/assets/`, и в `docs/assets/` для лендинга.
+
 - малый тайл 440×280 — `store/assets/promo-tile-440x280.png`;
 - большое рекламное изображение (marquee) 1400×560 — `store/assets/marquee-1400x560.png`
   (24-битный PNG без альфа-канала) и `marquee-1400x560.jpg`.
+
+Кадр со страницей настроек для лендинга — `python3 scripts/make-options-shot.py`
+(рендерит настоящую `extension/options` в тёмной теме).
 
 ## Чеклист публикации
 1. Аккаунт разработчика: https://chrome.google.com/webstore/devconsole

@@ -1,23 +1,24 @@
 Assista ao YouTube e trabalhe de verdade. Um clique e o vídeo flutua sobre
-todas as janelas, com os controles que o YouTube nunca te deu.
+todas as janelas — com os controles que o YouTube nunca te deu.
 
 
 POR QUE AS PESSOAS MANTÊM
 
-• Sempre à frente de verdade: nunca some atrás do seu editor
+• Sempre à frente de verdade — nunca some atrás do seu editor
 • Nada recomeça: o próprio player do YouTube vai para a janela
-• Velocidade 0,25–3x e volume até 300%
-• Repetição A-B para treinar e loop do vídeo inteiro
-• Timer que pausa de verdade, até 12 horas
+• Velocidade 0.25–3x e volume até 300%
+• Repetição A-B para treinar, e loop do vídeo inteiro
+• Modo noturno que corta a luz azul e um timer que pausa de verdade
 • Patrocínios marcados em verde e pulados com um clique
+• Comentários, chat ao vivo e recomendações sem voltar para a aba
 • Shorts em janela vertical que avança sozinha
-• Só vídeo: sem cards, sem vitrine, sem bagunça
+• Só vídeo — sem cards, sem vitrine, sem bagunça
 
 
 O FloatPlayer mantém o YouTube à frente de tudo. Um clique no botão do player —
 ou Alt+P — e o vídeo vai para uma janelinha sempre à frente, com controles
 próprios. Escreva código, responda e-mails, edite uma planilha: o vídeo continua
-visível sobre qualquer aplicativo.
+visível sobre qualquer aplicativo e qualquer outra janela.
 
 É uma janela Document Picture-in-Picture de verdade, não um popup. Ela nunca
 some atrás da janela em que você está trabalhando.
@@ -25,13 +26,14 @@ some atrás da janela em que você está trabalhando.
 
 O VÍDEO NÃO RECOMEÇA
 
-A maioria das extensões «PiP» abre um segundo player com o arquivo de vídeo:
-você perde o ponto em que estava, suas configurações e as legendas.
+A maioria das extensões «PiP» abre um segundo player com o arquivo de vídeo
+puro: você perde o ponto em que estava, suas configurações e as legendas.
 
 O FloatPlayer move o próprio player do YouTube para a janela. Mesmo stream,
 mesmo segundo, a qualidade que você já tinha, as mesmas legendas, a mesma
-posição na playlist e o mesmo histórico. Ao fechar a janela, o player volta para
-a página exatamente onde estava. Nada recarrega.
+posição na playlist, o mesmo histórico. Feche a janela e o player desliza de
+volta para a página exatamente onde estava — nada recarrega, nada precisa
+carregar de novo.
 
 Os anúncios não são bloqueados nem pulados: a extensão joga pelas regras do
 YouTube.
@@ -42,79 +44,127 @@ O QUE O PICTURE-IN-PICTURE NATIVO NÃO FAZ
 O PiP embutido do Chrome dá um botão de play e mais nada. O FloatPlayer
 acrescenta o que realmente falta:
 
-- avançar e voltar: clique ou arraste na barra, zonas de ±10 s sobre o vídeo,
-  botões de ±30 s abaixo dele
-- velocidade de 0,25x a 3x num controle deslizante
-- volume de 0 a 300%: do silêncio até três vezes o máximo do YouTube, ótimo
+- avançar e voltar — clique ou arraste a barra de progresso, zonas de ±10 s no
+  próprio vídeo, botões de ±30 s abaixo dele
+- velocidade de 0.25x a 3x num controle deslizante
+- volume de 0 a 300% — do silêncio até três vezes o máximo do próprio YouTube,
   para vídeos gravados baixo
-- repetição A-B para treinar uma frase, um riff ou um passo de dança
-- timer que realmente pausa o vídeo, até 12 horas
-- vídeo anterior e próximo, e até 20 recomendações numa coluna
-- suporte a Shorts, que o PiP nativo simplesmente não tem
+- repetição A-B para treinar uma frase, um riff ou um passo de dança, e loop do
+  vídeo inteiro
+- modo noturno em duas intensidades, que tira o azul da imagem para assistir
+  tarde da noite
+- um timer que realmente pausa o vídeo, até 12 horas
+- vídeo anterior e próximo, e até 20 recomendações numa coluna deslizante
+- marcas de capítulo na barra de progresso, com o nome do capítulo sob o cursor
+- suporte a Shorts, que o PiP nativo se recusa a tratar
 - uma janela de fato limpa, sem interface do YouTube dentro
-- repetir o vídeo inteiro, predefinições de áudio (noite, voz, grave), marcas de
-  capítulo na barra e uma fila que você monta a partir das recomendações
 
 Tudo se esconde até você mexer o mouse, então quase o tempo todo você vê apenas
-o vídeo. Durante um anúncio, uma faixa branca separada mostra quanto falta e a
-vermelha congela na sua posição real.
+o vídeo e o título dele. Durante um anúncio, uma faixa branca separada mostra
+quanto falta e a vermelha congela na sua posição real. Enquanto o timer corre,
+todos os painéis ficam escondidos mesmo sob o cursor — como deve ser quando você
+está caindo no sono.
+
+
+TUDO O QUE VOCÊ VOLTAVA NA ABA PARA VER
+
+A janela não é só um player. Uma coluna lateral traz as partes da página pelas
+quais você teria de voltar:
+
+- comentários, carregados direto do YouTube e com rolagem infinita, com os
+  fixados e os do criador marcados do mesmo jeito que o site marca
+- chat ao vivo das transmissões, na mesma coluna
+- recomendações, e uma fila de reprodução que você mesmo monta a partir delas
+- o título do vídeo e o avatar do canal numa placa sob o painel, porque a
+  moldura da janela do Chrome só mostra o endereço
 
 
 PATROCÍNIOS MARCADOS E PULÁVEIS
 
-Deixando claro: os anúncios do próprio YouTube não são tocados. Isto é sobre os
-merchans inseridos no vídeo pelo criador.
+Deixando claro: os anúncios do próprio YouTube nunca são tocados. Isto é sobre
+os merchans inseridos no próprio vídeo.
 
-Os trechos marcados pela comunidade SponsorBlock ficam verdes na barra e, dentro
-de um deles, aparece o botão «Pular o patrocínio». Só o ID do vídeo é enviado ao
-sponsor.ajay.app — nada sobre você — e o recurso pode ser desligado.
+Os trechos relatados pela comunidade SponsorBlock ficam verdes na barra de
+progresso, então você vê o merchan chegando, e o botão «Pular o patrocínio» leva
+você além dele com um clique. Ligue o pulo automático e você não os vê mais.
+Escolha quais categorias contam — patrocínio, autopromoção, lembretes de curtir
+e se inscrever, introdução, encerramento. Só o ID do vídeo é enviado ao
+sponsor.ajay.app — nada sobre você, nada sobre o que você navega — e o recurso
+inteiro pode ser desligado.
+
+
+TRANSMISSÕES AO VIVO
+
+Numa transmissão o painel mostra o selo LIVE com um ponto vermelho. Se você
+ficar para trás, o ponto fica cinza com a distância exata ao lado; um clique
+leva você de volta ao ponto ao vivo. A busca continua dentro do buffer de DVR,
+então dá para voltar numa transmissão do mesmo jeito que você volta num vídeo.
 
 
 SHORTS DE VERDADE
 
-Um botão acima do «Gostei» abre o Short numa janela vertical 9:16, sem barras
-pretas nem cortes. Quando ele acaba, o próximo começa sozinho, e as setas de
-baixo percorrem o feed direto da janela.
+Um botão dedicado acima do «Gostei» abre o Short numa janela vertical no formato
+9:16 — sem barras pretas, sem cortes. Quando um Short acaba, o próximo começa
+sozinho, e as setas de baixo percorrem o feed direto da janela. Dá para deixar os
+Shorts num canto da tela como uma televisão, sem tocar no navegador.
 
 
 A JANELA SE COMPORTA COMO VOCÊ ESPERA
 
-Arraste de qualquer ponto: segure sobre o vídeo e mova; os botões continuam
-clicáveis. Ela abre na proporção exata do vídeo, volta a ela depois que você
-redimensiona na mão e guarda o tamanho separadamente para vídeos horizontais e
-Shorts verticais.
+Arraste de qualquer ponto: segure sobre o vídeo e mova — os botões continuam
+clicáveis, então arrastar nunca aciona um controle sem querer. Ela abre na
+proporção exata do vídeo, volta a ela depois que você redimensiona na mão e se
+reconstrói para vídeos de outras proporções, lembrando separadamente os vídeos
+horizontais e os Shorts verticais.
 
 Só vídeo, garantido: a interface do YouTube dentro da janela é removida por uma
-lista branca que permite o vídeo, as legendas e o indicador de carregamento —
-nada além disso.
+lista branca que permite o vídeo, as legendas e o indicador de carregamento e
+nada mais. Vitrines de compras, cards de informação, telas finais e qualquer
+sobreposição que o YouTube invente no futuro simplesmente não podem aparecer.
+
+Quer ainda menos? O modo «vídeo limpo» usa o PiP nativo, sem faixa do Chrome
+nenhuma. E o PiP automático opcional (Chrome 120+) tira o vídeo da aba sozinho
+quando você troca de aba.
 
 
 ATALHOS E CONFIGURAÇÕES
 
-De qualquer janela do Chrome: Alt+P abre ou fecha (⌥P no Mac), Alt+K pausa,
-Alt+J e Alt+L pulam 5 segundos. Dentro da janela: espaço ou K pausa, setas pulam
-5 segundos, M tira o som. Tudo reconfigurável em chrome://extensions/shortcuts.
+De qualquer janela do Chrome: Alt+P abre ou fecha a janela (⌥P no Mac), Alt+K
+pausa, Alt+J e Alt+L pulam 5 segundos. Dentro da janela: espaço ou K pausa, as
+setas pulam 5 segundos, os dígitos 0–9 saltam pelo vídeo, M tira o som, < e >
+mudam a velocidade. Tudo reconfigurável em chrome://extensions/shortcuts.
 
-As configurações cobrem estilo da janela, PiP automático, SponsorBlock, passo do
-avanço, Shorts automáticos, painel compacto, passo de velocidade, volume máximo
-e idioma. Aplicam-se na hora.
+O ícone na barra abre um painelzinho: o que a aba atual está fazendo, um botão
+para tirar o vídeo ou trazê-lo de volta, e as chaves que você mais muda. A
+página completa de configurações cobre estilo da janela, PiP automático,
+SponsorBlock e suas categorias, passo do avanço, avanço automático dos Shorts,
+painéis compactos, passo de velocidade e o teto de volume. As mudanças valem na
+hora.
+
+A interface fala 14 idiomas e segue o navegador: inglês, russo, alemão,
+espanhol, francês, italiano, português (Brasil), polonês, turco, ucraniano,
+japonês, coreano, híndi e indonésio.
 
 
 PRIVACIDADE
 
 Sem contas, sem login, sem rastreamento, sem analytics, sem anúncios. Nada é
-coletado e nada é enviado, exceto o ID do vídeo para o SponsorBlock — e só
-enquanto esse recurso estiver ligado.
+coletado e nada é enviado a lugar nenhum, exceto o ID do vídeo para o
+SponsorBlock — e só enquanto você deixar esse recurso ligado. As permissões são
+o mínimo: armazenamento para suas configurações e acesso a youtube.com mais
+sponsor.ajay.app.
 
 
 LIMITAÇÕES HONESTAS
 
+Melhor saber antes de instalar do que se decepcionar depois:
+
 - Requer Chrome 116 ou mais recente; em versões antigas usa-se o PiP nativo.
-- A faixa do Chrome com o endereço do site não pode ser removida: é uma
+- A faixa fina do Chrome com o endereço do site não pode ser removida — é uma
   exigência antiphishing para toda janela Document PiP. Ela some sozinha quando
-  o cursor sai, e o modo «vídeo limpo» não a tem.
+  o cursor sai, e o modo «vídeo limpo» não tem faixa nenhuma.
 - Transparência e clique através não existem na API do Chrome.
 - Uma janela PiP por navegador, e a posição dela não pode ser definida por
-  programa: são limites do navegador.
+  programa — são limites do navegador, não nossos.
 - Durante os anúncios do YouTube não dá para avançar: o vídeo principal não está
-  carregado naquele momento.
+  carregado naquele momento, então não há o que percorrer.

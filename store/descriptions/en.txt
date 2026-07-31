@@ -1,5 +1,5 @@
-Watch YouTube while you actually work. One click and the video floats
-above every window — with the controls YouTube never gave you.
+Watch YouTube while you actually work. One click and the video floats above
+every window — with the controls YouTube never gave you.
 
 
 WHY PEOPLE KEEP IT
@@ -8,8 +8,9 @@ WHY PEOPLE KEEP IT
 • Nothing restarts: the real YouTube player moves into the window
 • Speed 0.25–3x and volume up to 300%
 • A-B loop for practice, plus loop the whole video
-• Sleep timer that really pauses, up to 12 hours
+• Night mode that cuts blue light, and a sleep timer that really pauses
 • Sponsor segments marked in green and skipped in one click
+• Comments, live chat and recommendations without going back to the tab
 • Shorts in a vertical window that advances by itself
 • Video only — no cards, no shopping overlays, no clutter
 
@@ -46,20 +47,34 @@ what is actually missing:
 - playback speed from 0.25x to 3x on a slider
 - volume from 0 to 300% — from silence up to three times louder than YouTube's
   own maximum, for quietly recorded videos
-- A-B loop for practising a phrase, a riff or a dance move
+- A-B loop for practising a phrase, a riff or a dance move, and loop for the
+  whole video
+- night mode in two strengths, which pulls the blue out of the picture for
+  late viewing
 - a sleep timer that actually pauses the video, up to 12 hours
-- prev/next video, and up to 20 recommendations in a
-  slide-out column, so you never go back to the tab
+- prev/next video and up to 20 recommendations in a slide-out column
+- chapter marks on the progress strip, with the chapter name under the cursor
 - Shorts support, which native PiP refuses to handle at all
 - a genuinely clean window with no YouTube interface inside
-- loop the whole video, chapter marks on the strip and a watch queue
-  you build from the recommendations
 
 Everything hides until you move the mouse, so most of the time you see only the
-video. While an ad plays, a separate white strip shows how much of it is left
-and the red one freezes at your real position. While the sleep timer counts
-down, every panel stays hidden even under the cursor — the way it should be when
-you are falling asleep.
+video and its title. While an ad plays, a separate white strip shows how much of
+it is left and the red one freezes at your real position. While the sleep timer
+counts down, every panel stays hidden even under the cursor — the way it should
+be when you are falling asleep.
+
+
+EVERYTHING ELSE THE TAB WAS FOR
+
+The window is not just a player. A side column brings across the parts of the
+page you would otherwise switch back for:
+
+- comments, loaded straight from YouTube and scrolling endlessly, with pinned
+  and creator comments marked the way the site marks them
+- live chat for streams, in the same column
+- recommendations, and a watch queue you build from them yourself
+- the video title and the channel avatar on a plate under the panel, because
+  Chrome's own window frame only ever shows the address
 
 
 SPONSOR SEGMENTS, MARKED AND SKIPPABLE
@@ -69,9 +84,19 @@ baked into the video itself.
 
 Segments reported by the SponsorBlock community are painted green on the
 progress strip, so you see an ad read coming, and a "Skip sponsor segment"
-button takes you past it in one click. Only the video ID is sent to
+button takes you past it in one click. Turn on auto-skip and you never see them
+at all. Choose which categories count — sponsor, self-promotion, like-and-
+subscribe reminders, intro, outro. Only the video ID is sent to
 sponsor.ajay.app — nothing about you, nothing about your browsing — and the
 whole feature can be switched off.
+
+
+LIVE STREAMS
+
+On a stream the panel shows a LIVE badge with a red dot. Fall behind and the dot
+goes grey with the exact gap next to it; one click returns you to the live edge.
+Seeking stays inside the DVR buffer, so you can rewind a stream the same way you
+rewind a video.
 
 
 SHORTS, PROPERLY SUPPORTED
@@ -105,12 +130,18 @@ SHORTCUTS AND SETTINGS
 
 From any Chrome window: Alt+P opens or closes the window (⌥P on Mac), Alt+K
 pauses, Alt+J and Alt+L step 5 seconds. Inside the window: Space or K pauses,
-arrows step 5 seconds, M mutes. All reassignable at chrome://extensions/shortcuts.
+arrows step 5 seconds, digits 0–9 jump through the video, M mutes, < and >
+change speed. All reassignable at chrome://extensions/shortcuts.
 
-The options page covers window style, Auto-PiP, SponsorBlock, skip step, Shorts
-auto-advance, compact panels, speed step, volume ceiling and interface language
-(English by default, Russian for Russian-language browsers). Changes apply
-immediately.
+The toolbar icon opens a small panel: what the current tab is doing, one button
+to pop the video out or bring it back, and the switches you change most often.
+The full settings page covers window style, Auto-PiP, SponsorBlock and its
+categories, skip step, Shorts auto-advance, compact panels, speed step and the
+volume ceiling. Changes apply immediately.
+
+The interface speaks 14 languages and follows your browser: English, Russian,
+German, Spanish, French, Italian, Portuguese (Brazil), Polish, Turkish,
+Ukrainian, Japanese, Korean, Hindi and Indonesian.
 
 
 PRIVACY

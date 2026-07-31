@@ -6,10 +6,12 @@ DLACZEGO ZOSTAJE NA STAŁE
 
 • Naprawdę zawsze na wierzchu — nie chowa się za edytorem
 • Nic się nie restartuje: do okna przenosi się sam odtwarzacz YouTube
-• Prędkość 0,25–3x i głośność do 300%
+• Prędkość 0.25–3x i głośność do 300%
 • Pętla A-B do ćwiczeń oraz zapętlenie całego filmu
-• Wyłącznik czasowy, który naprawdę wstrzymuje, do 12 godzin
+• Tryb nocny, który tłumi niebieskie światło, i wyłącznik czasowy, który
+  naprawdę wstrzymuje
 • Fragmenty sponsorowane na zielono i pomijane jednym kliknięciem
+• Komentarze, czat na żywo i propozycje bez wracania do karty
 • Shorts w pionowym oknie, które samo przewija dalej
 • Tylko wideo — bez kart, bez sklepu, bez bałaganu
 
@@ -17,7 +19,7 @@ DLACZEGO ZOSTAJE NA STAŁE
 FloatPlayer trzyma YouTube nad wszystkim innym. Jedno kliknięcie przycisku w
 odtwarzaczu — albo Alt+P — i wideo przenosi się do małego okna zawsze na
 wierzchu, z własnymi przyciskami. Pisz kod, odpowiadaj na maile, poprawiaj
-arkusz: obraz pozostaje widoczny nad każdą aplikacją.
+arkusz: obraz pozostaje widoczny nad każdą aplikacją i każdym innym oknem.
 
 To prawdziwe okno Document Picture-in-Picture, a nie popup. Nigdy nie chowa się
 za oknem, w którym pracujesz.
@@ -30,8 +32,8 @@ tracisz miejsce, w którym byłeś, swoje ustawienia i napisy.
 
 FloatPlayer przenosi do okna sam odtwarzacz YouTube. Ten sam strumień, ta sama
 sekunda, jakość, którą już miałeś, te same napisy, to samo miejsce na playliście
-i ta sama historia. Po zamknięciu okna odtwarzacz wraca na stronę dokładnie tam,
-gdzie był. Nic się nie przeładowuje.
+i ta sama historia. Zamknij okno, a odtwarzacz wsuwa się z powrotem na stronę
+dokładnie tam, gdzie był — nic się nie przeładowuje i nic nie buforuje od nowa.
 
 Reklamy nie są blokowane ani pomijane: rozszerzenie gra według zasad YouTube.
 
@@ -41,81 +43,126 @@ CZEGO NIE POTRAFI WBUDOWANY PICTURE-IN-PICTURE
 Wbudowany PiP w Chrome daje przycisk odtwarzania i nic więcej. FloatPlayer
 dokłada to, czego naprawdę brakuje:
 
-- przewijanie: kliknięcie i przeciąganie po pasku, strefy ±10 s na samym wideo,
-  przyciski ±30 s pod nim
-- prędkość od 0,25x do 3x na suwaku
-- głośność od 0 do 300%: od ciszy po trzykrotność maksimum samego YouTube, w sam
-  raz do cicho nagranych filmów
-- pętla A-B do ćwiczenia frazy, riffu albo kroku
+- przewijanie — kliknięcie i przeciąganie po pasku postępu, strefy ±10 s na
+  samym wideo, przyciski ±30 s pod nim
+- prędkość od 0.25x do 3x na suwaku
+- głośność od 0 do 300% — od ciszy po trzykrotność maksimum samego YouTube, w
+  sam raz do cicho nagranych filmów
+- pętla A-B do ćwiczenia frazy, riffu albo kroku, oraz zapętlenie całego filmu
+- tryb nocny w dwóch mocach, który wyciąga niebieskie barwy z obrazu na późne
+  oglądanie
 - wyłącznik czasowy, który naprawdę wstrzymuje wideo, do 12 godzin
-- poprzedni i następny film oraz do 20 propozycji w wysuwanej
-  kolumnie
-- obsługa Shorts, której wbudowany PiP w ogóle nie ma
+- poprzedni i następny film oraz do 20 propozycji w wysuwanej kolumnie
+- znaczniki rozdziałów na pasku postępu i nazwa rozdziału pod kursorem
+- obsługa Shorts, której wbudowany PiP w ogóle się nie podejmuje
 - naprawdę czyste okno, bez interfejsu YouTube w środku
-- zapętlenie całego filmu, ustawienia dźwięku (noc, głos, bas), znaczniki
-  rozdziałów na pasku i kolejka odtwarzania budowana z propozycji
 
 Wszystko jest ukryte, dopóki nie ruszysz myszą, więc przez większość czasu
-widzisz tylko obraz. W trakcie reklamy osobny biały pasek pokazuje, ile jej
-zostało, a czerwony zatrzymuje się na twojej prawdziwej pozycji.
+widzisz tylko obraz i jego tytuł. W trakcie reklamy osobny biały pasek pokazuje,
+ile jej zostało, a czerwony zatrzymuje się na twojej prawdziwej pozycji. Gdy
+odlicza wyłącznik czasowy, panele pozostają ukryte nawet pod kursorem — tak jak
+powinno być, kiedy zasypiasz.
+
+
+WSZYSTKO INNE, PO CO BYŁA KARTA
+
+Okno to nie tylko odtwarzacz. Boczna kolumna przynosi te części strony, dla
+których inaczej trzeba by wracać:
+
+- komentarze, ładowane prosto z YouTube i przewijane bez końca, z oznaczeniami
+  przypiętych i autorskich — tak samo jak w serwisie
+- czat na żywo transmisji, w tej samej kolumnie
+- propozycje oraz kolejka odtwarzania, którą sam z nich budujesz
+- tytuł filmu i awatar kanału na tabliczce pod panelem, bo ramka okna Chrome
+  pokazuje wyłącznie adres
 
 
 FRAGMENTY SPONSOROWANE WIDOCZNE I DO POMINIĘCIA
 
-Dla jasności: reklam samego YouTube rozszerzenie nie rusza. Chodzi o wstawki
-sponsorskie, które twórca sam montuje w filmie.
+Dla jasności: reklam samego YouTube rozszerzenie nigdy nie rusza. Chodzi o
+wstawki sponsorskie wmontowane w sam film.
 
 Fragmenty zgłoszone przez społeczność SponsorBlock są zaznaczone na zielono na
-pasku, a w ich obrębie pojawia się przycisk «Pomiń sponsora». Do
-sponsor.ajay.app trafia wyłącznie identyfikator filmu — nic o tobie — a całą
+pasku postępu, więc wstawkę widzisz z wyprzedzeniem, a przycisk «Pomiń
+sponsora» przenosi cię za nią jednym kliknięciem. Włącz automatyczne pomijanie,
+a nie zobaczysz ich w ogóle. Kategorie wybierasz sam — sponsor, autopromocja,
+przypomnienia o łapce i subskrypcji, intro, outro. Do sponsor.ajay.app trafia
+wyłącznie identyfikator filmu — nic o tobie, nic o tym, co przeglądasz — a całą
 funkcję można wyłączyć.
+
+
+TRANSMISJE NA ŻYWO
+
+Przy transmisji panel pokazuje plakietkę LIVE z czerwoną kropką. Zostaniesz w
+tyle — kropka szarzeje, a obok pojawia się dokładna różnica; jedno kliknięcie
+wraca na żywą krawędź. Przewijanie działa w obrębie bufora DVR, więc transmisję
+cofasz tak samo jak zwykły film.
 
 
 SHORTS, PORZĄDNIE OBSŁUŻONE
 
-Osobny przycisk nad «Lubię to» otwiera Shorta w pionowym oknie 9:16, bez czarnych
-pasów i bez przycinania. Gdy się kończy, następny startuje sam, a dolne strzałki
-przewijają feed prosto z okna.
+Osobny przycisk nad «Lubię to» otwiera Shorta w pionowym oknie w proporcjach
+9:16 — bez czarnych pasów i bez przycinania. Gdy Short się kończy, następny
+startuje sam, a dolne strzałki przewijają feed prosto z okna. Shorts możesz
+trzymać w rogu ekranu jak telewizor, w ogóle nie dotykając przeglądarki.
 
 
 OKNO ZACHOWUJE SIĘ TAK, JAK SIĘ SPODZIEWASZ
 
 Przeciągaj je z dowolnego miejsca: przytrzymaj na wideo i przesuń — przyciski
-nadal da się klikać. Okno otwiera się w dokładnych proporcjach filmu, wraca do
-nich po ręcznej zmianie rozmiaru i zapamiętuje wielkość osobno dla filmów
-poziomych i pionowych Shorts.
+nadal da się klikać, więc przeciąganie nigdy nie uruchamia przypadkiem żadnej
+funkcji. Okno otwiera się w dokładnych proporcjach filmu, wraca do nich po
+ręcznej zmianie rozmiaru i przebudowuje się dla filmów o innych proporcjach,
+zapamiętując osobno filmy poziome i pionowe Shorts.
 
 Tylko wideo, gwarantowane: interfejs YouTube wewnątrz okna usuwa biała lista,
-która przepuszcza obraz, napisy i wskaźnik ładowania — i nic poza tym.
+która przepuszcza obraz, napisy i wskaźnik ładowania — i nic poza tym. Nakładki
+zakupowe, karty informacyjne, ekrany końcowe i każda nakładka, którą YouTube
+wymyśli w przyszłości, po prostu nie mogą się pojawić.
+
+Chcesz jeszcze mniej? Tryb «samo wideo» korzysta z wbudowanego PiP zupełnie bez
+paska Chrome. A opcjonalny auto-PiP (Chrome 120+) sam wysuwa wideo, gdy
+przełączasz karty.
 
 
 SKRÓTY I USTAWIENIA
 
-Z dowolnego okna Chrome: Alt+P otwiera i zamyka (⌥P na Macu), Alt+K wstrzymuje,
-Alt+J i Alt+L przeskakują o 5 sekund. W oknie: spacja lub K wstrzymuje, strzałki
-przeskakują o 5 sekund, M wycisza. Wszystko można zmienić na stronie
+Z dowolnego okna Chrome: Alt+P otwiera i zamyka okno (⌥P na Macu), Alt+K
+wstrzymuje, Alt+J i Alt+L przeskakują o 5 sekund. W oknie: spacja lub K
+wstrzymuje, strzałki przeskakują o 5 sekund, cyfry 0–9 skaczą po filmie, M
+wycisza, < i > zmieniają prędkość. Wszystko można zmienić na stronie
 chrome://extensions/shortcuts.
 
-Ustawienia obejmują styl okna, auto-PiP, SponsorBlock, krok przewijania,
-automatyczne Shorts, kompaktowy panel, krok prędkości, limit głośności i język.
-Zmiany działają od razu.
+Ikona na pasku otwiera mały panel: co dzieje się w bieżącej karcie, jeden
+przycisk, żeby wysunąć wideo albo je przywrócić, i przełączniki, które zmieniasz
+najczęściej. Pełna strona ustawień obejmuje styl okna, auto-PiP, SponsorBlock i
+jego kategorie, krok przewijania, automatyczne przechodzenie Shorts, kompaktowe
+panele, krok prędkości i limit głośności. Zmiany działają od razu.
+
+Interfejs mówi w 14 językach i idzie za przeglądarką: angielski, rosyjski,
+niemiecki, hiszpański, francuski, włoski, portugalski (Brazylia), polski,
+turecki, ukraiński, japoński, koreański, hindi i indonezyjski.
 
 
 PRYWATNOŚĆ
 
 Bez kont, bez logowania, bez śledzenia, bez analityki, bez reklam. Nic nie jest
-zbierane i nic nie jest wysyłane, poza identyfikatorem filmu na potrzeby
-SponsorBlock — i tylko dopóki zostawisz tę funkcję włączoną.
+zbierane i nic nigdzie nie jest wysyłane, poza identyfikatorem filmu na potrzeby
+SponsorBlock — i tylko dopóki zostawisz tę funkcję włączoną. Uprawnień jest
+minimum: pamięć na twoje ustawienia oraz dostęp do youtube.com i
+sponsor.ajay.app.
 
 
 UCZCIWE OGRANICZENIA
 
+Lepiej wiedzieć przed instalacją, niż rozczarować się po niej:
+
 - Wymaga Chrome 116 lub nowszego; na starszych wersjach zadziała wbudowany PiP.
-- Cienkiego paska Chrome z adresem witryny nie da się usunąć: to wymóg
+- Cienkiego paska Chrome z adresem witryny nie da się usunąć — to wymóg
   antyphishingowy dla każdego okna Document PiP. Chowa się sam, gdy kursor
   odjedzie, a tryb «samo wideo» nie ma go wcale.
 - Przezroczystości i klikania na wylot nie ma w API Chrome.
 - Jedno okno PiP na przeglądarkę, a jego pozycji nie da się ustawić programowo —
-  to ograniczenia przeglądarki.
+  to ograniczenia przeglądarki, nie nasze.
 - W trakcie reklam YouTube przewijanie nie działa: główny film nie jest wtedy
-  wczytany.
+  wczytany, więc nie ma czego przewijać.

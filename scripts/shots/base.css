@@ -1,0 +1,289 @@
+/* Оформление сцены для скриншотов Chrome Web Store (1280x800).
+   Сам интерфейс мини-окна берётся из настоящего extension/pip/pip.css —
+   здесь только фон, подписи и макет окна вокруг него. */
+
+:root {
+  --ink: #f4f4f6;
+  --ink-dim: #9d9da8;
+  --brand: #cc0000;
+  --frame: rgba(255, 255, 255, 0.09);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 1280px;
+  height: 800px;
+  overflow: hidden;
+  background: #0a0a0c;
+}
+
+/* Сцена: глубокий фон с двумя мягкими свечениями. Без картинок — градиенты
+   рендерятся одинаково на любой машине. */
+.scene {
+  position: relative;
+  width: 1280px;
+  height: 800px;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(720px 460px at 12% -6%, rgba(204, 0, 0, 0.16), transparent 70%),
+    radial-gradient(760px 520px at 96% 106%, rgba(58, 84, 148, 0.2), transparent 72%),
+    linear-gradient(160deg, #101014 0%, #0a0a0c 55%, #08080a 100%);
+}
+
+/* Едва заметная сетка: даёт фону фактуру, но не спорит с окном. */
+.scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(120% 100% at 50% 0%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 0%, #000 30%, transparent 78%);
+}
+
+/* --- Подпись сверху ------------------------------------------------------ */
+
+.caption {
+  position: absolute;
+  left: 72px;
+  top: 62px;
+  width: 660px;
+  z-index: 5;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  border: 1px solid rgba(204, 0, 0, 0.42);
+  border-radius: 999px;
+  padding: 5px 13px;
+  background: rgba(204, 0, 0, 0.14);
+  color: #ff6b6b;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.caption h2 {
+  margin: 0 0 10px;
+  font-size: 37px;
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.6px;
+}
+
+.caption p {
+  margin: 0;
+  color: var(--ink-dim);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+/* --- Макет окна ---------------------------------------------------------- */
+
+/* Мини-окно FloatPlayer: рамка браузера + тело, в котором живёт настоящая
+   разметка панели из pip.css. */
+.pipwin {
+  position: absolute;
+  z-index: 4;
+  border: 1px solid var(--frame);
+  border-radius: 13px;
+  overflow: hidden;
+  background: #0f0f11;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 34px 90px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Полоса с адресом: её рисует сам Chrome, убрать нельзя — показываем честно. */
+.pipwin-chrome {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 34px;
+  padding: 0 13px;
+  background: #202024;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #b9b9c2;
+  font-size: 12.5px;
+}
+
+.pipwin-chrome .spacer {
+  margin-left: auto;
+  color: #74747f;
+  letter-spacing: 3px;
+}
+
+.pipwin-body {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Кадр видео: абстрактная сцена из градиентов. Настоящий кадр YouTube
+   в промо-материалы ставить нельзя, а пустой чёрный прямоугольник выглядит
+   как ошибка рендера. */
+.videoish {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(46% 62% at 27% 32%, rgba(120, 156, 224, 0.5), transparent 68%),
+    radial-gradient(44% 58% at 74% 66%, rgba(196, 92, 132, 0.42), transparent 70%),
+    radial-gradient(58% 70% at 52% 88%, rgba(58, 176, 156, 0.24), transparent 72%),
+    linear-gradient(168deg, #26304a 0%, #171b28 52%, #0d0f16 100%);
+}
+
+/* Горизонт и лёгкая виньетка — кадр перестаёт читаться как случайное пятно. */
+.videoish::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(96% 84% at 50% 46%, transparent 48%, rgba(0, 0, 0, 0.52) 100%);
+}
+
+/* --- Фон-«рабочий стол» для первого кадра -------------------------------- */
+
+.desk {
+  position: absolute;
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #131318;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.desk-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 13px;
+  background: #1c1c22;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.desk-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.desk-body {
+  padding: 22px 24px;
+  display: grid;
+  gap: 13px;
+}
+
+/* Строки «текста» под окном: содержимого не видно, но занятость читается. */
+.line {
+  height: 9px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.line--accent {
+  background: rgba(204, 0, 0, 0.16);
+}
+
+/* --- Выноски ------------------------------------------------------------- */
+
+.note {
+  position: absolute;
+  z-index: 6;
+  width: 236px;
+  border: 1px solid var(--frame);
+  border-radius: 12px;
+  padding: 13px 15px;
+  background: rgba(22, 22, 27, 0.92);
+  color: #c9c9d3;
+  font-size: 13.5px;
+  line-height: 1.45;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+
+.note b {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* --- Подпись бренда ------------------------------------------------------ */
+
+.brandline {
+  position: absolute;
+  right: 72px;
+  bottom: 44px;
+  z-index: 5;
+  color: #71717c;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+.brandline b {
+  color: #d8d8de;
+  font-weight: 500;
+}
+
+.brandline i {
+  color: var(--brand);
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* --- Правки поверх pip.css ----------------------------------------------- */
+
+/* В продукте панель, нижний ряд и язычок рекомендаций проявляются по
+   наведению мыши. На статичном кадре наводить некому — показываем сразу. */
+.ytfp-bar,
+.ytfp-title {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.ytfp-nav,
+.ytfp-related-toggle,
+.ytfp-chat-toggle {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Кнопка пропуска вставки живёт внутри плеера и в продукте получает
+   инлайновые стили (она обязана работать и на странице, где pip.css нет).
+   Здесь повторяем их один в один. */
+.shot-sbskip {
+  position: absolute;
+  right: 12px;
+  bottom: 72px;
+  z-index: 10001;
+  border: 0;
+  border-radius: var(--ytfp-radius);
+  padding: 5px 10px;
+  background: var(--ytfp-panel-bg);
+  backdrop-filter: var(--ytfp-panel-blur);
+  -webkit-backdrop-filter: var(--ytfp-panel-blur);
+  color: var(--ytfp-text);
+  font-family: var(--ytfp-font);
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Миниатюры рекомендаций: в продукте это <img> с превью YouTube,
+   здесь — цветные плашки того же размера. */
+.thumb {
+  width: 86px;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+}
