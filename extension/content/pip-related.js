@@ -182,8 +182,15 @@ YTFP.pipRelated = (() => {
 
         row.addEventListener("click", () => {
           // SPA-переход на странице: плеер остаётся в мини-окне,
-          // видео переключается.
-          item.anchor.click();
+          // видео переключается. Сайдбар мог перерисоваться, пока панель
+          // была открыта, — отвязанный от DOM anchor кликается впустую
+          // (роутер YouTube слушает клики на документе), поэтому в таком
+          // случае ищем живую ссылку по ID заново.
+          if (item.anchor.isConnected) {
+            item.anchor.click();
+          } else if (item.videoId) {
+            navigateToVideoId(item.videoId);
+          }
           setOpen(false);
           // Список обновится к следующему открытию (страница перерисуется).
         });

@@ -37,7 +37,15 @@ YTFP.settings = (() => {
       }
     }
     cache = updated;
-    listeners.forEach((callback) => callback(cache));
+    // Каждый колбэк в своём try: упавший слушатель одного модуля не должен
+    // лишать обновления остальные.
+    for (const callback of listeners) {
+      try {
+        callback(cache);
+      } catch (error) {
+        console.warn("[YTFP] Settings listener failed:", error);
+      }
+    }
   });
 
   return { load, get, onChange };

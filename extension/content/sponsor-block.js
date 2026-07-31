@@ -237,9 +237,12 @@ YTFP.sponsorBlock = (() => {
       return;
     }
     loadedKey = key;
-    segments = await fetchSegments(videoId);
+    const fetched = await fetchSegments(videoId);
     // Пока грузили — могли уйти на другое видео или сменить категории.
+    // Сегменты присваиваем только для актуального ключа: иначе автопропуск
+    // и маркеры работали бы по чужому видео.
     if (loadedKey === key) {
+      segments = fetched;
       renderMarkers();
     }
   }

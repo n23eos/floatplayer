@@ -9,6 +9,11 @@ YTFP.pip = (() => {
   // Состояние открытого PiP-окна; null — окно закрыто.
   let state = null;
 
+  // Открытие в процессе: между requestWindow и заполнением state есть
+  // await'ы, и повторный вызов open() (двойной Alt+P) успел бы открыть
+  // второе окно и увести плеер из первого.
+  let isOpening = false;
+
   function isOpen() {
     return state !== null || document.pictureInPictureElement !== null;
   }
@@ -192,6 +197,18 @@ YTFP.pip = (() => {
     if (isOpen()) {
       return true;
     }
+    if (isOpening) {
+      return false; // уже открываем (двойной Alt+P) — второе окно не нужно
+    }
+    isOpening = true;
+    try {
+      return await openDocumentPip();
+    } finally {
+      isOpening = false;
+    }
+  }
+
+  async function openDocumentPip() {
     const playerEl = YTFP.playerApi.getPlayerRoot();
     if (!playerEl || !YTFP.playerApi.isPlayerPage()) {
       return false;
@@ -214,6 +231,14 @@ YTFP.pip = (() => {
       return false;
     }
 
+    // Единственный await между открытием окна и переносом плеера. Пока он
+    // шёл, пользователь мог окно закрыть — переносить плеер в мёртвый
+    // документ нельзя: он пропал бы со страницы насовсем.
+    const cssText = await loadPipCss();
+    if (pipWindow.closed) {
+      return false;
+    }
+
     const parent = playerEl.parentElement;
     // Маркер позиции, чтобы вернуть плеер ровно на своё место.
     const placeholder = document.createElement("div");
@@ -222,7 +247,7 @@ YTFP.pip = (() => {
 
     // Стили PiP-окна.
     const style = pipWindow.document.createElement("style");
-    style.textContent = await loadPipCss();
+    style.textContent = cssText;
     pipWindow.document.head.appendChild(style);
     // Системную полоску окна Chrome убрать не даёт, поэтому пишем в неё
     // название видео — рядом с origin (youtube.com).
@@ -394,6 +419,10 @@ YTFP.pip = (() => {
     // resizeTo в Document PiP работает не всегда (нужна активация
     // пользователя) — тогда просто молча пропускаем.
     const ASPECT_SNAP_TOLERANCE_PX = 8;
+    // Последняя попытка снапа: если Chrome зажал размер (минимум окна),
+    // повторять тот же resizeTo бессмысленно — каждый вызов рождает новый
+    // resize и цикл дёргал бы окно каждые 300 мс без конца.
+    let lastSnapAttempt = null;
     const snapToVideoAspect = () => {
       if (!state || pipWindow.closed) {
         return;
@@ -407,8 +436,14 @@ YTFP.pip = (() => {
       const frameHeight = pipWindow.outerHeight - pipWindow.innerHeight;
       const targetInnerHeight = Math.round(pipWindow.innerWidth / aspect);
       if (Math.abs(targetInnerHeight - pipWindow.innerHeight) <= ASPECT_SNAP_TOLERANCE_PX) {
+        lastSnapAttempt = null;
         return;
       }
+      const attempt = `${pipWindow.innerWidth}x${targetInnerHeight}`;
+      if (attempt === lastSnapAttempt) {
+        return; // тот же целевой размер уже не удался — не зацикливаемся
+      }
+      lastSnapAttempt = attempt;
       try {
         pipWindow.resizeTo(
           pipWindow.innerWidth + frameWidth,

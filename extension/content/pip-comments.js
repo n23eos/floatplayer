@@ -198,7 +198,10 @@ YTFP.pipComments = (() => {
 
       const avatar = pipDocument.createElement("img");
       avatar.className = "ytfp-comment-avatar";
-      avatar.src = comment.avatar;
+      // Пустой src не ставим: img c src="" делает лишний запрос к URL страницы.
+      if (comment.avatar) {
+        avatar.src = comment.avatar;
+      }
       avatar.alt = "";
       avatar.loading = "lazy";
 
