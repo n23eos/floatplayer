@@ -40,17 +40,23 @@ FloatPlayer — Picture in Picture for YouTube
 
 ### Ответы формы Data Usage
 - Персональные данные не собираются; аналитики и трекеров нет.
-- Единственная передача: **ID просматриваемого видео** уходит на
-  sponsor.ajay.app (SponsorBlock) для получения границ спонсорских вставок;
+- Единственная передача третьей стороне: **ID просматриваемого видео** уходит
+  на sponsor.ajay.app (SponsorBlock) для получения границ спонсорских вставок;
   функция отключается в настройках. В форме: «Website content» (ID видео)
   → передаётся третьей стороне только для основной функции; не продаётся;
   не используется для рекламы/кредитоспособности.
+- Остальные запросы идут к самому YouTube со вкладки YouTube и под уже
+  открытой сессией пользователя: комментарии (`youtubei/v1/next`), страница
+  чата эфира (`live_chat`) и обложки рекомендаций (`i.ytimg.com`). Данные при
+  этом не покидают YouTube и до разработчика не доходят, отдельной категории
+  в форме им не соответствует.
 
 ### Обоснования разрешений (Permission justification)
 - `storage` — сохранение настроек (режим окна, скорость, громкость, таймер,
   автопереход шортсов) и ширины окна по ориентации.
 - Host `*://*.youtube.com/*` — вставка кнопок в плеер, перенос плеера в
-  PiP-окно, управление воспроизведением на страницах YouTube.
+  PiP-окно, управление воспроизведением на страницах YouTube, а также загрузка
+  комментариев и чата эфира в боковую колонку окна.
 - Host `https://sponsor.ajay.app/*` — запрос границ спонсорских сегментов
   по ID видео (подсветка и пропуск вставок).
 
@@ -93,9 +99,11 @@ FloatPlayer — Picture in Picture for YouTube
 
 Выбрать **«Нет, я не использую удалённый код»**. Если попросят пояснение:
 
-> All JavaScript and CSS are bundled inside the extension package. The only
-> network request fetches JSON timestamps from sponsor.ajay.app; that response
-> is parsed as data and never evaluated or injected as code.
+> All JavaScript and CSS are bundled inside the extension package. Network
+> requests only fetch data, never code: sponsor timestamps from
+> sponsor.ajay.app, and — when the user opens the comments column — comment
+> JSON from YouTube's own endpoint on the page the extension already runs on.
+> Both responses are parsed as data and never evaluated or injected as code.
 
 ### Использование данных
 
@@ -106,7 +114,9 @@ FloatPlayer — Picture in Picture for YouTube
 > sponsor-segment feature is enabled, the ID of the video being watched is sent
 > to the community API sponsor.ajay.app to look up sponsor timestamps. It is not
 > collected, stored or profiled by the developer, and the feature can be
-> disabled in the options.
+> disabled in the options. Comments and live chat are fetched from YouTube
+> itself, from the YouTube tab and under the session the user is already signed
+> in to, so nothing about the user leaves YouTube for us or anyone else.
 
 - Три обязательные галочки-подтверждения — отметить все, они верны:
   данные не продаются третьим лицам; не используются для целей, не связанных с

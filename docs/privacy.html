@@ -21,7 +21,7 @@
 <header class="wrap doc" style="padding-bottom: 20px">
   <div class="logo"><i></i> <a href="index.html" style="text-decoration:none">FloatPlayer</a></div>
   <h1 style="font-size: 34px">Privacy Policy</h1>
-  <p class="lead" style="font-size: 16px">Last updated: 28 July 2026</p>
+  <p class="lead" style="font-size: 16px">Last updated: 31 July 2026</p>
 </header>
 
 <main class="wrap doc">
@@ -30,17 +30,21 @@
   has no analytics, no trackers, no accounts and no servers of its own — nothing
   reaches us, and nothing is ever sold or shared.</p>
 
-  <p>One optional feature does send data to a third party, and it is disclosed in
+  <p>One optional feature sends data to a third party, and it is disclosed in
   the Chrome Web Store listing under <em>web history</em>: see
-  <a href="#disclosure">what is transmitted</a> below.</p>
+  <a href="#disclosure">what is transmitted</a> below. Everything else the
+  extension requests over the network goes to YouTube itself, from the YouTube
+  tab you already have open.</p>
 
   <h2>Stored locally</h2>
   <ul>
     <li>Your settings (window style, speed step, volume ceiling, sleep timer,
-      Shorts auto-advance, panel behaviour) live in Chrome's <code>storage.sync</code>,
-      inside your browser and your Google profile sync. We have no access to them.</li>
-    <li>The last window width is stored the same way, separately for landscape
-      videos and vertical Shorts.</li>
+      night mode, SponsorBlock options, Shorts auto-advance, panel behaviour)
+      live in Chrome's <code>storage.sync</code>, inside your browser and your
+      Google profile sync. We have no access to them.</li>
+    <li>The last mini-window width lives in <code>storage.local</code>,
+      separately for landscape videos and vertical Shorts, next to a one-time
+      flag remembering that the first-run hint has been shown.</li>
   </ul>
 
   <h2>Network requests</h2>
@@ -52,15 +56,32 @@
       timestamps. No cookies, account data or personal identifiers accompany that
       request. See
       <a href="https://sponsor.ajay.app/privacy">SponsorBlock's own privacy policy</a>.</li>
+    <li>Opening the <strong>comments column</strong> asks YouTube for the comments
+      exactly as the page itself does: a request to
+      <code>www.youtube.com/youtubei/v1/next</code> from the YouTube tab, carrying
+      the YouTube session you are already signed in to and your interface
+      language. It goes to YouTube and nowhere else — we receive nothing, and it
+      only happens when you open that column.</li>
+    <li>Opening the <strong>live chat</strong> of a stream loads YouTube's own
+      <code>www.youtube.com/live_chat</code> page inside the window, again under
+      your existing session.</li>
     <li>Thumbnails in the recommendations column load from YouTube's standard
       image host (<code>i.ytimg.com</code>), exactly as YouTube itself loads them.</li>
   </ul>
 
+  <h2>Links to Google Forms</h2>
+  <p>The options page has a <em>Report a bug</em> link, and Chrome opens a short
+  feedback form once you uninstall the extension. Both are ordinary Google Forms
+  pages. Nothing is pre-filled, attached or submitted on your behalf — opening
+  one is a normal website visit, covered by
+  <a href="https://policies.google.com/privacy">Google's own privacy policy</a>,
+  and you can close the tab without answering anything.</p>
+
   <h2 id="disclosure">What is transmitted, and what we do with it</h2>
   <p>When the sponsor-segment feature is on, the ID of the video you are watching
-  goes to sponsor.ajay.app — nothing else. That single fact is the "web history"
-  category declared in our Chrome Web Store listing. Turning the feature off in
-  the options stops those requests entirely.</p>
+  goes to sponsor.ajay.app — nothing else leaves for a third party. That single
+  fact is the "web history" category declared in our Chrome Web Store listing.
+  Turning the feature off in the options stops those requests entirely.</p>
   <ul>
     <li>The data is <strong>not sold or transferred</strong> to third parties,
       except for the lookup described above, which is the feature itself.</li>
@@ -75,7 +96,8 @@
   <ul>
     <li><code>storage</code> — saving the settings described above.</li>
     <li>Access to <code>youtube.com</code> — adding the buttons to the player,
-      moving the player into the floating window and controlling playback.</li>
+      moving the player into the floating window, controlling playback, and
+      loading comments and live chat when you open them.</li>
     <li>Access to <code>sponsor.ajay.app</code> — fetching sponsor-segment
       timestamps, only while that feature is enabled.</li>
   </ul>
@@ -90,20 +112,31 @@
     данные не продаются и не передаются.</p>
     <p>Одна необязательная функция отправляет данные стороннему сервису — это и
     есть категория «история веб-поиска», заявленная в листинге Chrome Web Store:
-    при включённых интеграциях на sponsor.ajay.app уходит только ID
+    при включённых спонсорских вставках на sponsor.ajay.app уходит только ID
     просматриваемого видео. Данные не продаются, не используются для целей вне
     основной функции расширения и не применяются для оценки кредитоспособности.
     Отключение функции в настройках полностью прекращает эти запросы.</p>
-    <p><strong>Локально</strong> хранятся только ваши настройки и последняя
-    ширина окна — в <code>storage.sync</code> Chrome, внутри вашего браузера.</p>
-    <p><strong>Сетевые запросы:</strong> при включённой функции «интеграции на
-    таймлайне» на <code>sponsor.ajay.app</code> отправляется только ID
-    просматриваемого видео (функция отключается в настройках); обложки
-    рекомендаций грузятся со стандартного хоста картинок YouTube.</p>
+    <p><strong>Локально</strong> хранятся ваши настройки (в
+    <code>storage.sync</code> Chrome) и последняя ширина мини-окна вместе с
+    отметкой о показанной подсказке (в <code>storage.local</code>) — всё внутри
+    вашего браузера.</p>
+    <p><strong>Сетевые запросы:</strong> при включённой функции «спонсорские
+    вставки» на <code>sponsor.ajay.app</code> отправляется только ID
+    просматриваемого видео (функция отключается в настройках). Когда вы
+    открываете комментарии, расширение запрашивает их у YouTube так же, как это
+    делает сама страница — запросом на <code>www.youtube.com/youtubei/v1/next</code>
+    с той сессией YouTube, под которой вы уже вошли; чат эфира загружается
+    страницей <code>www.youtube.com/live_chat</code>. Всё это уходит только к
+    YouTube. Обложки рекомендаций грузятся со стандартного хоста картинок
+    YouTube.</p>
+    <p><strong>Ссылки на Google Формы:</strong> в настройках есть ссылка
+    «Сообщить об ошибке», а после удаления расширения Chrome открывает форму
+    обратной связи. Ничего не подставляется и не отправляется за вас — это
+    обычный переход на страницу Google Форм, вкладку можно просто закрыть.</p>
     <p><strong>Разрешения:</strong> <code>storage</code> — настройки;
-    доступ к
-    <code>youtube.com</code> — кнопки и управление плеером; доступ к
-    <code>sponsor.ajay.app</code> — границы спонсорских вставок.</p>
+    доступ к <code>youtube.com</code> — кнопки, управление плеером,
+    комментарии и чат эфира; доступ к <code>sponsor.ajay.app</code> — границы
+    спонсорских вставок.</p>
   </div>
 
 </main>
