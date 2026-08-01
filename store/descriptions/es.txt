@@ -9,9 +9,10 @@ POR QUÉ LA GENTE LO CONSERVA
 • Velocidad 0,25–3x y volumen hasta el 300 %
 • Bucle A-B para practicar y repetición del vídeo entero
 • Modo noche que quita la luz azul y temporizador que pausa de verdad
-• Patrocinios marcados en verde y saltados con un clic
+• Patrocinios marcados en verde y saltados automáticamente
 • Comentarios, chat en directo y recomendaciones sin volver a la pestaña
 • Shorts en ventana vertical que avanza sola
+• Shorts por palabra: escribe una palabra y mira solo Shorts sobre ella
 • Solo vídeo: sin tarjetas, sin anuncios de tienda, sin ruido
 
 
@@ -59,7 +60,8 @@ FloatPlayer añade lo que de verdad falta:
   desplegable
 - marcas de capítulo en la barra de progreso, con el nombre del capítulo bajo
   el cursor
-- compatibilidad con Shorts, que el PiP nativo no admite en absoluto
+- compatibilidad con Shorts, incluida la reproducción de Shorts por palabra
+  clave, algo que el PiP nativo no admite en absoluto
 - una ventana realmente limpia, sin interfaz de YouTube dentro
 
 Todo se oculta hasta que mueves el ratón, así que casi siempre ves solo el
@@ -88,9 +90,10 @@ Que quede claro: los anuncios propios de YouTube no se tocan nunca. Esto es
 para las menciones patrocinadas integradas en el propio vídeo.
 
 Los segmentos señalados por la comunidad SponsorBlock se pintan de verde en la
-barra de progreso, así que ves venir la mención, y el botón «Saltar el
-patrocinio» te lleva más allá con un clic. Activa el salto automático y no los
-verás nunca. Tú eliges qué categorías cuentan: patrocinio, autopromoción,
+barra de progreso, así que ves venir la mención, y de fábrica se saltan solos,
+sin que tengas que tocar nada. ¿Prefieres decidir cada vez? Desactiva el salto
+automático y dentro del segmento aparecerá el botón «Saltar el patrocinio» en
+su lugar. Tú eliges qué categorías cuentan: patrocinio, autopromoción,
 recordatorios de me gusta y suscripción, intro y outro. A sponsor.ajay.app solo
 se envía el ID del vídeo —nada sobre ti, nada sobre tu navegación— y la función
 entera se puede desactivar.
@@ -108,9 +111,18 @@ SHORTS, DE VERDAD
 
 Un botón dedicado encima de «Me gusta» abre el Short en una ventana vertical
 con formato 9:16, sin bandas negras ni recortes. Cuando un Short termina, el
-siguiente empieza solo, y las flechas inferiores recorren el feed desde la
-propia ventana. Puedes tener los Shorts en una esquina de la pantalla como un
-televisor, sin tocar el navegador.
+siguiente empieza solo, y las flechas de debajo del vídeo —o las teclas arriba
+y abajo— recorren el feed desde la propia ventana. Puedes tener los Shorts en
+una esquina de la pantalla como un televisor, sin tocar el navegador.
+
+Encima del panel hay una barrita propia: un botón de «Me gusta», un
+interruptor para el avance automático y una lupa.
+
+La lupa es lo interesante. Escribe una palabra, pulsa Intro y la ventana pondrá
+Shorts sobre eso: gatos, una receta, un grupo, lo que hayas pedido. Adelante,
+atrás y el avance automático recorren entonces esa lista en lugar del feed del
+algoritmo. Pulsa Escape o vuelve a hacer clic en la lupa y estarás de nuevo en
+el feed de siempre.
 
 
 LA VENTANA SE COMPORTA COMO ESPERAS
@@ -127,25 +139,36 @@ carga, y nada más. Los anuncios de tienda, las fichas informativas, las
 pantallas finales y cualquier superposición que YouTube invente en el futuro
 sencillamente no pueden aparecer.
 
-¿Quieres aún menos? El modo «vídeo limpio» usa el PiP nativo sin ninguna franja
-de Chrome. Y el PiP automático opcional (Chrome 120+) saca el vídeo por sí solo
-cuando cambias de pestaña.
+Hay dos modos de ventana y la página de ajustes te deja elegir cualquiera:
+
+- «Completo (con panel)»: la ventana Document PiP descrita arriba, con el
+  panel de control, la barra de progreso y la columna lateral. Chrome dibuja
+  encima una franja fina con la dirección del sitio; esa franja se oculta sola
+  al apartar el cursor.
+- «Vídeo limpio (sin franja)»: el PiP nativo de Chrome, nada más que el vídeo,
+  sin franja de dirección y sin panel nuestro, solo el botón de reproducción
+  del sistema. Para cuando quieres lo mínimo posible en pantalla.
+
+El PiP automático opcional (Chrome 120+) saca el vídeo por sí solo cuando
+cambias de pestaña, en el modo que hayas elegido.
 
 
 ATAJOS Y AJUSTES
 
 Desde cualquier ventana de Chrome: Alt+P abre o cierra la ventana (⌥P en Mac),
 Alt+K pausa, Alt+J y Alt+L saltan 5 segundos. Dentro de la ventana: espacio o K
-pausa, las flechas saltan 5 segundos, los dígitos 0–9 saltan por el vídeo, M
-silencia y < y > cambian la velocidad. Todo reasignable en
-chrome://extensions/shortcuts.
+pausa, las flechas izquierda y derecha saltan 5 segundos, arriba y abajo
+cambian el volumen —o recorren el feed cuando estás con Shorts—, los dígitos
+0–9 saltan por el vídeo, M silencia y < y > cambian la velocidad. Todo
+reasignable en chrome://extensions/shortcuts.
 
 El icono de la barra de herramientas abre un panel pequeño: qué está haciendo
 la pestaña actual, un botón para sacar el vídeo o devolverlo, y los
 interruptores que cambias más a menudo. La página completa de ajustes cubre el
-estilo de ventana, el PiP automático, SponsorBlock y sus categorías, el paso de
-avance, el avance automático de Shorts, los paneles compactos, el paso de
-velocidad y el volumen máximo. Los cambios se aplican al instante.
+modo de ventana, el PiP automático, SponsorBlock con su salto automático y sus
+categorías, el avance automático de Shorts, los paneles compactos, el panel en
+la propia página de YouTube, el paso de velocidad y el volumen máximo. Los
+cambios se aplican al instante.
 
 La interfaz habla 14 idiomas y sigue a tu navegador: inglés, ruso, alemán,
 español, francés, italiano, portugués (Brasil), polaco, turco, ucraniano,
@@ -174,3 +197,6 @@ Mejor saberlo antes de instalar que llevarse un chasco después:
   programa: son límites del navegador, no nuestros.
 - Durante los anuncios de YouTube no se puede avanzar: el vídeo principal no
   está cargado en ese momento, así que no hay nada por lo que avanzar.
+- La búsqueda de Shorts por palabra toma la primera página de resultados de
+  YouTube —unos treinta Shorts— y se detiene en el último en lugar de cargar
+  más.

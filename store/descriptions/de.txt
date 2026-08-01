@@ -10,9 +10,10 @@ WARUM ES INSTALLIERT BLEIBT
 • A-B-Schleife zum Üben, dazu das ganze Video wiederholen
 • Nachtmodus, der das Blau herausnimmt, und ein Sleeptimer, der wirklich
   pausiert
-• Sponsor-Abschnitte grün markiert und mit einem Klick übersprungen
+• Sponsor-Abschnitte grün markiert und automatisch übersprungen
 • Kommentare, Live-Chat und Empfehlungen, ohne in den Tab zurückzugehen
 • Shorts im Hochkantfenster, das von selbst weiterspringt
+• Shorts per Stichwort: ein Wort eintippen und nur Shorts dazu sehen
 • Nur Video — keine Karten, keine Shopping-Banner, kein Ballast
 
 
@@ -59,7 +60,8 @@ ergänzt, was wirklich fehlt:
   ausfahrbaren Spalte
 - Kapitelmarken auf der Fortschrittsleiste, mit dem Kapitelnamen unter dem
   Cursor
-- Shorts-Unterstützung, die das native PiP gar nicht bietet
+- Shorts-Unterstützung, inklusive Shorts per Stichwort, die das native PiP gar
+  nicht bietet
 - ein wirklich aufgeräumtes Fenster ohne YouTube-Oberfläche darin
 
 Alles bleibt verborgen, bis du die Maus bewegst — meistens siehst du also nur
@@ -88,13 +90,14 @@ Zur Klarstellung: YouTubes eigene Werbung wird nie angetastet. Es geht um
 Sponsorenblöcke, die direkt ins Video geschnitten sind.
 
 Von der SponsorBlock-Community gemeldete Abschnitte erscheinen grün auf der
-Fortschrittsleiste, du siehst einen Werbeblock also kommen, und die
-Schaltfläche „Sponsor überspringen“ bringt dich mit einem Klick daran vorbei.
-Schalte das automatische Überspringen ein und du siehst sie überhaupt nicht
-mehr. Welche Kategorien zählen, entscheidest du selbst: Sponsor, Eigenwerbung,
-Erinnerungen an Like und Abo, Intro, Outro. An sponsor.ajay.app geht nur die
-Video-ID — nichts über dich, nichts über dein Surfen — und die ganze Funktion
-lässt sich abschalten.
+Fortschrittsleiste, du siehst einen Werbeblock also kommen — und ab Werk werden
+sie automatisch übersprungen, ganz ohne dein Zutun. Lieber jedes Mal selbst
+entscheiden? Schalte das automatische Überspringen aus, dann erscheint
+stattdessen im Abschnitt die Schaltfläche „Sponsor überspringen“. Welche
+Kategorien zählen, entscheidest du selbst: Sponsor, Eigenwerbung, Erinnerungen
+an Like und Abo, Intro, Outro. An sponsor.ajay.app geht nur die Video-ID —
+nichts über dich, nichts über dein Surfen — und die ganze Funktion lässt sich
+abschalten.
 
 
 LIVESTREAMS
@@ -109,9 +112,19 @@ SHORTS, RICHTIG UNTERSTÜTZT
 
 Eine eigene Schaltfläche über „Gefällt mir“ öffnet den Short in einem
 hochkanten Fenster im Format 9:16 — ohne schwarze Balken und ohne Beschnitt.
-Ist ein Short zu Ende, startet der nächste von selbst, und die unteren Pfeile
-blättern den Feed direkt im Fenster. Du kannst Shorts wie einen Fernseher in
-der Bildschirmecke laufen lassen, ohne den Browser anzufassen.
+Ist ein Short zu Ende, startet der nächste von selbst, und die Pfeile unter dem
+Video — oder die Tasten hoch und runter — blättern den Feed direkt im Fenster.
+Du kannst Shorts wie einen Fernseher in der Bildschirmecke laufen lassen, ohne
+den Browser anzufassen.
+
+Über dem Bedienfeld sitzt eine eigene kleine Leiste: eine „Gefällt mir“-Taste,
+ein Schalter für die Shorts-Automatik und eine Lupe.
+
+Die Lupe ist das Spannendste daran. Tippe ein Wort ein, drücke Enter, und im
+Fenster laufen Shorts zu genau diesem Wort — Katzen, ein Rezept, eine Band, was
+immer du sehen willst. Vor, zurück und die Automatik gehen dann diese Liste
+durch statt den Feed des Algorithmus. Escape drücken oder erneut auf die Lupe
+klicken, und du bist zurück im normalen Feed.
 
 
 DAS FENSTER VERHÄLT SICH WIE ERWARTET
@@ -129,25 +142,36 @@ durchlässt — sonst nichts. Shopping-Banner, Infokarten, Abspann-Elemente und
 jedes Overlay, das YouTube sich in Zukunft ausdenkt, können schlicht nicht
 auftauchen.
 
-Noch weniger gewünscht? Der Modus „Nur Video“ nutzt das native PiP ganz ohne
-Chrome-Streifen. Und das optionale Auto-PiP (Chrome 120+) holt das Video von
-selbst heraus, wenn du den Tab wechselst.
+Es gibt zwei Fenstermodi, und auf der Einstellungsseite wählst du einen davon:
+
+- „Vollständig (mit Bedienfeld)“ — das oben beschriebene
+  Document-PiP-Fenster, mit Bedienfeld, Fortschrittsleiste und seitlicher
+  Spalte. Chrome zeichnet darüber einen schmalen Streifen mit der
+  Website-Adresse; der blendet sich aus, sobald der Cursor weg ist.
+- „Nur Video (ohne Leiste)“ — Chromes natives PiP: nichts als das Video, kein
+  Adressstreifen und kein Bedienfeld von uns, nur die Wiedergabetaste des
+  Systems. Für alle, die möglichst wenig auf dem Bildschirm haben wollen.
+
+Das optionale Auto-PiP (Chrome 120+) holt das Video von selbst heraus, wenn du
+den Tab wechselst — in dem Modus, den du gewählt hast.
 
 
 TASTENKÜRZEL UND EINSTELLUNGEN
 
 Aus jedem Chrome-Fenster: Alt+P öffnet und schließt das Fenster (⌥P auf dem
 Mac), Alt+K pausiert, Alt+J und Alt+L springen 5 Sekunden. Im Fenster:
-Leertaste oder K pausiert, Pfeile springen 5 Sekunden, die Ziffern 0–9 springen
-durch das Video, M schaltet stumm, < und > ändern das Tempo. Alles änderbar
-unter chrome://extensions/shortcuts.
+Leertaste oder K pausiert, die Pfeile links und rechts springen 5 Sekunden,
+hoch und runter ändern die Lautstärke — oder blättern den Feed, wenn du Shorts
+schaust —, die Ziffern 0–9 springen durch das Video, M schaltet stumm, < und >
+ändern das Tempo. Alles änderbar unter chrome://extensions/shortcuts.
 
 Das Symbol in der Symbolleiste öffnet ein kleines Bedienfeld: was der aktuelle
 Tab gerade tut, eine Schaltfläche, um das Video herauszuholen oder
 zurückzubringen, und die Schalter, die du am häufigsten umlegst. Die
-vollständige Einstellungsseite umfasst Fensterstil, Auto-PiP, SponsorBlock und
-seine Kategorien, Sprungweite, Shorts-Automatik, kompakte Bedienfelder,
-Tempo-Schrittweite und Lautstärkegrenze. Änderungen wirken sofort.
+vollständige Einstellungsseite umfasst den Fenstermodus, Auto-PiP, SponsorBlock
+mit automatischem Überspringen und seinen Kategorien, Shorts-Automatik,
+kompakte Bedienfelder, das Bedienfeld auf der YouTube-Seite selbst, die
+Tempo-Schrittweite und die Lautstärkegrenze. Änderungen wirken sofort.
 
 Die Oberfläche spricht 14 Sprachen und folgt deinem Browser: Englisch,
 Russisch, Deutsch, Spanisch, Französisch, Italienisch, Portugiesisch
@@ -179,3 +203,5 @@ Besser vor der Installation wissen als danach enttäuscht sein:
   setzen — beides sind Browser-Grenzen, nicht unsere.
 - Während YouTube-Werbung ist Spulen nicht möglich: Das Hauptvideo ist in
   diesem Moment gar nicht geladen, es gibt also nichts zu spulen.
+- Die Shorts-Suche per Stichwort nimmt die erste Ergebnisseite von YouTube —
+  etwa dreißig Shorts — und bleibt beim letzten stehen, statt nachzuladen.

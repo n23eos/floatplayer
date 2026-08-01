@@ -9,9 +9,10 @@ PERCHÉ RESTA INSTALLATA
 • Velocità 0,25–3x e volume fino al 300%
 • Loop A-B per esercitarsi e ripetizione dell'intero video
 • Modalità notte che toglie il blu e timer che mette davvero in pausa
-• Segmenti sponsorizzati in verde, saltati con un clic
+• Segmenti sponsorizzati in verde, saltati in automatico
 • Commenti, chat dal vivo e consigliati senza tornare nella scheda
 • Shorts in finestra verticale che va avanti da sola
+• Shorts per parola chiave: scrivi una parola e guardi solo Shorts su quel tema
 • Solo video: niente schede, niente vetrina, niente rumore
 
 
@@ -58,7 +59,8 @@ FloatPlayer aggiunge ciò che manca davvero:
   scomparsa
 - le tacche dei capitoli sulla barra di avanzamento, con il nome del capitolo
   sotto il cursore
-- il supporto agli Shorts, che il PiP nativo non gestisce affatto
+- il supporto agli Shorts, compresa la riproduzione per parola chiave, che il
+  PiP nativo non gestisce affatto
 - una finestra davvero pulita, senza interfaccia di YouTube all'interno
 
 Tutto resta nascosto finché non muovi il mouse, quindi quasi sempre vedi solo il
@@ -87,12 +89,13 @@ Per essere chiari: le pubblicità di YouTube non vengono mai toccate. Si parla
 degli inserti sponsorizzati montati dentro al video stesso.
 
 I segmenti segnalati dalla comunità SponsorBlock diventano verdi sulla barra di
-avanzamento, così vedi arrivare l'inserto, e il pulsante «Salta lo sponsor» ti
-porta oltre con un clic. Attiva il salto automatico e non li vedrai più affatto.
-Scegli tu quali categorie contano: sponsor, autopromozione, richiami a like e
-iscrizione, intro, outro. A sponsor.ajay.app viene inviato solo l'ID del video —
-nulla su di te, nulla sulla tua navigazione — e l'intera funzione si può
-disattivare.
+avanzamento, così vedi arrivare l'inserto — e fin da subito vengono saltati in
+automatico, senza che tu debba toccare nulla. Preferisci decidere ogni volta?
+Disattiva il salto automatico e al suo posto, dentro il segmento, compare il
+pulsante «Salta lo sponsor». Scegli tu quali categorie contano: sponsor,
+autopromozione, richiami a like e iscrizione, intro, outro. A sponsor.ajay.app
+viene inviato solo l'ID del video — nulla su di te, nulla sulla tua navigazione
+— e l'intera funzione si può disattivare.
 
 
 DIRETTE
@@ -107,9 +110,18 @@ SHORTS, SUPPORTATI SUL SERIO
 
 Un pulsante dedicato sopra «Mi piace» apre lo Short in una finestra verticale in
 formato 9:16 — senza bande nere né ritagli. Quando uno Short finisce parte da
-solo il successivo, e le frecce in basso scorrono il feed direttamente dalla
-finestra. Puoi tenere gli Shorts in un angolo dello schermo come un televisore,
-senza toccare il browser.
+solo il successivo, e le frecce sotto il video — o i tasti su e giù — scorrono
+il feed direttamente dalla finestra. Puoi tenere gli Shorts in un angolo dello
+schermo come un televisore, senza toccare il browser.
+
+Sopra il pannello c'è una piccola barra tutta sua: un pulsante «Mi piace», un
+interruttore per l'avanzamento automatico e una lente d'ingrandimento.
+
+La lente è la parte interessante. Scrivi una parola, premi Invio e la finestra
+riproduce Shorts su quel tema: gatti, una ricetta, una band, quello che hai
+chiesto. Avanti, indietro e avanzamento automatico scorrono poi quella lista al
+posto del feed dell'algoritmo. Premi Esc o clicca di nuovo sulla lente e torni
+al feed di sempre.
 
 
 LA FINESTRA SI COMPORTA COME TI ASPETTI
@@ -126,25 +138,38 @@ caricamento, e nient'altro. Le vetrine, le schede informative, le schermate
 finali e qualsiasi overlay che YouTube inventerà in futuro semplicemente non
 possono comparire.
 
-Vuoi ancora meno? La modalità «solo video» usa il PiP nativo senza alcuna
-striscia di Chrome. E il PiP automatico opzionale (Chrome 120+) tira fuori il
-video da solo quando cambi scheda.
+Le modalità della finestra sono due, e nelle impostazioni scegli quella che
+preferisci:
+
+- «Completo (con pannello)»: la finestra Document PiP descritta qui sopra, con
+  il pannello dei comandi, la barra di avanzamento e la colonna laterale. Sopra
+  di essa Chrome disegna una sottile striscia con l'indirizzo del sito, che si
+  nasconde da sola quando allontani il cursore.
+- «Solo video (senza striscia)»: il PiP nativo di Chrome, nient'altro che il
+  video — nessuna striscia con l'indirizzo e nessun nostro pannello, solo il
+  pulsante di riproduzione di sistema. Per quando vuoi la cosa più piccola
+  possibile sullo schermo.
+
+Il PiP automatico opzionale (Chrome 120+) tira fuori il video da solo quando
+cambi scheda, nella modalità che hai scelto.
 
 
 SCORCIATOIE E IMPOSTAZIONI
 
 Da qualunque finestra di Chrome: Alt+P apre o chiude la finestra (⌥P su Mac),
 Alt+K mette in pausa, Alt+J e Alt+L saltano di 5 secondi. Nella finestra: spazio
-o K per la pausa, frecce per 5 secondi, le cifre 0–9 per saltare lungo il video,
-M per il muto, < e > per la velocità. Tutto riassegnabile su
+o K per la pausa, frecce sinistra e destra per 5 secondi, su e giù per il volume
+— o per scorrere il feed quando guardi gli Shorts — le cifre 0–9 per saltare
+lungo il video, M per il muto, < e > per la velocità. Tutto riassegnabile su
 chrome://extensions/shortcuts.
 
 L'icona nella barra degli strumenti apre un piccolo pannello: cosa sta facendo
 la scheda attuale, un pulsante per tirare fuori il video o riportarlo indietro,
 e gli interruttori che cambi più spesso. La pagina completa delle impostazioni
-copre stile della finestra, PiP automatico, SponsorBlock e le sue categorie,
-passo dell'avanzamento, avanzamento automatico degli Shorts, pannelli compatti,
-passo della velocità e volume massimo. Le modifiche si applicano subito.
+copre la modalità della finestra, il PiP automatico, SponsorBlock con il salto
+automatico e le sue categorie, l'avanzamento automatico degli Shorts, i pannelli
+compatti, il pannello sulla pagina di YouTube stessa, il passo della velocità e
+il volume massimo. Le modifiche si applicano subito.
 
 L'interfaccia parla 14 lingue e segue il browser: inglese, russo, tedesco,
 spagnolo, francese, italiano, portoghese (Brasile), polacco, turco, ucraino,
@@ -175,3 +200,6 @@ Meglio saperlo prima di installare che restarci male dopo:
   programma: sono limiti del browser, non nostri.
 - Durante le pubblicità di YouTube non si può spostare la riproduzione: in quel
   momento il video principale non è caricato, quindi non c'è nulla da scorrere.
+- La ricerca degli Shorts per parola chiave prende la prima pagina dei risultati
+  di YouTube — una trentina di Shorts — e sull'ultimo si ferma invece di
+  caricarne altri.

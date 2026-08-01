@@ -10,9 +10,10 @@ ALASAN ORANG TETAP MEMAKAINYA
 • Pengulangan A-B untuk berlatih, plus loop seluruh video
 • Mode malam yang meredam cahaya biru, dan pengatur waktu tidur yang
   benar-benar menjeda
-• Segmen sponsor ditandai hijau dan dilewati satu klik
+• Segmen sponsor ditandai hijau dan dilewati otomatis
 • Komentar, obrolan langsung, dan rekomendasi tanpa kembali ke tab
 • Shorts di jendela vertikal yang lanjut sendiri
+• Shorts per kata kunci: ketik satu kata dan tonton hanya Shorts tentang itu
 • Hanya video — tanpa kartu, tanpa etalase, tanpa gangguan
 
 
@@ -59,7 +60,8 @@ benar-benar kurang:
 - video sebelumnya dan berikutnya, serta hingga 20 rekomendasi
   dalam kolom geser
 - penanda bab pada bilah progres, dengan nama bab muncul di bawah kursor
-- dukungan Shorts, yang sama sekali tidak ditangani PiP bawaan
+- dukungan Shorts, termasuk memutar Shorts per kata kunci, yang sama sekali
+  tidak ditangani PiP bawaan
 - jendela yang benar-benar bersih, tanpa antarmuka YouTube di dalamnya
 
 Semuanya tersembunyi sampai Anda menggerakkan tetikus, jadi hampir sepanjang
@@ -88,12 +90,13 @@ Perlu ditegaskan: iklan YouTube sendiri tidak disentuh. Ini tentang bagian
 sponsor yang disisipkan kreator ke dalam videonya.
 
 Segmen yang dilaporkan komunitas SponsorBlock dicat hijau pada bilah progres,
-jadi Anda melihat bagian promosi datang, dan tombol «Lewati segmen sponsor»
-membawa Anda melewatinya dengan satu klik. Nyalakan lewati otomatis dan Anda tak
-akan melihatnya sama sekali. Pilih sendiri kategori mana yang dihitung — sponsor,
-promosi diri, ajakan suka dan berlangganan, intro, outro. Hanya ID video yang
-dikirim ke sponsor.ajay.app — tidak ada apa pun tentang Anda, tidak ada apa pun
-tentang tontonan Anda — dan seluruh fiturnya bisa dimatikan.
+jadi Anda melihat bagian promosi datang — dan sejak awal segmen itu dilewati
+otomatis, tanpa Anda perlu menyentuh apa pun. Ingin memutuskan sendiri setiap
+kali? Matikan lewati otomatis, dan sebagai gantinya tombol «Lewati segmen
+sponsor» muncul di dalam segmen. Pilih sendiri kategori mana yang dihitung —
+sponsor, promosi diri, ajakan suka dan berlangganan, intro, outro. Hanya ID video
+yang dikirim ke sponsor.ajay.app — tidak ada apa pun tentang Anda, tidak ada apa
+pun tentang tontonan Anda — dan seluruh fiturnya bisa dimatikan.
 
 
 SIARAN LANGSUNG
@@ -108,8 +111,18 @@ SHORTS, DIDUKUNG SEPENUHNYA
 
 Tombol khusus di atas «Suka» membuka Short di jendela vertikal 9:16, tanpa bilah
 hitam dan tanpa terpotong. Setelah selesai, berikutnya mulai sendiri, dan panah
-di bawah menggulir feed langsung dari jendela. Anda bisa memutar Shorts di pojok
-layar seperti televisi, tanpa menyentuh browser sama sekali.
+di bawah video — atau tombol panah atas dan bawah — menggulir feed langsung dari
+jendela. Anda bisa memutar Shorts di pojok layar seperti televisi, tanpa
+menyentuh browser sama sekali.
+
+Di atas panel ada bilah kecil miliknya sendiri: tombol «Suka», sakelar lanjut
+otomatis, dan sebuah kaca pembesar.
+
+Kaca pembesar itulah yang menarik. Ketik satu kata, tekan Enter, dan jendela
+memutar Shorts tentang kata itu — kucing, sebuah resep, sebuah band, apa pun yang
+Anda minta. Maju, mundur, dan lanjut otomatis kemudian menyusuri daftar itu,
+bukan feed algoritme. Tekan Escape atau klik lagi kaca pembesarnya, dan Anda
+kembali ke feed biasa.
 
 
 JENDELA BEKERJA SEPERTI YANG ANDA HARAPKAN
@@ -125,25 +138,36 @@ putih yang hanya mengizinkan video, subtitle, dan indikator pemuatan. Hamparan
 belanja, kartu info, layar akhir, dan hamparan apa pun yang YouTube ciptakan di
 masa depan sama sekali tidak bisa muncul.
 
-Mau lebih sedikit lagi? Mode «video saja» memakai PiP bawaan tanpa bilah Chrome
-sama sekali. Dan PiP otomatis yang opsional (Chrome 120+) mengeluarkan video
-dengan sendirinya saat Anda berpindah tab.
+Mode jendelanya ada dua, dan halaman setelan membiarkan Anda memilih salah
+satunya:
+
+- «Lengkap (dengan panel)» — jendela Document PiP yang dijelaskan di atas,
+  lengkap dengan panel kendali, bilah progres, dan kolom samping. Di atasnya
+  Chrome menggambar bilah tipis berisi alamat situs; bilah itu menghilang
+  sendiri saat kursor menjauh.
+- «Video saja (tanpa bilah)» — PiP bawaan Chrome: tidak ada apa pun selain
+  video, tanpa bilah alamat dan tanpa panel kami, hanya tombol putar sistem.
+  Untuk saat Anda ingin sesuatu sekecil mungkin di layar.
+
+PiP otomatis yang opsional (Chrome 120+) mengeluarkan video dengan sendirinya
+saat Anda berpindah tab, dalam mode mana pun yang Anda pilih.
 
 
 PINTASAN DAN SETELAN
 
 Dari jendela Chrome mana pun: Alt+P membuka atau menutup (⌥P di Mac), Alt+K
 menjeda, Alt+J dan Alt+L melompat 5 detik. Di dalam jendela: spasi atau K
-menjeda, panah melompat 5 detik, angka 0–9 melompat ke titik-titik video, M
-membisukan, < dan > mengubah kecepatan. Semuanya bisa diubah di
-chrome://extensions/shortcuts.
+menjeda, panah kiri dan kanan melompat 5 detik, panah atas dan bawah mengubah
+volume — atau menggulir feed saat Anda menonton Shorts — angka 0–9 melompat ke
+titik-titik video, M membisukan, < dan > mengubah kecepatan. Semuanya bisa
+diubah di chrome://extensions/shortcuts.
 
 Ikon di bilah alat membuka panel kecil: apa yang sedang dilakukan tab saat ini,
 satu tombol untuk mengeluarkan video atau mengembalikannya, dan sakelar yang
-paling sering Anda ubah. Halaman setelan lengkap mencakup gaya jendela, PiP
-otomatis, SponsorBlock beserta kategorinya, langkah lompatan, lanjut otomatis
-Shorts, panel ringkas, langkah kecepatan, dan batas volume. Perubahan berlaku
-seketika.
+paling sering Anda ubah. Halaman setelan lengkap mencakup mode jendela, PiP
+otomatis, SponsorBlock dengan lewati otomatis beserta kategorinya, lanjut
+otomatis Shorts, panel ringkas, panel di halaman YouTube itu sendiri, langkah
+kecepatan, dan batas volume. Perubahan berlaku seketika.
 
 Antarmukanya berbicara dalam 14 bahasa dan mengikuti browser Anda: Inggris,
 Rusia, Jerman, Spanyol, Prancis, Italia, Portugis (Brasil), Polandia, Turki,
@@ -171,3 +195,6 @@ Lebih baik tahu sebelum memasang daripada kecewa sesudahnya:
   program: keduanya batasan browser, bukan batasan kami.
 - Selama iklan YouTube, melompat waktu tidak berfungsi: video utama belum dimuat
   saat itu, jadi tidak ada yang bisa dilompati.
+- Pencarian Shorts per kata kunci hanya mengambil halaman pertama hasil YouTube
+  — sekitar tiga puluh Shorts — dan berhenti pada yang terakhir alih-alih memuat
+  lebih banyak.

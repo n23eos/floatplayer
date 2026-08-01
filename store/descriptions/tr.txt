@@ -9,9 +9,10 @@ NEDEN SİLİNMİYOR
 • 0.25–3x hız ve %300'e kadar ses
 • Çalışmak için A-B döngüsü, ayrıca videonun tamamını döngüye alma
 • Mavi ışığı kısan gece modu ve gerçekten duraklatan uyku zamanlayıcısı
-• Sponsor bölümleri yeşil işaretlenir, tek tıkla atlanır
+• Sponsor bölümleri yeşil işaretlenir, otomatik atlanır
 • Yorumlar, canlı sohbet ve öneriler — sekmeye dönmeden
 • Shorts dikey pencerede kendiliğinden ilerler
+• Kelimeyle Shorts: bir kelime yazın, yalnızca onunla ilgili Shorts izleyin
 • Yalnızca video — kart yok, vitrin yok, karmaşa yok
 
 
@@ -55,7 +56,8 @@ eksik olanları ekler:
 - videoyu gerçekten duraklatan, 12 saate kadar uyku zamanlayıcısı
 - önceki ve sonraki video, açılır sütunda 20 öneriye kadar
 - ilerleme çubuğunda bölüm işaretleri ve imlecin altında bölüm adı
-- yerleşik PiP'in hiç ele almadığı Shorts desteği
+- yerleşik PiP'in hiç ele almadığı Shorts desteği, anahtar kelimeyle Shorts
+  oynatma dahil
 - içinde YouTube arayüzü bulunmayan, gerçekten sade bir pencere
 
 Fareyi oynatana kadar her şey gizlidir; yani çoğu zaman yalnızca videoyu ve
@@ -84,12 +86,14 @@ Açık olalım: YouTube'un kendi reklamlarına asla dokunulmaz. Konu, videonun
 içine gömülmüş sponsor bölümleri.
 
 SponsorBlock topluluğunun bildirdiği bölümler ilerleme çubuğunda yeşile boyanır,
-böylece gelen sponsor okumasını önceden görürsünüz; «Sponsor bölümünü atla»
-düğmesi ise tek tıkla sizi ötesine taşır. Otomatik atlamayı açın, onları hiç
-görmeyin. Hangi kategorilerin sayılacağını siz seçin — sponsor, kendi tanıtımı,
-beğen ve abone ol hatırlatmaları, intro, outro. sponsor.ajay.app adresine
-yalnızca video kimliği gönderilir — sizinle ilgili hiçbir şey, gezintinizle
-ilgili hiçbir şey — ve özelliğin tamamı kapatılabilir.
+böylece gelen sponsor okumasını önceden görürsünüz — ve kutudan çıktığı haliyle
+bu bölümler siz hiçbir şeye dokunmadan otomatik atlanır. Her seferinde kendiniz
+karar vermek mi istiyorsunuz? Otomatik atlamayı kapatın; bunun yerine bölümün
+içinde «Sponsor bölümünü atla» düğmesi belirir. Hangi kategorilerin
+sayılacağını siz seçin — sponsor, kendi tanıtımı, beğen ve abone ol
+hatırlatmaları, intro, outro. sponsor.ajay.app adresine yalnızca video kimliği
+gönderilir — sizinle ilgili hiçbir şey, gezintinizle ilgili hiçbir şey — ve
+özelliğin tamamı kapatılabilir.
 
 
 CANLI YAYINLAR
@@ -104,8 +108,17 @@ SHORTS, GERÇEKTEN DESTEKLENİYOR
 
 «Beğen» düğmesinin üstündeki özel düğme, Short'u 9:16 için biçilmiş dikey bir
 pencerede açar — siyah bant yok, kırpma yok. Bir Short bittiğinde sıradaki
-kendiliğinden başlar, alttaki oklar akışı doğrudan pencereden gezdirir. Shorts'u
-tarayıcıya hiç dokunmadan, ekranın köşesinde televizyon gibi çalıştırabilirsiniz.
+kendiliğinden başlar; videonun altındaki oklar — ya da yukarı ve aşağı tuşları —
+akışı doğrudan pencereden gezdirir. Shorts'u tarayıcıya hiç dokunmadan, ekranın
+köşesinde televizyon gibi çalıştırabilirsiniz.
+
+Panelin üstünde ona ait küçük bir çubuk durur: bir beğen düğmesi, otomatik geçiş
+anahtarı ve bir büyüteç.
+
+İşin en keyifli yanı büyüteç. Bir kelime yazıp Enter'a basın, pencere o kelimeye
+dair Shorts oynatsın — kediler, bir tarif, bir grup, ne istediyseniz. İleri,
+geri ve otomatik geçiş artık algoritmanın akışını değil, bu listeyi gezer. Esc'e
+basın ya da büyütece yeniden tıklayın, normal akışa dönersiniz.
 
 
 PENCERE BEKLEDİĞİNİZ GİBİ DAVRANIR
@@ -121,24 +134,35 @@ yükleme göstergesine izin verip başka hiçbir şeye izin vermeyen bir beyaz
 listeyle kaldırılır. Alışveriş katmanları, bilgi kartları, bitiş ekranları ve
 YouTube'un gelecekte icat edeceği her katman basitçe görünemez.
 
-Daha da azı mı? «Sade video» modu, Chrome şeridi hiç olmadan yerleşik PiP'i
-kullanır. İsteğe bağlı otomatik PiP (Chrome 120+) ise sekme değiştirdiğinizde
-videoyu kendiliğinden dışarı çıkarır.
+İki pencere modu var ve seçenekler sayfası ikisinden birini seçmenize izin
+verir:
+
+- «Tam (panelli)» — yukarıda anlatılan Document PiP penceresi: kontrol paneli,
+  ilerleme çubuğu ve yan sütun. Chrome bunun üstüne sitenin adresini taşıyan
+  ince bir şerit çizer; imleç uzaklaşınca o şerit kendiliğinden gizlenir.
+- «Sade video (şeritsiz)» — Chrome'un yerleşik PiP'i: videodan başka hiçbir şey,
+  ne adres şeridi ne de bizim panelimiz, yalnızca sistemin oynat düğmesi.
+  Ekranda mümkün olan en küçük şeyi istediğiniz anlar için.
+
+İsteğe bağlı otomatik PiP (Chrome 120+) sekme değiştirdiğinizde videoyu
+kendiliğinden dışarı çıkarır — hangi modu seçtiyseniz onunla.
 
 
 KISAYOLLAR VE AYARLAR
 
 Herhangi bir Chrome penceresinden: Alt+P pencereyi açar veya kapatır (Mac'te
 ⌥P), Alt+K duraklatır, Alt+J ve Alt+L 5 saniye atlar. Pencerede: boşluk veya K
-duraklatır, oklar 5 saniye atlar, 0–9 rakamları videoda ilerler, M sesi keser,
-< ve > hızı değiştirir. Tümü chrome://extensions/shortcuts adresinden
-değiştirilebilir.
+duraklatır, sol ve sağ oklar 5 saniye atlar, yukarı ve aşağı oklar sesi
+değiştirir — Shorts izliyorsanız akışı gezdirir —, 0–9 rakamları videoda
+ilerler, M sesi keser, < ve > hızı değiştirir. Tümü
+chrome://extensions/shortcuts adresinden değiştirilebilir.
 
 Araç çubuğu simgesi küçük bir panel açar: geçerli sekmede ne olduğu, videoyu
 dışarı çıkarmak ya da geri getirmek için tek düğme ve en sık değiştirdiğiniz
-anahtarlar. Tam ayarlar sayfası pencere stilini, otomatik PiP'i, SponsorBlock'u
-ve kategorilerini, atlama adımını, Shorts otomatik geçişini, sıkışık panelleri,
-hız adımını ve ses üst sınırını kapsar. Değişiklikler anında uygulanır.
+anahtarlar. Tam ayarlar sayfası pencere modunu, otomatik PiP'i, otomatik
+atlamasıyla birlikte SponsorBlock'u ve kategorilerini, Shorts otomatik geçişini,
+sıkışık panelleri, YouTube sayfasının kendisindeki paneli, hız adımını ve ses
+üst sınırını kapsar. Değişiklikler anında uygulanır.
 
 Arayüz 14 dil konuşur ve tarayıcınızı izler: İngilizce, Rusça, Almanca,
 İspanyolca, Fransızca, İtalyanca, Portekizce (Brezilya), Lehçe, Türkçe,
@@ -166,3 +190,5 @@ Kurduktan sonra hayal kırıklığına uğramaktansa önceden bilmek daha iyi:
   bizim değil, tarayıcının sınırı.
 - YouTube reklamları sırasında sarma çalışmaz: o anda ana video yüklü değildir,
   dolayısıyla sarılacak bir şey yoktur.
+- Kelimeyle Shorts araması YouTube sonuçlarının yalnızca ilk sayfasını alır —
+  yaklaşık otuz Short — ve daha fazlasını yüklemek yerine sonuncuda durur.

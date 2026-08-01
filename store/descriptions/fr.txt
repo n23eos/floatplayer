@@ -9,9 +9,10 @@ POURQUOI ON LE GARDE
 • Vitesse 0,25–3x et volume jusqu'à 300 %
 • Boucle A-B pour s'entraîner, et répétition de toute la vidéo
 • Mode nuit qui coupe la lumière bleue, et minuterie qui met vraiment en pause
-• Passages sponsorisés marqués en vert et évités en un clic
+• Passages sponsorisés marqués en vert et évités automatiquement
 • Commentaires, chat en direct et recommandations sans revenir à l'onglet
 • Shorts en fenêtre verticale qui enchaîne toute seule
+• Shorts par mot-clé : tapez un mot et ne voyez que des Shorts là-dessus
 • Rien que la vidéo : ni cartes, ni boutique, ni fouillis
 
 
@@ -59,7 +60,8 @@ FloatPlayer ajoute ce qui manque vraiment :
   dépliable
 - des repères de chapitre sur la barre de progression, avec le nom du chapitre
   sous le curseur
-- la prise en charge des Shorts, que le PiP natif refuse tout simplement
+- la prise en charge des Shorts, y compris la lecture de Shorts par mot-clé,
+  que le PiP natif refuse tout simplement
 - une fenêtre réellement propre, sans interface YouTube à l'intérieur
 
 Tout reste masqué jusqu'à ce que vous bougiez la souris : la plupart du temps,
@@ -88,13 +90,14 @@ Pour être clair : les publicités de YouTube ne sont jamais touchées. Il s'agi
 des placements intégrés dans la vidéo elle-même.
 
 Les passages signalés par la communauté SponsorBlock apparaissent en vert sur
-la barre de progression, vous voyez donc arriver le placement, et un bouton
-« Passer le sponsor » vous fait sauter par-dessus en un clic. Activez le saut
-automatique et vous ne les verrez plus du tout. Vous choisissez les catégories
-qui comptent : sponsor, autopromotion, rappels de like et d'abonnement,
-intro, outro. Seul l'identifiant de la vidéo est envoyé à sponsor.ajay.app —
-rien sur vous, rien sur votre navigation — et la fonction entière peut être
-désactivée.
+la barre de progression, vous voyez donc arriver le placement — et d'origine,
+ils sont sautés automatiquement, sans que vous touchiez à quoi que ce soit.
+Vous préférez décider à chaque fois ? Désactivez le saut automatique et un
+bouton « Passer le sponsor » apparaîtra à la place dans le passage. Vous
+choisissez les catégories qui comptent : sponsor, autopromotion, rappels de
+like et d'abonnement, intro, outro. Seul l'identifiant de la vidéo est envoyé à
+sponsor.ajay.app — rien sur vous, rien sur votre navigation — et la fonction
+entière peut être désactivée.
 
 
 DIRECTS
@@ -109,9 +112,19 @@ LES SHORTS, VRAIMENT PRIS EN CHARGE
 
 Un bouton dédié au-dessus de « J'aime » ouvre le Short dans une fenêtre
 verticale au format 9:16 — sans bandes noires ni recadrage. À la fin d'un
-Short, le suivant démarre tout seul, et les flèches du bas font défiler le fil
-directement depuis la fenêtre. Vous pouvez laisser tourner les Shorts dans un
-coin de l'écran comme une télévision, sans toucher au navigateur.
+Short, le suivant démarre tout seul, et les flèches sous la vidéo — ou les
+touches haut et bas — font défiler le fil directement depuis la fenêtre. Vous
+pouvez laisser tourner les Shorts dans un coin de l'écran comme une télévision,
+sans toucher au navigateur.
+
+Une petite barre à lui se glisse au-dessus du panneau : un bouton « J'aime »,
+un interrupteur pour l'enchaînement automatique et une loupe.
+
+C'est la loupe qui est intéressante. Tapez un mot, appuyez sur Entrée, et la
+fenêtre enchaîne les Shorts sur ce mot : des chats, une recette, un groupe, ce
+que vous avez demandé. Suivant, précédent et l'enchaînement automatique
+parcourent alors cette liste plutôt que le fil de l'algorithme. Appuyez sur
+Échap ou recliquez sur la loupe et vous revoilà dans le fil habituel.
 
 
 LA FENÊTRE SE COMPORTE COMME PRÉVU
@@ -129,25 +142,38 @@ l'indicateur de chargement. Les incrustations boutique, les fiches info, les
 écrans de fin et toute surcouche que YouTube inventera à l'avenir ne peuvent
 tout simplement pas apparaître.
 
-Vous en voulez encore moins ? Le mode « vidéo seule » utilise le PiP natif sans
-aucun bandeau Chrome. Et le PiP automatique optionnel (Chrome 120+) sort la
-vidéo tout seul quand vous changez d'onglet.
+Il existe deux modes de fenêtre, et la page de réglages vous laisse choisir
+l'un ou l'autre :
+
+- « Complet (avec panneau) » : la fenêtre Document PiP décrite plus haut, avec
+  le panneau de commandes, la barre de progression et la colonne latérale.
+  Chrome dessine par-dessus un fin bandeau avec l'adresse du site ; ce bandeau
+  se masque tout seul quand le curseur s'éloigne.
+- « Vidéo seule (sans bandeau) » : le PiP natif de Chrome, rien que la vidéo,
+  sans bandeau d'adresse ni panneau à nous, juste le bouton de lecture du
+  système. Pour quand vous voulez le moins de choses possible à l'écran.
+
+Le PiP automatique optionnel (Chrome 120+) sort la vidéo tout seul quand vous
+changez d'onglet, dans le mode que vous avez choisi.
 
 
 RACCOURCIS ET RÉGLAGES
 
 Depuis n'importe quelle fenêtre Chrome : Alt+P ouvre ou ferme la fenêtre (⌥P
 sur Mac), Alt+K met en pause, Alt+J et Alt+L sautent 5 secondes. Dans la
-fenêtre : espace ou K met en pause, les flèches sautent 5 secondes, les
-chiffres 0–9 sautent dans la vidéo, M coupe le son, < et > changent la vitesse.
-Tout est réassignable dans chrome://extensions/shortcuts.
+fenêtre : espace ou K met en pause, les flèches gauche et droite sautent
+5 secondes, haut et bas changent le volume — ou font défiler le fil quand vous
+regardez des Shorts —, les chiffres 0–9 sautent dans la vidéo, M coupe le son,
+< et > changent la vitesse. Tout est réassignable dans
+chrome://extensions/shortcuts.
 
 L'icône de la barre d'outils ouvre un petit panneau : ce que fait l'onglet
 actuel, un bouton pour sortir la vidéo ou la ramener, et les interrupteurs que
-vous changez le plus souvent. La page de réglages complète couvre le style de
-fenêtre, le PiP automatique, SponsorBlock et ses catégories, le pas d'avance,
-l'enchaînement des Shorts, les panneaux compacts, le pas de vitesse et le
-volume maximal. Les changements s'appliquent immédiatement.
+vous changez le plus souvent. La page de réglages complète couvre le mode de
+fenêtre, le PiP automatique, SponsorBlock avec son saut automatique et ses
+catégories, l'enchaînement des Shorts, les panneaux compacts, le panneau sur la
+page YouTube elle-même, le pas de vitesse et le volume maximal. Les changements
+s'appliquent immédiatement.
 
 L'interface parle 14 langues et suit votre navigateur : anglais, russe,
 allemand, espagnol, français, italien, portugais (Brésil), polonais, turc,
@@ -178,3 +204,6 @@ Mieux vaut le savoir avant d'installer que d'être déçu après :
   par programme : ce sont des limites du navigateur, pas les nôtres.
 - Pendant les publicités YouTube, la navigation est impossible : la vidéo
   principale n'est pas chargée à ce moment-là, il n'y a donc rien à parcourir.
+- La recherche de Shorts par mot-clé ne prend que la première page de résultats
+  de YouTube — une trentaine de Shorts — et s'arrête sur le dernier au lieu
+  d'en charger d'autres.

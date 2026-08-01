@@ -9,9 +9,10 @@ POR QUE AS PESSOAS MANTÊM
 • Velocidade 0.25–3x e volume até 300%
 • Repetição A-B para treinar, e loop do vídeo inteiro
 • Modo noturno que corta a luz azul e um timer que pausa de verdade
-• Patrocínios marcados em verde e pulados com um clique
+• Patrocínios marcados em verde e pulados automaticamente
 • Comentários, chat ao vivo e recomendações sem voltar para a aba
 • Shorts em janela vertical que avança sozinha
+• Shorts por palavra: digite um termo e veja só Shorts sobre ele
 • Só vídeo — sem cards, sem vitrine, sem bagunça
 
 
@@ -56,7 +57,8 @@ acrescenta o que realmente falta:
 - um timer que realmente pausa o vídeo, até 12 horas
 - vídeo anterior e próximo, e até 20 recomendações numa coluna deslizante
 - marcas de capítulo na barra de progresso, com o nome do capítulo sob o cursor
-- suporte a Shorts, que o PiP nativo se recusa a tratar
+- suporte a Shorts, inclusive tocar Shorts por palavra-chave, algo que o PiP
+  nativo se recusa a tratar
 - uma janela de fato limpa, sem interface do YouTube dentro
 
 Tudo se esconde até você mexer o mouse, então quase o tempo todo você vê apenas
@@ -85,12 +87,13 @@ Deixando claro: os anúncios do próprio YouTube nunca são tocados. Isto é sob
 os merchans inseridos no próprio vídeo.
 
 Os trechos relatados pela comunidade SponsorBlock ficam verdes na barra de
-progresso, então você vê o merchan chegando, e o botão «Pular o patrocínio» leva
-você além dele com um clique. Ligue o pulo automático e você não os vê mais.
-Escolha quais categorias contam — patrocínio, autopromoção, lembretes de curtir
-e se inscrever, introdução, encerramento. Só o ID do vídeo é enviado ao
-sponsor.ajay.app — nada sobre você, nada sobre o que você navega — e o recurso
-inteiro pode ser desligado.
+progresso, então você vê o merchan chegando — e, de fábrica, eles são pulados
+automaticamente, sem você tocar em nada. Prefere decidir a cada vez? Desligue o
+pulo automático e, em vez disso, aparece dentro do trecho o botão «Pular o
+patrocínio». Escolha quais categorias contam — patrocínio, autopromoção,
+lembretes de curtir e se inscrever, introdução, encerramento. Só o ID do vídeo
+é enviado ao sponsor.ajay.app — nada sobre você, nada sobre o que você navega —
+e o recurso inteiro pode ser desligado.
 
 
 TRANSMISSÕES AO VIVO
@@ -105,8 +108,17 @@ SHORTS DE VERDADE
 
 Um botão dedicado acima do «Gostei» abre o Short numa janela vertical no formato
 9:16 — sem barras pretas, sem cortes. Quando um Short acaba, o próximo começa
-sozinho, e as setas de baixo percorrem o feed direto da janela. Dá para deixar os
-Shorts num canto da tela como uma televisão, sem tocar no navegador.
+sozinho, e as setas abaixo do vídeo — ou as teclas para cima e para baixo —
+percorrem o feed direto da janela. Dá para deixar os Shorts num canto da tela
+como uma televisão, sem tocar no navegador.
+
+Acima do painel fica uma barrinha só dele: um botão de curtir, uma chave para o
+avanço automático e uma lupa.
+
+A lupa é a parte interessante. Digite uma palavra, aperte Enter e a janela toca
+Shorts sobre ela — gatos, uma receita, uma banda, o que você pedir. Avançar,
+voltar e o avanço automático passam a percorrer essa lista, e não o feed do
+algoritmo. Aperte Esc ou clique na lupa de novo e você volta ao feed normal.
 
 
 A JANELA SE COMPORTA COMO VOCÊ ESPERA
@@ -122,24 +134,35 @@ lista branca que permite o vídeo, as legendas e o indicador de carregamento e
 nada mais. Vitrines de compras, cards de informação, telas finais e qualquer
 sobreposição que o YouTube invente no futuro simplesmente não podem aparecer.
 
-Quer ainda menos? O modo «vídeo limpo» usa o PiP nativo, sem faixa do Chrome
-nenhuma. E o PiP automático opcional (Chrome 120+) tira o vídeo da aba sozinho
-quando você troca de aba.
+São dois modos de janela, e a página de opções deixa você escolher qualquer um:
+
+- «Completo (com painel)» — a janela Document PiP descrita acima, com o painel
+  de controles, a barra de progresso e a coluna lateral. O Chrome desenha em
+  cima uma faixa fina com o endereço do site; essa faixa some sozinha quando o
+  cursor se afasta.
+- «Vídeo limpo (sem faixa)» — o PiP nativo do Chrome: nada além do vídeo, sem
+  faixa de endereço e sem painel nosso, só o botão de play do sistema. Para
+  quando você quer a menor coisa possível na tela.
+
+O PiP automático opcional (Chrome 120+) tira o vídeo da aba sozinho quando você
+troca de aba, no modo que você escolheu.
 
 
 ATALHOS E CONFIGURAÇÕES
 
 De qualquer janela do Chrome: Alt+P abre ou fecha a janela (⌥P no Mac), Alt+K
 pausa, Alt+J e Alt+L pulam 5 segundos. Dentro da janela: espaço ou K pausa, as
-setas pulam 5 segundos, os dígitos 0–9 saltam pelo vídeo, M tira o som, < e >
-mudam a velocidade. Tudo reconfigurável em chrome://extensions/shortcuts.
+setas para os lados pulam 5 segundos, as de cima e de baixo mudam o volume — ou
+percorrem o feed quando você está nos Shorts —, os dígitos 0–9 saltam pelo
+vídeo, M tira o som, < e > mudam a velocidade. Tudo reconfigurável em
+chrome://extensions/shortcuts.
 
 O ícone na barra abre um painelzinho: o que a aba atual está fazendo, um botão
 para tirar o vídeo ou trazê-lo de volta, e as chaves que você mais muda. A
-página completa de configurações cobre estilo da janela, PiP automático,
-SponsorBlock e suas categorias, passo do avanço, avanço automático dos Shorts,
-painéis compactos, passo de velocidade e o teto de volume. As mudanças valem na
-hora.
+página completa de configurações cobre o modo da janela, PiP automático,
+SponsorBlock com pulo automático e suas categorias, avanço automático dos
+Shorts, painéis compactos, o painel na própria página do YouTube, o passo de
+velocidade e o teto de volume. As mudanças valem na hora.
 
 A interface fala 14 idiomas e segue o navegador: inglês, russo, alemão,
 espanhol, francês, italiano, português (Brasil), polonês, turco, ucraniano,
@@ -168,3 +191,5 @@ Melhor saber antes de instalar do que se decepcionar depois:
   programa — são limites do navegador, não nossos.
 - Durante os anúncios do YouTube não dá para avançar: o vídeo principal não está
   carregado naquele momento, então não há o que percorrer.
+- A busca de Shorts por palavra pega só a primeira página de resultados do
+  YouTube — uns trinta Shorts — e para no último, em vez de carregar mais.
