@@ -1,15 +1,15 @@
 # Материалы для Chrome Web Store
 
-Актуально для версии 1.12.x.
+Актуально для версии 1.14.x.
 
 ## Название
 FloatPlayer — Picture in Picture for YouTube
 
 ## Краткое описание (до 132 символов)
 
-**RU:** YouTube поверх всех окон: скорость, громкость до 300%, A-B повтор, ночной режим, комментарии и чат прямо в мини-окне.
+**RU:** YouTube поверх всех окон: скорость, громкость до 300%, A-B повтор, ночной режим, комментарии и шортсы по любому слову. _(118 символов)_
 
-**EN:** YouTube always on top: speed, volume to 300%, A-B loop, night mode, comments and live chat right inside the mini-window.
+**EN:** YouTube always on top: speed, volume to 300%, A-B loop, night mode, comments, and Shorts by any keyword you type. _(113 символов)_
 
 ## Подробное описание
 
@@ -47,7 +47,8 @@ FloatPlayer — Picture in Picture for YouTube
   не используется для рекламы/кредитоспособности.
 - Остальные запросы идут к самому YouTube со вкладки YouTube и под уже
   открытой сессией пользователя: комментарии (`youtubei/v1/next`), страница
-  чата эфира (`live_chat`) и обложки рекомендаций (`i.ytimg.com`). Данные при
+  чата эфира (`live_chat`), выдача поиска шортсов по слову (`/results`,
+  тот же origin) и обложки рекомендаций (`i.ytimg.com`). Данные при
   этом не покидают YouTube и до разработчика не доходят, отдельной категории
   в форме им не соответствует.
 
@@ -66,19 +67,19 @@ FloatPlayer — Picture in Picture for YouTube
 
 ### Описание цели (Single purpose)
 
-Поле «Описание цели», лимит 1000 символов (сейчас 694).
+Поле «Описание цели», лимит 1000 символов (сейчас 730).
 
 > FloatPlayer has a single purpose: playing the YouTube video the user is already watching inside an always-on-top Picture-in-Picture window, with the controls such a window needs.
 > 
-> Everything it does serves that one video — play/pause and seeking, playback speed, volume, A-B and full-video loop, chapter marks, night mode, a sleep timer, live-stream controls, Shorts navigation, skipping in-video sponsor segments, and a side column showing that same video's comments, live chat and recommendations so the user does not have to switch back to the tab.
+> Everything it does serves that one video — play/pause and seeking, playback speed, volume, A-B and full-video loop, chapter marks, night mode, a sleep timer, live-stream controls, Shorts navigation including playing shorts by keyword, skipping in-video sponsor segments, and a side column showing that same video's comments, live chat and recommendations so the user does not have to switch back to the tab.
 > 
 > The extension runs only on youtube.com and does nothing outside YouTube playback. It has no accounts, no analytics and no servers of its own.
 
 ### Разрешение `storage`
 
-Поле «Обоснование (storage)», лимит 1000 символов (сейчас 657).
+Поле «Обоснование (storage)», лимит 1000 символов (сейчас 677).
 
-> Stores the user's own preferences in storage.sync: mini-window style, auto-PiP, compact panel, speed slider step, volume ceiling, manual skip step, night-mode level, autoplay, Shorts auto-advance, and the SponsorBlock switches and categories.
+> Stores the user's own preferences in storage.sync: mini-window mode, auto-PiP, compact panel, the panel on the YouTube page, speed slider step, volume ceiling, night-mode level, autoplay, Shorts auto-advance, and the SponsorBlock switches and categories.
 > 
 > In storage.local it keeps the last mini-window width — separately for landscape videos and vertical Shorts, so the window reopens at the size the user left it — and a one-time flag recording that the first-run hint has already been shown, so it is not repeated.
 > 
@@ -86,9 +87,9 @@ FloatPlayer — Picture in Picture for YouTube
 
 ### Разрешения на доступ к хостам
 
-Поле «Обоснование (Разрешение на доступ к хостам)», лимит 1000 (сейчас 910).
+Поле «Обоснование (Разрешение на доступ к хостам)», лимит 1000 (сейчас 990).
 
-> *://*.youtube.com/* — the extension runs on YouTube watch and Shorts pages to add its button to the player, move the real player element into the Document Picture-in-Picture window and control playback inside that window. The same access reads the current video's title, chapters and recommendations, and — only when the user opens that column — loads the video's comments and a stream's live chat from YouTube's own endpoints, under the session the user is already signed in to on that page. This is the core function and cannot be done without access to YouTube pages.
+> *://*.youtube.com/* — the extension runs on YouTube watch and Shorts pages to add its button to the player, move the real player element into the Document Picture-in-Picture window and control playback there. The same access reads the current video's title, chapters and recommendations; only when the user opens that column, it loads the video's comments and a stream's live chat from YouTube's own endpoints, under the session already signed in on that page. When the user searches Shorts by keyword, it requests YouTube's own search results page on the same origin. This is the core function and cannot be done without access to YouTube pages.
 > 
 > https://sponsor.ajay.app/* — used by the optional "sponsor segments" feature: it requests community-labelled timestamps for the current video so in-video sponsor reads can be marked on the progress bar and skipped in one click. Only the video ID is sent, no cookies and no account data, and the feature can be switched off in the options.
 
@@ -96,9 +97,13 @@ FloatPlayer — Picture in Picture for YouTube
 
 Выбрать **«Нет, я не использую удалённый код»**, поле обоснования оставить
 пустым. Проверено по коду: ни `eval`, ни `new Function`, ни создания тегов
-`<script>`, ни `chrome.scripting`, ни исполнения в MAIN-мире. Весь JS и CSS
-лежат в пакете. Сетевые ответы (сегменты SponsorBlock, JSON комментариев)
-разбираются как данные и никогда не исполняются. Внешние URL в HTML
+`<script>`, ни `chrome.scripting`. Весь JS и CSS лежат в пакете. Один файл
+пакета — `content/yt-navigate-bridge.js` — объявлен в манифесте с
+`"world": "MAIN"`: он нужен, чтобы позвать внутренний роутер YouTube при
+переходе к следующему шортсу. Это тот же локальный файл из ZIP, ничего
+загружаемого извне в нём нет. Сетевые ответы (сегменты SponsorBlock, JSON
+комментариев, HTML выдачи поиска) разбираются как данные и никогда не
+исполняются. Внешние URL в HTML
 расширения — только ссылки-переходы в `<a href>`.
 
 ### Передача данных — какие категории отмечать
@@ -120,9 +125,9 @@ FloatPlayer — Picture in Picture for YouTube
   управления плеером, никуда не отправляются и нигде не сохраняются.
 - «Содержимое сайтов» — название видео, главы, комментарии и рекомендации
   читаются и показываются локально, в окне на устройстве пользователя;
-  разработчику и третьим лицам они не передаются. Запросы комментариев и чата
-  идут к самому YouTube, со вкладки YouTube и под уже открытой сессией
-  пользователя, поэтому новой передачи данных не создают.
+  разработчику и третьим лицам они не передаются. Запросы комментариев, чата и
+  поиска шортсов по слову идут к самому YouTube, со вкладки YouTube и под уже
+  открытой сессией пользователя, поэтому новой передачи данных не создают.
 
 Три обязательные галочки-подтверждения — отметить все, они верны: данные не
 продаются третьим лицам; не используются для целей, не связанных с основной

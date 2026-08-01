@@ -9,9 +9,10 @@ WHY PEOPLE KEEP IT
 • Speed 0.25–3x and volume up to 300%
 • A-B loop for practice, plus loop the whole video
 • Night mode that cuts blue light, and a sleep timer that really pauses
-• Sponsor segments marked in green and skipped in one click
+• Sponsor segments marked in green and skipped automatically
 • Comments, live chat and recommendations without going back to the tab
 • Shorts in a vertical window that advances by itself
+• Shorts by keyword: type a word and watch only shorts about it
 • Video only — no cards, no shopping overlays, no clutter
 
 
@@ -54,7 +55,8 @@ what is actually missing:
 - a sleep timer that actually pauses the video, up to 12 hours
 - prev/next video and up to 20 recommendations in a slide-out column
 - chapter marks on the progress strip, with the chapter name under the cursor
-- Shorts support, which native PiP refuses to handle at all
+- Shorts support, including playing shorts by keyword, which native PiP
+  refuses to handle at all
 - a genuinely clean window with no YouTube interface inside
 
 Everything hides until you move the mouse, so most of the time you see only the
@@ -83,10 +85,11 @@ To be clear: YouTube's own ads are never touched. This is about sponsor reads
 baked into the video itself.
 
 Segments reported by the SponsorBlock community are painted green on the
-progress strip, so you see an ad read coming, and a "Skip sponsor segment"
-button takes you past it in one click. Turn on auto-skip and you never see them
-at all. Choose which categories count — sponsor, self-promotion, like-and-
-subscribe reminders, intro, outro. Only the video ID is sent to
+progress strip, so you see an ad read coming — and out of the box they are
+skipped automatically, without you touching anything. Prefer to decide each
+time? Turn auto-skip off and a "Skip sponsor segment" button appears inside the
+segment instead. Choose which categories count — sponsor, self-promotion,
+like-and-subscribe reminders, intro, outro. Only the video ID is sent to
 sponsor.ajay.app — nothing about you, nothing about your browsing — and the
 whole feature can be switched off.
 
@@ -103,9 +106,18 @@ SHORTS, PROPERLY SUPPORTED
 
 A dedicated button above Like opens a short in a vertical window shaped for
 9:16 — no black bars, no cropping. When a short ends the next one starts on its
-own, and the bottom arrows scroll the feed straight from the window. You can run
-Shorts in the corner of the screen like a television, without touching the
-browser.
+own, and the arrows under the video — or the up and down keys — scroll the feed
+straight from the window. You can run Shorts in the corner of the screen like a
+television, without touching the browser.
+
+Its own little bar sits above the panel: a Like button, a switch for
+auto-advance, and a magnifier.
+
+The magnifier is the interesting one. Type a word, press Enter, and the window
+plays shorts about that word — cats, a recipe, a band, whatever you asked for.
+Forward, back and auto-advance then walk through that list instead of the
+algorithm's feed. Press Escape or click the magnifier again and you are back on
+the normal feed.
 
 
 THE WINDOW BEHAVES THE WAY YOU EXPECT
@@ -121,23 +133,34 @@ whitelist that allows the video, the captions and the loading spinner and
 nothing else. Shopping overlays, info cards, end screens and any overlay YouTube
 invents in the future simply cannot appear.
 
-Want even less? "Clean video" mode uses native PiP with no Chrome strip at all.
-And optional Auto-PiP (Chrome 120+) pops the video out by itself when you switch
-tabs.
+There are two window modes, and the options page lets you pick either one:
+
+- "Full (with panel)" — the Document PiP window described above, with the
+  control panel, the progress strip and the side column. Chrome draws a thin
+  strip with the site address on top of it; that strip hides itself when the
+  cursor moves away.
+- "Clean video (no strip)" — Chrome's native PiP: nothing but the video, no
+  address strip and no panel of ours, only the system play button. For when you
+  want the smallest possible thing on screen.
+
+Optional Auto-PiP (Chrome 120+) pops the video out by itself when you switch
+tabs, in whichever mode you chose.
 
 
 SHORTCUTS AND SETTINGS
 
 From any Chrome window: Alt+P opens or closes the window (⌥P on Mac), Alt+K
 pauses, Alt+J and Alt+L step 5 seconds. Inside the window: Space or K pauses,
-arrows step 5 seconds, digits 0–9 jump through the video, M mutes, < and >
-change speed. All reassignable at chrome://extensions/shortcuts.
+left and right arrows step 5 seconds, up and down change the volume — or scroll
+the feed when you are watching Shorts — digits 0–9 jump through the video, M
+mutes, < and > change speed. All reassignable at chrome://extensions/shortcuts.
 
 The toolbar icon opens a small panel: what the current tab is doing, one button
 to pop the video out or bring it back, and the switches you change most often.
-The full settings page covers window style, Auto-PiP, SponsorBlock and its
-categories, skip step, Shorts auto-advance, compact panels, speed step and the
-volume ceiling. Changes apply immediately.
+The full settings page covers the window mode, Auto-PiP, SponsorBlock with
+auto-skip and its categories, Shorts auto-advance, compact panels, the panel on
+the YouTube page itself, the speed step and the volume ceiling. Changes apply
+immediately.
 
 The interface speaks 14 languages and follows your browser: English, Russian,
 German, Spanish, French, Italian, Portuguese (Brazil), Polish, Turkish,
@@ -165,3 +188,5 @@ Better to know before installing than to be disappointed after:
   both are browser limits, not ours.
 - Seeking does not work during YouTube ads: the main video is not loaded at that
   moment, so there is nothing to seek through.
+- Keyword Shorts search takes the first page of YouTube's results — about thirty
+  shorts — and stops on the last one instead of loading more.
