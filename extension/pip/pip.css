@@ -599,12 +599,13 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   gap: 18px;
 }
 
-/* Боковым частям строки даём равную долю ширины: ползунки слева и справа
-   разной длины, и без этого центральный блок съезжал бы от середины. */
+/* Боковые части делят свободное место поровну, но не сжимаются ниже
+   своего содержимого: иначе правая половина (там выпадающий список
+   таймера) не помещалась в свою долю и уезжала на вторую строку. */
 .ytfp-row--main > :first-child,
 .ytfp-row--main > :last-child {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 1 1 auto;
+  min-width: max-content;
 }
 
 /* Если строка всё же не влезает (узкое окно), она переносится, а не
@@ -646,7 +647,7 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 2px;
 }
 
@@ -685,6 +686,11 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   .ytfp-row--main > :first-child,
   .ytfp-row--main > :last-child {
     flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .ytfp-group {
+    flex-wrap: wrap;
   }
 
   .ytfp-row {
