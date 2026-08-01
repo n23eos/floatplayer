@@ -129,6 +129,23 @@ YTFP.playerApi = (() => {
     return bounds ? bounds.end : null;
   }
 
+  // Насколько можно отстать от края и всё ещё считаться «в эфире».
+  // Даже онлайн-плеер держится на несколько секунд позади seekable.end
+  // (задержка вещания и недокачанные чанки), и жёсткий порог заставлял бы
+  // кнопку LIVE мигать отставанием «−0:05», а полоску — не доезжать до
+  // правого края. Сам YouTube показывает «В эфире» с таким же щедрым
+  // допуском.
+  const LIVE_EDGE_TOLERANCE_SECONDS = 20;
+
+  /** В эфире ли текущая позиция (единая проверка для кнопки и полоски). */
+  function isAtLiveEdge(video = getVideo()) {
+    if (!video || !isLive()) {
+      return false;
+    }
+    const behind = YTFP.utils.behindLiveSeconds(getLiveEdge(), video.currentTime);
+    return behind === null || behind < LIVE_EDGE_TOLERANCE_SECONDS;
+  }
+
   function seekBy(deltaSeconds) {
     const video = getVideo();
     if (!video || isAdShowing()) {
@@ -166,7 +183,7 @@ YTFP.playerApi = (() => {
 
   return {
     getPlayerRoot, getVideo, isWatchPage, isShortsPage, isPlayerPage,
-    isAdShowing, isLive, getLiveEdge, getSeekRange, getVideoId,
+    isAdShowing, isLive, getLiveEdge, isAtLiveEdge, getSeekRange, getVideoId,
     seekBy, togglePlayPause, setSpeed
   };
 })();

@@ -75,6 +75,11 @@ YTFP.pipProgress = (() => {
         // Сейчас currentTime/duration — это рекламный ролик:
         // рисуем белую полоску, красную не трогаем (заморожена).
         adFill.style.width = `${(fraction * 100).toFixed(3)}%`;
+      } else if (YTFP.playerApi.isAtLiveEdge(video)) {
+        // Стрим в онлайне: полоска прижата к правому краю, как у самого
+        // YouTube. По доле она вечно застревала бы на 98–99% — живой плеер
+        // всегда на несколько секунд позади края буфера.
+        fill.style.width = "100%";
       } else {
         fill.style.width = `${(fraction * 100).toFixed(3)}%`;
       }

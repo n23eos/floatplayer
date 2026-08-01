@@ -216,11 +216,9 @@ YTFP.pipControls = (() => {
 
     // --- Прямой эфир ----------------------------------------------------------
     // На обычном видео кнопки нет вообще. На стриме: у края эфира горит
-    // красная точка, при отставании — на сколько отстали, клик возвращает.
-    // Отставание меньше секунды считаем эфиром: край растёт непрерывно, и
-    // подпись иначе дёргалась бы на «−0:00».
-    const LIVE_EDGE_TOLERANCE_SECONDS = 1;
-
+    // красная точка LIVE, при заметном отставании — на сколько отстали,
+    // клик возвращает к эфиру. Что считать «у края», решает единая проверка
+    // playerApi.isAtLiveEdge() — та же, что красит полоску прогресса.
     const liveButton = pipDocument.createElement("button");
     liveButton.className = "ytfp-btn ytfp-btn--live";
     YTFP.tooltips.attach(liveButton, t("liveTooltip", "Jump to the live edge"));
@@ -243,15 +241,19 @@ YTFP.pipControls = (() => {
       if (!isLive) {
         return;
       }
-      const behind = YTFP.utils.behindLiveSeconds(
-        YTFP.playerApi.getLiveEdge(),
-        video.currentTime
-      );
-      const atEdge = behind === null || behind < LIVE_EDGE_TOLERANCE_SECONDS;
+      const atEdge = YTFP.playerApi.isAtLiveEdge(video);
       liveButton.classList.toggle("ytfp-btn--live-edge", atEdge);
-      liveLabel.textContent = atEdge
-        ? t("liveLabel", "LIVE")
-        : `−${YTFP.utils.formatTime(behind)}`;
+      if (atEdge) {
+        liveLabel.textContent = t("liveLabel", "LIVE");
+      } else {
+        const behind = YTFP.utils.behindLiveSeconds(
+          YTFP.playerApi.getLiveEdge(),
+          video.currentTime
+        );
+        liveLabel.textContent = behind === null
+          ? t("liveLabel", "LIVE")
+          : `−${YTFP.utils.formatTime(behind)}`;
+      }
     }
 
     // --- Скорость: ползунок с шагами -----------------------------------------
