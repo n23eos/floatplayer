@@ -52,6 +52,7 @@
         "content/pip-reactions.js",
         "content/pip-controller.js",
         "content/sponsor-block.js",
+        "content/page-panel.js",
         "content/page-controls.js",
         "content/inject-button.js"
       ],

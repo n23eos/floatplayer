@@ -253,11 +253,18 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   // момент (смена видео, театральный режим), и кнопку нужно вернуть.
   function ensureButtonWithRetries() {
     const RETRY_DELAYS_MS = [0, 500, 1500, 3000];
-    RETRY_DELAYS_MS.forEach((delay) => setTimeout(ensureButton, delay));
+    RETRY_DELAYS_MS.forEach((delay) => setTimeout(ensurePageUi, delay));
+  }
+
+  // Тем же сторожем поддерживаем панель поверх плеера страницы: YouTube
+  // пересоздаёт разметку плеера при смене видео и режимов.
+  function ensurePageUi() {
+    ensureButton();
+    YTFP.pagePanel.ensurePanel();
   }
 
   const GUARD_INTERVAL_MS = 2000;
-  setInterval(ensureButton, GUARD_INTERVAL_MS);
+  setInterval(ensurePageUi, GUARD_INTERVAL_MS);
 
   function onNavigateFinish() {
     ensureButtonWithRetries();

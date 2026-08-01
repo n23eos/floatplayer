@@ -130,6 +130,10 @@ YTFP.pipReactions = (() => {
   function build(pipDocument) {
     const root = pipDocument.createElement("div");
     root.className = "ytfp-reactions";
+    // Прячутся и всплывают вместе с остальным интерфейсом окна.
+    if (YTFP.settings.get().compactMode) {
+      root.classList.add("ytfp-reactions--compact");
+    }
 
     const reactions = REACTIONS.map((config) => createReaction(pipDocument, config));
     root.append(...reactions.map((reaction) => reaction.element));

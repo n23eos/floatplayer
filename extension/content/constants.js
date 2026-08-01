@@ -58,7 +58,9 @@ YTFP.DEFAULT_SETTINGS = {
   autoPip: false,       // авто-вынос при уходе со вкладки
   speedStep: 0.25,      // шаг ползунка скорости
   volumeBoostMax: 300,  // потолок усиления громкости, %
-  compactMode: true,        // прятать панель, показывать при наведении
+  compactMode: true,
+  // Панель поверх обычного плеера YouTube (громкость, скорость, ±30).
+  pagePanel: true,        // прятать панель, показывать при наведении
   skipStepSeconds: 30,      // шаг кнопки промотки интеграций, сек
   sponsorSkip: true,        // сегменты SponsorBlock на таймлайне + кнопка пропуска
   sponsorAutoSkip: false,   // автопропуск сегментов без кнопки (opt-in)

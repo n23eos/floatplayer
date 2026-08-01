@@ -414,24 +414,19 @@ YTFP.pip = (() => {
     // Чат прямого эфира. У шортсов эфиров не бывает — там панель не строим.
     const chat = isShorts ? null : YTFP.pipChat.build(pipWindow.document);
 
-    // Оценки в левом нижнем углу — «нравится» и «не нравится».
+    // Оценки — крупными полупрозрачными значками у левого края, под
+    // названием. В общую панель они не входят: там им пришлось бы делить
+    // размер с остальными кнопками, а это самое частое действие в окне.
     const reactions = YTFP.pipReactions.build(pipWindow.document);
 
-    const controls = YTFP.pipControls.buildBar(pipWindow.document, {
-      getVideo: getMovedVideo,
-      onReturnRequested: close,
-      isShorts
-    });
-    // Панель и плашка названия — одной колонкой сверху: название всегда
-    // под панелью, какой бы высоты она ни оказалась (в узком окне шортсов
-    // кнопки переносятся на вторую строку).
+    // Сверху — только подпись: что играет и чей канал.
     const topStack = pipWindow.document.createElement("div");
     topStack.className = "ytfp-top";
-    topStack.append(controls.element, titleBar);
+    topStack.append(titleBar, reactions.element);
     pipWindow.document.body.appendChild(topStack);
     if (chat) {
       // Сама выдвижная колонка чата/комментариев — у правого края окна;
-      // её кнопка уезжает в нижнюю капсулу ниже.
+      // её кнопка уезжает в нижнюю панель.
       pipWindow.document.body.appendChild(chat.element);
     }
 
@@ -508,17 +503,17 @@ YTFP.pip = (() => {
     // Слой поверх кадра: значок паузы по центру и подпись перемотки.
     pipWindow.document.body.appendChild(nav.element);
 
-    // Нижняя капсула: оценки, ряд навигации и кнопка комментариев/чата
-    // одной полупрозрачной плашкой — как панель сверху. Собственные
-    // подложки у кнопок снимает CSS, иначе внутри капсулы получались бы
-    // кружки на кружке.
-    const bottomBar = pipWindow.document.createElement("div");
-    bottomBar.className = "ytfp-bottom";
-    bottomBar.append(reactions.element, nav.row);
-    if (chat) {
-      bottomBar.appendChild(chat.toggle);
-    }
-    pipWindow.document.body.appendChild(bottomBar);
+    // Единственная панель окна — внизу. Ряд воспроизведения и кнопку боковой
+    // колонки строят соседние модули, поэтому панель собирается последней,
+    // когда обе части готовы.
+    const controls = YTFP.pipControls.buildBar(pipWindow.document, {
+      getVideo: getMovedVideo,
+      onReturnRequested: close,
+      isShorts,
+      navRow: nav.row,
+      chatToggle: chat ? chat.toggle : null
+    });
+    pipWindow.document.body.appendChild(controls.element);
 
     state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, titleObserver, titleTicker, resizeTimer: null };
 

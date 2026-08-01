@@ -50,7 +50,7 @@ body {
 .ytp-chrome-top,
 .ytp-popup,
 .ytp-tooltip,
-.ytfp-bar,
+.ytfp-bottom,
 button,
 input,
 select {
@@ -165,7 +165,7 @@ select {
 }
 
 /* Компактный режим: название спрятано и всплывает вместе с панелью,
-   когда курсор входит в окно (те же длительности, что у .ytfp-bar). */
+   когда курсор входит в окно (те же длительности, что у панели). */
 .ytfp-title--compact {
   transform: translateY(-8px);
   opacity: 0;
@@ -176,74 +176,47 @@ body:hover .ytfp-title--compact {
   opacity: 1;
 }
 
-/* Панель дополнительных функций — «пилюля» в верхней колонке (.ytfp-top),
-   название видео идёт под ней. */
-.ytfp-bar {
-  width: 100%;
-  box-sizing: border-box;
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  /* Содержимое панели шире окна по умолчанию (480 px): без переноса
-     правый край — ночной режим, таймер сна и кнопка возврата — уезжал
-     за границу окна, и добраться до него было нельзя. */
-  flex-wrap: wrap;
-  row-gap: 4px;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: var(--ytfp-radius);
-  background: var(--ytfp-panel-bg);
-  backdrop-filter: var(--ytfp-panel-blur);
-  -webkit-backdrop-filter: var(--ytfp-panel-blur);
-  color: var(--ytfp-text);
-  font-family: var(--ytfp-font);
-  font-size: 12px;
-  transform: translateY(0);
-  transition: transform var(--ytfp-anim), opacity var(--ytfp-anim);
-}
-
 /* Узкая панель для вертикального окна шортсов: плотнее, короткие
    ползунки, перенос на вторую строку при совсем малой ширине. */
-.ytfp-bar--narrow {
+.ytfp-bottom--narrow {
   gap: 4px;
   padding: 4px 6px;
   flex-wrap: wrap;
   font-size: 11px;
 }
 
-.ytfp-bar--narrow .ytfp-btn {
+.ytfp-bottom--narrow .ytfp-btn {
   padding: 4px 6px;
 }
 
-.ytfp-bar--narrow .ytfp-speed input[type="range"] {
+.ytfp-bottom--narrow .ytfp-speed input[type="range"] {
   width: 44px;
 }
 
-.ytfp-bar--narrow .ytfp-boost input[type="range"] {
+.ytfp-bottom--narrow .ytfp-boost input[type="range"] {
   width: 48px;
 }
 
-.ytfp-bar--narrow .ytfp-boost span {
+.ytfp-bottom--narrow .ytfp-boost span {
   min-width: 28px;
 }
 
-.ytfp-bar--narrow .ytfp-speed-label {
+.ytfp-bottom--narrow .ytfp-speed-label {
   min-width: 24px;
 }
 
-.ytfp-bar--narrow .ytfp-sleep-countdown {
+.ytfp-bottom--narrow .ytfp-sleep-countdown {
   min-width: 0;
 }
 
-/* Компактный режим: панель спрятана, всплывает при наведении на окно. */
-.ytfp-bar--compact {
-  transform: translateY(-8px);
+/* Компактный режим: панель спрятана, всплывает при наведении на окно.
+   Без него панель видна всегда. */
+.ytfp-bottom--compact {
   opacity: 0;
   pointer-events: none;
 }
 
-body:hover .ytfp-bar--compact {
-  transform: translateY(0);
+body:hover .ytfp-bottom--compact {
   opacity: 1;
   pointer-events: auto;
 }
@@ -279,10 +252,6 @@ body:hover .ytfp-bar--compact {
 
 .ytfp-btn--active:hover {
   background: var(--ytfp-accent-hover);
-}
-
-.ytfp-btn--return {
-  margin-left: auto;
 }
 
 /* Отметка «база SponsorBlock не отвечает». Обычно скрыта; появляется тихо,
@@ -419,7 +388,7 @@ body.ytfp-night--deep video.html5-main-video {
   width: 76px;
 }
 
-.ytfp-bar input[type="range"] {
+.ytfp-bottom input[type="range"] {
   accent-color: var(--ytfp-accent);
   height: 3px;
 }
@@ -476,7 +445,6 @@ body.ytfp-night--deep video.html5-main-video {
 /* Таймер сна активен: интерфейс окна спрятан полностью,
    движение мыши (класс ytfp-peek) показывает его на пару секунд. */
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-title,
-body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bar,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
@@ -610,38 +578,117 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
 
 /* --- Нижний блок: назад / стоп / вперёд --------------------------------- */
 
-/* Нижняя капсула: оценки, навигация и кнопка комментариев одной плашкой
-   в стилистике верхней панели. Появляется по наведению на окно — без
-   курсора в окне видно только видео. */
+/* Единственная панель окна — внизу по центру. Строки внутри симметричны:
+   по краям ползунки, посередине воспроизведение. Появляется по наведению
+   на окно — без курсора в окне видно только видео. */
 .ytfp-bottom {
   position: absolute;
   left: 50%;
-  bottom: 18px;
+  bottom: 16px;
   transform: translateX(-50%);
   z-index: 10002;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  width: max-content;
   max-width: calc(100% - 16px);
-  padding: 5px 8px;
-  border-radius: 999px;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border-radius: 22px;
   background: var(--ytfp-panel-bg);
   backdrop-filter: var(--ytfp-panel-blur);
   -webkit-backdrop-filter: var(--ytfp-panel-blur);
-  opacity: 0;
+  color: var(--ytfp-text);
+  font-family: var(--ytfp-font);
+  font-size: 12px;
   transition: opacity var(--ytfp-anim);
-  pointer-events: none;
   -webkit-app-region: no-drag;
   app-region: no-drag;
 }
 
-body:hover .ytfp-bottom {
-  opacity: 1;
-  pointer-events: auto;
+/* Строка панели: три части — левая, центр, правая. space-between держит
+   центр по центру, поэтому строки выглядят зеркальными даже когда в
+   боковых частях элементы разной ширины. */
+.ytfp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Зазор между боковыми частями и центром: без него подпись громкости
+     упиралась в кнопку −30 и читалась как одно слово. */
+  gap: 18px;
 }
 
-/* Ряд навигации — уже внутри капсулы, собственного позиционирования и
-   видимости ему больше не нужно. */
+/* Боковым частям строки даём равную долю ширины: ползунки слева и справа
+   разной длины, и без этого центральный блок съезжал бы от середины. */
+.ytfp-row--main > :first-child,
+.ytfp-row--main > :last-child {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Внутри боковых частей сжимается только сам ползунок. Без этого содержимое
+   не влезало в отведённую долю и подпись громкости наезжала на кнопку −30:
+   у флекс-элементов min-width по умолчанию auto, и уменьшаться было нечему. */
+.ytfp-row--main .ytfp-boost,
+.ytfp-row--main .ytfp-speed {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.ytfp-row--main input[type="range"] {
+  min-width: 28px;
+  flex: 1 1 auto;
+}
+
+.ytfp-row--main .ytfp-boost span,
+.ytfp-row--main .ytfp-speed-label,
+.ytfp-row--main .ytfp-boost svg {
+  flex: none;
+}
+
+.ytfp-row--main > :first-child {
+  justify-content: flex-start;
+}
+
+.ytfp-row--main > :last-child {
+  justify-content: flex-end;
+}
+
+/* Во второй строке центрального блока нет — держим обе половины рядом,
+   иначе посередине зияла бы дыра. */
+.ytfp-row--extra {
+  justify-content: center;
+  gap: 22px;
+}
+
+.ytfp-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Вторая строка чуть тише первой: там редкие настройки, а не управление
+   воспроизведением. */
+.ytfp-row--extra {
+  opacity: 0.85;
+}
+
+/* Блок редких значков (эфир, сбой базы SponsorBlock). Стоит отдельной
+   строкой сверху панели и пуст в обычной жизни: если поставить их в
+   общий ряд, их появление сдвигало бы всё остальное. */
+.ytfp-row--status {
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Пустой блок не должен занимать высоту — :has проверяет, есть ли внутри
+   хоть один невыключенный значок. */
+.ytfp-row--status:not(:has(> *:not([hidden]))) {
+  display: none;
+}
+
+/* Ряд воспроизведения — центр первой строки. */
 .ytfp-nav {
   display: flex;
   align-items: center;
@@ -649,8 +696,8 @@ body:hover .ytfp-bottom {
 }
 
 /* Совсем узкое окно: кнопки ±30 уходят первыми — перемотка остаётся на
-   клике по краям кадра и на стрелках. Иначе капсула шире окна. */
-@media (max-width: 430px) {
+   клике по краям кадра и на стрелках. Иначе панель шире окна. */
+@media (max-width: 400px) {
   .ytfp-bottom .ytfp-nav-btn--text {
     display: none;
   }
@@ -870,30 +917,56 @@ body:hover .ytfp-related-toggle {
 
 /* --- Оценки видео ---------------------------------------------------------- */
 
-/* Левая группа нижней капсулы. Своего позиционирования и видимости не
-   имеет — и то и другое у капсулы. */
+/* Оценки живут сами по себе, у левого края под названием: это самое частое
+   действие в окне, и делить размер с остальными кнопками панели ему незачем.
+   Значки крупные, но приглушённые — поверх кадра, без плашки. */
 .ytfp-reactions {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
+  pointer-events: auto;
 }
 
 .ytfp-reaction {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border: 0;
   border-radius: 50%;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.28);
   color: #fff;
+  opacity: 0.65;
   cursor: pointer;
-  transition: background var(--ytfp-anim), color var(--ytfp-anim);
+  transition: background var(--ytfp-anim), opacity var(--ytfp-anim);
+}
+
+.ytfp-reaction svg {
+  width: 22px;
+  height: 22px;
 }
 
 .ytfp-reaction:hover {
-  background: var(--ytfp-hover);
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+}
+
+/* Поставленная оценка гасит полупрозрачность: она должна читаться сразу. */
+.ytfp-reaction--on {
+  opacity: 1;
+}
+
+/* Компактный режим — как у панели и названия: без курсора в окне пусто. */
+.ytfp-reactions--compact {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ytfp-anim);
+}
+
+body:hover .ytfp-reactions--compact {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Пары на странице нет (например, у шортса нет «не нравится») — кнопки нет. */

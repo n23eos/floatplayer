@@ -33,6 +33,7 @@ const DEFAULT_SETTINGS = {
   speedStep: 0.25,
   volumeBoostMax: 300,
   compactMode: true,
+  pagePanel: true,
   skipStepSeconds: 30,
   sponsorSkip: true,
   sponsorAutoSkip: false,
@@ -48,6 +49,7 @@ const elements = {
   sponsorAutoSkip: document.getElementById("sponsorAutoSkip"),
   shortsAutoNext: document.getElementById("shortsAutoNext"),
   compactMode: document.getElementById("compactMode"),
+  pagePanel: document.getElementById("pagePanel"),
   speedStep: document.getElementById("speedStep"),
   skipStepSeconds: document.getElementById("skipStepSeconds"),
   volumeBoostMax: document.getElementById("volumeBoostMax"),
@@ -120,6 +122,7 @@ async function loadIntoForm() {
   }
   elements.shortsAutoNext.checked = Boolean(settings.shortsAutoNext);
   elements.compactMode.checked = Boolean(settings.compactMode);
+  elements.pagePanel.checked = Boolean(settings.pagePanel);
   setSelectValue(elements.speedStep, settings.speedStep, DEFAULT_SETTINGS.speedStep);
   setSelectValue(
     elements.skipStepSeconds,
@@ -189,6 +192,7 @@ async function save() {
         .map((checkbox) => checkbox.value),
       shortsAutoNext: elements.shortsAutoNext.checked,
       compactMode: elements.compactMode.checked,
+      pagePanel: elements.pagePanel.checked,
       speedStep: Number(elements.speedStep.value),
       skipStepSeconds: Number(elements.skipStepSeconds.value),
       volumeBoostMax: Number(elements.volumeBoostMax.value)
@@ -208,7 +212,7 @@ async function save() {
   showToast(SAVED_TEXT, "ok");
 }
 
-for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
+for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "pagePanel", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
   // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
   if (elements[key]) {
     elements[key].addEventListener("change", save);

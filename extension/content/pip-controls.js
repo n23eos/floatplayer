@@ -57,16 +57,19 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts }) {
+  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts, navRow, chatToggle }) {
     const bar = pipDocument.createElement("div");
-    bar.className = "ytfp-bar";
+    // Единственная панель окна — внизу. Ряд воспроизведения (navRow) и кнопку
+    // боковой колонки (chatToggle) строят соседние модули, сюда они приходят
+    // готовыми: панель одна, а собирается из трёх источников.
+    bar.className = "ytfp-bottom";
     if (YTFP.settings.get().compactMode) {
-      bar.classList.add("ytfp-bar--compact");
+      bar.classList.add("ytfp-bottom--compact");
     }
     // Узкое вертикальное окно шортсов: компактная панель без нишевых
     // кнопок (A-B и промотки интеграций), с короткими ползунками.
     if (isShorts) {
-      bar.classList.add("ytfp-bar--narrow");
+      bar.classList.add("ytfp-bottom--narrow");
     }
 
     // --- A-B повтор ---------------------------------------------------------
@@ -514,10 +517,50 @@ YTFP.pipControls = (() => {
       ? sponsorBlock.onStatusChange(refreshSponsorStatus)
       : () => {};
 
+    // --- Сборка панели --------------------------------------------------------
+    // Две строки, каждая симметрична относительно центра. В первой — ползунки
+    // по краям и блок воспроизведения посередине; во второй поровну кнопок
+    // слева и справа. Значки, которые появляются не всегда (эфир, сбой базы
+    // SponsorBlock), в строки не ставим: их появление сдвигало бы всё
+    // остальное и симметрия ломалась бы. Им — отдельный блок.
+    function makeRow(className, ...children) {
+      const row = pipDocument.createElement("div");
+      row.className = `ytfp-row ${className}`.trim();
+      row.append(...children);
+      return row;
+    }
+
+    function makeGroup(...children) {
+      const group = pipDocument.createElement("div");
+      group.className = "ytfp-group";
+      group.append(...children);
+      return group;
+    }
+
+    const statusBlock = makeRow("ytfp-row--status", liveButton, sbStatus);
+
     if (isShorts) {
-      bar.append(playButton, speedWrap, boostWrap, nightButton, sleepWrap, sbStatus, returnButton);
+      // Узкое вертикальное окно: только самое нужное, в один ряд.
+      bar.append(
+        statusBlock,
+        makeRow("ytfp-row--main", makeGroup(boostWrap), navRow || playButton, makeGroup(speedWrap)),
+        makeRow("ytfp-row--extra", makeGroup(nightButton), makeGroup(sleepWrap), makeGroup(returnButton))
+      );
     } else {
-      bar.append(playButton, liveButton, abButton, loopButton, autoplayButton, skipButton, speedWrap, boostWrap, nightButton, sleepWrap, sbStatus, returnButton);
+      bar.append(
+        statusBlock,
+        makeRow(
+          "ytfp-row--main",
+          makeGroup(boostWrap),
+          navRow || playButton,
+          makeGroup(speedWrap)
+        ),
+        makeRow(
+          "ytfp-row--extra",
+          makeGroup(abButton, loopButton, autoplayButton, skipButton),
+          makeGroup(nightButton, sleepWrap, chatToggle, returnButton)
+        )
+      );
     }
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
