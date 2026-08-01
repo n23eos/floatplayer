@@ -254,6 +254,13 @@ body:hover .ytfp-bottom--compact {
   pointer-events: auto;
 }
 
+/* Курсор ушёл из окна, а фокус остался в поле поиска шортсов — панель
+   гасить нельзя: пользователь печатал бы вслепую. */
+.ytfp-bottom--compact:focus-within {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .ytfp-btn {
   cursor: pointer;
   display: inline-flex;
@@ -471,6 +478,13 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-tip,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   opacity: 0 !important;
   pointer-events: none !important;
+}
+
+/* Исключение из правила выше: панель с фокусом внутри (открытое поле поиска
+   шортсов) остаётся видимой, иначе ввод шёл бы вслепую. */
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 /* --- Полоски прогресса внизу ------------------------------------------ */
