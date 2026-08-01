@@ -156,7 +156,7 @@ YTFP.pipNav = (() => {
         return;
       }
       // Наши элементы и любые кнопки обрабатывают клики сами.
-      if (target.closest("button, input, select, .ytfp-bar, .ytfp-nav, .ytfp-progress-wrap, .ytfp-related-root, .ytfp-center-badge")) {
+      if (target.closest("button, input, select, .ytfp-bottom, .ytfp-nav, .ytfp-progress-wrap, .ytfp-related-root, .ytfp-center-badge")) {
         return;
       }
       if (target.closest("#movie_player, #shorts-player")) {
