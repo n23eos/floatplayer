@@ -645,6 +645,8 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
 .ytfp-group {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 2px;
 }
 
@@ -669,11 +671,86 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   gap: 2px;
 }
 
-/* Совсем узкое окно: кнопки ±30 уходят первыми — перемотка остаётся на
-   клике по краям кадра и на стрелках. Иначе панель шире окна. */
+/* Узкое окно: ничего не прячем — панель уплотняется и, если нужно,
+   переносит группы на вторую строку. Пропавшая кнопка хуже мелкой. */
+@media (max-width: 560px) {
+  .ytfp-bottom {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  /* Равные доли ширины нужны ради симметрии, но в тесноте они заставляли
+     группы сжиматься сильнее содержимого. Здесь важнее, чтобы всё было
+     видно: группы держат свой размер, а строка переносится. */
+  .ytfp-row--main > :first-child,
+  .ytfp-row--main > :last-child {
+    flex: 0 1 auto;
+  }
+
+  .ytfp-row {
+    gap: 8px;
+    /* Перенесённые группы держим по центру, иначе вторая строка
+       прижималась бы к краю и панель выглядела бы кривой. */
+    justify-content: center;
+  }
+
+  .ytfp-nav-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ytfp-nav-btn--main {
+    width: 34px;
+    height: 34px;
+  }
+
+  .ytfp-btn {
+    padding: 4px 5px;
+  }
+
+  .ytfp-boost input[type="range"],
+  .ytfp-speed input[type="range"] {
+    width: 44px;
+  }
+
+  .ytfp-boost span {
+    min-width: 28px;
+  }
+
+  .ytfp-speed-label {
+    min-width: 24px;
+  }
+
+  .ytfp-select {
+    padding: 3px 2px;
+  }
+}
+
+/* Совсем маленькое окно: ещё плотнее, но состав прежний. */
 @media (max-width: 400px) {
-  .ytfp-bottom .ytfp-nav-btn--text {
-    display: none;
+  .ytfp-row {
+    gap: 6px;
+  }
+
+  .ytfp-nav-btn {
+    width: 26px;
+    height: 26px;
+  }
+
+  .ytfp-nav-btn--main {
+    width: 30px;
+    height: 30px;
+  }
+
+  .ytfp-boost input[type="range"],
+  .ytfp-speed input[type="range"] {
+    width: 36px;
+  }
+
+  .ytfp-nav-btn--text {
+    /* Текстовые ±30 без внутренних отступов: они шире значков. */
+    padding: 0;
+    font-size: 10px;
   }
 }
 
