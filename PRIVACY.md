@@ -1,6 +1,6 @@
 # Privacy Policy — FloatPlayer (Picture in Picture for YouTube)
 
-_Last updated: 2026-07-31_
+_Last updated: 2026-08-01_
 
 ## English
 
@@ -35,6 +35,11 @@ is ever sold or shared.
 - If you open the **live chat** for a stream, it is loaded as a normal
   `www.youtube.com/live_chat` page inside the window — again YouTube's own
   page under your existing session.
+- If you search **Shorts by keyword** from the mini-window, the extension asks
+  YouTube for its own search results: a request to `www.youtube.com/results`
+  with your keyword, from the YouTube tab and on the same site, exactly as
+  typing that word into YouTube's search box would. The word goes to YouTube
+  and nowhere else; we never see it and it is not stored anywhere.
 - Video thumbnails in the recommendations panel are loaded from YouTube's
   standard image host (`i.ytimg.com`), the same way YouTube itself loads
   them.
@@ -48,8 +53,8 @@ privacy policy, and you can simply close the tab.
 **Permissions used:**
 - `storage` — saving your settings;
 - access to `youtube.com` — adding the button to the player, moving the
-  player into the mini-window, controlling playback, and loading comments
-  and live chat when you ask for them;
+  player into the mini-window, controlling playback, and loading comments,
+  live chat and Shorts search results when you ask for them;
 - access to `sponsor.ajay.app` — fetching sponsor-segment timestamps
   (only when the feature is enabled).
 
@@ -89,6 +94,11 @@ FloatPlayer — расширение браузера, показывающее 
 - Если вы открываете **чат прямого эфира**, внутрь окна загружается обычная
   страница `www.youtube.com/live_chat` — снова сам YouTube под вашей
   существующей сессией.
+- Если вы ищете **шортсы по слову** из мини-окна, расширение запрашивает
+  выдачу самого YouTube: запрос на `www.youtube.com/results` с вашим словом,
+  со вкладки YouTube и на том же сайте — ровно как если бы вы ввели это слово
+  в строку поиска YouTube. Слово уходит только к YouTube; до нас оно не
+  доходит и нигде не сохраняется.
 - Обложки в панели рекомендаций загружаются со стандартного хоста картинок
   YouTube (`i.ytimg.com`) — так же, как их грузит сам YouTube.
 
@@ -102,8 +112,8 @@ FloatPlayer — расширение браузера, показывающее 
 **Разрешения:**
 - `storage` — сохранение настроек;
 - доступ к `youtube.com` — кнопка в плеере, перенос плеера в мини-окно,
-  управление воспроизведением, а также загрузка комментариев и чата эфира,
-  когда вы их открываете;
+  управление воспроизведением, а также загрузка комментариев, чата эфира и
+  выдачи поиска шортсов, когда вы их запрашиваете;
 - доступ к `sponsor.ajay.app` — получение границ спонсорских вставок
   (только при включённой функции).
 

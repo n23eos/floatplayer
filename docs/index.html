@@ -82,7 +82,7 @@
 
 <section class="wrap">
   <h2 class="reveal">What it does</h2>
-  <p class="sub reveal">Everything lives in one hover panel, one button row and one progress strip.</p>
+  <p class="sub reveal">Everything lives in one hover panel and one progress strip.</p>
   <div class="grid">
     <div class="card reveal"><h3>Always on top, for real</h3><p>Document Picture-in-Picture gives a genuine OS-level window — not a popup that falls behind your editor.</p></div>
     <div class="card reveal"><h3>The same video stream</h3><p>The actual YouTube player is moved, so your account, history, quality and captions carry over without a restart.</p></div>
@@ -92,9 +92,10 @@
     <div class="card reveal"><h3>Night mode</h3><p>Two strengths pull the blue out of the picture for late viewing, without touching the captions or the panel.</p></div>
     <div class="card reveal"><h3>Sleep timer</h3><p>Presets or your own value up to 12 hours. While it counts down the interface hides itself completely.</p></div>
     <div class="card reveal"><h3>Comments and live chat</h3><p>A side column brings YouTube's comments — scrolling endlessly — or a stream's live chat next to the video.</p></div>
-    <div class="card reveal"><h3>Sponsor segments</h3><p>Community SponsorBlock data marks in-video sponsor reads in green; skip them yourself or let it skip automatically.</p></div>
+    <div class="card reveal"><h3>Sponsor segments</h3><p>Community SponsorBlock data marks in-video sponsor reads in green and skips them automatically out of the box — or leaves you the button.</p></div>
     <div class="card reveal"><h3>Live streams</h3><p>A LIVE badge shows how far behind you are and returns you to the edge; seeking works across the DVR buffer.</p></div>
-    <div class="card reveal"><h3>Shorts mode</h3><p>A button above Like pops a short into a vertical window; the next one starts automatically when it ends.</p></div>
+    <div class="card reveal"><h3>Shorts mode</h3><p>A button above Like pops a short into a vertical window; the next one starts automatically, and Like, auto-advance and search sit in their own bar.</p></div>
+    <div class="card reveal"><h3>Shorts by keyword</h3><p>Type a word in the window and it plays shorts about it — forward, back and auto-advance then walk that list instead of the feed.</p></div>
     <div class="card reveal"><h3>Snaps to the video</h3><p>The window opens at the video's aspect ratio and snaps back after resizing — no black margins, no stray UI.</p></div>
   </div>
 </section>
@@ -120,6 +121,7 @@
     <tr><td>Any Chrome window</td><td><kbd>Alt</kbd>+<kbd>K</kbd> / <kbd>J</kbd> / <kbd>L</kbd></td><td>Pause / −5 s / +5 s</td></tr>
     <tr><td>Inside the window</td><td><kbd>Space</kbd> or <kbd>K</kbd></td><td>Pause</td></tr>
     <tr><td>Inside the window</td><td><kbd>←</kbd> / <kbd>→</kbd></td><td>±5 s</td></tr>
+    <tr><td>Inside the window</td><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>Volume ±10% — previous / next short on Shorts</td></tr>
     <tr><td>Inside the window</td><td><kbd>0</kbd>–<kbd>9</kbd></td><td>Jump to 0–90% of the video</td></tr>
     <tr><td>Inside the window</td><td><kbd>&lt;</kbd> / <kbd>&gt;</kbd></td><td>Step the playback speed</td></tr>
     <tr><td>Inside the window</td><td><kbd>M</kbd></td><td>Mute</td></tr>
@@ -133,14 +135,14 @@
   <img class="hero-shot reveal" src="assets/screenshot-6-options.png" alt="FloatPlayer options page" style="margin-top:0">
   <table class="reveal" style="margin-top:26px">
     <tr><th>Option</th><th>Values</th></tr>
-    <tr><td>Mini-window style</td><td>Full (with panels) · Clean video (frameless native PiP)</td></tr>
+    <tr><td>Mini-window style</td><td>Full (with panel) — the Document PiP window with the control panel · Clean video (no strip) — native PiP, video only</td></tr>
     <tr><td>Auto-PiP when leaving the tab</td><td>on / off (Chrome 120+)</td></tr>
     <tr><td>Sponsor segments (SponsorBlock)</td><td>on / off</td></tr>
     <tr><td>Auto-skip sponsor segments</td><td>on / off</td></tr>
     <tr><td>Segment categories</td><td>sponsor · self-promotion · like/subscribe reminders · intro · outro</td></tr>
-    <tr><td>Manual skip step</td><td>15 / 30 / 45 / 60 / 90 s</td></tr>
     <tr><td>Shorts auto-advance</td><td>on / off</td></tr>
     <tr><td>Compact panel mode</td><td>on / off</td></tr>
+    <tr><td>Panel on the YouTube page</td><td>on / off</td></tr>
     <tr><td>Speed slider step</td><td>0.1x / 0.25x / 0.5x</td></tr>
     <tr><td>Volume ceiling</td><td>100% / 200% / 300%</td></tr>
     <tr><td>Interface language</td><td>14 languages, matched to your browser</td></tr>
@@ -155,7 +157,7 @@
     <li>Window position cannot be set programmatically; only its size is remembered.</li>
     <li>One PiP window per browser.</li>
     <li>YouTube ads are neither blocked nor skipped, and seeking is unavailable while one plays.</li>
-    <li>No analytics, no accounts, no data collection. The only network call is an optional SponsorBlock lookup by video ID.</li>
+    <li>No analytics, no accounts, no data collection. Everything the extension requests goes to YouTube itself; the only call to anyone else is an optional SponsorBlock lookup by video ID.</li>
   </ul>
 </section>
 

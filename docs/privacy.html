@@ -21,7 +21,7 @@
 <header class="wrap doc" style="padding-bottom: 20px">
   <div class="logo"><i></i> <a href="index.html" style="text-decoration:none">FloatPlayer</a></div>
   <h1 style="font-size: 34px">Privacy Policy</h1>
-  <p class="lead" style="font-size: 16px">Last updated: 31 July 2026</p>
+  <p class="lead" style="font-size: 16px">Last updated: 1 August 2026</p>
 </header>
 
 <main class="wrap doc">
@@ -65,6 +65,12 @@
     <li>Opening the <strong>live chat</strong> of a stream loads YouTube's own
       <code>www.youtube.com/live_chat</code> page inside the window, again under
       your existing session.</li>
+    <li>Searching <strong>Shorts by keyword</strong> from the mini-window asks
+      YouTube for its own search results: a request to
+      <code>www.youtube.com/results</code> with your keyword, from the YouTube
+      tab and on the same site, exactly as typing the word into YouTube's search
+      box would. The word goes to YouTube and nowhere else — we never see it,
+      and it is not stored.</li>
     <li>Thumbnails in the recommendations column load from YouTube's standard
       image host (<code>i.ytimg.com</code>), exactly as YouTube itself loads them.</li>
   </ul>
@@ -97,7 +103,8 @@
     <li><code>storage</code> — saving the settings described above.</li>
     <li>Access to <code>youtube.com</code> — adding the buttons to the player,
       moving the player into the floating window, controlling playback, and
-      loading comments and live chat when you open them.</li>
+      loading comments, live chat and Shorts search results when you ask for
+      them.</li>
     <li>Access to <code>sponsor.ajay.app</code> — fetching sponsor-segment
       timestamps, only while that feature is enabled.</li>
   </ul>
@@ -126,7 +133,11 @@
     открываете комментарии, расширение запрашивает их у YouTube так же, как это
     делает сама страница — запросом на <code>www.youtube.com/youtubei/v1/next</code>
     с той сессией YouTube, под которой вы уже вошли; чат эфира загружается
-    страницей <code>www.youtube.com/live_chat</code>. Всё это уходит только к
+    страницей <code>www.youtube.com/live_chat</code>. Поиск шортсов по слову из
+    мини-окна запрашивает выдачу самого YouTube —
+    <code>www.youtube.com/results</code> с вашим словом, с той же вкладки и на
+    том же сайте, ровно как если бы вы ввели слово в строку поиска YouTube; до
+    нас это слово не доходит и нигде не сохраняется. Всё это уходит только к
     YouTube. Обложки рекомендаций грузятся со стандартного хоста картинок
     YouTube.</p>
     <p><strong>Ссылки на Google Формы:</strong> в настройках есть ссылка
@@ -135,7 +146,8 @@
     обычный переход на страницу Google Форм, вкладку можно просто закрыть.</p>
     <p><strong>Разрешения:</strong> <code>storage</code> — настройки;
     доступ к <code>youtube.com</code> — кнопки, управление плеером,
-    комментарии и чат эфира; доступ к <code>sponsor.ajay.app</code> — границы
+    комментарии, чат эфира и поиск шортсов; доступ к
+    <code>sponsor.ajay.app</code> — границы
     спонсорских вставок.</p>
   </div>
 
