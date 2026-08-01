@@ -26,6 +26,16 @@ YTFP.pipRelated = (() => {
     return false;
   }
 
+  /**
+   * Реагировать ли на событие ended автопереходом (очередь или следующее
+   * видео). На прямом эфире — нет: у части стримов duration конечная и
+   * «кривая», и перемотка к краю эфира (кнопка LIVE) выбивает ложный
+   * ended — автопереход уводил бы зрителя с эфира на другое видео.
+   */
+  function shouldAutoAdvanceOnEnded(isLive) {
+    return !isLive;
+  }
+
   /** Переход к первому видео очереди по окончании текущего. */
   function playNextFromQueue() {
     while (queue.length > 0) {
@@ -237,6 +247,9 @@ YTFP.pipRelated = (() => {
     // При video.loop = true событие ended не приходит — loop приоритетнее.
     const video = getVideo ? getVideo() : null;
     function onEnded() {
+      if (!shouldAutoAdvanceOnEnded(YTFP.playerApi.isLive())) {
+        return;
+      }
       if (playNextFromQueue()) {
         renderQueue();
         return;
@@ -260,5 +273,10 @@ YTFP.pipRelated = (() => {
     return { element: root, cleanup };
   }
 
-  return { build };
+  return { build, shouldAutoAdvanceOnEnded };
 })();
+
+// Экспорт для юнит-тестов (в браузере module не определён — блок не выполняется).
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = YTFP.pipRelated;
+}
