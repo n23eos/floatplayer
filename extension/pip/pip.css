@@ -176,25 +176,58 @@ body:hover .ytfp-title--compact {
   opacity: 1;
 }
 
-/* Узкая панель для вертикального окна шортсов: плотнее, короткие
-   ползунки, перенос на вторую строку при совсем малой ширине. */
+/* Панель для вертикального окна шортсов: короткие ползунки и перенос на
+   вторую строку при совсем малой ширине. Кнопок здесь меньше, чем на
+   обычном видео (нет ±30, A-B и промотки), поэтому и сами кнопки, и
+   отступы крупнее — попадать пальцем в узком окне проще. */
 .ytfp-bottom--narrow {
-  gap: 4px;
-  padding: 4px 6px;
+  gap: 6px;
+  padding: 7px 10px;
   flex-wrap: wrap;
-  font-size: 11px;
+  font-size: 12px;
+}
+
+/* В узком окне боковым половинам разрешено сжиматься: на обычном видео
+   им запрещено (иначе правая половина уезжала на вторую строку), но здесь
+   ширины не хватает всегда, и без этого панель вылезала за края окна. */
+.ytfp-bottom--narrow .ytfp-row--main > :first-child,
+.ytfp-bottom--narrow .ytfp-row--main > :last-child {
+  min-width: 0;
 }
 
 .ytfp-bottom--narrow .ytfp-btn {
-  padding: 4px 6px;
+  padding: 6px 9px;
+}
+
+/* Кнопки воспроизведения крупнее общих «узких» размеров ниже: место
+   освободилось после ±30, а промахнуться по ним обиднее всего. */
+.ytfp-bottom--narrow .ytfp-nav-btn {
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+
+.ytfp-bottom--narrow .ytfp-nav-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.ytfp-bottom--narrow .ytfp-nav-btn--main {
+  width: 40px;
+  height: 40px;
+}
+
+.ytfp-bottom--narrow .ytfp-nav-btn--main svg {
+  width: 26px;
+  height: 26px;
 }
 
 .ytfp-bottom--narrow .ytfp-speed input[type="range"] {
-  width: 44px;
+  width: 52px;
 }
 
 .ytfp-bottom--narrow .ytfp-boost input[type="range"] {
-  width: 48px;
+  width: 56px;
 }
 
 .ytfp-bottom--narrow .ytfp-boost span {
@@ -677,31 +710,49 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: max-content;
-  padding: 4px 8px;
-  border-radius: 22px;
+  padding: 5px 10px;
+  border-radius: 26px;
   background: var(--ytfp-panel-bg);
   backdrop-filter: var(--ytfp-panel-blur);
   -webkit-backdrop-filter: var(--ytfp-panel-blur);
 }
 
-/* Внутри капсулы у оценок своей подложки быть не должно — она уже есть
-   у самой капсулы. Размер — как у кнопок панели, а не как у крупных
-   значков в углу обычного окна. */
-.ytfp-shorts-bar .ytfp-reaction {
-  width: 28px;
-  height: 28px;
+/* Обе кнопки капсулы крупнее панельных: их нажимают чаще всего, а места
+   в капсуле хватает — их всего две. Своей подложки нет, она есть у самой
+   капсулы, и кружок на кружке выглядел бы грязно. */
+.ytfp-shorts-bar .ytfp-reaction,
+.ytfp-shorts-bar .ytfp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
   background: transparent;
 }
 
-.ytfp-shorts-bar .ytfp-reaction:hover {
+.ytfp-shorts-bar .ytfp-reaction:hover,
+.ytfp-shorts-bar .ytfp-btn:hover {
   background: var(--ytfp-hover);
 }
 
-.ytfp-shorts-bar .ytfp-reaction svg {
-  width: 18px;
-  height: 18px;
+/* Включённый автопереход остаётся красным: правило прозрачного фона выше
+   перебивает .ytfp-btn--active по весу селектора, поэтому цвет возвращаем. */
+.ytfp-shorts-bar .ytfp-btn--active {
+  background: var(--ytfp-accent);
+}
+
+.ytfp-shorts-bar .ytfp-btn--active:hover {
+  background: var(--ytfp-accent-hover);
+}
+
+.ytfp-shorts-bar .ytfp-reaction svg,
+.ytfp-shorts-bar .ytfp-btn svg {
+  width: 24px;
+  height: 24px;
 }
 
 /* Пустой блок не должен занимать высоту — :has проверяет, есть ли внутри

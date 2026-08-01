@@ -37,9 +37,11 @@ YTFP.pipNav = (() => {
 
   /**
    * onPrev/onNext — колбэки перехода (для видео и шортсов разные).
+   * withJumpButtons — кнопки ±30 секунд. В шортсах их нет: ролик короче
+   * самого прыжка, и место в узком окне нужнее остальным кнопкам.
    * Возвращает { element, cleanup }.
    */
-  function build(pipDocument, { getVideo, onPrev, onNext }) {
+  function build(pipDocument, { getVideo, onPrev, onNext, withJumpButtons = true }) {
     const root = pipDocument.createElement("div");
     root.className = "ytfp-nav-root";
 
@@ -126,12 +128,16 @@ YTFP.pipNav = (() => {
       }, 600);
     }
 
-    const back30Button = makeJumpButton(`−${JUMP_BUTTON_SECONDS}`, t("jumpBack", "Back 30 seconds"), -JUMP_BUTTON_SECONDS);
     const prevButton = makeButton("prev", t("navPrev", "Previous"), "", () => onPrev());
     const playButton = makeButton("pause", t("playTooltip", "Play / pause"), "ytfp-nav-btn--main", togglePlayPause);
     const nextButton = makeButton("next", t("navNext", "Next"), "", () => onNext());
-    const forward30Button = makeJumpButton(`+${JUMP_BUTTON_SECONDS}`, t("jumpForward", "Forward 30 seconds"), JUMP_BUTTON_SECONDS);
-    nav.append(back30Button, prevButton, playButton, nextButton, forward30Button);
+    if (withJumpButtons) {
+      const back30Button = makeJumpButton(`−${JUMP_BUTTON_SECONDS}`, t("jumpBack", "Back 30 seconds"), -JUMP_BUTTON_SECONDS);
+      const forward30Button = makeJumpButton(`+${JUMP_BUTTON_SECONDS}`, t("jumpForward", "Forward 30 seconds"), JUMP_BUTTON_SECONDS);
+      nav.append(back30Button, prevButton, playButton, nextButton, forward30Button);
+    } else {
+      nav.append(prevButton, playButton, nextButton);
+    }
 
     function refreshPlayState() {
       const video = getVideo();

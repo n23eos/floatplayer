@@ -504,7 +504,9 @@ YTFP.pip = (() => {
     const nav = YTFP.pipNav.build(pipWindow.document, {
       getVideo: getMovedVideo,
       onPrev: goPrev,
-      onNext: goNext
+      onNext: goNext,
+      // Шортс короче самого прыжка — ±30 секунд там не нужны.
+      withJumpButtons: !isShorts
     });
     // Слой поверх кадра: значок паузы по центру и подпись перемотки.
     pipWindow.document.body.appendChild(nav.element);

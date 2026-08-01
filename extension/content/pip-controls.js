@@ -503,16 +503,15 @@ YTFP.pipControls = (() => {
     const statusBlock = makeRow("ytfp-row--status", liveButton);
 
     if (isShorts) {
-      // Отдельная капсула над панелью: оценки по краям, автопереход к
-      // следующему шортсу посередине. Лежит внутри панели, но позиционируется
-      // над ней (см. .ytfp-shorts-bar), поэтому прячется вместе с ней и не
-      // зависит от того, во сколько строк перенеслась сама панель.
-      const [likeButton, dislikeButton] = reactionButtons || [];
+      // Отдельная капсула над панелью: «нравится» и автопереход к следующему
+      // шортсу. Лежит внутри панели, но позиционируется над ней
+      // (см. .ytfp-shorts-bar), поэтому прячется вместе с ней и не зависит
+      // от того, во сколько строк перенеслась сама панель.
+      // Дизлайка в разметке шортсов нет — в капсулу берём только «нравится».
+      const [likeButton] = reactionButtons || [];
       const shortsCapsule = pipDocument.createElement("div");
       shortsCapsule.className = "ytfp-shorts-bar";
-      shortsCapsule.append(
-        ...[likeButton, shortsAutoButton, dislikeButton].filter(Boolean)
-      );
+      shortsCapsule.append(...[likeButton, shortsAutoButton].filter(Boolean));
 
       // Узкое вертикальное окно: только самое нужное.
       bar.append(
