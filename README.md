@@ -20,6 +20,7 @@ Shorts while you work in other apps.
 | Seeking, speed, volume | ❌ | ✅ | ✅ |
 | Same video stream (no restart) | ✅ | ❌ (second player) | ✅ (moves the real player) |
 | Shorts with auto-advance | ❌ | ❌ | ✅ |
+| Shorts by keyword, played in the window | ❌ | ❌ | ✅ |
 | Clean window without YouTube UI | ❌ | ❌ | ✅ (whitelist: video only) |
 
 Playback never restarts: the actual YouTube player moves into the window, so
@@ -32,41 +33,61 @@ neither blocked nor skipped (Web Store safe).
 
 - **Player button** (to the left of YouTube's own button group) or `Alt+P`
   pops the video into the mini-window.
-- **Top panel** (appears on hover):
-  - play/pause;
-  - **A-B loop**: click 1 sets point A, click 2 sets point B, click 3 resets;
-  - **sponsor skip** `»30` — jumps forward by a configurable step (15–90 s);
-  - **speed** — 0.25x–3x slider with a configurable step, click "1x" to reset;
+- **One bottom panel** (a translucent capsule, appears on hover), symmetric
+  around its centre and never breaking apart when the window is narrowed:
+  - the playback row in the middle:
+    `[−30] [◀ previous] [⏯ play/pause] [▶ next] [+30]`;
   - **volume 0–300%** — quieter than YouTube's zero and louder than its
-    maximum (Web Audio);
-  - **sleep timer** — 15–90 min presets or a custom value (1–720 min);
-    the video pauses when it runs out;
-  - return the video to the page.
-- **Bottom button row** (centered, on hover):
-  `[−30] [◀ previous] [⏯ play/pause] [▶ next] [+30]`.
+    maximum (Web Audio) — and the **speed** slider, 0.25x–3x with a
+    configurable step, click "1x" to reset;
+  - **A-B loop**: click 1 sets point A, click 2 sets point B, click 3 resets;
+    plus loop for the whole video and autoplay of the next one;
+  - **night mode** in two strengths and the **sleep timer** — 15–90 min
+    presets or a custom value (1–720 min); the video pauses when it runs out;
+  - the side-column toggle (comments, live chat, recommendations);
+  - a **LIVE** badge on streams: how far behind the live edge you are, click
+    to jump back to it.
+- **The same panel on the YouTube page** (optional): volume, speed and the
+  30-second jumps over the normal player, on hover.
 - **Red progress strip** at the bottom: click or drag to seek, thickens on
-  hover. During ads a separate **white ad-progress strip** appears above it
+  hover, chapter ticks on it and the chapter name in a tooltip above the panel.
+  During ads a separate **white ad-progress strip** appears above it
   (the red one freezes at the video position).
 - **Click zones on the video**: left third seeks back 10 s, right third
   forward 10 s, center toggles pause. A "« 10s" / "» 10s" pill flashes at
   the corresponding edge.
 - **Paused state**: a translucent ▶ badge appears in the center — click it
   to resume.
-- **Recommendations**: an arrow at the right edge opens a column of up to 20
-  videos (thumbnail + title) — switch videos right inside the window.
+- **Side column**: an arrow at the right edge opens comments (endless
+  scrolling, pinned and creator comments marked), a stream's live chat, or a
+  column of up to 20 recommendations (thumbnail + title) — switch videos right
+  inside the window.
 - **SponsorBlock**: in-video sponsor segments are highlighted in green on the
-  progress strip; inside a segment a "Skip sponsor segment" button appears
-  and jumps past it. Community data from sponsor.ajay.app (only the video ID
-  is sent); can be turned off in the options.
+  progress strip and skipped automatically out of the box; turn auto-skip off
+  and a "Skip sponsor segment" button appears inside a segment instead.
+  Community data from sponsor.ajay.app (only the video ID is sent); the whole
+  feature can be turned off in the options.
 
 ### Shorts
 
 - **A button above Like** in the action rail pops the short into a vertical
   mini-window (sized for 9:16).
+- **Its own capsule above the panel**: `[like] [auto-advance] [search]`.
+  There is no dislike button in YouTube's Shorts markup, so there is none here.
 - **Auto-advance**: when a short ends the next one starts automatically
-  (can be turned off in the options).
-- The bottom ◀/▶ buttons scroll the Shorts feed straight from the window.
-- A compact version of the top panel fits the narrow window (drops A-B and `»30`).
+  (the switch in the capsule and the checkbox in the options are the same
+  setting).
+- **Search by keyword** (the magnifier): a field opens over the capsule, type a
+  word and press Enter — the window plays shorts found for it. Forward/back and
+  auto-advance then walk that list instead of the algorithmic feed; the
+  magnifier stays highlighted while the mode is on, `Esc` or a second click
+  turns it off. The search itself is a same-origin request to YouTube's own
+  `/results` page (no new permissions, no third-party host), and it takes the
+  first page of results (~30 shorts), stopping on the last one.
+- The ◀/▶ buttons — and the `↑`/`↓` keys — scroll the Shorts feed straight from
+  the window.
+- A narrow version of the panel fits the vertical window: no A-B and no ±30
+  buttons (a short is shorter than the jump).
 
 ### The window
 
@@ -85,8 +106,11 @@ neither blocked nor skipped (Web Store safe).
   whitelist rule (only the video, captions and the loading spinner survive),
   so shopping overlays, cards, endscreens and any future YouTube overlays
   can never leak in.
-- **"Clean video" mode** (in the options): native PiP with no Chrome strip at
-  all — but no panels either, just the video and system buttons.
+- **Two window modes** (in the options): "Full (with panel)" — the Document PiP
+  window described above, with the panel, the progress strip and the side
+  column, under Chrome's thin address strip; "Clean video (no strip)" — native
+  PiP with no address strip at all, but no panels of ours either, just the
+  video and the system buttons.
 - **Auto-PiP** (optional, Chrome 120+): leave the tab and the video pops out
   by itself.
 
@@ -98,18 +122,19 @@ neither blocked nor skipped (Web Store safe).
 | Any Chrome window | `Alt+K` / `Alt+J` / `Alt+L` | pause / −5 s / +5 s |
 | Inside the window | `Space` or `K` | pause |
 | Inside the window | `←` / `→` | ±5 s |
+| Inside the window | `↑` / `↓` | volume ±10% (previous / next short on Shorts) |
 | Inside the window | `M` | mute |
 
 Rebind them at `chrome://extensions/shortcuts`.
 
 ### Options page
 
-- Mini-window style: full (with panels) or clean video (no strip).
+- Mini-window style: "Full (with panel)" or "Clean video (no strip)".
 - Auto-PiP when leaving the tab.
-- SponsorBlock on/off.
-- Manual skip step (15–90 s).
+- SponsorBlock on/off, auto-skip on/off, and the segment categories.
 - Shorts auto-advance.
 - Compact panel mode (hide until hover).
+- Panel on the YouTube page itself.
 - Speed slider step (0.1x / 0.25x / 0.5x).
 - Volume ceiling (100 / 200 / 300%).
 - Interface language: English by default, Russian for Russian browsers.
@@ -161,14 +186,23 @@ extension/
 │   ├── settings.js         chrome.storage.sync + cache
 │   ├── player-api.js       player DOM wrapper (watch + shorts)
 │   ├── audio-boost.js      Web Audio gain (0–300% volume)
-│   ├── pip-controls.js     top panel (incl. sleep timer)
-│   ├── pip-progress.js     red/white progress strips
-│   ├── pip-related.js      recommendations column
-│   ├── pip-nav.js          bottom buttons, click zones, pause badge
-│   ├── pip-controller.js   moves the player into Document PiP and back
-│   ├── sponsor-block.js    SponsorBlock segments + skip button
+│   ├── night-mode.js       night mode over the video
 │   ├── pip-tooltip.js      in-window tooltips instead of native title
-│   └── inject-button.js    page buttons, SPA navigation, hotkeys
+│   ├── pip-controls.js     the bottom panel (sleep timer, Shorts capsule)
+│   ├── pip-progress.js     red/white progress strips, chapters
+│   ├── pip-related.js      recommendations column
+│   ├── pip-nav.js          playback buttons, click zones, pause badge
+│   ├── pip-comments.js     comments in the side column
+│   ├── pip-chat.js         live chat in the side column
+│   ├── pip-reactions.js    like/dislike buttons in the window
+│   ├── shorts-search.js    Shorts by keyword: search, list, stepping
+│   ├── pip-controller.js   moves the player into Document PiP and back
+│   ├── sponsor-block.js    SponsorBlock segments + auto-skip
+│   ├── page-panel.js       the same panel over the player on the page
+│   ├── page-controls.js    page-side controls and hotkeys
+│   ├── inject-button.js    page buttons, SPA navigation, hotkeys
+│   └── yt-navigate-bridge.js  MAIN world: calls YouTube's own router so a
+│                           Shorts jump does not reload the page
 ├── pip/pip.css             PiP window styles (video-only whitelist)
 ├── background/             service worker (hotkeys, install/update pages)
 ├── options/                options page (i18n via data-i18n)
@@ -188,8 +222,14 @@ Tests: `npm install && npm test` — vitest over the pure functions
       aspect rebuilt).
 - [ ] Playlist: ◀/▶ from the window.
 - [ ] Ads: white strip above the red one, everything restored afterwards.
-- [ ] SponsorBlock: green segments + skip button (on a video with a segment).
-- [ ] Shorts: button above Like, vertical window, ◀/▶, auto-advance.
+- [ ] SponsorBlock: green segments, automatic skip (on a video with a segment).
+- [ ] Shorts: button above Like, vertical window, ◀/▶ and ↑/↓, auto-advance.
+- [ ] Shorts capsule: like, the auto-advance switch (it reaches the options
+      page), the magnifier.
+- [ ] Shorts by keyword: search, ◀/▶ and auto-advance over the found list,
+      `Esc` and a second click on the magnifier turn the mode off.
+- [ ] Comments in the side column on a regular video; live chat on a stream.
+- [ ] The chapter tooltip is drawn above the panel, not under it.
 - [ ] Sleep timer: preset and "custom…", UI hides, pauses when it runs out.
 - [ ] Resizing: letterboxed with no leftovers, snaps back to the aspect ratio.
 - [ ] Hotkeys from another Chrome window and inside the window.
