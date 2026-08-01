@@ -13,6 +13,11 @@ YTFP.pagePanel = (() => {
   const PANEL_CLASS = "ytfp-page-panel";
   const STYLES_ID = "ytfp-page-panel-styles";
   const JUMP_SECONDS = 30;
+  // Просвет между нашей панелью и верхним краем контролов YouTube (там
+  // таймлайн). Запас на его подсветку при наведении — он подрастает.
+  const GAP_ABOVE_CONTROLS = 14;
+  // Пока контролы не найдены (плеер ещё строится) — заведомо выше них.
+  const FALLBACK_BOTTOM_PX = 76;
 
   function t(key, fallback) {
     return chrome.i18n.getMessage(key) || fallback;
@@ -50,7 +55,7 @@ YTFP.pagePanel = (() => {
       .${PANEL_CLASS} {
         position: absolute;
         left: 50%;
-        bottom: 60px;
+        bottom: ${FALLBACK_BOTTOM_PX}px;
         transform: translateX(-50%);
         z-index: 59;
         display: flex;
@@ -203,8 +208,32 @@ YTFP.pagePanel = (() => {
 
     panel.append(volumeGroup, center, speedGroup);
 
+    /**
+     * Поднимаем панель над родными контролами YouTube. Высоту берём у самой
+     * панели плеера, а не константой: в полноэкранном режиме она выше, и
+     * фиксированный отступ закрывал бы таймлайн.
+     */
+    function placeAbovePlayerControls(playerRoot) {
+      const chrome = playerRoot.querySelector(".ytp-chrome-bottom");
+      if (!chrome) {
+        return;
+      }
+      const playerRect = playerRoot.getBoundingClientRect();
+      const chromeRect = chrome.getBoundingClientRect();
+      if (!(chromeRect.height > 0) || !(playerRect.height > 0)) {
+        return;
+      }
+      // Верхний край панели YouTube — это и есть таймлайн; над ним и встаём.
+      const above = playerRect.bottom - chromeRect.top + GAP_ABOVE_CONTROLS;
+      panel.style.bottom = `${Math.round(above)}px`;
+    }
+
     /** Подписи и положение ползунков под текущее видео. */
     function sync() {
+      const playerRoot = panel.parentElement;
+      if (playerRoot) {
+        placeAbovePlayerControls(playerRoot);
+      }
       const video = YTFP.playerApi.getVideo();
       if (!video) {
         return;
