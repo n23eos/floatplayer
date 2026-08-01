@@ -125,31 +125,19 @@ body {
   letter-spacing: 3px;
 }
 
+/* Тело окна — отдельный документ во фрейме: внутри него живёт настоящий
+   pip.css, и его медиазапросы считаются от ширины мини-окна, а не от
+   страницы 1280px. Иначе узкое окно шортсов рисовалось бы «широкой»
+   раскладкой, которой в жизни у него не бывает. */
 .pipwin-body {
-  position: relative;
-  overflow: hidden;
+  display: block;
+  border: 0;
   background: #000;
 }
 
-/* Кадр видео: абстрактная сцена из градиентов. Настоящий кадр YouTube
-   в промо-материалы ставить нельзя, а пустой чёрный прямоугольник выглядит
-   как ошибка рендера. */
-.videoish {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(46% 62% at 27% 32%, rgba(120, 156, 224, 0.5), transparent 68%),
-    radial-gradient(44% 58% at 74% 66%, rgba(196, 92, 132, 0.42), transparent 70%),
-    radial-gradient(58% 70% at 52% 88%, rgba(58, 176, 156, 0.24), transparent 72%),
-    linear-gradient(168deg, #26304a 0%, #171b28 52%, #0d0f16 100%);
-}
-
-/* Горизонт и лёгкая виньетка — кадр перестаёт читаться как случайное пятно. */
-.videoish::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(96% 84% at 50% 46%, transparent 48%, rgba(0, 0, 0, 0.52) 100%);
+/* Чистый режим: рамки с адресом нет вовсе — так его и рисует Chrome. */
+.pipwin--clean {
+  border-radius: 11px;
 }
 
 /* --- Фон-«рабочий стол» для первого кадра -------------------------------- */
@@ -219,6 +207,36 @@ body {
   font-weight: 500;
 }
 
+/* Широкая выноска — для кадра со сравнением режимов: она стоит под окном,
+   а не сбоку, и по ширине равна ему. */
+.note--wide {
+  width: 420px;
+}
+
+/* Колонка выносок слева от вертикального окна шортсов: места там больше,
+   чем в узких выносках по бокам широкого окна. */
+.note--col {
+  width: 440px;
+}
+
+/* Подпись режима над окном: то же слово, что стоит в настройках. */
+.modelabel {
+  position: absolute;
+  z-index: 6;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.modelabel span {
+  color: #71717c;
+  font-size: 13px;
+  font-weight: 400;
+}
+
 /* --- Подпись бренда ------------------------------------------------------ */
 
 .brandline {
@@ -242,48 +260,5 @@ body {
   font-weight: 500;
 }
 
-/* --- Правки поверх pip.css ----------------------------------------------- */
-
-/* В продукте панель, нижний ряд и язычок рекомендаций проявляются по
-   наведению мыши. На статичном кадре наводить некому — показываем сразу. */
-.ytfp-bar,
-.ytfp-title {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-.ytfp-nav,
-.ytfp-related-toggle,
-.ytfp-chat-toggle {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-/* Кнопка пропуска вставки живёт внутри плеера и в продукте получает
-   инлайновые стили (она обязана работать и на странице, где pip.css нет).
-   Здесь повторяем их один в один. */
-.shot-sbskip {
-  position: absolute;
-  right: 12px;
-  bottom: 72px;
-  z-index: 10001;
-  border: 0;
-  border-radius: var(--ytfp-radius);
-  padding: 5px 10px;
-  background: var(--ytfp-panel-bg);
-  backdrop-filter: var(--ytfp-panel-blur);
-  -webkit-backdrop-filter: var(--ytfp-panel-blur);
-  color: var(--ytfp-text);
-  font-family: var(--ytfp-font);
-  font-size: 12px;
-  line-height: 1.3;
-  white-space: nowrap;
-}
-
-/* Миниатюры рекомендаций: в продукте это <img> с превью YouTube,
-   здесь — цветные плашки того же размера. */
-.thumb {
-  width: 86px;
-  aspect-ratio: 16 / 9;
-  border-radius: 6px;
-}
+/* Правки внутри самого мини-окна лежат в window.css: он подключается
+   в документе фрейма рядом с настоящим pip.css. */
