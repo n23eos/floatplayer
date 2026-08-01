@@ -422,8 +422,10 @@ YTFP.pip = (() => {
     // Сверху — только подпись: что играет и чей канал.
     const topStack = pipWindow.document.createElement("div");
     topStack.className = "ytfp-top";
-    topStack.append(titleBar, reactions.element);
+    topStack.append(titleBar);
     pipWindow.document.body.appendChild(topStack);
+    // Оценки — в левом нижнем углу, на одной линии с панелью.
+    pipWindow.document.body.appendChild(reactions.element);
     if (chat) {
       // Сама выдвижная колонка чата/комментариев — у правого края окна;
       // её кнопка уезжает в нижнюю панель.
@@ -508,7 +510,6 @@ YTFP.pip = (() => {
     // когда обе части готовы.
     const controls = YTFP.pipControls.buildBar(pipWindow.document, {
       getVideo: getMovedVideo,
-      onReturnRequested: close,
       isShorts,
       navRow: nav.row,
       chatToggle: chat ? chat.toggle : null

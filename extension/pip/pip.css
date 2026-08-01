@@ -381,11 +381,11 @@ body.ytfp-night--deep video.html5-main-video {
 }
 
 .ytfp-speed input[type="range"] {
-  width: 64px;
+  width: 56px;
 }
 
 .ytfp-boost input[type="range"] {
-  width: 76px;
+  width: 56px;
 }
 
 .ytfp-bottom input[type="range"] {
@@ -427,7 +427,9 @@ body.ytfp-night--deep video.html5-main-video {
 }
 
 .ytfp-sleep-countdown {
-  min-width: 38px;
+  /* Ширину занимает только когда таймер идёт: пустая подпись съедала
+     38 px в строке, которой их не хватало. */
+  min-width: 0;
   color: #ff9d9d;
   font-variant-numeric: tabular-nums;
 }
@@ -627,6 +629,13 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   min-width: 0;
 }
 
+/* Если строка всё же не влезает (узкое окно), она переносится, а не
+   вылезает за края панели. */
+.ytfp-row--main {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
 /* Внутри боковых частей сжимается только сам ползунок. Без этого содержимое
    не влезало в отведённую долю и подпись громкости наезжала на кнопку −30:
    у флекс-элементов min-width по умолчанию auto, и уменьшаться было нечему. */
@@ -655,23 +664,10 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   justify-content: flex-end;
 }
 
-/* Во второй строке центрального блока нет — держим обе половины рядом,
-   иначе посередине зияла бы дыра. */
-.ytfp-row--extra {
-  justify-content: center;
-  gap: 22px;
-}
-
 .ytfp-group {
   display: flex;
   align-items: center;
   gap: 2px;
-}
-
-/* Вторая строка чуть тише первой: там редкие настройки, а не управление
-   воспроизведением. */
-.ytfp-row--extra {
-  opacity: 0.85;
 }
 
 /* Блок редких значков (эфир, сбой базы SponsorBlock). Стоит отдельной
@@ -710,8 +706,8 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border: 0;
   border-radius: 50%;
   background: transparent;
@@ -724,10 +720,10 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   background: var(--ytfp-hover);
 }
 
-/* Play крупнее соседей — центр капсулы виден без подложки. */
+/* Play крупнее соседей — центр панели виден без подложки. */
 .ytfp-nav-btn--main {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
 }
 
 .ytfp-nav-btn--text {
@@ -917,14 +913,38 @@ body:hover .ytfp-related-toggle {
 
 /* --- Оценки видео ---------------------------------------------------------- */
 
-/* Оценки живут сами по себе, у левого края под названием: это самое частое
-   действие в окне, и делить размер с остальными кнопками панели ему незачем.
-   Значки крупные, но приглушённые — поверх кадра, без плашки. */
+/* Оценки живут сами по себе, в левом нижнем углу на одной линии с панелью:
+   это самое частое действие в окне, и делить размер с остальными кнопками
+   панели ему незачем. Значки крупные, но приглушённые — без плашки.
+   Панель ниже сужена ровно настолько, чтобы не наезжать на них. */
 .ytfp-reactions {
+  position: absolute;
+  left: 8px;
+  /* В узком окне места слева от панели нет — стоят под названием. */
+  top: 56px;
+  z-index: 10002;
   display: flex;
   align-items: center;
   gap: 6px;
   pointer-events: auto;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+/* Окно широкое — оценки уходят вниз, на одну линию с панелью, к самому
+   краю. Порог измерен: при меньшей ширине панель, сужённая ради места под
+   оценки, уже не держит свои кнопки в одну строку. */
+@media (min-width: 880px) {
+  .ytfp-reactions {
+    top: auto;
+    bottom: 16px;
+  }
+
+  /* Резерв по 100 px с каждой стороны: слева оценки (86 px плюс отступ),
+     справа столько же — иначе панель съедет с центра окна. */
+  .ytfp-bottom {
+    max-width: calc(100% - 200px);
+  }
 }
 
 .ytfp-reaction {

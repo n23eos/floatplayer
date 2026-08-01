@@ -57,7 +57,7 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  function buildBar(pipDocument, { getVideo, onReturnRequested, isShorts, navRow, chatToggle }) {
+  function buildBar(pipDocument, { getVideo, isShorts, navRow, chatToggle }) {
     const bar = pipDocument.createElement("div");
     // Единственная панель окна — внизу. Ряд воспроизведения (navRow) и кнопку
     // боковой колонки (chatToggle) строят соседние модули, сюда они приходят
@@ -225,30 +225,6 @@ YTFP.pipControls = (() => {
         ? t("liveLabel", "LIVE")
         : `−${YTFP.utils.formatTime(behind)}`;
     }
-
-    // --- Промотка интеграций --------------------------------------------------
-    // Один клик — прыжок вперёд на настроенный шаг (по умолчанию 30 сек):
-    // удобно проматывать рекламные интеграции внутри видео.
-    const skipStep = () => YTFP.settings.get().skipStepSeconds;
-    const skipButton = createButton(
-      pipDocument,
-      createIcon(pipDocument, "skip"),
-      t("skipTooltip", "Skip ahead (sponsor segment)"),
-      () => {
-        const video = getVideo();
-        // Реклама не мотается: во время неё currentTime принадлежит ролику.
-        if (!video || YTFP.playerApi.isAdShowing()) {
-          return;
-        }
-        video.currentTime = Math.min(
-          video.duration || Infinity,
-          video.currentTime + skipStep()
-        );
-      }
-    );
-    const skipStepLabel = pipDocument.createElement("span");
-    skipStepLabel.textContent = String(skipStep());
-    skipButton.appendChild(skipStepLabel);
 
     // --- Скорость: ползунок с шагами -----------------------------------------
     const speedWrap = pipDocument.createElement("label");
@@ -482,15 +458,6 @@ YTFP.pipControls = (() => {
     // <label> клик по ней открывал бы выпадающий список минут.
     sleepWrap.append(sleepSelect, sleepCustomInput, sleepCountdown);
 
-    // --- Возврат на страницу ------------------------------------------------
-    const returnButton = createButton(
-      pipDocument,
-      createIcon(pipDocument, "back"),
-      t("returnTooltip", "Return video to the page"),
-      onReturnRequested
-    );
-    returnButton.classList.add("ytfp-btn--return");
-
     // --- Отметка о недоступности базы SponsorBlock ---------------------------
     // Видна только когда база не ответила. Иначе молчащий SponsorBlock не
     // отличить от видео без разметки, и это выглядит как поломка.
@@ -540,25 +507,26 @@ YTFP.pipControls = (() => {
     const statusBlock = makeRow("ytfp-row--status", liveButton, sbStatus);
 
     if (isShorts) {
-      // Узкое вертикальное окно: только самое нужное, в один ряд.
-      bar.append(
-        statusBlock,
-        makeRow("ytfp-row--main", makeGroup(boostWrap), navRow || playButton, makeGroup(speedWrap)),
-        makeRow("ytfp-row--extra", makeGroup(nightButton), makeGroup(sleepWrap), makeGroup(returnButton))
-      );
-    } else {
+      // Узкое вертикальное окно: только самое нужное.
       bar.append(
         statusBlock,
         makeRow(
           "ytfp-row--main",
           makeGroup(boostWrap),
           navRow || playButton,
-          makeGroup(speedWrap)
-        ),
+          makeGroup(nightButton, sleepWrap)
+        )
+      );
+    } else {
+      // Одна строка: ползунки по краям, воспроизведение в центре, по три
+      // кнопки с каждой стороны.
+      bar.append(
+        statusBlock,
         makeRow(
-          "ytfp-row--extra",
-          makeGroup(abButton, loopButton, autoplayButton, skipButton),
-          makeGroup(nightButton, sleepWrap, chatToggle, returnButton)
+          "ytfp-row--main",
+          makeGroup(boostWrap, abButton, loopButton, autoplayButton),
+          navRow || playButton,
+          makeGroup(nightButton, sleepWrap, chatToggle, speedWrap)
         )
       );
     }
