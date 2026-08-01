@@ -343,5 +343,11 @@
   },
   "dislikedTooltip": {
     "message": "低く評価済み — クリックで取り消し"
+  },
+  "optLoadError": {
+    "message": "設定を読み込めませんでした。ページを再読み込みしてください。"
+  },
+  "optSaveError": {
+    "message": "保存できませんでした。もう一度お試しください。"
   }
 }
