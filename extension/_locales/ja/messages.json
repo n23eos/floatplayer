@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "スポンサー部分が緑色で表示され、その中では「スポンサー部分をスキップ」ボタンが出ます。SponsorBlockコミュニティのデータを利用し、動画IDをsponsor.ajay.appへ送信します。"
   },
-  "optSkipStepLabel": {
-    "message": "手動スキップの秒数"
-  },
-  "optSkipStepHint": {
-    "message": "ミニウィンドウの »N ボタンはこの秒数だけ進みます。"
-  },
   "optShortsLabel": {
     "message": "ショート: 次の動画へ自動で進む"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "保存しました"
-  },
-  "optSec": {
-    "message": "秒"
   },
   "secShort": {
     "message": "秒"

@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Os trechos patrocinados ficam verdes; dentro de um deles aparece o botão \"Pular o patrocínio\". Dados da comunidade SponsorBlock: o ID do vídeo é enviado ao sponsor.ajay.app."
   },
-  "optSkipStepLabel": {
-    "message": "Passo do avanço manual"
-  },
-  "optSkipStepHint": {
-    "message": "O botão »N da minijanela avança esse tanto."
-  },
   "optShortsLabel": {
     "message": "Shorts: passar para o próximo automaticamente"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Salvo"
-  },
-  "optSec": {
-    "message": "s"
   },
   "secShort": {
     "message": "s"

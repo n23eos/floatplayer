@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Les passages sponsorisés apparaissent en vert ; à l'intérieur, un bouton « Passer le sponsor » s'affiche. Données de la communauté SponsorBlock : l'identifiant de la vidéo est envoyé à sponsor.ajay.app."
   },
-  "optSkipStepLabel": {
-    "message": "Pas de l'avance manuelle"
-  },
-  "optSkipStepHint": {
-    "message": "Le bouton »N de la mini-fenêtre avance de cette durée."
-  },
   "optShortsLabel": {
     "message": "Shorts : passer automatiquement au suivant"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Enregistré"
-  },
-  "optSec": {
-    "message": "s"
   },
   "secShort": {
     "message": "s"

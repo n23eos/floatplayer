@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Segmen sponsor ditandai hijau; di dalamnya muncul tombol \"Lewati segmen sponsor\". Data komunitas SponsorBlock: ID video dikirim ke sponsor.ajay.app."
   },
-  "optSkipStepLabel": {
-    "message": "Langkah lompatan manual"
-  },
-  "optSkipStepHint": {
-    "message": "Tombol »N di jendela mini melompat maju sebanyak ini."
-  },
   "optShortsLabel": {
     "message": "Shorts: lanjut otomatis ke berikutnya"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Tersimpan"
-  },
-  "optSec": {
-    "message": "dtk"
   },
   "secShort": {
     "message": "dtk"

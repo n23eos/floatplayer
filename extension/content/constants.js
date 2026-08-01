@@ -61,7 +61,6 @@ YTFP.DEFAULT_SETTINGS = {
   compactMode: true,
   // Панель поверх обычного плеера YouTube (громкость, скорость, ±30).
   pagePanel: true,        // прятать панель, показывать при наведении
-  skipStepSeconds: 30,      // шаг кнопки промотки интеграций, сек
   sponsorSkip: true,        // сегменты SponsorBlock на таймлайне + кнопка пропуска
   sponsorAutoSkip: false,   // автопропуск сегментов без кнопки (opt-in)
   // Какие категории SponsorBlock запрашивать и пропускать.

@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "स्पॉन्सर हिस्से हरे रंग में दिखते हैं; उनके भीतर \"स्पॉन्सर हिस्सा छोड़ें\" बटन आता है। SponsorBlock समुदाय का डेटा: वीडियो ID sponsor.ajay.app को भेजी जाती है।"
   },
-  "optSkipStepLabel": {
-    "message": "मैन्युअल स्किप की अवधि"
-  },
-  "optSkipStepHint": {
-    "message": "मिनी-विंडो का »N बटन इतना आगे कूदता है।"
-  },
   "optShortsLabel": {
     "message": "Shorts: अगले पर अपने आप जाएँ"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "सहेजा गया"
-  },
-  "optSec": {
-    "message": "से"
   },
   "secShort": {
     "message": "से"

@@ -9,13 +9,6 @@ function applyI18n() {
       el.textContent = message;
     }
   }
-  // Единица «сек/s» в вариантах шага промотки.
-  const secUnit = chrome.i18n.getMessage("optSec");
-  if (secUnit) {
-    for (const option of document.querySelectorAll("#skipStepSeconds option")) {
-      option.textContent = `${option.value} ${secUnit}`;
-    }
-  }
   const title = chrome.i18n.getMessage("optTitle");
   if (title) {
     document.title = title;
@@ -34,7 +27,6 @@ const DEFAULT_SETTINGS = {
   volumeBoostMax: 300,
   compactMode: true,
   pagePanel: true,
-  skipStepSeconds: 30,
   sponsorSkip: true,
   sponsorAutoSkip: false,
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
@@ -51,7 +43,6 @@ const elements = {
   compactMode: document.getElementById("compactMode"),
   pagePanel: document.getElementById("pagePanel"),
   speedStep: document.getElementById("speedStep"),
-  skipStepSeconds: document.getElementById("skipStepSeconds"),
   volumeBoostMax: document.getElementById("volumeBoostMax"),
   status: document.getElementById("status")
 };
@@ -125,11 +116,6 @@ async function loadIntoForm() {
   elements.pagePanel.checked = Boolean(settings.pagePanel);
   setSelectValue(elements.speedStep, settings.speedStep, DEFAULT_SETTINGS.speedStep);
   setSelectValue(
-    elements.skipStepSeconds,
-    settings.skipStepSeconds,
-    DEFAULT_SETTINGS.skipStepSeconds
-  );
-  setSelectValue(
     elements.volumeBoostMax,
     settings.volumeBoostMax,
     DEFAULT_SETTINGS.volumeBoostMax
@@ -194,7 +180,6 @@ async function save() {
       compactMode: elements.compactMode.checked,
       pagePanel: elements.pagePanel.checked,
       speedStep: Number(elements.speedStep.value),
-      skipStepSeconds: Number(elements.skipStepSeconds.value),
       volumeBoostMax: Number(elements.volumeBoostMax.value)
     });
   } catch (error) {
@@ -212,7 +197,7 @@ async function save() {
   showToast(SAVED_TEXT, "ok");
 }
 
-for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "pagePanel", "speedStep", "skipStepSeconds", "volumeBoostMax"]) {
+for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "pagePanel", "speedStep", "volumeBoostMax"]) {
   // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
   if (elements[key]) {
     elements[key].addEventListener("change", save);

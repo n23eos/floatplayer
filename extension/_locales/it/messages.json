@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "I segmenti sponsorizzati sono evidenziati in verde; al loro interno compare il pulsante «Salta lo sponsor». Dati della comunità SponsorBlock: l'ID del video viene inviato a sponsor.ajay.app."
   },
-  "optSkipStepLabel": {
-    "message": "Passo dell'avanzamento manuale"
-  },
-  "optSkipStepHint": {
-    "message": "Il pulsante »N nella mini-finestra avanza di questo valore."
-  },
   "optShortsLabel": {
     "message": "Shorts: passa automaticamente al successivo"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Salvato"
-  },
-  "optSec": {
-    "message": "s"
   },
   "secShort": {
     "message": "s"

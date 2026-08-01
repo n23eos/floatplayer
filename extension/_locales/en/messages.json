@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Sponsor segments are highlighted in green; inside one, a \"Skip sponsor segment\" button appears. Community SponsorBlock data: the video ID is sent to sponsor.ajay.app."
   },
-  "optSkipStepLabel": {
-    "message": "Manual skip step"
-  },
-  "optSkipStepHint": {
-    "message": "The »N button in the mini-window jumps forward by this step."
-  },
   "optShortsLabel": {
     "message": "Shorts: auto-advance to the next one"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Saved"
-  },
-  "optSec": {
-    "message": "s"
   },
   "secShort": {
     "message": "s"

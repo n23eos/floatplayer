@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Sponsor bölümleri yeşil gösterilir; bölüm içindeyken \"Sponsor bölümünü atla\" düğmesi çıkar. SponsorBlock topluluk verisi: video kimliği sponsor.ajay.app adresine gönderilir."
   },
-  "optSkipStepLabel": {
-    "message": "Elle ileri sarma adımı"
-  },
-  "optSkipStepHint": {
-    "message": "Mini penceredeki »N düğmesi bu kadar ileri atlar."
-  },
   "optShortsLabel": {
     "message": "Shorts: sonrakine otomatik geç"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Kaydedildi"
-  },
-  "optSec": {
-    "message": "sn"
   },
   "secShort": {
     "message": "sn"

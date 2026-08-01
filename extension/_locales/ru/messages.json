@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Спонсорские вставки подсвечиваются зелёным, при попадании в них появляется кнопка «Пропустить интеграцию». Данные сообщества SponsorBlock: на sponsor.ajay.app отправляется ID видео."
   },
-  "optSkipStepLabel": {
-    "message": "Шаг промотки интеграций"
-  },
-  "optSkipStepHint": {
-    "message": "Кнопка «»N» в мини-окне прыгает вперёд на этот шаг."
-  },
   "optShortsLabel": {
     "message": "Шортсы: автопереход к следующему"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Сохранено"
-  },
-  "optSec": {
-    "message": "сек"
   },
   "secShort": {
     "message": "с"

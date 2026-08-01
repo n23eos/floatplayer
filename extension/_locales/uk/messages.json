@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Спонсорські вставки підсвічуються зеленим; усередині з’являється кнопка «Пропустити спонсора». Дані спільноти SponsorBlock: ID відео надсилається на sponsor.ajay.app."
   },
-  "optSkipStepLabel": {
-    "message": "Крок ручного перемотування"
-  },
-  "optSkipStepHint": {
-    "message": "Кнопка »N у міні-вікні стрибає вперед на цей крок."
-  },
   "optShortsLabel": {
     "message": "Shorts: автоматично переходити до наступного"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Збережено"
-  },
-  "optSec": {
-    "message": "с"
   },
   "secShort": {
     "message": "с"

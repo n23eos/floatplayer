@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "스폰서 구간이 초록색으로 표시되고, 구간 안에서는 \"스폰서 구간 건너뛰기\" 버튼이 나타납니다. SponsorBlock 커뮤니티 데이터: 영상 ID가 sponsor.ajay.app으로 전송됩니다."
   },
-  "optSkipStepLabel": {
-    "message": "수동 건너뛰기 간격"
-  },
-  "optSkipStepHint": {
-    "message": "미니 창의 »N 버튼이 이만큼 앞으로 이동합니다."
-  },
   "optShortsLabel": {
     "message": "Shorts: 다음 영상으로 자동 이동"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "저장됨"
-  },
-  "optSec": {
-    "message": "초"
   },
   "secShort": {
     "message": "초"

@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Fragmenty sponsorowane są zaznaczone na zielono; wewnątrz pojawia się przycisk „Pomiń sponsora”. Dane społeczności SponsorBlock: identyfikator filmu jest wysyłany do sponsor.ajay.app."
   },
-  "optSkipStepLabel": {
-    "message": "Krok ręcznego przewijania"
-  },
-  "optSkipStepHint": {
-    "message": "Przycisk »N w mini-oknie przeskakuje o tyle do przodu."
-  },
   "optShortsLabel": {
     "message": "Shorts: automatycznie przechodź do następnego"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Zapisano"
-  },
-  "optSec": {
-    "message": "s"
   },
   "secShort": {
     "message": "s"

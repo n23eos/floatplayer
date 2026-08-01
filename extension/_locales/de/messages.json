@@ -107,12 +107,6 @@
   "optSponsorHint": {
     "message": "Sponsor-Abschnitte werden grün markiert; darin erscheint die Schaltfläche „Sponsor-Abschnitt überspringen“. Daten der SponsorBlock-Community: Die Video-ID wird an sponsor.ajay.app gesendet."
   },
-  "optSkipStepLabel": {
-    "message": "Schrittweite beim manuellen Vorspulen"
-  },
-  "optSkipStepHint": {
-    "message": "Die Schaltfläche »N im Mini-Fenster springt um diesen Wert vor."
-  },
   "optShortsLabel": {
     "message": "Shorts: automatisch zum nächsten wechseln"
   },
@@ -142,9 +136,6 @@
   },
   "optSaved": {
     "message": "Gespeichert"
-  },
-  "optSec": {
-    "message": "s"
   },
   "secShort": {
     "message": "s"
