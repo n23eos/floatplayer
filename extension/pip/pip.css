@@ -460,6 +460,9 @@ body.ytfp-night--deep video.html5-main-video {
    движение мыши (класс ytfp-peek) показывает его на пару секунд. */
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-title,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom,
+/* Оценки на обычном видео — отдельный блок в углу, в панель они не входят
+   и сами по себе не гаснут. */
+body.ytfp-sleeping:not(.ytfp-peek) .ytfp-reactions,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-toggle,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-related-panel,
 body.ytfp-sleeping:not(.ytfp-peek) .ytfp-chat-panel,
