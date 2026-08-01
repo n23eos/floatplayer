@@ -187,6 +187,34 @@ fieldset.row {
   outline-offset: 1px;
 }
 
+/* --- Ползунок прозрачности ------------------------------------------------ */
+
+.range-wrap {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.range-wrap input[type="range"] {
+  width: 120px;
+  accent-color: var(--accent);
+}
+
+.range-wrap input[type="range"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Ширина фиксирована под «100%», чтобы строка не дёргалась при движении. */
+.range-value {
+  min-width: 38px;
+  text-align: right;
+  font-size: 13px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
 /* --- Категории SponsorBlock: чипы вместо чекбоксов ----------------------- */
 
 .chips {

@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "분"
   },
-  "skipTooltip": {
-    "message": "앞으로 건너뛰기(스폰서 구간)"
-  },
   "sbSkip": {
     "message": "스폰서 구간 건너뛰기"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "음량: 0~100%는 더 작게, 100% 초과는 증폭"
-  },
-  "returnTooltip": {
-    "message": "영상을 페이지로 되돌리기"
   },
   "cmdTogglePip": {
     "message": "플로팅 창 열기 / 닫기"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "일반 플레이어 위에 음량, 속도, 30초 건너뛰기를 마우스를 올리면 표시합니다."
+  },
+  "optChatOpacityLabel": {
+    "message": "채팅·댓글 배경 불투명도"
+  },
+  "optChatOpacityHint": {
+    "message": "미니 창의 채팅/댓글 패널 배경. 0% — 완전 투명, 100% — 불투명."
   }
 }

@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "mnt"
   },
-  "skipTooltip": {
-    "message": "Maju (segmen sponsor)"
-  },
   "sbSkip": {
     "message": "Lewati segmen sponsor"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "Volume: 0–100% lebih pelan, di atas 100% diperkuat"
-  },
-  "returnTooltip": {
-    "message": "Kembalikan video ke halaman"
   },
   "cmdTogglePip": {
     "message": "Buka atau tutup jendela mengambang"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "Volume, kecepatan, dan lompatan 30 detik di atas pemutar biasa, saat kursor di atasnya."
+  },
+  "optChatOpacityLabel": {
+    "message": "Opasitas latar chat dan komentar"
+  },
+  "optChatOpacityHint": {
+    "message": "Latar panel chat/komentar di jendela mini. 0% — sepenuhnya transparan, 100% — pekat."
   }
 }

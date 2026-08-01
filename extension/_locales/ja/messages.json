@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "分"
   },
-  "skipTooltip": {
-    "message": "先へ進む（スポンサー部分）"
-  },
   "sbSkip": {
     "message": "スポンサー部分をスキップ"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "音量: 0〜100%は小さく、100%超はブースト"
-  },
-  "returnTooltip": {
-    "message": "動画をページに戻す"
   },
   "cmdTogglePip": {
     "message": "フローティングウィンドウを開く / 閉じる"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "通常のプレーヤーの上に音量・速度・30 秒スキップを表示します（マウスを乗せたとき）。"
+  },
+  "optChatOpacityLabel": {
+    "message": "チャット・コメント背景の不透明度"
+  },
+  "optChatOpacityHint": {
+    "message": "ミニウィンドウ内のチャット／コメントパネルの背景。0% で完全に透明、100% で不透明。"
   }
 }

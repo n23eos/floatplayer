@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "min"
   },
-  "skipTooltip": {
-    "message": "Avançar (trecho patrocinado)"
-  },
   "sbSkip": {
     "message": "Pular o patrocínio"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "Volume: 0–100% mais baixo, acima de 100% amplificado"
-  },
-  "returnTooltip": {
-    "message": "Devolver o vídeo à página"
   },
   "cmdTogglePip": {
     "message": "Abrir ou fechar a janela flutuante"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "Volume, velocidade e saltos de 30 segundos sobre o player normal, ao passar o mouse."
+  },
+  "optChatOpacityLabel": {
+    "message": "Opacidade do fundo do chat e comentários"
+  },
+  "optChatOpacityHint": {
+    "message": "Fundo do painel de chat/comentários na minijanela. 0% — totalmente transparente, 100% — sólido."
   }
 }

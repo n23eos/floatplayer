@@ -40,6 +40,27 @@ YTFP.pipChat = (() => {
     }
   `;
 
+  // Дефолт совпадает с fallback переменной --ytfp-chat-bg-alpha в pip.css.
+  const DEFAULT_PANEL_OPACITY = 50;
+
+  /**
+   * Приводит настройку chatPanelOpacity к целому проценту 0–100.
+   * Мусор из хранилища (строка, NaN, число вне диапазона) → дефолт:
+   * панель с невалидным значением не должна становиться невидимой.
+   */
+  function normalizeOpacity(value) {
+    // Явная проверка типа: Number(null) и Number("") дают 0, и панель
+    // от мусора в хранилище молча становилась бы полностью прозрачной.
+    if ((typeof value !== "number" && typeof value !== "string") || value === "") {
+      return DEFAULT_PANEL_OPACITY;
+    }
+    const number = Number(value);
+    if (!Number.isFinite(number) || number < 0 || number > 100) {
+      return DEFAULT_PANEL_OPACITY;
+    }
+    return Math.round(number);
+  }
+
   function t(key, fallback) {
     return chrome.i18n.getMessage(key) || fallback;
   }
@@ -117,6 +138,19 @@ YTFP.pipChat = (() => {
     // Каждая загрузка — новый документ, стиль надо вносить заново.
     frame.addEventListener("load", makeFrameTransparent);
 
+    /** Переносит настройку прозрачности в CSS-переменную окна. */
+    function applyPanelOpacity(settings) {
+      const percent = normalizeOpacity(settings.chatPanelOpacity);
+      pipDocument.documentElement.style.setProperty(
+        "--ytfp-chat-bg-alpha",
+        String(percent / 100)
+      );
+    }
+
+    applyPanelOpacity(YTFP.settings.get());
+    // Живое обновление со страницы настроек, без переоткрытия окна.
+    YTFP.settings.onChange(applyPanelOpacity);
+
     function syncFrame() {
       const videoId = YTFP.playerApi.getVideoId();
       if (!videoId || videoId === loadedVideoId) {
@@ -183,6 +217,7 @@ YTFP.pipChat = (() => {
 
     function cleanup() {
       clearInterval(ticker);
+      YTFP.settings.offChange(applyPanelOpacity);
       frame.removeEventListener("load", makeFrameTransparent);
       comments.cleanup();
       // Класс живёт на теле окна: окно умрёт вместе с ним, но при возврате
@@ -194,5 +229,10 @@ YTFP.pipChat = (() => {
     return { element: root, toggle, cleanup };
   }
 
-  return { build };
+  return { build, normalizeOpacity };
 })();
+
+// Экспорт для юнит-тестов (в браузере module не определён — блок не выполняется).
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = YTFP.pipChat;
+}

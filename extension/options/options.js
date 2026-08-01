@@ -31,8 +31,26 @@ const DEFAULT_SETTINGS = {
   sponsorAutoSkip: true,
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
   shortsAutoNext: true,
+  chatPanelOpacity: 50,
   windowMode: "document"
 };
+
+/**
+ * Приводит прозрачность панели чата к целому проценту 0–100; мусор из
+ * хранилища → дефолт (та же логика, что в content/pip-chat.js).
+ */
+function normalizeChatOpacity(value) {
+  // Явная проверка типа: Number(null) и Number("") дают 0 — мусор из
+  // хранилища превращался бы в «полностью прозрачно» вместо дефолта.
+  if ((typeof value !== "number" && typeof value !== "string") || value === "") {
+    return DEFAULT_SETTINGS.chatPanelOpacity;
+  }
+  const number = Number(value);
+  if (!Number.isFinite(number) || number < 0 || number > 100) {
+    return DEFAULT_SETTINGS.chatPanelOpacity;
+  }
+  return Math.round(number);
+}
 
 const elements = {
   autoPip: document.getElementById("autoPip"),
@@ -44,8 +62,15 @@ const elements = {
   pagePanel: document.getElementById("pagePanel"),
   speedStep: document.getElementById("speedStep"),
   volumeBoostMax: document.getElementById("volumeBoostMax"),
+  chatPanelOpacity: document.getElementById("chatPanelOpacity"),
+  chatPanelOpacityValue: document.getElementById("chatPanelOpacityValue"),
   status: document.getElementById("status")
 };
+
+/** Подпись «NN%» рядом с ползунком прозрачности. */
+function refreshChatOpacityLabel() {
+  elements.chatPanelOpacityValue.textContent = `${elements.chatPanelOpacity.value}%`;
+}
 
 function getCategoryCheckboxes() {
   return Array.from(document.querySelectorAll(".sb-category"));
@@ -120,6 +145,8 @@ async function loadIntoForm() {
     settings.volumeBoostMax,
     DEFAULT_SETTINGS.volumeBoostMax
   );
+  elements.chatPanelOpacity.value = String(normalizeChatOpacity(settings.chatPanelOpacity));
+  refreshChatOpacityLabel();
   refreshDependentRows();
   isFormReady = true;
 }
@@ -180,7 +207,8 @@ async function save() {
       compactMode: elements.compactMode.checked,
       pagePanel: elements.pagePanel.checked,
       speedStep: Number(elements.speedStep.value),
-      volumeBoostMax: Number(elements.volumeBoostMax.value)
+      volumeBoostMax: Number(elements.volumeBoostMax.value),
+      chatPanelOpacity: normalizeChatOpacity(elements.chatPanelOpacity.value)
     });
   } catch (error) {
     // Квота записей в минуту, переполнение sync, отвалившийся контекст —
@@ -197,7 +225,13 @@ async function save() {
   showToast(SAVED_TEXT, "ok");
 }
 
-for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "pagePanel", "speedStep", "volumeBoostMax"]) {
+// Ползунок: подпись обновляем на каждое движение, сохраняем по "change" —
+// иначе каждое движение било бы в квоту записей chrome.storage.sync.
+if (elements.chatPanelOpacity) {
+  elements.chatPanelOpacity.addEventListener("input", refreshChatOpacityLabel);
+}
+
+for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "pagePanel", "speedStep", "volumeBoostMax", "chatPanelOpacity"]) {
   // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
   if (elements[key]) {
     elements[key].addEventListener("change", save);

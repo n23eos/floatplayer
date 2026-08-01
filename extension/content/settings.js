@@ -26,6 +26,14 @@ YTFP.settings = (() => {
     listeners.add(callback);
   }
 
+  /**
+   * Отписка. Нужна только колбэкам с временем жизни короче content-скрипта
+   * (например, привязанным к PiP-окну); остальные могут не отписываться.
+   */
+  function offChange(callback) {
+    listeners.delete(callback);
+  }
+
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== "sync") {
       return;
@@ -48,5 +56,5 @@ YTFP.settings = (() => {
     }
   });
 
-  return { load, get, onChange };
+  return { load, get, onChange, offChange };
 })();

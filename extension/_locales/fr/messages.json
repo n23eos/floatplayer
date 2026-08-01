@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "min"
   },
-  "skipTooltip": {
-    "message": "Avancer (passage sponsorisé)"
-  },
   "sbSkip": {
     "message": "Passer le sponsor"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "Volume : 0–100 % plus bas, au-delà de 100 % amplifié"
-  },
-  "returnTooltip": {
-    "message": "Remettre la vidéo dans la page"
   },
   "cmdTogglePip": {
     "message": "Ouvrir ou fermer la fenêtre flottante"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "Volume, vitesse et sauts de 30 secondes par-dessus le lecteur normal, au survol."
+  },
+  "optChatOpacityLabel": {
+    "message": "Opacité du fond du chat et des commentaires"
+  },
+  "optChatOpacityHint": {
+    "message": "Fond du panneau chat/commentaires dans la mini-fenêtre. 0 % — totalement transparent, 100 % — opaque."
   }
 }

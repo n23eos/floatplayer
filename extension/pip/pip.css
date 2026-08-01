@@ -1105,8 +1105,10 @@ body:hover .ytfp-related-toggle {
   z-index: 9998;
   /* Полупрозрачный задник. Прозрачность именно фона, а не opacity всей
      панели: opacity погасил бы и текст сообщений. Фон внутри самой
-     страницы чата гасит pip-chat.js — свой iframe, origin тот же. */
-  background: rgba(15, 15, 15, 0.5);
+     страницы чата гасит pip-chat.js — свой iframe, origin тот же.
+     Альфу задаёт настройка chatPanelOpacity (pip-chat.js пишет
+     переменную на <html>); fallback — прежние 0.5. */
+  background: rgba(15, 15, 15, var(--ytfp-chat-bg-alpha, 0.5));
   transform: translateX(100%);
   transition: transform var(--ytfp-anim-slow);
   overflow: hidden;

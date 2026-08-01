@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "Min."
   },
-  "skipTooltip": {
-    "message": "Vorspulen (Sponsor-Abschnitt)"
-  },
   "sbSkip": {
     "message": "Sponsor-Abschnitt überspringen"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "Lautstärke: 0–100 % leiser, über 100 % verstärkt"
-  },
-  "returnTooltip": {
-    "message": "Video zurück auf die Seite holen"
   },
   "cmdTogglePip": {
     "message": "Schwebendes Fenster öffnen oder schließen"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "Lautstärke, Tempo und 30-Sekunden-Sprünge über dem normalen Player, beim Überfahren mit der Maus."
+  },
+  "optChatOpacityLabel": {
+    "message": "Deckkraft des Chat- und Kommentar-Hintergrunds"
+  },
+  "optChatOpacityHint": {
+    "message": "Hintergrund des Chat-/Kommentar-Panels im Mini-Fenster. 0 % — völlig transparent, 100 % — deckend."
   }
 }

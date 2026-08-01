@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "dk"
   },
-  "skipTooltip": {
-    "message": "İleri sar (sponsor bölümü)"
-  },
   "sbSkip": {
     "message": "Sponsor bölümünü atla"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "Ses: %0–100 daha kısık, %100 üzeri yükseltilmiş"
-  },
-  "returnTooltip": {
-    "message": "Videoyu sayfaya geri koy"
   },
   "cmdTogglePip": {
     "message": "Yüzen pencereyi aç veya kapat"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "Normal oynatıcının üzerinde ses, hız ve 30 saniyelik atlamalar; fare üzerine gelince."
+  },
+  "optChatOpacityLabel": {
+    "message": "Sohbet ve yorum arka planı opaklığı"
+  },
+  "optChatOpacityHint": {
+    "message": "Mini penceredeki sohbet/yorum panelinin arka planı. %0 — tamamen saydam, %100 — mat."
   }
 }

@@ -66,6 +66,9 @@ YTFP.DEFAULT_SETTINGS = {
   // Какие категории SponsorBlock запрашивать и пропускать.
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
   nightMode: "off",         // ночной режим (подавление синего): off | warm | deep
+  // Непрозрачность подложки панели чата/комментариев в PiP-окне, %.
+  // 0 — фона нет совсем, 100 — сплошной; текст сообщений не трогаем.
+  chatPanelOpacity: 50,
   shortsAutoNext: true,     // шортсы: автопереход к следующему по окончании
   autoplayNext: true,       // видео: автопереход к следующему по окончании
   // "document" — окно с панелью настроек (Chrome рисует рамку с origin),
@@ -80,3 +83,8 @@ YTFP.SPEED_MAX = 3;
 YTFP.DEFAULT_PIP_SIZE = { width: 480, height: 320 };
 
 YTFP.SEEK_STEP_SECONDS = 10;
+
+// Экспорт для юнит-тестов (в браузере module не определён — блок не выполняется).
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = YTFP;
+}

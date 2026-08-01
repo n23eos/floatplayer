@@ -35,9 +35,6 @@
   "sleepMinutes": {
     "message": "min"
   },
-  "skipTooltip": {
-    "message": "Przewiń do przodu (fragment sponsorowany)"
-  },
   "sbSkip": {
     "message": "Pomiń sponsora"
   },
@@ -64,9 +61,6 @@
   },
   "boostTooltip": {
     "message": "Głośność: 0–100% ciszej, powyżej 100% wzmocnienie"
-  },
-  "returnTooltip": {
-    "message": "Wróć wideo na stronę"
   },
   "cmdTogglePip": {
     "message": "Otwórz lub zamknij okno pływające"
@@ -355,5 +349,11 @@
   },
   "optPagePanelHint": {
     "message": "Głośność, prędkość i skoki o 30 sekund nad zwykłym odtwarzaczem, po najechaniu myszą."
+  },
+  "optChatOpacityLabel": {
+    "message": "Nieprzezroczystość tła czatu i komentarzy"
+  },
+  "optChatOpacityHint": {
+    "message": "Tło panelu czatu/komentarzy w mini-oknie. 0% — całkowicie przezroczyste, 100% — pełne."
   }
 }
