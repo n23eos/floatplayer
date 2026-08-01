@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "Automatyczne przejście do następnego Shorta"
   },
+  "shortsSearchTooltip": {
+    "message": "Odtwarzaj Shorts według słowa kluczowego"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "Szukaj Shorts…"
+  },
   "liveTooltip": {
     "message": "Wróć do transmisji na żywo"
   },

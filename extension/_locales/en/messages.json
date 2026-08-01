@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "Auto-advance to the next short"
   },
+  "shortsSearchTooltip": {
+    "message": "Play shorts by keyword"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "Search shorts…"
+  },
   "liveTooltip": {
     "message": "Jump to the live edge"
   },

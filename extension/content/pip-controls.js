@@ -28,7 +28,13 @@ YTFP.pipControls = (() => {
     // но стрелка вниз — лента шортсов листается сверху вниз.
     shortsAutoNext:
       "M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z" +
-      "m0 12H5V7h14v10zM8 10h8l-4 5z"
+      "m0 12H5V7h14v10zM8 10h8l-4 5z",
+    // Лупа: поиск шортсов по слову.
+    search:
+      "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3" +
+      "S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99" +
+      "L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5" +
+      " 11.99 14 9.5 14z"
   };
 
   function createIcon(doc, name) {
@@ -511,7 +517,74 @@ YTFP.pipControls = (() => {
       const [likeButton] = reactionButtons || [];
       const shortsCapsule = pipDocument.createElement("div");
       shortsCapsule.className = "ytfp-shorts-bar";
-      shortsCapsule.append(...[likeButton, shortsAutoButton].filter(Boolean));
+
+      // --- Поиск шортсов по слову -------------------------------------------
+      // Лупа открывает поле над капсулой. Enter — поиск и переход к первому
+      // найденному; дальше вперёд/назад и автопереход ходят по найденному
+      // списку. Пока лупа красная — режим активен; повторный клик или Esc
+      // гасят режим, навигация возвращается к обычной ленте.
+      const searchWrap = pipDocument.createElement("div");
+      searchWrap.className = "ytfp-shorts-search";
+      searchWrap.hidden = true;
+      const searchInput = pipDocument.createElement("input");
+      searchInput.type = "text";
+      searchInput.placeholder = t("shortsSearchPlaceholder", "Search shorts…");
+      searchWrap.appendChild(searchInput);
+
+      const searchButton = createButton(
+        pipDocument,
+        createIcon(pipDocument, "search"),
+        t("shortsSearchTooltip", "Play shorts by keyword"),
+        () => {
+          if (YTFP.shortsSearch.isActive() || !searchWrap.hidden) {
+            closeSearch();
+            return;
+          }
+          searchWrap.hidden = false;
+          searchInput.focus();
+        }
+      );
+
+      function closeSearch() {
+        YTFP.shortsSearch.stop();
+        searchWrap.hidden = true;
+        searchInput.value = "";
+        searchInput.classList.remove("ytfp-shorts-search--empty");
+        searchButton.classList.remove("ytfp-btn--active");
+      }
+
+      searchInput.addEventListener("keydown", (event) => {
+        // Клавиши из поля не должны доходить до горячих клавиш окна и
+        // слушателей YouTube: пробел в запросе — не пауза.
+        event.stopPropagation();
+        if (event.key === "Escape") {
+          closeSearch();
+          return;
+        }
+        if (event.key !== "Enter") {
+          return;
+        }
+        searchInput.classList.remove("ytfp-shorts-search--empty");
+        YTFP.shortsSearch.search(searchInput.value).then(({ count }) => {
+          if (count > 0) {
+            // Нашли и уже переходим: поле прячем, режим показывает лупа.
+            searchWrap.hidden = true;
+            searchButton.classList.add("ytfp-btn--active");
+          } else {
+            // Пусто или сбой сети — красная рамка, поле остаётся.
+            searchInput.classList.add("ytfp-shorts-search--empty");
+          }
+        });
+      });
+      // Красная рамка «ничего не нашли» гаснет при правке запроса.
+      searchInput.addEventListener("input", () => {
+        searchInput.classList.remove("ytfp-shorts-search--empty");
+      });
+
+      shortsCapsule.append(
+        ...[likeButton, shortsAutoButton, searchButton].filter(Boolean),
+        searchWrap
+      );
 
       // Узкое вертикальное окно: только самое нужное.
       bar.append(

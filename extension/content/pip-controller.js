@@ -472,6 +472,10 @@ YTFP.pip = (() => {
     // Нижний блок: назад / стоп / вперёд + пауза по клику в центр видео.
     const goPrev = isShorts
       ? () => {
+          // Активен поиск по слову — шаг по его списку, не по ленте.
+          if (YTFP.shortsSearch.prev()) {
+            return;
+          }
           const button = document.querySelector("#navigation-button-up button");
           if (button) {
             button.click();
@@ -490,6 +494,10 @@ YTFP.pip = (() => {
         };
     const goNext = isShorts
       ? () => {
+          // Активен поиск по слову — шаг по его списку, не по ленте.
+          if (YTFP.shortsSearch.next()) {
+            return;
+          }
           const button = document.querySelector(YTFP.SELECTORS.shortsNextButton);
           if (button) {
             button.click();
@@ -653,6 +661,10 @@ YTFP.pip = (() => {
           movedVideo.currentTime >= movedVideo.duration - 0.15;
         if (nearEnd && Date.now() - lastAutoNextAt > AUTO_NEXT_THROTTLE_MS) {
           lastAutoNextAt = Date.now();
+          // Активен поиск по слову — к следующему найденному, не по ленте.
+          if (YTFP.shortsSearch.next()) {
+            return;
+          }
           const nextButton = document.querySelector(YTFP.SELECTORS.shortsNextButton);
           if (nextButton) {
             nextButton.click();
@@ -708,6 +720,8 @@ YTFP.pip = (() => {
       chat.cleanup();
     }
     reactions.cleanup();
+    // Режим поиска шортсов привязан к окну: окно закрылось — режим погас.
+    YTFP.shortsSearch.stop();
     state = null;
 
     // Снимаем letterbox-геометрию, которую задавал layoutPlayer, —

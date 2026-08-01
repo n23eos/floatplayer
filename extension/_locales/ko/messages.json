@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "다음 Shorts로 자동 이동"
   },
+  "shortsSearchTooltip": {
+    "message": "키워드로 Shorts 재생"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "Shorts 검색…"
+  },
   "liveTooltip": {
     "message": "실시간 지점으로 이동"
   },

@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "Otomatis lanjut ke Short berikutnya"
   },
+  "shortsSearchTooltip": {
+    "message": "Putar Shorts berdasarkan kata kunci"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "Cari Shorts…"
+  },
   "liveTooltip": {
     "message": "Kembali ke siaran langsung"
   },

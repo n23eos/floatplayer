@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "अगले शॉर्ट पर अपने आप जाएं"
   },
+  "shortsSearchTooltip": {
+    "message": "कीवर्ड से शॉर्ट्स चलाएं"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "शॉर्ट्स खोजें…"
+  },
   "liveTooltip": {
     "message": "लाइव पर वापस जाएँ"
   },

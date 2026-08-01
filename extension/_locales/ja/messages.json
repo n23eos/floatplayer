@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "次のショートに自動で移動"
   },
+  "shortsSearchTooltip": {
+    "message": "キーワードでショートを再生"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "ショートを検索…"
+  },
   "liveTooltip": {
     "message": "ライブの最新位置に移動"
   },

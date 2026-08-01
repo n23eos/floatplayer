@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "Sonraki Short'a otomatik geç"
   },
+  "shortsSearchTooltip": {
+    "message": "Anahtar kelimeyle Short oynat"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "Short ara…"
+  },
   "liveTooltip": {
     "message": "Canlı yayına dön"
   },

@@ -152,6 +152,12 @@
   "shortsAutoTooltip": {
     "message": "Автопереход к следующему шортсу"
   },
+  "shortsSearchTooltip": {
+    "message": "Шортсы по ключевому слову"
+  },
+  "shortsSearchPlaceholder": {
+    "message": "Поиск шортсов…"
+  },
   "liveTooltip": {
     "message": "Вернуться к прямому эфиру"
   },

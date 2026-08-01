@@ -755,6 +755,45 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   height: 24px;
 }
 
+/* Поле поиска шортсов по слову — своя капсула над капсулой кнопок.
+   Позиционируется от неё же, поэтому не зависит от переносов панели. */
+.ytfp-shorts-search {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 18px;
+  background: var(--ytfp-panel-bg);
+  backdrop-filter: var(--ytfp-panel-blur);
+  -webkit-backdrop-filter: var(--ytfp-panel-blur);
+}
+
+.ytfp-shorts-search[hidden] {
+  display: none;
+}
+
+.ytfp-shorts-search input {
+  width: 160px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ytfp-text);
+  font-family: var(--ytfp-font);
+  font-size: 12px;
+  outline: none;
+}
+
+.ytfp-shorts-search input:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Пустая выдача или сбой сети. */
+.ytfp-shorts-search input.ytfp-shorts-search--empty {
+  border-color: var(--ytfp-accent);
+}
+
 /* Пустой блок не должен занимать высоту — :has проверяет, есть ли внутри
    хоть один невыключенный значок. */
 .ytfp-row--status:not(:has(> *:not([hidden]))) {
