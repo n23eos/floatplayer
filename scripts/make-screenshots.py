@@ -167,16 +167,18 @@ def build(lang):
     pages["03"] = (
         SCENE_HEAD.format(lang=lang)
         + caption(t, "s3")
-        + f'<div class="modelabel" style="left:120px; top:282px;">1 — {full_label}</div>'
-        + f'<div class="modelabel" style="left:740px; top:282px;">2 — {clean_label}</div>'
+        + f'<div class="modelabel" style="left:110px; top:272px;">1 — {full_label}</div>'
+        + f'<div class="modelabel" style="left:710px; top:272px;">2 — {clean_label}</div>'
+        # Оба окна одного размера, и кадры видео в них совпадают по вертикали:
+        # у левого сверху ещё полоса Chrome, поэтому оно начинается выше.
         + window(
             f"render([titleBar({{videoTitle: {video_title}}}), reactions(),"
             "  bottomBar({boost: 180}), progress({pos: 52})]);",
-            120, 310, 420, 236,
+            110, 300, 460, 259,
         )
-        + window("render([]);", 740, 310, 420, 236, clean=True)
-        + note(t["s3_full"], "left:120px; top:600px;", "note--wide")
-        + note(t["s3_clean"], "left:740px; top:600px;", "note--wide")
+        + window("render([]);", 710, 334, 460, 259, clean=True)
+        + note(t["s3_full"], "left:110px; top:617px;", "note--wide")
+        + note(t["s3_clean"], "left:710px; top:617px;", "note--wide")
         + SCENE_FOOT.format(brand=t["brand"])
     )
 
@@ -184,9 +186,9 @@ def build(lang):
     notes_04 = "".join(
         note(t[key], style, "note--col")
         for key, style in (
-            ("s4_n1", "left:72px; top:300px;"),
-            ("s4_n2", "left:72px; top:432px;"),
-            ("s4_n3", "left:72px; top:564px;"),
+            ("s4_n1", "left:72px; top:246px;"),
+            ("s4_n2", "left:72px; top:396px;"),
+            ("s4_n3", "left:72px; top:546px;"),
         )
     )
     pages["04"] = (
@@ -196,7 +198,7 @@ def build(lang):
             f"render([titleBar({{videoTitle: {json.dumps(t['shortTitle'], ensure_ascii=False)}}}),"
             "  shortsBottomBar({boost: 130}), progress({pos: 58, chapters: []})]);"
             "document.querySelector('.videoish').classList.add('videoish--portrait');",
-            830, 108, 312, 555,
+            820, 72, 340, 604,
         )
         + notes_04
         + SCENE_FOOT.format(brand=t["brand"])
@@ -206,8 +208,8 @@ def build(lang):
     notes_05 = "".join(
         note(t[key], style, "note--col")
         for key, style in (
-            ("s5_n1", "left:72px; top:330px;"),
-            ("s5_n2", "left:72px; top:470px;"),
+            ("s5_n1", "left:72px; top:284px;"),
+            ("s5_n2", "left:72px; top:504px;"),
         )
     )
     query = json.dumps(t["s5_query"], ensure_ascii=False)
@@ -216,10 +218,13 @@ def build(lang):
         + caption(t, "s5")
         + window(
             f"render([titleBar({{videoTitle: {json.dumps(t['shortTitleFound'], ensure_ascii=False)}}}),"
-            f"  shortsBottomBar({{boost: 130, query: {query}, searchActive: true}}),"
+            # Автопереход выключен намеренно: красной остаётся одна лупа,
+            # и кадр про поиск не спорит сам с собой двумя горящими кнопками.
+            f"  shortsBottomBar({{boost: 130, query: {query}, searchActive: true,"
+            "    autoNext: false}),"
             "  progress({pos: 22, chapters: []})]);"
             "document.querySelector('.videoish').classList.add('videoish--portrait');",
-            830, 108, 312, 555,
+            820, 72, 340, 604,
         )
         + notes_05
         + SCENE_FOOT.format(brand=t["brand"])
