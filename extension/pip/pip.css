@@ -663,31 +663,45 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   gap: 6px;
 }
 
-/* Ряд шортсов — над основным: оценки и автопереход по ленте. В узком
-   вертикальном окне угол слева занят ползунками и навигацией, поэтому
-   оценки приезжают сюда, внутрь панели. */
-.ytfp-row--shorts {
-  justify-content: center;
+/* Капсула шортсов — отдельной плашкой над панелью: оценки по краям,
+   автопереход по ленте посередине. В узком вертикальном окне угол слева
+   занят ползунками и навигацией, поэтому оценки живут здесь.
+
+   Лежит внутри .ytfp-bottom, но позиционируется от неё: bottom: 100%
+   ставит капсулу ровно над панелью независимо от того, во сколько строк
+   панель перенеслась. Заодно она прячется и всплывает вместе с панелью. */
+.ytfp-shorts-bar {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
   gap: 8px;
+  width: max-content;
+  padding: 4px 8px;
+  border-radius: 22px;
+  background: var(--ytfp-panel-bg);
+  backdrop-filter: var(--ytfp-panel-blur);
+  -webkit-backdrop-filter: var(--ytfp-panel-blur);
 }
 
-/* Внутри панели оценкам не нужны ни собственное место в углу, ни собственное
-   скрытие в компактном режиме: и тем и другим занимается сама панель. */
-.ytfp-row--shorts .ytfp-reactions {
-  position: static;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Размер — как у остальных кнопок панели, а не как у крупных значков в углу. */
-.ytfp-row--shorts .ytfp-reaction {
+/* Внутри капсулы у оценок своей подложки быть не должно — она уже есть
+   у самой капсулы. Размер — как у кнопок панели, а не как у крупных
+   значков в углу обычного окна. */
+.ytfp-shorts-bar .ytfp-reaction {
   width: 28px;
   height: 28px;
+  background: transparent;
 }
 
-.ytfp-row--shorts .ytfp-reaction svg {
-  width: 16px;
-  height: 16px;
+.ytfp-shorts-bar .ytfp-reaction:hover {
+  background: var(--ytfp-hover);
+}
+
+.ytfp-shorts-bar .ytfp-reaction svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Пустой блок не должен занимать высоту — :has проверяет, есть ли внутри

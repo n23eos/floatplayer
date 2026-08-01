@@ -151,7 +151,9 @@ YTFP.pipReactions = (() => {
       clearInterval(ticker);
     }
 
-    return { element: root, cleanup };
+    // buttons — те же кнопки по отдельности: в шортсах они расходятся по
+    // краям своей капсулы, а между ними встаёт автопереход.
+    return { element: root, buttons: reactions.map((reaction) => reaction.element), cleanup };
   }
 
   return { build };

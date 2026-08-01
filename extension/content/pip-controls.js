@@ -62,7 +62,7 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  function buildBar(pipDocument, { getVideo, isShorts, navRow, chatToggle, reactionsRow, onPrev, onNext }) {
+  function buildBar(pipDocument, { getVideo, isShorts, navRow, chatToggle, reactionButtons, onPrev, onNext }) {
     const bar = pipDocument.createElement("div");
     // Единственная панель окна — внизу. Ряд воспроизведения (navRow) и кнопку
     // боковой колонки (chatToggle) строят соседние модули, сюда они приходят
@@ -503,12 +503,21 @@ YTFP.pipControls = (() => {
     const statusBlock = makeRow("ytfp-row--status", liveButton);
 
     if (isShorts) {
+      // Отдельная капсула над панелью: оценки по краям, автопереход к
+      // следующему шортсу посередине. Лежит внутри панели, но позиционируется
+      // над ней (см. .ytfp-shorts-bar), поэтому прячется вместе с ней и не
+      // зависит от того, во сколько строк перенеслась сама панель.
+      const [likeButton, dislikeButton] = reactionButtons || [];
+      const shortsCapsule = pipDocument.createElement("div");
+      shortsCapsule.className = "ytfp-shorts-bar";
+      shortsCapsule.append(
+        ...[likeButton, shortsAutoButton, dislikeButton].filter(Boolean)
+      );
+
       // Узкое вертикальное окно: только самое нужное.
-      // Отдельный ряд над основным: оценки (у левого края окна им тесно —
-      // там ползунки и навигация) и автопереход по ленте.
       bar.append(
+        shortsCapsule,
         statusBlock,
-        makeRow("ytfp-row--shorts", ...[reactionsRow, shortsAutoButton].filter(Boolean)),
         makeRow(
           "ytfp-row--main",
           makeGroup(boostWrap),

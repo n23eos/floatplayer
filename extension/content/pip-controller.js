@@ -517,8 +517,9 @@ YTFP.pip = (() => {
       isShorts,
       navRow: nav.row,
       chatToggle: chat ? chat.toggle : null,
-      // В шортсах оценки живут внутри панели, отдельным рядом.
-      reactionsRow: isShorts ? reactions.element : null,
+      // В шортсах оценки живут в своей капсуле над панелью, по краям от
+      // кнопки автоперехода.
+      reactionButtons: isShorts ? reactions.buttons : null,
       onPrev: goPrev,
       onNext: goNext
     });
