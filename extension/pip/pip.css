@@ -262,7 +262,8 @@ body:hover .ytfp-bottom--compact {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 10003;
+  /* Выше всего остального, включая полоску прогресса с её подсказкой. */
+  z-index: 10004;
   max-width: 80%;
   padding: 5px 9px;
   border-radius: var(--ytfp-radius-sm);
@@ -438,12 +439,15 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
 
 /* --- Полоски прогресса внизу ------------------------------------------ */
 
+/* Выше панели управления (10002): подсказка с главой всплывает над полоской
+   прямо в панель, и под панелью её было не прочитать. Сама полоска тонкая и
+   лежит ниже панели, поэтому перекрыть её собой не может. */
 .ytfp-progress-wrap {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10000;
+  z-index: 10003;
   -webkit-app-region: no-drag;
   app-region: no-drag;
 }
