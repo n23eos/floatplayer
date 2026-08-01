@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "Speichern fehlgeschlagen. Bitte erneut versuchen."
+  },
+  "optPagePanelLabel": {
+    "message": "Bedienfeld auf der YouTube-Seite"
+  },
+  "optPagePanelHint": {
+    "message": "Lautstärke, Tempo und 30-Sekunden-Sprünge über dem normalen Player, beim Überfahren mit der Maus."
   }
 }

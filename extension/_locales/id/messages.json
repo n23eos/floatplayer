@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "Gagal menyimpan. Coba lagi."
+  },
+  "optPagePanelLabel": {
+    "message": "Panel di halaman YouTube"
+  },
+  "optPagePanelHint": {
+    "message": "Volume, kecepatan, dan lompatan 30 detik di atas pemutar biasa, saat kursor di atasnya."
   }
 }

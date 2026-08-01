@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "Nie udało się zapisać. Spróbuj ponownie."
+  },
+  "optPagePanelLabel": {
+    "message": "Panel na stronie YouTube"
+  },
+  "optPagePanelHint": {
+    "message": "Głośność, prędkość i skoki o 30 sekund nad zwykłym odtwarzaczem, po najechaniu myszą."
   }
 }

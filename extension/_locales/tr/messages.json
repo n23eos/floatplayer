@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "Kaydedilemedi. Tekrar deneyin."
+  },
+  "optPagePanelLabel": {
+    "message": "YouTube sayfasındaki panel"
+  },
+  "optPagePanelHint": {
+    "message": "Normal oynatıcının üzerinde ses, hız ve 30 saniyelik atlamalar; fare üzerine gelince."
   }
 }

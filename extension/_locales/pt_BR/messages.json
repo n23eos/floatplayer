@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "Não foi possível salvar. Tente novamente."
+  },
+  "optPagePanelLabel": {
+    "message": "Painel na página do YouTube"
+  },
+  "optPagePanelHint": {
+    "message": "Volume, velocidade e saltos de 30 segundos sobre o player normal, ao passar o mouse."
   }
 }

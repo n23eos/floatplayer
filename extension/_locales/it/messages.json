@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "Salvataggio non riuscito. Riprova."
+  },
+  "optPagePanelLabel": {
+    "message": "Pannello sulla pagina di YouTube"
+  },
+  "optPagePanelHint": {
+    "message": "Volume, velocità e salti di 30 secondi sopra il lettore normale, al passaggio del mouse."
   }
 }

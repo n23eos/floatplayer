@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "保存できませんでした。もう一度お試しください。"
+  },
+  "optPagePanelLabel": {
+    "message": "YouTube ページ上のパネル"
+  },
+  "optPagePanelHint": {
+    "message": "通常のプレーヤーの上に音量・速度・30 秒スキップを表示します（マウスを乗せたとき）。"
   }
 }

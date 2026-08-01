@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "सेव नहीं हो सका। दोबारा कोशिश करें।"
+  },
+  "optPagePanelLabel": {
+    "message": "YouTube पेज पर पैनल"
+  },
+  "optPagePanelHint": {
+    "message": "सामान्य प्लेयर के ऊपर वॉल्यूम, स्पीड और 30 सेकंड की छलांग — माउस लाने पर।"
   }
 }

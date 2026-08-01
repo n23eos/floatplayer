@@ -349,5 +349,11 @@
   },
   "optSaveError": {
     "message": "Échec de l'enregistrement. Réessayez."
+  },
+  "optPagePanelLabel": {
+    "message": "Panneau sur la page YouTube"
+  },
+  "optPagePanelHint": {
+    "message": "Volume, vitesse et sauts de 30 secondes par-dessus le lecteur normal, au survol."
   }
 }
