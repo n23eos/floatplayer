@@ -62,7 +62,7 @@ YTFP.DEFAULT_SETTINGS = {
   // Панель поверх обычного плеера YouTube (громкость, скорость, ±30).
   pagePanel: true,        // прятать панель, показывать при наведении
   sponsorSkip: true,        // сегменты SponsorBlock на таймлайне + кнопка пропуска
-  sponsorAutoSkip: false,   // автопропуск сегментов без кнопки (opt-in)
+  sponsorAutoSkip: true,    // автопропуск сегментов без кнопки
   // Какие категории SponsorBlock запрашивать и пропускать.
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
   nightMode: "off",         // ночной режим (подавление синего): off | warm | deep

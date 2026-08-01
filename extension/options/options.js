@@ -28,7 +28,7 @@ const DEFAULT_SETTINGS = {
   compactMode: true,
   pagePanel: true,
   sponsorSkip: true,
-  sponsorAutoSkip: false,
+  sponsorAutoSkip: true,
   sponsorCategories: ["sponsor", "selfpromo", "interaction"],
   shortsAutoNext: true,
   windowMode: "document"
