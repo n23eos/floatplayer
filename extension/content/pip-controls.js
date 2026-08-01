@@ -458,32 +458,6 @@ YTFP.pipControls = (() => {
     // <label> клик по ней открывал бы выпадающий список минут.
     sleepWrap.append(sleepSelect, sleepCustomInput, sleepCountdown);
 
-    // --- Отметка о недоступности базы SponsorBlock ---------------------------
-    // Видна только когда база не ответила. Иначе молчащий SponsorBlock не
-    // отличить от видео без разметки, и это выглядит как поломка.
-    const sbStatus = pipDocument.createElement("span");
-    sbStatus.className = "ytfp-sb-status";
-    sbStatus.textContent = "!";
-    sbStatus.hidden = true;
-    YTFP.tooltips.attach(
-      sbStatus,
-      t("sbUnavailable", "Sponsor segment database is unavailable right now")
-    );
-
-    function refreshSponsorStatus(status) {
-      // Настройка выключена — молчим: пользователь и не ждёт сегментов.
-      sbStatus.hidden = !YTFP.settings.get().sponsorSkip || status !== "error";
-    }
-    // Через guard, как и остальные обращения к модулю, который в манифесте
-    // идёт после этого файла: панель не должна падать целиком из-за отметки.
-    const sponsorBlock = YTFP.sponsorBlock;
-    if (sponsorBlock) {
-      refreshSponsorStatus(sponsorBlock.getStatus());
-    }
-    const offSponsorStatus = sponsorBlock
-      ? sponsorBlock.onStatusChange(refreshSponsorStatus)
-      : () => {};
-
     // --- Сборка панели --------------------------------------------------------
     // Две строки, каждая симметрична относительно центра. В первой — ползунки
     // по краям и блок воспроизведения посередине; во второй поровну кнопок
@@ -504,7 +478,7 @@ YTFP.pipControls = (() => {
       return group;
     }
 
-    const statusBlock = makeRow("ytfp-row--status", liveButton, sbStatus);
+    const statusBlock = makeRow("ytfp-row--status", liveButton);
 
     if (isShorts) {
       // Узкое вертикальное окно: только самое нужное.
@@ -664,7 +638,6 @@ YTFP.pipControls = (() => {
         video.removeEventListener("pause", refreshPlayIcon);
       }
       pipDocument.removeEventListener("keydown", onKeyDown, true);
-      offSponsorStatus();
       clearInterval(sleepTicker);
       clearTimeout(peekTimer);
       pipDocument.removeEventListener("mousemove", onSleepMouseMove);

@@ -17,32 +17,6 @@ YTFP.sponsorBlock = (() => {
   let skipButton = null;
   let attachedVideo = null;
 
-  // Состояние загрузки базы: "ok" | "error". Мини-окно показывает по нему
-  // тихую отметку — иначе недоступный API выглядит как сломанное расширение.
-  let status = "ok";
-  const statusListeners = new Set();
-
-  function setStatus(next) {
-    if (status === next) {
-      return;
-    }
-    status = next;
-    // Каждый слушатель в своём try: упавший не должен глушить остальных.
-    for (const callback of statusListeners) {
-      try {
-        callback(status);
-      } catch (error) {
-        console.warn("[YTFP] SponsorBlock status listener failed:", error);
-      }
-    }
-  }
-
-  /** Подписка на состояние загрузки; возвращает функцию отписки. */
-  function onStatusChange(callback) {
-    statusListeners.add(callback);
-    return () => statusListeners.delete(callback);
-  }
-
   function isEnabled() {
     return YTFP.settings.get().sponsorSkip;
   }
@@ -77,20 +51,13 @@ YTFP.sponsorBlock = (() => {
       // Таймаут: зависший API не должен вечно держать refresh().
       const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
       if (!response.ok) {
-        // 404 — обычный ответ: для этого видео разметки просто нет.
-        // Всё остальное (5xx, 403) — сбой на стороне базы.
-        setStatus(response.status === 404 ? "ok" : "error");
-        return [];
+        return []; // 404 — для видео нет размеченных сегментов
       }
       const data = await response.json();
       const rawPairs = Array.isArray(data) ? data.map((item) => item && item.segment) : [];
-      setStatus("ok");
       return YTFP.utils.normalizeSegments(rawPairs);
     } catch (error) {
-      // Сети нет, таймаут или битый JSON — отличить от «сегментов нет» нельзя
-      // никак, кроме как показав это пользователю.
       console.warn("[YTFP] SponsorBlock fetch failed:", error);
-      setStatus("error");
       return [];
     }
   }
@@ -268,9 +235,6 @@ YTFP.sponsorBlock = (() => {
       loadedKey = null;
       removeMarkers();
       hideSkipButton();
-      // Не наше видео или функция выключена — сообщать не о чем, и отметка
-      // о недоступности базы в мини-окне должна погаснуть.
-      setStatus("ok");
       return;
     }
     const key = `${videoId}|${getCategories().join(",")}`;
@@ -304,11 +268,7 @@ YTFP.sponsorBlock = (() => {
     return segments;
   }
 
-  function getStatus() {
-    return status;
-  }
-
-  return { init, refresh, getSegments, getStatus, onStatusChange };
+  return { init, refresh, getSegments };
 })();
 
 YTFP.sponsorBlock.init();

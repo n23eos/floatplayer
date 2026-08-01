@@ -212,9 +212,6 @@
   "commentsLoading": {
     "message": "Загрузка…"
   },
-  "sbUnavailable": {
-    "message": "База сегментов SponsorBlock сейчас недоступна"
-  },
   "optSubtitle": {
     "message": "Картинка в картинке для YouTube"
   },

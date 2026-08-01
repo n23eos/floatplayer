@@ -212,9 +212,6 @@
   "commentsLoading": {
     "message": "読み込み中…"
   },
-  "sbUnavailable": {
-    "message": "スポンサー区間のデータベースに現在アクセスできません"
-  },
   "optSubtitle": {
     "message": "YouTube用ピクチャー・イン・ピクチャー"
   },

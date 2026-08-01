@@ -212,9 +212,6 @@
   "commentsLoading": {
     "message": "불러오는 중…"
   },
-  "sbUnavailable": {
-    "message": "스폰서 구간 데이터베이스를 지금 사용할 수 없습니다"
-  },
   "optSubtitle": {
     "message": "YouTube용 화면 속 화면"
   },

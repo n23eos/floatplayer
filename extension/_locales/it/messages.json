@@ -212,9 +212,6 @@
   "commentsLoading": {
     "message": "Caricamento…"
   },
-  "sbUnavailable": {
-    "message": "Il database dei segmenti sponsorizzati non è raggiungibile al momento"
-  },
   "optSubtitle": {
     "message": "Picture in Picture per YouTube"
   },
