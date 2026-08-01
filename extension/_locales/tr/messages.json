@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "Otomatik oynatma: bu video bitince sıradakini başlat"
   },
+  "shortsAutoTooltip": {
+    "message": "Sonraki Short'a otomatik geç"
+  },
   "liveTooltip": {
     "message": "Canlı yayına dön"
   },

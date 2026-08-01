@@ -663,6 +663,33 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-seek-indicator {
   gap: 6px;
 }
 
+/* Ряд шортсов — над основным: оценки и автопереход по ленте. В узком
+   вертикальном окне угол слева занят ползунками и навигацией, поэтому
+   оценки приезжают сюда, внутрь панели. */
+.ytfp-row--shorts {
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Внутри панели оценкам не нужны ни собственное место в углу, ни собственное
+   скрытие в компактном режиме: и тем и другим занимается сама панель. */
+.ytfp-row--shorts .ytfp-reactions {
+  position: static;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Размер — как у остальных кнопок панели, а не как у крупных значков в углу. */
+.ytfp-row--shorts .ytfp-reaction {
+  width: 28px;
+  height: 28px;
+}
+
+.ytfp-row--shorts .ytfp-reaction svg {
+  width: 16px;
+  height: 16px;
+}
+
 /* Пустой блок не должен занимать высоту — :has проверяет, есть ли внутри
    хоть один невыключенный значок. */
 .ytfp-row--status:not(:has(> *:not([hidden]))) {

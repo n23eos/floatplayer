@@ -424,8 +424,12 @@ YTFP.pip = (() => {
     topStack.className = "ytfp-top";
     topStack.append(titleBar);
     pipWindow.document.body.appendChild(topStack);
-    // Оценки — в левом нижнем углу, на одной линии с панелью.
-    pipWindow.document.body.appendChild(reactions.element);
+    // Оценки — в левом нижнем углу, на одной линии с панелью. В шортсах окно
+    // узкое и угол занят, поэтому там они уезжают в отдельный ряд панели
+    // (см. buildBar ниже) и отдельным блоком не выкладываются.
+    if (!isShorts) {
+      pipWindow.document.body.appendChild(reactions.element);
+    }
     if (chat) {
       // Сама выдвижная колонка чата/комментариев — у правого края окна;
       // её кнопка уезжает в нижнюю панель.
@@ -512,7 +516,11 @@ YTFP.pip = (() => {
       getVideo: getMovedVideo,
       isShorts,
       navRow: nav.row,
-      chatToggle: chat ? chat.toggle : null
+      chatToggle: chat ? chat.toggle : null,
+      // В шортсах оценки живут внутри панели, отдельным рядом.
+      reactionsRow: isShorts ? reactions.element : null,
+      onPrev: goPrev,
+      onNext: goNext
     });
     pipWindow.document.body.appendChild(controls.element);
 

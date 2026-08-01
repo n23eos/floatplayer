@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "Autoplay: start the next video when this one ends"
   },
+  "shortsAutoTooltip": {
+    "message": "Auto-advance to the next short"
+  },
   "liveTooltip": {
     "message": "Jump to the live edge"
   },

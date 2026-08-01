@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "ऑटोप्ले: यह वीडियो खत्म होने पर अगला वीडियो चलाएँ"
   },
+  "shortsAutoTooltip": {
+    "message": "अगले शॉर्ट पर अपने आप जाएं"
+  },
   "liveTooltip": {
     "message": "लाइव पर वापस जाएँ"
   },

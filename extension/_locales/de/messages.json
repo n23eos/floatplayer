@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "Autoplay: nächstes Video starten, wenn dieses endet"
   },
+  "shortsAutoTooltip": {
+    "message": "Automatisch zum nächsten Short"
+  },
   "liveTooltip": {
     "message": "Zum Live-Rand springen"
   },

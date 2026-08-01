@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "Putar otomatis: mulai video berikutnya saat ini selesai"
   },
+  "shortsAutoTooltip": {
+    "message": "Otomatis lanjut ke Short berikutnya"
+  },
   "liveTooltip": {
     "message": "Kembali ke siaran langsung"
   },

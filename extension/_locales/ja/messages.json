@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "自動再生: この動画が終わったら次の動画を再生"
   },
+  "shortsAutoTooltip": {
+    "message": "次のショートに自動で移動"
+  },
   "liveTooltip": {
     "message": "ライブの最新位置に移動"
   },

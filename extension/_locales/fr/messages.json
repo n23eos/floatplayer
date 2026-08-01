@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "Lecture automatique : passer à la vidéo suivante à la fin"
   },
+  "shortsAutoTooltip": {
+    "message": "Passer automatiquement au Short suivant"
+  },
   "liveTooltip": {
     "message": "Revenir au direct"
   },

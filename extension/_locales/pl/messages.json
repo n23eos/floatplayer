@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "Autoodtwarzanie: następny film po zakończeniu tego"
   },
+  "shortsAutoTooltip": {
+    "message": "Automatyczne przejście do następnego Shorta"
+  },
   "liveTooltip": {
     "message": "Wróć do transmisji na żywo"
   },

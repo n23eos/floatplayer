@@ -149,6 +149,9 @@
   "autoplayTooltip": {
     "message": "자동 재생: 현재 동영상이 끝나면 다음 동영상 재생"
   },
+  "shortsAutoTooltip": {
+    "message": "다음 Shorts로 자동 이동"
+  },
   "liveTooltip": {
     "message": "실시간 지점으로 이동"
   },

@@ -23,7 +23,12 @@ YTFP.pipControls = (() => {
     back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z",
     // Автовоспроизведение: рамка с треугольником play внутри — тот же язык,
     // что у родной кнопки автозапуска YouTube.
-    autoplay: "M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 12H5V7h14v10zM10 9.5v5l4-2.5-4-2.5z"
+    autoplay: "M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 12H5V7h14v10zM10 9.5v5l4-2.5-4-2.5z",
+    // Автопереход к следующему шортсу: та же рамка, что у автовоспроизведения,
+    // но стрелка вниз — лента шортсов листается сверху вниз.
+    shortsAutoNext:
+      "M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z" +
+      "m0 12H5V7h14v10zM8 10h8l-4 5z"
   };
 
   function createIcon(doc, name) {
@@ -57,7 +62,7 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  function buildBar(pipDocument, { getVideo, isShorts, navRow, chatToggle }) {
+  function buildBar(pipDocument, { getVideo, isShorts, navRow, chatToggle, reactionsRow, onPrev, onNext }) {
     const bar = pipDocument.createElement("div");
     // Единственная панель окна — внизу. Ряд воспроизведения (navRow) и кнопку
     // боковой колонки (chatToggle) строят соседние модули, сюда они приходят
@@ -156,6 +161,23 @@ YTFP.pipControls = (() => {
       }
     );
     autoplayButton.classList.toggle("ytfp-btn--active", isAutoplayOn);
+
+    // --- Автопереход к следующему шортсу --------------------------------------
+    // Тот же приём, что у автовоспроизведения: локальный флаг + запись в
+    // настройки. Сам переход делает pip-controller по окончании ролика,
+    // он читает shortsAutoNext на каждом тике.
+    let isShortsAutoOn = Boolean(YTFP.settings.get().shortsAutoNext);
+    const shortsAutoButton = createButton(
+      pipDocument,
+      createIcon(pipDocument, "shortsAutoNext"),
+      t("shortsAutoTooltip", "Auto-advance to the next short"),
+      () => {
+        isShortsAutoOn = !isShortsAutoOn;
+        shortsAutoButton.classList.toggle("ytfp-btn--active", isShortsAutoOn);
+        chrome.storage.sync.set({ shortsAutoNext: isShortsAutoOn }).catch(() => {});
+      }
+    );
+    shortsAutoButton.classList.toggle("ytfp-btn--active", isShortsAutoOn);
 
     // --- Play/pause -------------------------------------------------------------
     // Родные контролы YouTube в окне скрыты, поэтому пауза живёт здесь.
@@ -482,8 +504,11 @@ YTFP.pipControls = (() => {
 
     if (isShorts) {
       // Узкое вертикальное окно: только самое нужное.
+      // Отдельный ряд над основным: оценки (у левого края окна им тесно —
+      // там ползунки и навигация) и автопереход по ленте.
       bar.append(
         statusBlock,
+        makeRow("ytfp-row--shorts", ...[reactionsRow, shortsAutoButton].filter(Boolean)),
         makeRow(
           "ytfp-row--main",
           makeGroup(boostWrap),
@@ -589,8 +614,17 @@ YTFP.pipControls = (() => {
           break;
         case "ArrowUp":
         case "ArrowDown": {
-          // Громкость ±10% через тот же тракт, что и слайдер (0–300%).
           event.preventDefault();
+          // В шортсах стрелки листают ленту — как на самой странице YouTube.
+          // Громкость там остаётся на ползунке панели и на клавише m.
+          if (isShorts) {
+            const go = event.key === "ArrowDown" ? onNext : onPrev;
+            if (go) {
+              go();
+            }
+            break;
+          }
+          // Громкость ±10% через тот же тракт, что и слайдер (0–300%).
           const VOLUME_KEY_STEP_PERCENT = 10;
           const delta = event.key === "ArrowUp" ? VOLUME_KEY_STEP_PERCENT : -VOLUME_KEY_STEP_PERCENT;
           const nextPercent = YTFP.audioBoost.getBoostPercent() + delta;
