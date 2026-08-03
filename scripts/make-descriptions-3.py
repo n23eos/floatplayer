@@ -1,7 +1,8 @@
 """Пересобирает описания листинга: catch-блок, топ-фичи, затем прежний текст."""
 import pathlib
 
-OUT = pathlib.Path("/Users/nickeo23/code_projects/Chrome_youtube_player/store/descriptions")
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OUT = ROOT / "store" / "descriptions"
 
 # catch — 2 строки-крючка; head — заголовок списка; bullets — 8 коротких пунктов
 BLOCKS = {

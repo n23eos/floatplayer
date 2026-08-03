@@ -5,3 +5,7 @@ dist/
 # Сборки расширения, если их собрали мимо dist/
 floatplayer-*.zip
 scripts/shots/build/
+
+# Локальные рабочие файлы
+.claude/
+.plan.md

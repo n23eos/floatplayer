@@ -7,7 +7,8 @@
 import pathlib
 from PIL import Image, ImageDraw
 
-OUT = pathlib.Path("/Users/nickeo23/code_projects/Chrome_youtube_player/extension/icons")
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OUT = ROOT / "extension" / "icons"
 SS = 8  # коэффициент суперсэмплинга
 
 RED_TOP = (255, 45, 45)

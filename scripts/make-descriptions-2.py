@@ -1,7 +1,8 @@
 """Описания листинга: турецкий, хинди, корейский, итальянский, польский, украинский."""
 import pathlib
 
-OUT = pathlib.Path("/Users/nickeo23/code_projects/Chrome_youtube_player/store/descriptions")
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OUT = ROOT / "store" / "descriptions"
 OUT.mkdir(parents=True, exist_ok=True)
 
 SHORT = {

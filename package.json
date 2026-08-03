@@ -2,6 +2,7 @@
   "name": "youtube-floatplayer",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "description": "Chrome extension: YouTube video always on top with full controls",
   "scripts": {
     "test": "vitest run",
