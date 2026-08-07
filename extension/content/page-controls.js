@@ -2,27 +2,18 @@
 
 var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 
-// Кнопка ночного режима в родной панели плеера YouTube. Та же функция есть
-// в панели PiP-окна (pip-controls.js), но пользоваться ею хочется и без
-// выноса видео в окно.
+// Ночной режим страницы: общее состояние уровня, SVG-фильтры и стили.
+// Кнопка Луны живёт в нашей панели поверх видео (page-panel.js); та же
+// функция есть в панели PiP-окна (pip-controls.js).
 //
 // Уровень живёт на уровне модуля, а не внутри кнопки: YouTube пересоздаёт
-// панель контролов при смене видео и при переключении режимов, и
-// inject-button.js вставляет кнопку заново.
+// разметку при смене видео и режимов, кнопки вставляются заново.
 //
-// Таймера сна здесь нет намеренно: у YouTube есть свой, дублировать нечего.
-// В PiP-окне он остаётся — родных контролов там не видно.
+// Здесь же createIcon — общий строитель иконок в размерах панели плеера
+// YouTube, им пользуется основная кнопка (inject-button.js).
 YTFP.pageControls = (() => {
-  // Локализация с фолбэком: расширение работает и без записи в messages.json.
-  function t(key, fallback) {
-    return chrome.i18n.getMessage(key) || fallback;
-  }
-
   const NIGHT_BUTTON_CLASS = "ytfp-night-button";
   const STYLES_ID = "ytfp-player-controls-styles";
-
-  // Сетка 24x24, как у иконок панели YouTube.
-  const ICON_MOON = "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z";
 
   /**
    * SVG-иконка в размерах соседей: копируем width/height/viewBox с иконки
@@ -69,26 +60,6 @@ YTFP.pageControls = (() => {
     return svg;
   }
 
-  /** Кнопка в стиле панели плеера. */
-  function createButton({ className, icon, title, onClick }) {
-    const button = document.createElement("button");
-    button.className = `ytp-button ytfp-page-btn ${className}`;
-    button.title = title;
-    button.setAttribute("aria-label", title);
-    // Атрибут нативного тултипа нового плеера (если он его подхватит).
-    button.setAttribute("data-tooltip-title", title);
-    button.appendChild(icon);
-    // Глушим всплытие: иначе YouTube видит mousedown на плеере и «удержание»
-    // включает скорость 2x (та же беда была у основной кнопки).
-    button.addEventListener("mousedown", (event) => event.stopPropagation());
-    button.addEventListener("touchstart", (event) => event.stopPropagation());
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      onClick();
-    });
-    return button;
-  }
-
   function injectStyles() {
     if (document.getElementById(STYLES_ID)) {
       return;
@@ -96,13 +67,6 @@ YTFP.pageControls = (() => {
     const style = document.createElement("style");
     style.id = STYLES_ID;
     style.textContent = `
-      .ytfp-page-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        vertical-align: top;
-        color: #fff;
-      }
       /* Контейнер с <filter>-определениями: нужен в DOM, но не в разметке. */
       .ytfp-night-defs {
         position: absolute;
@@ -161,8 +125,8 @@ YTFP.pageControls = (() => {
 
   /**
    * Готовит общее состояние ночного режима: стили, SVG-фильтры, подписка на
-   * настройки. Дёргают все места, где живёт кнопка Луны (панель плеера
-   * YouTube и наша панель поверх видео) — повторные вызовы бесплатны.
+   * настройки. Дёргает кнопка Луны в панели поверх видео перед сборкой —
+   * повторные вызовы бесплатны.
    */
   function ensureNightReady() {
     injectStyles();
@@ -184,21 +148,8 @@ YTFP.pageControls = (() => {
     chrome.storage.sync.set({ nightMode: nightLevel }).catch(() => {});
   }
 
-  function buildNightButton(settingsButton) {
-    ensureNightReady();
-    const button = createButton({
-      className: NIGHT_BUTTON_CLASS,
-      icon: createIcon(settingsButton, [ICON_MOON]),
-      title: t("nightTooltip", "Night mode: cuts blue light (click to change strength)"),
-      onClick: cycleNight
-    });
-    applyNightLevel();
-    return button;
-  }
-
   return {
     createIcon,
-    buildNightButton,
     ensureNightReady,
     cycleNight,
     // Панель поверх видео добавляет свою кнопку Луны с этим классом — общий

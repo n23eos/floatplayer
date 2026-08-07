@@ -63,9 +63,9 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   }
 
   /**
-   * Вставляет кнопки особняком — самыми левыми в правой группе контролов,
+   * Вставляет кнопку особняком — самой левой в правой группе контролов,
    * до всех кнопок YouTube (шестерёнка нужна только как образец
-   * размеров иконки). Порядок: ночной режим, основная кнопка.
+   * размеров иконки). Ночной режим живёт в нашей панели поверх видео.
    */
   function ensureButton() {
     if (YTFP.playerApi.isShortsPage()) {
@@ -83,9 +83,7 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     const button = buildButton(settingsButton);
     // Небольшой зазор, чтобы кнопка читалась как отдельная от группы YouTube.
     button.style.marginRight = "8px";
-    // prepend в обратном порядке: каждая следующая встаёт левее предыдущей.
     rightControls.prepend(button);
-    rightControls.prepend(YTFP.pageControls.buildNightButton(settingsButton));
     maybeShowOnboarding(button);
   }
 
