@@ -23,11 +23,17 @@ YTFP.pagePanel = (() => {
     return chrome.i18n.getMessage(key) || fallback;
   }
 
+  // Значения — строка path или { d, fillRule } для контурных иконок.
   const ICONS = {
     play: "M8 5v14l11-7z",
     pause: "M6 19h4V5H6v14zm8-14v14h4V5h-4z",
     volume: "M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z",
-    speed: "M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.48 2.54l2.6 1.53c.56-1.24.88-2.62.88-4.07 0-5.18-3.95-9.45-9-9.95zM12 19c-3.87 0-7-3.13-7-7 0-3.53 2.61-6.43 6-6.92V2.05c-5.06.5-9 4.76-9 9.95 0 5.52 4.47 10 9.99 10 3.31 0 6.24-1.61 8.06-4.09l-2.6-1.53C16.17 17.98 14.21 19 12 19z"
+    speed: "M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.48 2.54l2.6 1.53c.56-1.24.88-2.62.88-4.07 0-5.18-3.95-9.45-9-9.95zM12 19c-3.87 0-7-3.13-7-7 0-3.53 2.61-6.43 6-6.92V2.05c-5.06.5-9 4.76-9 9.95 0 5.52 4.47 10 9.99 10 3.31 0 6.24-1.61 8.06-4.09l-2.6-1.53C16.17 17.98 14.21 19 12 19z",
+    moon: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
+    // Окно «чистое видео»: пустая рамка.
+    windowClean: { d: "M3 5h18v14H3zM5 7h14v10H5z", fillRule: "evenodd" },
+    // Окно «полный»: рамка с панелью-полосой внизу.
+    windowFull: { d: "M3 5h18v14H3zM5 7h14v8H5z", fillRule: "evenodd" }
   };
 
   function createIcon(doc, name) {
@@ -37,8 +43,12 @@ YTFP.pagePanel = (() => {
     svg.setAttribute("width", "16");
     svg.setAttribute("height", "16");
     svg.setAttribute("fill", "currentColor");
+    const icon = ICONS[name];
     const path = doc.createElementNS(SVG_NS, "path");
-    path.setAttribute("d", ICONS[name]);
+    path.setAttribute("d", typeof icon === "string" ? icon : icon.d);
+    if (typeof icon !== "string" && icon.fillRule) {
+      path.setAttribute("fill-rule", icon.fillRule);
+    }
     svg.appendChild(path);
     return svg;
   }
@@ -140,6 +150,16 @@ YTFP.pagePanel = (() => {
       panel.addEventListener(type, (event) => event.stopPropagation());
     }
 
+    // --- Крайняя левая: ночной режим -----------------------------------------
+    // Тот же класс, что у Луны в панели плеера: общий applyNightLevel в
+    // page-controls красит обе кнопки по текущему уровню.
+    YTFP.pageControls.ensureNightReady();
+    const nightButton = document.createElement("button");
+    nightButton.className = YTFP.pageControls.NIGHT_BUTTON_CLASS;
+    nightButton.title = t("nightTooltip", "Night mode: cuts blue light (click to change strength)");
+    nightButton.appendChild(createIcon(document, "moon"));
+    nightButton.addEventListener("click", () => YTFP.pageControls.cycleNight());
+
     // --- Слева: громкость 0–300% ---------------------------------------------
     const volumeGroup = document.createElement("div");
     volumeGroup.className = `${PANEL_CLASS}-group`;
@@ -199,14 +219,47 @@ YTFP.pagePanel = (() => {
     speedSlider.title = t("speedTooltip", "Playback speed");
     const speedLabel = document.createElement("span");
     speedLabel.textContent = "1x";
-    speedLabel.title = t("speedResetTooltip", "Reset speed to 1x");
+    speedLabel.title = t("speedCycleTooltip", "Speed presets: 1 → 1.5 → 2");
     speedSlider.addEventListener("input", () => {
       YTFP.playerApi.setSpeed(Number(speedSlider.value));
     });
-    speedLabel.addEventListener("click", () => YTFP.playerApi.setSpeed(1));
+    speedLabel.addEventListener("click", () => {
+      const video = YTFP.playerApi.getVideo();
+      const rate = video ? video.playbackRate : 1;
+      YTFP.playerApi.setSpeed(YTFP.utils.cycleSpeedPreset(rate));
+    });
     speedGroup.append(speedSlider, speedLabel, createIcon(document, "speed"));
 
-    panel.append(volumeGroup, center, speedGroup);
+    // --- Крайняя правая: открыть мини-окно в нужном стиле ---------------------
+    // Клик запоминает стиль как дефолт (для Alt+P и главной кнопки) и сразу
+    // открывает окно — с переопределением, не дожидаясь, пока настройка
+    // доедет через chrome.storage.
+    const makeModeButton = (iconName, mode, tooltip) => {
+      const button = document.createElement("button");
+      button.title = tooltip;
+      button.appendChild(createIcon(document, iconName));
+      button.addEventListener("click", () => {
+        chrome.storage.sync.set({ windowMode: mode }).catch(() => {});
+        YTFP.pip.open({ mode });
+      });
+      return button;
+    };
+    const modeGroup = document.createElement("div");
+    modeGroup.className = `${PANEL_CLASS}-center`;
+    modeGroup.append(
+      makeModeButton(
+        "windowClean",
+        "native",
+        t("panelModeClean", "Floating window: clean video (no frame)")
+      ),
+      makeModeButton(
+        "windowFull",
+        "document",
+        t("panelModeFull", "Floating window: full (with control bar)")
+      )
+    );
+
+    panel.append(nightButton, volumeGroup, center, speedGroup, modeGroup);
 
     /**
      * Поднимаем панель над родными контролами YouTube. Высоту берём у самой
@@ -283,6 +336,9 @@ YTFP.pagePanel = (() => {
     injectStyles();
     current = buildPanel();
     playerRoot.appendChild(current.panel);
+    // Подсветка Луны по сохранённому уровню — только после вставки в DOM:
+    // refreshNightButtons ищет кнопки через document.querySelectorAll.
+    YTFP.pageControls.refreshNightButtons();
     current.sync();
   }
 

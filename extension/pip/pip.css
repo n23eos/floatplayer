@@ -1452,3 +1452,28 @@ body.ytfp-chat-open .ytfp-related-panel {
   padding: 12px;
   text-align: center;
 }
+
+/* --- Тост громкости: колесо мыши поверх видео -------------------------- */
+
+.ytfp-wheel-volume {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  transform: translateX(-50%);
+  z-index: 10001;
+  padding: 4px 12px;
+  border-radius: var(--ytfp-radius);
+  background: var(--ytfp-panel-bg);
+  backdrop-filter: var(--ytfp-panel-blur);
+  -webkit-backdrop-filter: var(--ytfp-panel-blur);
+  color: var(--ytfp-text);
+  font: 13px var(--ytfp-font);
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ytfp-anim-fast);
+}
+
+.ytfp-wheel-volume--visible {
+  opacity: 1;
+}

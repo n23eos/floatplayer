@@ -288,6 +288,10 @@ YTFP.pipProgress = (() => {
       }
       track.removeEventListener("mousemove", onTrackHover);
       track.removeEventListener("mouseleave", onTrackLeave);
+      track.removeEventListener("pointerdown", onPointerDown);
+      track.removeEventListener("pointermove", onPointerMove);
+      track.removeEventListener("pointerup", onPointerUp);
+      track.removeEventListener("pointercancel", onPointerUp);
     }
 
     return { element: wrap, cleanup };

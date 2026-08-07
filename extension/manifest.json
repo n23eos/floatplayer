@@ -51,6 +51,8 @@
         "content/pip-chat.js",
         "content/pip-reactions.js",
         "content/shorts-search.js",
+        "content/pip-extras.js",
+        "content/pip-overlay.js",
         "content/pip-controller.js",
         "content/sponsor-block.js",
         "content/page-panel.js",

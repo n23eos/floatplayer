@@ -257,10 +257,12 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   }
 
   // Тем же сторожем поддерживаем панель поверх плеера страницы: YouTube
-  // пересоздаёт разметку плеера при смене видео и режимов.
+  // пересоздаёт разметку плеера при смене видео и режимов. И им же следим,
+  // что плеер не утащило из открытого окна обратно на страницу (автоплей).
   function ensurePageUi() {
     ensureButton();
     YTFP.pagePanel.ensurePanel();
+    YTFP.pip.ensurePlayerPlacement();
   }
 
   const GUARD_INTERVAL_MS = 2000;

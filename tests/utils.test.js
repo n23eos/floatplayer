@@ -321,3 +321,64 @@ describe("windowFraction", () => {
     expect(utils.windowFraction(50, undefined, 100)).toBeNull();
   });
 });
+
+describe("cycleSpeedPreset", () => {
+  test("cycles through presets 1 -> 1.5 -> 2 -> 1", () => {
+    expect(utils.cycleSpeedPreset(1)).toBe(1.5);
+    expect(utils.cycleSpeedPreset(1.5)).toBe(2);
+    expect(utils.cycleSpeedPreset(2)).toBe(1);
+  });
+
+  test("jumps to the next preset above an intermediate speed", () => {
+    expect(utils.cycleSpeedPreset(1.25)).toBe(1.5);
+    expect(utils.cycleSpeedPreset(1.75)).toBe(2);
+  });
+
+  test("returns 1 when above the last preset", () => {
+    expect(utils.cycleSpeedPreset(2.5)).toBe(1);
+    expect(utils.cycleSpeedPreset(3)).toBe(1);
+  });
+
+  test("climbs to 1 from slow speeds", () => {
+    expect(utils.cycleSpeedPreset(0.5)).toBe(1);
+  });
+
+  test("falls back to 1 for garbage input", () => {
+    expect(utils.cycleSpeedPreset(NaN)).toBe(1);
+    expect(utils.cycleSpeedPreset(undefined)).toBe(1);
+  });
+});
+
+describe("timecodeUrl", () => {
+  test("builds a short link with the current time", () => {
+    expect(utils.timecodeUrl("dQw4w9WgXcQ", 83, {})).toBe("https://youtu.be/dQw4w9WgXcQ?t=83");
+  });
+
+  test("omits t at zero seconds", () => {
+    expect(utils.timecodeUrl("dQw4w9WgXcQ", 0, {})).toBe("https://youtu.be/dQw4w9WgXcQ");
+  });
+
+  test("floors fractional seconds", () => {
+    expect(utils.timecodeUrl("dQw4w9WgXcQ", 83.9, {})).toBe("https://youtu.be/dQw4w9WgXcQ?t=83");
+  });
+
+  test("live stream gets no timecode", () => {
+    expect(utils.timecodeUrl("dQw4w9WgXcQ", 500, { isLive: true })).toBe("https://youtu.be/dQw4w9WgXcQ");
+  });
+
+  test("shorts get a shorts link without timecode", () => {
+    expect(utils.timecodeUrl("dQw4w9WgXcQ", 10, { isShorts: true })).toBe(
+      "https://www.youtube.com/shorts/dQw4w9WgXcQ"
+    );
+  });
+
+  test("returns null without a video id", () => {
+    expect(utils.timecodeUrl("", 10, {})).toBeNull();
+    expect(utils.timecodeUrl(null, 10, {})).toBeNull();
+  });
+
+  test("treats garbage seconds as zero", () => {
+    expect(utils.timecodeUrl("dQw4w9WgXcQ", NaN, {})).toBe("https://youtu.be/dQw4w9WgXcQ");
+    expect(utils.timecodeUrl("dQw4w9WgXcQ", -5, {})).toBe("https://youtu.be/dQw4w9WgXcQ");
+  });
+});

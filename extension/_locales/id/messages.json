@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "Kecepatan pemutaran"
   },
-  "speedResetTooltip": {
-    "message": "Kembalikan kecepatan ke 1x"
-  },
   "nightTooltip": {
     "message": "Mode malam: mengurangi cahaya biru (klik untuk mengubah kekuatan)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "Latar panel chat/komentar di jendela mini. 0% — sepenuhnya transparan, 100% — pekat."
+  },
+  "panelModeClean": {
+    "message": "Jendela mengambang: hanya video (tanpa bingkai)"
+  },
+  "panelModeFull": {
+    "message": "Jendela mengambang: penuh (dengan panel)"
+  },
+  "speedCycleTooltip": {
+    "message": "Preset kecepatan: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "Salin tautan pada waktu saat ini"
   }
 }

@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "再生速度"
   },
-  "speedResetTooltip": {
-    "message": "速度を1xに戻す"
-  },
   "nightTooltip": {
     "message": "ナイトモード: ブルーライトを抑えます（クリックで強さを変更）"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "ミニウィンドウ内のチャット／コメントパネルの背景。0% で完全に透明、100% で不透明。"
+  },
+  "panelModeClean": {
+    "message": "フローティングウィンドウ：映像のみ（枠なし）"
+  },
+  "panelModeFull": {
+    "message": "フローティングウィンドウ：フル（操作パネル付き）"
+  },
+  "speedCycleTooltip": {
+    "message": "速度プリセット：1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "現在の時間のリンクをコピー"
   }
 }

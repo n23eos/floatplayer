@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "Oynatma hızı"
   },
-  "speedResetTooltip": {
-    "message": "Hızı 1x'e döndür"
-  },
   "nightTooltip": {
     "message": "Gece modu: mavi ışığı azaltır (gücü değiştirmek için tıklayın)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "Mini penceredeki sohbet/yorum panelinin arka planı. %0 — tamamen saydam, %100 — mat."
+  },
+  "panelModeClean": {
+    "message": "Yüzen pencere: yalnızca video (çerçevesiz)"
+  },
+  "panelModeFull": {
+    "message": "Yüzen pencere: tam (panelli)"
+  },
+  "speedCycleTooltip": {
+    "message": "Hız ön ayarları: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "Geçerli zamanda bağlantıyı kopyala"
   }
 }

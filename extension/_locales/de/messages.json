@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "Wiedergabegeschwindigkeit"
   },
-  "speedResetTooltip": {
-    "message": "Tempo auf 1x zurücksetzen"
-  },
   "nightTooltip": {
     "message": "Nachtmodus: filtert blaues Licht (Klick ändert die Stärke)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "Hintergrund des Chat-/Kommentar-Panels im Mini-Fenster. 0 % — völlig transparent, 100 % — deckend."
+  },
+  "panelModeClean": {
+    "message": "Schwebendes Fenster: nur Video (ohne Rahmen)"
+  },
+  "panelModeFull": {
+    "message": "Schwebendes Fenster: voll (mit Bedienleiste)"
+  },
+  "speedCycleTooltip": {
+    "message": "Tempo-Presets: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "Link mit Zeitstempel kopieren"
   }
 }

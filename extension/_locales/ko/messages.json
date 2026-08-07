@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "재생 속도"
   },
-  "speedResetTooltip": {
-    "message": "속도를 1x로 되돌리기"
-  },
   "nightTooltip": {
     "message": "야간 모드: 블루라이트를 줄입니다 (클릭하여 강도 변경)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "미니 창의 채팅/댓글 패널 배경. 0% — 완전 투명, 100% — 불투명."
+  },
+  "panelModeClean": {
+    "message": "플로팅 창: 영상만 (테두리 없음)"
+  },
+  "panelModeFull": {
+    "message": "플로팅 창: 전체 (컨트롤 패널 포함)"
+  },
+  "speedCycleTooltip": {
+    "message": "속도 프리셋: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "현재 시간 링크 복사"
   }
 }

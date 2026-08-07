@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "Velocidade de reprodução"
   },
-  "speedResetTooltip": {
-    "message": "Voltar a velocidade para 1x"
-  },
   "nightTooltip": {
     "message": "Modo noturno: reduz a luz azul (clique para mudar a intensidade)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "Fundo do painel de chat/comentários na minijanela. 0% — totalmente transparente, 100% — sólido."
+  },
+  "panelModeClean": {
+    "message": "Janela flutuante: só o vídeo (sem moldura)"
+  },
+  "panelModeFull": {
+    "message": "Janela flutuante: completa (com painel)"
+  },
+  "speedCycleTooltip": {
+    "message": "Velocidades: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "Copiar link no momento atual"
   }
 }

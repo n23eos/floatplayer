@@ -148,61 +148,6 @@ YTFP.pip = (() => {
       .catch(() => {});
   }
 
-  /** Заглушка на странице вместо уехавшего плеера. */
-  function buildOverlay(parent) {
-    // Заглушка позиционируется absolute — родитель обязан быть positioned.
-    if (getComputedStyle(parent).position === "static") {
-      parent.style.position = "relative";
-    }
-    // Строим DOM без innerHTML: YouTube включает Trusted Types.
-    const overlay = document.createElement("div");
-    overlay.className = "ytfp-page-overlay";
-
-    const inner = document.createElement("div");
-    inner.className = "ytfp-page-overlay-inner";
-
-    const icon = document.createElement("div");
-    icon.className = "ytfp-page-overlay-icon";
-    icon.textContent = "▶";
-
-    const message = document.createElement("div");
-    message.textContent = chrome.i18n.getMessage("overlayPlaying") || "Playing in the floating window";
-
-    const returnButton = document.createElement("button");
-    returnButton.className = "ytfp-page-overlay-return";
-    returnButton.textContent = chrome.i18n.getMessage("overlayReturn") || "Bring it back";
-    returnButton.addEventListener("click", close);
-
-    inner.append(icon, message, returnButton);
-    overlay.appendChild(inner);
-    parent.appendChild(overlay);
-    return overlay;
-  }
-
-  function injectOverlayStyles() {
-    if (document.getElementById("ytfp-page-styles")) {
-      return;
-    }
-    const style = document.createElement("style");
-    style.id = "ytfp-page-styles";
-    style.textContent = `
-      .ytfp-page-overlay {
-        position: absolute; inset: 0; z-index: 100;
-        display: flex; align-items: center; justify-content: center;
-        background: #0f0f0f; color: #fff; min-height: 200px;
-        font-family: "Roboto", Arial, sans-serif; font-size: 15px;
-      }
-      .ytfp-page-overlay-inner { text-align: center; display: grid; gap: 12px; }
-      .ytfp-page-overlay-icon { font-size: 40px; opacity: 0.6; }
-      .ytfp-page-overlay-return {
-        cursor: pointer; border: 0; border-radius: 18px; padding: 8px 18px;
-        background: #f1f1f1; color: #0f0f0f; font-size: 14px; font-weight: 500;
-      }
-      .ytfp-page-overlay-return:hover { background: #d9d9d9; }
-    `;
-    document.head.appendChild(style);
-  }
-
   // Переход к следующему/предыдущему видео — хоткеями страницы (Shift+N / Shift+P).
   // Кликать .ytp-next-button / .ytp-prev-button нельзя: это <a href="/watch?v=...">,
   // и вместе с плеером они уезжают в документ PiP-окна. SPA-роутер YouTube слушает
@@ -228,8 +173,13 @@ YTFP.pip = (() => {
     );
   }
 
-  /** Открыть PiP. Возвращает true при успехе. */
-  async function open() {
+  /**
+   * Открыть PiP. Возвращает true при успехе.
+   * options.mode — разовое переопределение стиля окна ("document" | "native"):
+   * кнопки режимов в панели страницы открывают окно нужного стиля сразу,
+   * не дожидаясь, пока настройка доедет через chrome.storage.
+   */
+  async function open(options) {
     if (isOpen()) {
       return true;
     }
@@ -238,13 +188,13 @@ YTFP.pip = (() => {
     }
     isOpening = true;
     try {
-      return await openDocumentPip();
+      return await openDocumentPip(options && options.mode);
     } finally {
       isOpening = false;
     }
   }
 
-  async function openDocumentPip() {
+  async function openDocumentPip(modeOverride) {
     const playerEl = YTFP.playerApi.getPlayerRoot();
     if (!playerEl || !YTFP.playerApi.isPlayerPage()) {
       return false;
@@ -253,7 +203,8 @@ YTFP.pip = (() => {
 
     // Режим «чистое видео»: нативный PiP без рамки Chrome и без панели.
     // Тот же путь — фолбэк для Chrome без Document PiP API.
-    if (YTFP.settings.get().windowMode === "native" || !("documentPictureInPicture" in window)) {
+    const mode = modeOverride || YTFP.settings.get().windowMode;
+    if (mode === "native" || !("documentPictureInPicture" in window)) {
       return openNative();
     }
 
@@ -402,8 +353,7 @@ YTFP.pip = (() => {
       pipWindow.document.addEventListener(type, blockPlayerPress, true);
     }
 
-    injectOverlayStyles();
-    const overlay = buildOverlay(parent);
+    const overlay = YTFP.pipOverlay.build(parent, close);
 
     // Подсказки для всех органов управления окна: один общий узел, который
     // модули ниже наполняют через YTFP.tooltips.attach().
@@ -530,12 +480,22 @@ YTFP.pip = (() => {
       // В шортсах оценки живут в своей капсуле над панелью, по краям от
       // кнопки автоперехода.
       reactionButtons: isShorts ? reactions.buttons : null,
+      copyButton: YTFP.pipExtras.buildCopyLinkButton(pipWindow.document, {
+        getVideo: getMovedVideo,
+        isShorts
+      }),
       onPrev: goPrev,
       onNext: goNext
     });
     pipWindow.document.body.appendChild(controls.element);
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, titleObserver, titleTicker, resizeTimer: null };
+    // Громкость колесом поверх видео; ползунок панели подтягивается следом.
+    const wheel = YTFP.pipExtras.attachWheelVolume(pipWindow.document, {
+      getVideo: getMovedVideo,
+      onChange: controls.refreshBoost
+    });
+
+    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, wheel, titleObserver, titleTicker, isShorts, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
@@ -610,6 +570,33 @@ YTFP.pip = (() => {
       style.setProperty("left", `${left}px`, "important");
       style.setProperty("top", `${top}px`, "important");
     };
+
+    /**
+     * Автовоспроизведение YouTube при смене видео иногда переставляет узел
+     * #movie_player обратно на страницу, не закрывая окна: новое видео играет
+     * на странице, а окно висит пустым. Узел при этом тот же самый, поэтому
+     * просто забираем его назад — слушатели модулей окна остаются в силе.
+     */
+    const reclaimPlayer = () => {
+      if (!state || pipWindow.closed || pipWindow.document.contains(playerEl)) {
+        return;
+      }
+      const pageParent = playerEl.parentElement;
+      if (pageParent) {
+        // Страница могла перерисовать контейнер — вернём заглушку и оверлей.
+        if (!placeholder.isConnected) {
+          pageParent.insertBefore(placeholder, playerEl);
+        }
+        if (!state.overlay.isConnected) {
+          state.overlay = YTFP.pipOverlay.build(pageParent, close);
+        }
+      }
+      // Плеер был первым элементом тела окна — туда же и возвращаем.
+      pipWindow.document.body.insertBefore(playerEl, pipWindow.document.body.firstChild);
+      layoutPlayer();
+      window.dispatchEvent(new Event("resize"));
+    };
+    state.reclaim = reclaimPlayer;
 
     const scheduleSaveSize = () => {
       clearTimeout(state && state.resizeTimer);
@@ -697,7 +684,7 @@ YTFP.pip = (() => {
     }
     const {
       playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions,
-      resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime,
+      wheel, resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime,
       titleObserver, titleTicker
     } = state;
     // Сначала гасим таймеры и слушатели, потом обнуляем state.
@@ -716,6 +703,7 @@ YTFP.pip = (() => {
     progress.cleanup();
     related.cleanup();
     nav.cleanup();
+    wheel.cleanup();
     if (chat) {
       chat.cleanup();
     }
@@ -752,5 +740,36 @@ YTFP.pip = (() => {
     return open();
   }
 
-  return { open, close, toggle, isOpen, getMovedPlayer };
+  /**
+   * Сторож размещения плеера: смена видео (чаще всего автовоспроизведение
+   * YouTube) может вернуть плеер на страницу при живом окне. Если узел тот
+   * же — забираем его назад в окно. Если страница пересоздала плеер новым
+   * узлом или сменился тип страницы (watch/shorts), окно честно закрываем:
+   * его контролы построены вокруг старого узла. Зовётся из сторожевого
+   * таймера inject-button и после SPA-навигации.
+   */
+  function ensurePlayerPlacement() {
+    if (!state || state.pipWindow.closed || !YTFP.playerApi.isPlayerPage()) {
+      return;
+    }
+    if (YTFP.playerApi.isShortsPage() !== state.isShorts) {
+      close();
+      return;
+    }
+    const selector = state.isShorts
+      ? YTFP.SELECTORS.shortsPlayerRoot
+      : YTFP.SELECTORS.playerRoot;
+    const pagePlayer = document.querySelector(selector);
+    if (pagePlayer && pagePlayer !== state.playerEl) {
+      // Странице старый узел больше не нужен: восстановление по заглушке
+      // поставило бы второй #movie_player рядом с новым. Убираем заглушку —
+      // restore() оставит старый узел умирать вместе с окном.
+      state.placeholder.remove();
+      close();
+      return;
+    }
+    state.reclaim();
+  }
+
+  return { open, close, toggle, isOpen, getMovedPlayer, ensurePlayerPlacement };
 })();

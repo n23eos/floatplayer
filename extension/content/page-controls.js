@@ -159,7 +159,12 @@ YTFP.pageControls = (() => {
     applyNightLevel();
   }
 
-  function buildNightButton(settingsButton) {
+  /**
+   * Готовит общее состояние ночного режима: стили, SVG-фильтры, подписка на
+   * настройки. Дёргают все места, где живёт кнопка Луны (панель плеера
+   * YouTube и наша панель поверх видео) — повторные вызовы бесплатны.
+   */
+  function ensureNightReady() {
     injectStyles();
     ensureNightFilters();
     if (!isNightSynced) {
@@ -169,21 +174,36 @@ YTFP.pageControls = (() => {
       // актуальное значение, когда видео вернётся.
       YTFP.settings.onChange(syncNightFromSettings);
     }
+  }
 
+  /** Следующий уровень по кругу + подсветка всех кнопок Луны на странице. */
+  function cycleNight() {
+    nightLevel = YTFP.nightMode.next(nightLevel);
+    applyNightLevel();
+    // Запоминаем между сессиями (тот же ключ, что и в PiP-панели).
+    chrome.storage.sync.set({ nightMode: nightLevel }).catch(() => {});
+  }
+
+  function buildNightButton(settingsButton) {
+    ensureNightReady();
     const button = createButton({
       className: NIGHT_BUTTON_CLASS,
       icon: createIcon(settingsButton, [ICON_MOON]),
       title: t("nightTooltip", "Night mode: cuts blue light (click to change strength)"),
-      onClick: () => {
-        nightLevel = YTFP.nightMode.next(nightLevel);
-        applyNightLevel();
-        // Запоминаем между сессиями (тот же ключ, что и в PiP-панели).
-        chrome.storage.sync.set({ nightMode: nightLevel }).catch(() => {});
-      }
+      onClick: cycleNight
     });
     applyNightLevel();
     return button;
   }
 
-  return { createIcon, buildNightButton };
+  return {
+    createIcon,
+    buildNightButton,
+    ensureNightReady,
+    cycleNight,
+    // Панель поверх видео добавляет свою кнопку Луны с этим классом — общий
+    // applyNightLevel подхватывает её при каждом переключении уровня.
+    NIGHT_BUTTON_CLASS,
+    refreshNightButtons: applyNightLevel
+  };
 })();

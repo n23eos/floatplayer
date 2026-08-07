@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "Prędkość odtwarzania"
   },
-  "speedResetTooltip": {
-    "message": "Przywróć prędkość 1x"
-  },
   "nightTooltip": {
     "message": "Tryb nocny: ogranicza niebieskie światło (kliknij, aby zmienić siłę)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "Tło panelu czatu/komentarzy w mini-oknie. 0% — całkowicie przezroczyste, 100% — pełne."
+  },
+  "panelModeClean": {
+    "message": "Okno pływające: samo wideo (bez ramki)"
+  },
+  "panelModeFull": {
+    "message": "Okno pływające: pełne (z panelem)"
+  },
+  "speedCycleTooltip": {
+    "message": "Prędkości: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "Kopiuj link z bieżącym czasem"
   }
 }

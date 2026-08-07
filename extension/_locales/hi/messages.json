@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "प्लेबैक स्पीड"
   },
-  "speedResetTooltip": {
-    "message": "स्पीड 1x पर लौटाएँ"
-  },
   "nightTooltip": {
     "message": "नाइट मोड: नीली रोशनी कम करता है (तीव्रता बदलने के लिए क्लिक करें)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "मिनी-विंडो में चैट/टिप्पणी पैनल की पृष्ठभूमि। 0% — पूरी तरह पारदर्शी, 100% — ठोस।"
+  },
+  "panelModeClean": {
+    "message": "फ़्लोटिंग विंडो: केवल वीडियो (बिना फ़्रेम)"
+  },
+  "panelModeFull": {
+    "message": "फ़्लोटिंग विंडो: पूर्ण (कंट्रोल पैनल सहित)"
+  },
+  "speedCycleTooltip": {
+    "message": "गति प्रीसेट: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "वर्तमान समय का लिंक कॉपी करें"
   }
 }

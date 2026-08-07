@@ -218,11 +218,43 @@ YTFP.utils = (() => {
     return clamp((time - start) / width, 0, 1);
   }
 
+  // Пресеты для клика по метке скорости. Промежуточная скорость (например,
+  // 1.25 с ползунка) уходит к следующему пресету сверху; выше последнего —
+  // возврат к 1x.
+  const SPEED_PRESETS = [1, 1.5, 2];
+
+  /** Следующая скорость по кругу пресетов. Мусор на входе -> 1. */
+  function cycleSpeedPreset(rate) {
+    if (!Number.isFinite(rate)) {
+      return SPEED_PRESETS[0];
+    }
+    const next = SPEED_PRESETS.find((preset) => preset > rate);
+    return next === undefined ? SPEED_PRESETS[0] : next;
+  }
+
+  /**
+   * Ссылка на видео с таймкодом текущего момента.
+   * Шортс — ссылка на шортс (таймкоды там не работают), прямой эфир — без
+   * ?t (у эфира время не адресуемо). Без id ссылки не бывает -> null.
+   */
+  function timecodeUrl(videoId, seconds, { isShorts, isLive } = {}) {
+    if (!videoId) {
+      return null;
+    }
+    if (isShorts) {
+      return `https://www.youtube.com/shorts/${videoId}`;
+    }
+    const wholeSeconds = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
+    const suffix = !isLive && wholeSeconds > 0 ? `?t=${wholeSeconds}` : "";
+    return `https://youtu.be/${videoId}${suffix}`;
+  }
+
   return {
     clamp, formatTime, abLoopTarget, nextSpeed, speedSliderRange,
     normalizeSegments, segmentEndAt,
     digitSeekTime, chapterFractionsFromWidths, parseTimeLabel,
-    videoTitleFromPageTitle, behindLiveSeconds, windowFraction
+    videoTitleFromPageTitle, behindLiveSeconds, windowFraction,
+    cycleSpeedPreset, timecodeUrl
   };
 })();
 

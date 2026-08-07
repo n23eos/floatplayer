@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "Vitesse de lecture"
   },
-  "speedResetTooltip": {
-    "message": "Revenir à la vitesse 1x"
-  },
   "nightTooltip": {
     "message": "Mode nuit : filtre la lumière bleue (cliquez pour l'intensité)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "Fond du panneau chat/commentaires dans la mini-fenêtre. 0 % — totalement transparent, 100 % — opaque."
+  },
+  "panelModeClean": {
+    "message": "Fenêtre flottante : vidéo seule (sans cadre)"
+  },
+  "panelModeFull": {
+    "message": "Fenêtre flottante : complète (avec panneau)"
+  },
+  "speedCycleTooltip": {
+    "message": "Vitesses : 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "Copier le lien à l'instant actuel"
   }
 }

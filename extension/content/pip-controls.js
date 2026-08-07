@@ -68,7 +68,7 @@ YTFP.pipControls = (() => {
    * Строит панель в документе PiP-окна.
    * Возвращает объект с cleanup() для снятия слушателей с <video>.
    */
-  function buildBar(pipDocument, { getVideo, isShorts, navRow, chatToggle, reactionButtons, onPrev, onNext }) {
+  function buildBar(pipDocument, { getVideo, isShorts, navRow, chatToggle, reactionButtons, copyButton, onPrev, onNext }) {
     const bar = pipDocument.createElement("div");
     // Единственная панель окна — внизу. Ряд воспроизведения (navRow) и кнопку
     // боковой колонки (chatToggle) строят соседние модули, сюда они приходят
@@ -279,7 +279,7 @@ YTFP.pipControls = (() => {
 
     const speedLabel = pipDocument.createElement("span");
     speedLabel.className = "ytfp-speed-label";
-    YTFP.tooltips.attach(speedLabel, t("speedResetTooltip", "Reset speed to 1x"));
+    YTFP.tooltips.attach(speedLabel, t("speedCycleTooltip", "Speed presets: 1 → 1.5 → 2"));
 
     function refreshSpeedControls() {
       const video = getVideo();
@@ -297,7 +297,7 @@ YTFP.pipControls = (() => {
     speedLabel.addEventListener("click", () => {
       const video = getVideo();
       if (video) {
-        video.playbackRate = 1;
+        video.playbackRate = YTFP.utils.cycleSpeedPreset(video.playbackRate);
       }
     });
 
@@ -322,6 +322,13 @@ YTFP.pipControls = (() => {
       const ok = YTFP.audioBoost.setBoostPercent(getVideo(), Number(boostSlider.value));
       boostLabel.textContent = ok ? `${boostSlider.value}%` : "n/a";
     });
+
+    // Громкость поменяли мимо ползунка (колесо мыши) — подтянуть его и подпись.
+    function refreshBoost() {
+      const percent = YTFP.audioBoost.getBoostPercent();
+      boostSlider.value = String(percent);
+      boostLabel.textContent = `${percent}%`;
+    }
 
     boostWrap.append(createIcon(pipDocument, "volume"), boostSlider, boostLabel);
 
@@ -596,7 +603,7 @@ YTFP.pipControls = (() => {
           "ytfp-row--main",
           makeGroup(boostWrap),
           navRow || playButton,
-          makeGroup(nightButton, sleepWrap)
+          makeGroup(...[nightButton, sleepWrap, copyButton].filter(Boolean))
         )
       );
     } else {
@@ -606,7 +613,7 @@ YTFP.pipControls = (() => {
         statusBlock,
         makeRow(
           "ytfp-row--main",
-          makeGroup(boostWrap, abButton, loopButton, autoplayButton),
+          makeGroup(...[boostWrap, abButton, loopButton, autoplayButton, copyButton].filter(Boolean)),
           navRow || playButton,
           makeGroup(nightButton, sleepWrap, chatToggle, speedWrap)
         )
@@ -760,7 +767,7 @@ YTFP.pipControls = (() => {
       pipDocument.removeEventListener("mousemove", onSleepMouseMove);
     }
 
-    return { element: bar, cleanup };
+    return { element: bar, cleanup, refreshBoost };
   }
 
   return { buildBar };

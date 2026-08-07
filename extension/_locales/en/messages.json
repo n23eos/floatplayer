@@ -20,9 +20,6 @@
   "speedTooltip": {
     "message": "Playback speed"
   },
-  "speedResetTooltip": {
-    "message": "Reset speed to 1x"
-  },
   "nightTooltip": {
     "message": "Night mode: cuts blue light (click to change strength)"
   },
@@ -355,5 +352,17 @@
   },
   "optChatOpacityHint": {
     "message": "Backdrop of the chat/comments panel in the mini-window. 0% — fully transparent, 100% — solid."
+  },
+  "panelModeClean": {
+    "message": "Floating window: clean video (no frame)"
+  },
+  "panelModeFull": {
+    "message": "Floating window: full (with control bar)"
+  },
+  "speedCycleTooltip": {
+    "message": "Speed presets: 1 → 1.5 → 2"
+  },
+  "copyLinkTooltip": {
+    "message": "Copy link at current time"
   }
 }
