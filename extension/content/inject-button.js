@@ -264,7 +264,21 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   }
 
   const GUARD_INTERVAL_MS = 2000;
-  setInterval(ensurePageUi, GUARD_INTERVAL_MS);
+  // В фоновой вкладке без открытого окна PiP сторожить нечего: DOM-запросы
+  // каждые 2 секунды в каждой вкладке YouTube — лишняя работа. При открытом
+  // окне тик оставляем (плеер могло утащить обратно, пока вкладка скрыта).
+  setInterval(() => {
+    if (document.visibilityState === "hidden" && !YTFP.pip.isOpen()) {
+      return;
+    }
+    ensurePageUi();
+  }, GUARD_INTERVAL_MS);
+  // Вернулись во вкладку — догоняем пропущенные в фоне тики сразу.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      ensurePageUi();
+    }
+  });
 
   function onNavigateFinish() {
     ensureButtonWithRetries();

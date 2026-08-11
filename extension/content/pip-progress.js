@@ -85,11 +85,21 @@ YTFP.pipProgress = (() => {
       }
     }
 
+    // Отпечаток последней отрисовки: таймер зовёт render* каждые 3 секунды,
+    // но у обычного видео сегменты и границы после загрузки не меняются —
+    // без отпечатка мы бы вечно пересоздавали одни и те же DOM-узлы.
+    // У лайвов bounds ползут, отпечаток меняется — перерисовка происходит.
+    let lastSegmentsSig = null;
     function renderSegments() {
-      segmentsLayer.replaceChildren();
       const bounds = range();
       const segments =
         (YTFP.sponsorBlock && YTFP.sponsorBlock.getSegments && YTFP.sponsorBlock.getSegments()) || [];
+      const sig = JSON.stringify([bounds, isAdShowing(), segments]);
+      if (sig === lastSegmentsSig) {
+        return;
+      }
+      lastSegmentsSig = sig;
+      segmentsLayer.replaceChildren();
       if (!bounds || isAdShowing()) {
         return;
       }
@@ -157,12 +167,18 @@ YTFP.pipProgress = (() => {
       return fromPanel.length > 0 ? fromPanel : collectChaptersFromTimeline();
     }
 
+    let lastChaptersSig = null;
     function renderChapters() {
       chapters = collectChapters();
-      chaptersLayer.replaceChildren();
       // Границы считаем один раз на всю отрисовку: getSeekRange щупает DOM
       // плеера, и звать его на каждую главу — лишняя работа.
       const bounds = range();
+      const sig = JSON.stringify([bounds, isAdShowing(), chapters]);
+      if (sig === lastChaptersSig) {
+        return;
+      }
+      lastChaptersSig = sig;
+      chaptersLayer.replaceChildren();
       if (!bounds || isAdShowing()) {
         return;
       }
