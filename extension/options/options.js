@@ -26,6 +26,7 @@ const DEFAULT_SETTINGS = {
   speedStep: 0.25,
   volumeBoostMax: 300,
   compactMode: true,
+  panelSize: "large",
   pagePanel: true,
   sponsorSkip: true,
   sponsorAutoSkip: true,
@@ -59,6 +60,7 @@ const elements = {
   sponsorAutoSkip: document.getElementById("sponsorAutoSkip"),
   shortsAutoNext: document.getElementById("shortsAutoNext"),
   compactMode: document.getElementById("compactMode"),
+  panelSize: document.getElementById("panelSize"),
   pagePanel: document.getElementById("pagePanel"),
   speedStep: document.getElementById("speedStep"),
   volumeBoostMax: document.getElementById("volumeBoostMax"),
@@ -138,6 +140,7 @@ async function loadIntoForm() {
   }
   elements.shortsAutoNext.checked = Boolean(settings.shortsAutoNext);
   elements.compactMode.checked = Boolean(settings.compactMode);
+  setSelectValue(elements.panelSize, settings.panelSize, DEFAULT_SETTINGS.panelSize);
   elements.pagePanel.checked = Boolean(settings.pagePanel);
   setSelectValue(elements.speedStep, settings.speedStep, DEFAULT_SETTINGS.speedStep);
   setSelectValue(
@@ -205,6 +208,7 @@ async function save() {
         .map((checkbox) => checkbox.value),
       shortsAutoNext: elements.shortsAutoNext.checked,
       compactMode: elements.compactMode.checked,
+      panelSize: elements.panelSize.value,
       pagePanel: elements.pagePanel.checked,
       speedStep: Number(elements.speedStep.value),
       volumeBoostMax: Number(elements.volumeBoostMax.value),
@@ -231,7 +235,7 @@ if (elements.chatPanelOpacity) {
   elements.chatPanelOpacity.addEventListener("input", refreshChatOpacityLabel);
 }
 
-for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "pagePanel", "speedStep", "volumeBoostMax", "chatPanelOpacity"]) {
+for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "panelSize", "pagePanel", "speedStep", "volumeBoostMax", "chatPanelOpacity"]) {
   // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
   if (elements[key]) {
     elements[key].addEventListener("change", save);
