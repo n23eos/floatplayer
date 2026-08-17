@@ -15,9 +15,16 @@ YTFP.pagePanel = (() => {
   const JUMP_SECONDS = 30;
   // Просвет между нашей панелью и верхним краем контролов YouTube (там
   // таймлайн). Запас на его подсветку при наведении — он подрастает.
-  const GAP_ABOVE_CONTROLS = 14;
+  // Крупная панель стоит выше: она сама толще, и с прежним зазором почти
+  // упиралась бы в таймлайн.
+  const GAP_ABOVE_CONTROLS = { large: 34, small: 14 };
   // Пока контролы не найдены (плеер ещё строится) — заведомо выше них.
   const FALLBACK_BOTTOM_PX = 76;
+
+  /** Размер панели из настроек; мусор из хранилища — как крупная. */
+  function currentSize() {
+    return YTFP.settings.get().panelSize === "small" ? "small" : "large";
+  }
 
   function t(key, fallback) {
     return chrome.i18n.getMessage(key) || fallback;
@@ -62,7 +69,14 @@ YTFP.pagePanel = (() => {
     // Отступ снизу — выше родной панели YouTube, чтобы не спорить с ней за
     // клики и не перекрывать таймлайн.
     style.textContent = `
+      /* Базы ниже — компактный размер (как было раньше), множитель тянет
+         их все разом: кнопки, значки, подписи и ползунки. */
       .${PANEL_CLASS} {
+        --ytfp-pp-scale: 1.35;
+        --ytfp-pp-btn: 34px;
+        --ytfp-pp-icon: 16px;
+        --ytfp-pp-font: 12px;
+        --ytfp-pp-range: 72px;
         position: absolute;
         left: 50%;
         bottom: ${FALLBACK_BOTTOM_PX}px;
@@ -75,18 +89,20 @@ YTFP.pagePanel = (() => {
         width: max-content;
         max-width: calc(100% - 24px);
         box-sizing: border-box;
-        padding: 6px 12px;
+        padding: calc(6px * var(--ytfp-pp-scale)) calc(12px * var(--ytfp-pp-scale));
         border-radius: 22px;
         background: rgba(10, 10, 10, 0.78);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         color: #eee;
         font-family: "Roboto", Arial, sans-serif;
-        font-size: 12px;
+        font-size: calc(var(--ytfp-pp-font) * var(--ytfp-pp-scale));
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.18s ease;
       }
+      /* Компактный размер из настроек — прежние размеры один в один. */
+      .${PANEL_CLASS}[data-size="small"] { --ytfp-pp-scale: 1; }
       /* Всплывает вместе с родными контролами: YouTube снимает класс
          ytp-autohide, пока курсор на плеере. */
       #movie_player:not(.ytp-autohide) .${PANEL_CLASS} {
@@ -112,27 +128,32 @@ YTFP.pagePanel = (() => {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 34px;
-        height: 34px;
+        min-width: calc(var(--ytfp-pp-btn) * var(--ytfp-pp-scale));
+        height: calc(var(--ytfp-pp-btn) * var(--ytfp-pp-scale));
         border: 0;
         border-radius: 50%;
-        padding: 0 8px;
+        padding: 0 calc(8px * var(--ytfp-pp-scale));
         background: transparent;
         color: #fff;
         font-family: inherit;
-        font-size: 12px;
+        font-size: calc(var(--ytfp-pp-font) * var(--ytfp-pp-scale));
         cursor: pointer;
         transition: background 0.12s ease;
       }
+      /* Значки в разметке с width/height 16 — CSS перебивает атрибуты. */
+      .${PANEL_CLASS} svg {
+        width: calc(var(--ytfp-pp-icon) * var(--ytfp-pp-scale));
+        height: calc(var(--ytfp-pp-icon) * var(--ytfp-pp-scale));
+      }
       .${PANEL_CLASS} button:hover { background: rgba(255, 255, 255, 0.16); }
       .${PANEL_CLASS} input[type="range"] {
-        width: 72px;
+        width: calc(var(--ytfp-pp-range) * var(--ytfp-pp-scale));
         height: 3px;
         accent-color: #cc0000;
         cursor: pointer;
       }
       .${PANEL_CLASS} span {
-        min-width: 38px;
+        min-width: calc(38px * var(--ytfp-pp-scale));
         text-align: center;
         font-variant-numeric: tabular-nums;
       }
@@ -277,12 +298,18 @@ YTFP.pagePanel = (() => {
         return;
       }
       // Верхний край панели YouTube — это и есть таймлайн; над ним и встаём.
-      const above = playerRect.bottom - chromeRect.top + GAP_ABOVE_CONTROLS;
+      const above = playerRect.bottom - chromeRect.top + GAP_ABOVE_CONTROLS[currentSize()];
       panel.style.bottom = `${Math.round(above)}px`;
     }
 
     /** Подписи и положение ползунков под текущее видео. */
     function sync() {
+      // Размер читаем на каждом такте сторожевого таймера: переключение в
+      // настройках видно сразу, без перезагрузки страницы.
+      const size = currentSize();
+      if (panel.dataset.size !== size) {
+        panel.dataset.size = size;
+      }
       const playerRoot = panel.parentElement;
       if (playerRoot) {
         placeAbovePlayerControls(playerRoot);

@@ -110,6 +110,18 @@
   "optCompactHint": {
     "message": "The panel hides and appears when you hover the window."
   },
+  "optPanelSizeLabel": {
+    "message": "Control panel size"
+  },
+  "optPanelSizeHint": {
+    "message": "Applies to the panel in the mini-window and on the YouTube page."
+  },
+  "optPanelSizeLarge": {
+    "message": "Large"
+  },
+  "optPanelSizeSmall": {
+    "message": "Compact"
+  },
   "optSpeedStepLabel": {
     "message": "Speed slider step"
   },

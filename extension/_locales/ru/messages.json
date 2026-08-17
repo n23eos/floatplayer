@@ -110,6 +110,18 @@
   "optCompactHint": {
     "message": "Панель в мини-окне прячется и появляется при наведении."
   },
+  "optPanelSizeLabel": {
+    "message": "Размер панели управления"
+  },
+  "optPanelSizeHint": {
+    "message": "Действует и на панель в мини-окне, и на панель на странице YouTube."
+  },
+  "optPanelSizeLarge": {
+    "message": "Крупная"
+  },
+  "optPanelSizeSmall": {
+    "message": "Компактная"
+  },
   "optSpeedStepLabel": {
     "message": "Шаг изменения скорости"
   },

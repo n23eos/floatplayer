@@ -26,6 +26,32 @@
   --ytfp-anim-fast: 0.12s ease;
   --ytfp-anim: 0.18s ease;
   --ytfp-anim-slow: 0.2s ease;
+
+  /* Размер капсулы. Базы ниже — это компактный вариант (как было раньше),
+     множитель растягивает их все разом. Медиазапросы для узких окон правят
+     базы, а не готовые пиксели: иначе в маленьком окне крупный размер
+     просто не действовал бы — окно 480px уже попадает под @media 560px. */
+  --ytfp-cap-scale: 1.35;
+  --ytfp-nav-size: 32px;
+  --ytfp-nav-size-main: 38px;
+  --ytfp-nav-icon: 20px;
+  --ytfp-nav-icon-main: 26px;
+  --ytfp-btn-icon: 14px;
+  --ytfp-cap-font: 12px;
+  --ytfp-cap-pad-y: 6px;
+  --ytfp-cap-pad-x: 10px;
+  --ytfp-btn-pad-y: 5px;
+  --ytfp-btn-pad-x: 8px;
+  /* Отступ панели от нижнего края окна: крупная стоит заметно выше. */
+  --ytfp-cap-lift: 40px;
+}
+
+/* Компактный размер из настроек — прежние размеры один в один. Пометка
+   стоит на <body>: переменные наследуются, и капсула, и всё, что считает
+   размеры от неё, переключаются разом. */
+body[data-size="small"] {
+  --ytfp-cap-scale: 1;
+  --ytfp-cap-lift: 16px;
 }
 
 html,
@@ -180,11 +206,21 @@ body:hover .ytfp-title--compact {
    вторую строку при совсем малой ширине. Кнопок здесь меньше, чем на
    обычном видео (нет ±30, A-B и промотки), поэтому и сами кнопки, и
    отступы крупнее — попадать пальцем в узком окне проще. */
-.ytfp-bottom--narrow {
+/* Двойной класс — не украшение: медиазапросы для узких окон переопределяют
+   те же переменные на .ytfp-bottom и стоят ниже по файлу. Лишняя единица
+   специфичности оставляет последнее слово за этим блоком, как и было
+   раньше с явными пикселями. */
+.ytfp-bottom.ytfp-bottom--narrow {
+  --ytfp-cap-pad-y: 7px;
+  --ytfp-cap-pad-x: 10px;
+  --ytfp-cap-font: 12px;
+  --ytfp-nav-size: 34px;
+  --ytfp-nav-size-main: 40px;
+  --ytfp-nav-icon: 22px;
+  --ytfp-btn-pad-y: 6px;
+  --ytfp-btn-pad-x: 9px;
   gap: 6px;
-  padding: 7px 10px;
   flex-wrap: wrap;
-  font-size: 12px;
 }
 
 /* В узком окне боковым половинам разрешено сжиматься: на обычном видео
@@ -195,31 +231,11 @@ body:hover .ytfp-title--compact {
   min-width: 0;
 }
 
-.ytfp-bottom--narrow .ytfp-btn {
-  padding: 6px 9px;
-}
-
-/* Кнопки воспроизведения крупнее общих «узких» размеров ниже: место
-   освободилось после ±30, а промахнуться по ним обиднее всего. */
+/* Размеры кнопок воспроизведения заданы переменными выше — крупнее общих
+   «узких»: место освободилось после ±30, а промахнуться по ним обиднее
+   всего. Здесь остаётся только запрет сжатия. */
 .ytfp-bottom--narrow .ytfp-nav-btn {
-  width: 34px;
-  height: 34px;
   flex: none;
-}
-
-.ytfp-bottom--narrow .ytfp-nav-btn svg {
-  width: 22px;
-  height: 22px;
-}
-
-.ytfp-bottom--narrow .ytfp-nav-btn--main {
-  width: 40px;
-  height: 40px;
-}
-
-.ytfp-bottom--narrow .ytfp-nav-btn--main svg {
-  width: 26px;
-  height: 26px;
 }
 
 .ytfp-bottom--narrow .ytfp-speed input[type="range"] {
@@ -268,10 +284,11 @@ body:hover .ytfp-bottom--compact {
   gap: 4px;
   border: 0;
   border-radius: var(--ytfp-radius-sm);
-  padding: 5px 8px;
+  padding: calc(var(--ytfp-btn-pad-y) * var(--ytfp-cap-scale))
+    calc(var(--ytfp-btn-pad-x) * var(--ytfp-cap-scale));
   background: transparent;
   color: var(--ytfp-text);
-  font-size: 12px;
+  font-size: calc(var(--ytfp-cap-font) * var(--ytfp-cap-scale));
   line-height: 1;
   white-space: nowrap;
   transition: background var(--ytfp-anim-fast);
@@ -279,6 +296,8 @@ body:hover .ytfp-bottom--compact {
 
 .ytfp-btn svg {
   display: block;
+  width: calc(var(--ytfp-btn-icon) * var(--ytfp-cap-scale));
+  height: calc(var(--ytfp-btn-icon) * var(--ytfp-cap-scale));
   opacity: 0.9;
 }
 
@@ -403,6 +422,8 @@ body.ytfp-night--deep video.html5-main-video {
 .ytfp-speed svg,
 .ytfp-boost svg,
 .ytfp-sleep svg {
+  width: calc(var(--ytfp-btn-icon) * var(--ytfp-cap-scale));
+  height: calc(var(--ytfp-btn-icon) * var(--ytfp-cap-scale));
   opacity: 0.75;
   flex: none;
 }
@@ -626,7 +647,7 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
 .ytfp-bottom {
   position: absolute;
   left: 50%;
-  bottom: 16px;
+  bottom: var(--ytfp-cap-lift);
   transform: translateX(-50%);
   z-index: 10002;
   display: flex;
@@ -636,14 +657,15 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
   width: max-content;
   max-width: calc(100% - 16px);
   box-sizing: border-box;
-  padding: 6px 10px;
+  padding: calc(var(--ytfp-cap-pad-y) * var(--ytfp-cap-scale))
+    calc(var(--ytfp-cap-pad-x) * var(--ytfp-cap-scale));
   border-radius: 22px;
   background: var(--ytfp-panel-bg);
   backdrop-filter: var(--ytfp-panel-blur);
   -webkit-backdrop-filter: var(--ytfp-panel-blur);
   color: var(--ytfp-text);
   font-family: var(--ytfp-font);
-  font-size: 12px;
+  font-size: calc(var(--ytfp-cap-font) * var(--ytfp-cap-scale));
   transition: opacity var(--ytfp-anim);
   -webkit-app-region: no-drag;
   app-region: no-drag;
@@ -836,8 +858,13 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
    переносит группы на вторую строку. Пропавшая кнопка хуже мелкой. */
 @media (max-width: 560px) {
   .ytfp-bottom {
-    padding: 5px 8px;
-    font-size: 11px;
+    --ytfp-cap-pad-y: 5px;
+    --ytfp-cap-pad-x: 8px;
+    --ytfp-cap-font: 11px;
+    --ytfp-nav-size: 28px;
+    --ytfp-nav-size-main: 34px;
+    --ytfp-btn-pad-y: 4px;
+    --ytfp-btn-pad-x: 5px;
   }
 
   /* Равные доли ширины нужны ради симметрии, но в тесноте они заставляли
@@ -860,20 +887,6 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
     justify-content: center;
   }
 
-  .ytfp-nav-btn {
-    width: 28px;
-    height: 28px;
-  }
-
-  .ytfp-nav-btn--main {
-    width: 34px;
-    height: 34px;
-  }
-
-  .ytfp-btn {
-    padding: 4px 5px;
-  }
-
   .ytfp-boost input[type="range"],
   .ytfp-speed input[type="range"] {
     width: 44px;
@@ -894,18 +907,13 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
 
 /* Совсем маленькое окно: ещё плотнее, но состав прежний. */
 @media (max-width: 400px) {
+  .ytfp-bottom {
+    --ytfp-nav-size: 26px;
+    --ytfp-nav-size-main: 30px;
+  }
+
   .ytfp-row {
     gap: 6px;
-  }
-
-  .ytfp-nav-btn {
-    width: 26px;
-    height: 26px;
-  }
-
-  .ytfp-nav-btn--main {
-    width: 30px;
-    height: 30px;
   }
 
   .ytfp-boost input[type="range"],
@@ -916,7 +924,7 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
   .ytfp-nav-btn--text {
     /* Текстовые ±30 без внутренних отступов: они шире значков. */
     padding: 0;
-    font-size: 10px;
+    font-size: calc(10px * var(--ytfp-cap-scale));
   }
 }
 
@@ -927,8 +935,8 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: calc(var(--ytfp-nav-size) * var(--ytfp-cap-scale));
+  height: calc(var(--ytfp-nav-size) * var(--ytfp-cap-scale));
   border: 0;
   border-radius: 50%;
   background: transparent;
@@ -937,18 +945,30 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
   transition: background var(--ytfp-anim-fast);
 }
 
+/* Значки внутри кружка: в разметке они с width/height 14, CSS перебивает
+   атрибуты — так один множитель тянет и кнопку, и её содержимое. */
+.ytfp-nav-btn svg {
+  width: calc(var(--ytfp-nav-icon) * var(--ytfp-cap-scale));
+  height: calc(var(--ytfp-nav-icon) * var(--ytfp-cap-scale));
+}
+
+.ytfp-nav-btn--main svg {
+  width: calc(var(--ytfp-nav-icon-main) * var(--ytfp-cap-scale));
+  height: calc(var(--ytfp-nav-icon-main) * var(--ytfp-cap-scale));
+}
+
 .ytfp-nav-btn:hover {
   background: var(--ytfp-hover);
 }
 
 /* Play крупнее соседей — центр панели виден без подложки. */
 .ytfp-nav-btn--main {
-  width: 38px;
-  height: 38px;
+  width: calc(var(--ytfp-nav-size-main) * var(--ytfp-cap-scale));
+  height: calc(var(--ytfp-nav-size-main) * var(--ytfp-cap-scale));
 }
 
 .ytfp-nav-btn--text {
-  font-size: 11px;
+  font-size: calc(11px * var(--ytfp-cap-scale));
   font-family: var(--ytfp-font);
   font-variant-numeric: tabular-nums;
 }

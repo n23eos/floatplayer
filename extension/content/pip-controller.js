@@ -236,6 +236,12 @@ YTFP.pip = (() => {
     const style = pipWindow.document.createElement("style");
     style.textContent = cssText;
     pipWindow.document.head.appendChild(style);
+    // Размер панели — атрибутом на <body>: переменные размеров наследуются
+    // вниз, поэтому одной пометки хватает на всё окно. Крупный — дефолт,
+    // он записан в самом CSS.
+    if (YTFP.settings.get().panelSize === "small") {
+      pipWindow.document.body.dataset.size = "small";
+    }
     // Название видео. В системную полоску окна Chrome пишет только origin
     // (youtube.com) и document.title там не показывает, поэтому рисуем
     // надпись сами — плашкой под основной панелью: кружок канала и текст.
