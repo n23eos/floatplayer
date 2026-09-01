@@ -65,7 +65,12 @@ YTFP.settings = (() => {
     const updated = { ...cache };
     for (const [key, { newValue }] of Object.entries(changes)) {
       if (key in YTFP.DEFAULT_SETTINGS) {
-        updated[key] = newValue;
+        // newValue отсутствует, когда ключ удалили (в том числе через
+        // storage.sync.clear()). Тогда storage.get отдал бы значение по
+        // умолчанию — кэш должен показывать то же самое, иначе настройка
+        // молча становится undefined, то есть «выключено».
+        updated[key] =
+          newValue === undefined ? YTFP.DEFAULT_SETTINGS[key] : newValue;
       }
     }
     cache = updated;
