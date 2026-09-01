@@ -268,37 +268,6 @@ YTFP.utils = (() => {
     return `https://youtu.be/${videoId}${suffix}`;
   }
 
-  // Масштаб капсульных панелей в процентах: 100% — прежний компактный
-  // размер, 135% — прежний крупный (и дефолт), 200% — потолок для тач-экранов.
-  const PANEL_SCALE_MIN = 100;
-  const PANEL_SCALE_MAX = 200;
-  const PANEL_SCALE_DEFAULT = 135;
-
-  /** Масштаб панели из настроек в целые проценты [100, 200]. Мусор -> 135. */
-  function normalizePanelScale(value) {
-    // Отдельной проверкой: Number(null) и Number("") дают 0, а не NaN, и
-    // пустая настройка молча превратилась бы в минимальный масштаб.
-    const isEmpty =
-      (typeof value !== "number" && typeof value !== "string") ||
-      (typeof value === "string" && value.trim() === "");
-    if (isEmpty) {
-      return PANEL_SCALE_DEFAULT;
-    }
-    const number = Number(value);
-    if (!Number.isFinite(number)) {
-      return PANEL_SCALE_DEFAULT;
-    }
-    return clamp(Math.round(number), PANEL_SCALE_MIN, PANEL_SCALE_MAX);
-  }
-
-  /**
-   * Старая настройка panelSize ("large" | "small") в проценты — для тех, у
-   * кого в хранилище лежит ещё она. Компактный был ровно 100%.
-   */
-  function panelScaleFromLegacySize(size) {
-    return size === "small" ? PANEL_SCALE_MIN : PANEL_SCALE_DEFAULT;
-  }
-
   /**
    * Какую долю дорожки ползунка, %, занимает пройденная часть. Нужна там,
    * где дорожку рисуем сами: у самодельной accent-color заливку не даёт.
@@ -321,7 +290,7 @@ YTFP.utils = (() => {
 
   /** Отступ панели над контролами YouTube, px, для масштаба в процентах. */
   function panelGapAboveControls(scalePercent) {
-    const multiplier = normalizePanelScale(scalePercent) / 100;
+    const multiplier = YTFP.settingsSchema.normalizePanelScale(scalePercent) / 100;
     return Math.round(PANEL_GAP_BASE_PX + (multiplier - 1) * PANEL_GAP_PER_SCALE_PX);
   }
 
@@ -366,8 +335,7 @@ YTFP.utils = (() => {
     digitSeekTime, chapterFractionsFromWidths, parseTimeLabel,
     videoTitleFromPageTitle, behindLiveSeconds, liveResumeTarget, windowFraction,
     cycleSpeedPreset, timecodeUrl, sliderFillPercent, hotkeyFromEvent,
-    normalizePanelScale, panelScaleFromLegacySize, panelGapAboveControls,
-    PANEL_SCALE_MIN, PANEL_SCALE_MAX, PANEL_SCALE_DEFAULT
+    panelGapAboveControls
   };
 })();
 

@@ -16,6 +16,7 @@ globalThis.document = {
 let settings;
 let isWatchPage = true;
 
+require("../extension/shared/settings-schema.js");
 require("../extension/content/constants.js");
 require("../extension/content/utils.js");
 

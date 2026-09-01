@@ -31,7 +31,7 @@ YTFP.pagePanel = (() => {
 
   /** Масштаб панели из настроек, %. Мусор из хранилища — дефолтные 135%. */
   function currentScale() {
-    return YTFP.utils.normalizePanelScale(YTFP.settings.get().panelScale);
+    return YTFP.settingsSchema.normalizePanelScale(YTFP.settings.get().panelScale);
   }
 
   function t(key, fallback) {

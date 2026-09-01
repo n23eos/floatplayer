@@ -31,11 +31,12 @@ const elements = {
 const YOUTUBE_URL = /^https?:\/\/www\.youtube\.com\//;
 
 // Быстрые тумблеры popup: подмножество настроек страницы options.
-const QUICK_SETTINGS = {
-  autoPip: false,
-  compactMode: true,
-  sponsorSkip: true
-};
+// Значения по умолчанию берём из общего shared/settings-schema.js, а не
+// повторяем здесь: третья копия дефолтов разъехалась бы так же, как первые две.
+const QUICK_KEYS = ["autoPip", "compactMode", "sponsorSkip"];
+const QUICK_SETTINGS = Object.fromEntries(
+  QUICK_KEYS.map((key) => [key, YTFP.DEFAULT_SETTINGS[key]])
+);
 
 let activeTabId = null;
 

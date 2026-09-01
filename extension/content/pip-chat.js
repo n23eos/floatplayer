@@ -40,31 +40,6 @@ YTFP.pipChat = (() => {
     }
   `;
 
-  // Дефолт совпадает с fallback переменной --ytfp-chat-bg-alpha в pip.css.
-  const DEFAULT_PANEL_OPACITY = 50;
-
-  /**
-   * Приводит настройку chatPanelOpacity к целому проценту 0–100.
-   * Мусор из хранилища (строка, NaN, число вне диапазона) → дефолт:
-   * панель с невалидным значением не должна становиться невидимой.
-   */
-  function normalizeOpacity(value) {
-    // Явная проверка типа: Number(null) и Number(" ") дают 0, и панель
-    // от мусора в хранилище молча становилась бы полностью прозрачной.
-    // Пустой строкой считаем и строку из пробелов — как normalizePanelScale.
-    const isEmpty =
-      (typeof value !== "number" && typeof value !== "string") ||
-      (typeof value === "string" && value.trim() === "");
-    if (isEmpty) {
-      return DEFAULT_PANEL_OPACITY;
-    }
-    const number = Number(value);
-    if (!Number.isFinite(number) || number < 0 || number > 100) {
-      return DEFAULT_PANEL_OPACITY;
-    }
-    return Math.round(number);
-  }
-
   function t(key, fallback) {
     return chrome.i18n.getMessage(key) || fallback;
   }
@@ -144,7 +119,9 @@ YTFP.pipChat = (() => {
 
     /** Переносит настройку прозрачности в CSS-переменную окна. */
     function applyPanelOpacity(settings) {
-      const percent = normalizeOpacity(settings.chatPanelOpacity);
+      const percent = YTFP.settingsSchema.normalizeChatOpacity(
+        settings.chatPanelOpacity
+      );
       pipDocument.documentElement.style.setProperty(
         "--ytfp-chat-bg-alpha",
         String(percent / 100)
@@ -233,7 +210,7 @@ YTFP.pipChat = (() => {
     return { element: root, toggle, cleanup };
   }
 
-  return { build, normalizeOpacity };
+  return { build };
 })();
 
 // Экспорт для юнит-тестов (в браузере module не определён — блок не выполняется).

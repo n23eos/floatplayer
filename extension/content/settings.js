@@ -7,18 +7,7 @@ YTFP.settings = (() => {
   let cache = { ...YTFP.DEFAULT_SETTINGS };
   const listeners = new Set();
 
-  // До версии 1.18 размер панелей хранился пресетом "large" | "small".
-  // Ключ больше не пишем, но читаем: у кого он остался в хранилище, тот
-  // получает свой прежний размер в процентах.
-  const LEGACY_PANEL_SIZE_KEY = "panelSize";
-
-  /** Масштаб панели: своё значение, иначе перевод старого пресета. */
-  function resolvePanelScale(storedScale, legacySize) {
-    // null здесь означает «ключа в хранилище нет» — так помечен запрос ниже.
-    return storedScale === null
-      ? YTFP.utils.panelScaleFromLegacySize(legacySize)
-      : YTFP.utils.normalizePanelScale(storedScale);
-  }
+  const { LEGACY_PANEL_SIZE_KEY, resolvePanelScale } = YTFP.settingsSchema;
 
   async function load() {
     try {

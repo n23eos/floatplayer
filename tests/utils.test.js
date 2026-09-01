@@ -2,7 +2,10 @@ import { describe, test, expect } from "vitest";
 import { createRequire } from "node:module";
 
 // utils.js — обычный браузерный скрипт с CJS-экспортом для тестов.
+// panelGapAboveControls считает отступ по масштабу из настроек, поэтому
+// общий модуль настроек нужен и здесь — как и в манифесте, он идёт первым.
 const require = createRequire(import.meta.url);
+require("../extension/shared/settings-schema.js");
 const utils = require("../extension/content/utils.js");
 
 describe("clamp", () => {
@@ -365,52 +368,6 @@ describe("cycleSpeedPreset", () => {
   test("falls back to 1 for garbage input", () => {
     expect(utils.cycleSpeedPreset(NaN)).toBe(1);
     expect(utils.cycleSpeedPreset(undefined)).toBe(1);
-  });
-});
-
-describe("normalizePanelScale", () => {
-  test("keeps a value inside the allowed range", () => {
-    expect(utils.normalizePanelScale(100)).toBe(100);
-    expect(utils.normalizePanelScale(135)).toBe(135);
-    expect(utils.normalizePanelScale(200)).toBe(200);
-  });
-
-  test("accepts a numeric string from storage or an input element", () => {
-    expect(utils.normalizePanelScale("150")).toBe(150);
-  });
-
-  test("clamps values outside the range", () => {
-    expect(utils.normalizePanelScale(40)).toBe(100);
-    expect(utils.normalizePanelScale(500)).toBe(200);
-  });
-
-  test("rounds fractional values to whole percent", () => {
-    expect(utils.normalizePanelScale(137.4)).toBe(137);
-  });
-
-  test("falls back to the default for garbage input", () => {
-    expect(utils.normalizePanelScale(NaN)).toBe(135);
-    expect(utils.normalizePanelScale(null)).toBe(135);
-    expect(utils.normalizePanelScale(undefined)).toBe(135);
-    expect(utils.normalizePanelScale("large")).toBe(135);
-    expect(utils.normalizePanelScale("")).toBe(135);
-    expect(utils.normalizePanelScale(Infinity)).toBe(135);
-  });
-});
-
-describe("panelScaleFromLegacySize", () => {
-  test("maps the old compact preset to 100%", () => {
-    expect(utils.panelScaleFromLegacySize("small")).toBe(100);
-  });
-
-  test("maps the old large preset to the default 135%", () => {
-    expect(utils.panelScaleFromLegacySize("large")).toBe(135);
-  });
-
-  test("treats anything else as the default", () => {
-    expect(utils.panelScaleFromLegacySize(undefined)).toBe(135);
-    expect(utils.panelScaleFromLegacySize(null)).toBe(135);
-    expect(utils.panelScaleFromLegacySize("huge")).toBe(135);
   });
 });
 

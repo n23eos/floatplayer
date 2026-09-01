@@ -240,7 +240,9 @@ YTFP.pip = (() => {
     // на нём: --ytfp-cap-scale объявлена в :root через calc от этой
     // переменной, и подстановка считается там же. Поставь её на <body> —
     // готовое значение уже унаследовалось бы сверху и не пересчиталось.
-    const scale = YTFP.utils.normalizePanelScale(YTFP.settings.get().panelScale);
+    const scale = YTFP.settingsSchema.normalizePanelScale(
+      YTFP.settings.get().panelScale
+    );
     pipWindow.document.documentElement.style.setProperty(
       "--ytfp-cap-user",
       String(scale / 100)

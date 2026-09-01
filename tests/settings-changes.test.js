@@ -27,6 +27,7 @@ globalThis.chrome = {
   }
 };
 
+require("../extension/shared/settings-schema.js");
 require("../extension/content/constants.js");
 require("../extension/content/utils.js");
 require("../extension/content/settings.js");

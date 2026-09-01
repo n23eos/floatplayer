@@ -36,6 +36,7 @@
         "*://www.youtube.com/*"
       ],
       "js": [
+        "shared/settings-schema.js",
         "content/constants.js",
         "content/utils.js",
         "content/settings.js",

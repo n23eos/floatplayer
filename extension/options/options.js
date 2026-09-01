@@ -20,78 +20,16 @@ applyI18n();
 document.getElementById("version").textContent = `v${chrome.runtime.getManifest().version}`;
 
 // Страница настроек: читает/пишет chrome.storage.sync.
-// Дефолты дублируем из content/constants.js (options-страница живёт отдельно).
-const DEFAULT_SETTINGS = {
-  autoPip: false,
-  speedStep: 0.25,
-  volumeBoostMax: 300,
-  compactMode: true,
-  panelScale: 135,
-  pagePanel: true,
-  sponsorSkip: true,
-  sponsorAutoSkip: true,
-  sponsorCategories: ["sponsor", "selfpromo", "interaction"],
-  shortsAutoNext: true,
-  chatPanelOpacity: 50,
-  windowMode: "document"
-};
-
-/**
- * Приводит прозрачность панели чата к целому проценту 0–100; мусор из
- * хранилища → дефолт (та же логика, что в content/pip-chat.js).
- */
-function normalizeChatOpacity(value) {
-  // Явная проверка типа: Number(null) и Number(" ") дают 0 — мусор из
-  // хранилища превращался бы в «полностью прозрачно» вместо дефолта.
-  // Пустой строкой считаем и строку из пробелов, как в content/pip-chat.js.
-  const isEmpty =
-    (typeof value !== "number" && typeof value !== "string") ||
-    (typeof value === "string" && value.trim() === "");
-  if (isEmpty) {
-    return DEFAULT_SETTINGS.chatPanelOpacity;
-  }
-  const number = Number(value);
-  if (!Number.isFinite(number) || number < 0 || number > 100) {
-    return DEFAULT_SETTINGS.chatPanelOpacity;
-  }
-  return Math.round(number);
-}
-
-// До версии 1.18 размер панелей хранился пресетом "large" | "small".
-// Ключ больше не пишем, но читаем: у кого он остался в хранилище, тот
-// получает свой прежний размер в процентах (та же логика, что в
-// content/settings.js).
-const LEGACY_PANEL_SIZE_KEY = "panelSize";
-const PANEL_SCALE_MIN = 100;
-const PANEL_SCALE_MAX = 200;
-
-/** Масштаб панелей к целому проценту 100–200; мусор из хранилища → дефолт. */
-function normalizePanelScale(value) {
-  // Явная проверка типа: Number(null) и Number(" ") дают 0 — мусор из
-  // хранилища превращался бы в минимальный масштаб вместо дефолта.
-  // Пустой строкой считаем и строку из пробелов, как в content/utils.js.
-  const isEmpty =
-    (typeof value !== "number" && typeof value !== "string") ||
-    (typeof value === "string" && value.trim() === "");
-  if (isEmpty) {
-    return DEFAULT_SETTINGS.panelScale;
-  }
-  const number = Number(value);
-  if (!Number.isFinite(number)) {
-    return DEFAULT_SETTINGS.panelScale;
-  }
-  return Math.min(PANEL_SCALE_MAX, Math.max(PANEL_SCALE_MIN, Math.round(number)));
-}
-
-/** Масштаб для формы: своё значение, иначе перевод старого пресета. */
-function resolvePanelScale(settings) {
-  if (settings.panelScale !== null && settings.panelScale !== undefined) {
-    return normalizePanelScale(settings.panelScale);
-  }
-  return settings[LEGACY_PANEL_SIZE_KEY] === "small"
-    ? PANEL_SCALE_MIN
-    : DEFAULT_SETTINGS.panelScale;
-}
+// Дефолты и нормализаторы — из общего shared/settings-schema.js, он же
+// подключён к content-скриптам: страница и окно обязаны понимать хранилище
+// одинаково, иначе форма запишет одно, а плеер прочитает другое.
+const { DEFAULT_SETTINGS, settingsSchema } = YTFP;
+const {
+  LEGACY_PANEL_SIZE_KEY,
+  normalizeChatOpacity,
+  normalizePanelScale,
+  resolvePanelScale
+} = settingsSchema;
 
 const elements = {
   autoPip: document.getElementById("autoPip"),
@@ -193,7 +131,9 @@ async function loadIntoForm() {
   }
   elements.shortsAutoNext.checked = Boolean(settings.shortsAutoNext);
   elements.compactMode.checked = Boolean(settings.compactMode);
-  elements.panelScale.value = String(resolvePanelScale(settings));
+  elements.panelScale.value = String(
+    resolvePanelScale(settings.panelScale, settings[LEGACY_PANEL_SIZE_KEY])
+  );
   refreshPanelScaleLabel();
   elements.pagePanel.checked = Boolean(settings.pagePanel);
   setSelectValue(elements.speedStep, settings.speedStep, DEFAULT_SETTINGS.speedStep);
