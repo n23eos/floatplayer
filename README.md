@@ -2,11 +2,13 @@
 
 _[Русская версия](README.ru.md)_
 
-A Chrome extension (Manifest V3) that pops YouTube videos into an
-**always-on-top window** (Document Picture-in-Picture) with its own
-mini-player. The window shows the video and playback controls only —
-the rest of YouTube's interface is hidden. Keep watching videos and
-Shorts while you work in other apps.
+**FloatPlayer is a Chrome extension that moves a YouTube video into an always-on-top window with its own controls.** It uses Document Picture-in-Picture and relocates the real player rather than starting a second one, so playback never restarts and account, history, quality and captions survive the move. The window shows the video and one control panel: seeking, speed from 0.25x to 3x, volume up to 300%, A-B loop, night mode and a sleep timer. Shorts play in the window too, with auto-advance and search by keyword. Manifest V3, 14 locales, vitest suite, built by a shell script with no bundler.
+
+<div align="center">
+
+[![Star on GitHub](https://img.shields.io/github/stars/n23eos/floatplayer?style=for-the-badge&logo=github&label=Star%20this%20repo&color=FFD700&labelColor=1a1a1a)](https://github.com/n23eos/floatplayer)
+
+</div>
 
 - Chrome Web Store materials — [store/LISTING.md](store/LISTING.md)
 - Privacy policy — [PRIVACY.md](PRIVACY.md)
