@@ -63,9 +63,13 @@ const PANEL_SCALE_MAX = 200;
 
 /** Масштаб панелей к целому проценту 100–200; мусор из хранилища → дефолт. */
 function normalizePanelScale(value) {
-  // Явная проверка типа: Number(null) и Number("") дают 0 — мусор из
+  // Явная проверка типа: Number(null) и Number(" ") дают 0 — мусор из
   // хранилища превращался бы в минимальный масштаб вместо дефолта.
-  if ((typeof value !== "number" && typeof value !== "string") || value === "") {
+  // Пустой строкой считаем и строку из пробелов, как в content/utils.js.
+  const isEmpty =
+    (typeof value !== "number" && typeof value !== "string") ||
+    (typeof value === "string" && value.trim() === "");
+  if (isEmpty) {
     return DEFAULT_SETTINGS.panelScale;
   }
   const number = Number(value);
