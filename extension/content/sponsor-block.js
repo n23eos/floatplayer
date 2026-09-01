@@ -57,8 +57,10 @@ YTFP.sponsorBlock = (() => {
       const rawPairs = Array.isArray(data) ? data.map((item) => item && item.segment) : [];
       return YTFP.utils.normalizeSegments(rawPairs);
     } catch (error) {
+      // null, а не пустой список: сбой сети — это «неизвестно», а не «сегментов
+      // нет». Вызывающий по нему решает, оставить ли видео в кэше.
       console.warn("[YTFP] SponsorBlock fetch failed:", error);
-      return [];
+      return null;
     }
   }
 
@@ -254,10 +256,18 @@ YTFP.sponsorBlock = (() => {
     // Пока грузили — могли уйти на другое видео или сменить категории.
     // Сегменты присваиваем только для актуального ключа: иначе автопропуск
     // и маркеры работали бы по чужому видео.
-    if (loadedKey === key) {
-      segments = fetched;
-      renderMarkers();
+    if (loadedKey !== key) {
+      return;
     }
+    if (fetched === null) {
+      // Запрос не дошёл. Ключ снимаем, чтобы следующий заход (init делает
+      // вторую попытку через 2 секунды после навигации) перезапросил, —
+      // иначе одна сетевая осечка гасила бы SponsorBlock на всё видео.
+      loadedKey = null;
+      return;
+    }
+    segments = fetched;
+    renderMarkers();
   }
 
   function init() {
