@@ -347,12 +347,14 @@ YTFP.pagePanel = (() => {
      * фиксированный отступ закрывал бы таймлайн.
      */
     function placeAbovePlayerControls(playerRoot, scalePercent) {
-      const chrome = playerRoot.querySelector(".ytp-chrome-bottom");
-      if (!chrome) {
+      // Не chrome: так называется глобальный объект API расширения, и
+      // локальная переменная закрыла бы его для всей функции.
+      const playerChrome = playerRoot.querySelector(".ytp-chrome-bottom");
+      if (!playerChrome) {
         return;
       }
       const playerRect = playerRoot.getBoundingClientRect();
-      const chromeRect = chrome.getBoundingClientRect();
+      const chromeRect = playerChrome.getBoundingClientRect();
       if (!(chromeRect.height > 0) || !(playerRect.height > 0)) {
         return;
       }
