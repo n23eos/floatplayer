@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "पैनल छिपा रहता है और विंडो पर माउस लाने पर दिखता है।"
   },
+  "optPanelSizeLabel": {
+    "message": "नियंत्रण पैनल का आकार"
+  },
+  "optPanelSizeHint": {
+    "message": "यह मिनी-विंडो और YouTube पेज, दोनों जगह के पैनल पर लागू होता है। टच स्क्रीन पर पैनल अपने आप थोड़ा और बड़ा हो जाता है।"
+  },
   "optSpeedStepLabel": {
     "message": "स्पीड स्लाइडर का चरण"
   },

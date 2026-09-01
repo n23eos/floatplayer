@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "패널은 숨어 있다가 창에 마우스를 올리면 나타납니다."
   },
+  "optPanelSizeLabel": {
+    "message": "제어 패널 크기"
+  },
+  "optPanelSizeHint": {
+    "message": "미니 창의 패널과 YouTube 페이지의 패널에 모두 적용됩니다. 터치 화면에서는 패널이 자동으로 조금 더 커집니다."
+  },
   "optSpeedStepLabel": {
     "message": "속도 슬라이더 간격"
   },

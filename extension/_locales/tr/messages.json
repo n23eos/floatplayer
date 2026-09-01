@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "Panel gizlenir ve fare pencerenin üzerine gelince belirir."
   },
+  "optPanelSizeLabel": {
+    "message": "Kontrol paneli boyutu"
+  },
+  "optPanelSizeHint": {
+    "message": "Hem mini penceredeki hem de YouTube sayfasındaki panel için geçerlidir. Dokunmatik ekranlarda panel kendiliğinden biraz daha büyür."
+  },
   "optSpeedStepLabel": {
     "message": "Hız kaydırıcısı adımı"
   },

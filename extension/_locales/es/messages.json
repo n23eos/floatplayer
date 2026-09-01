@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "El panel se oculta y aparece al pasar el ratón por la ventana."
   },
+  "optPanelSizeLabel": {
+    "message": "Tamaño del panel de control"
+  },
+  "optPanelSizeHint": {
+    "message": "Se aplica al panel de la miniventana y al de la página de YouTube. En pantallas táctiles el panel crece un poco más por sí solo."
+  },
   "optSpeedStepLabel": {
     "message": "Paso del control de velocidad"
   },

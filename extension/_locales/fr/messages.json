@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "Le panneau reste masqué et apparaît au survol de la fenêtre."
   },
+  "optPanelSizeLabel": {
+    "message": "Taille du panneau de contrôle"
+  },
+  "optPanelSizeHint": {
+    "message": "S'applique au panneau de la mini-fenêtre et à celui de la page YouTube. Sur les écrans tactiles, le panneau s'agrandit un peu plus de lui-même."
+  },
   "optSpeedStepLabel": {
     "message": "Pas du curseur de vitesse"
   },

@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "Das Bedienfeld ist verborgen und erscheint, wenn die Maus über dem Fenster ist."
   },
+  "optPanelSizeLabel": {
+    "message": "Größe des Bedienfelds"
+  },
+  "optPanelSizeHint": {
+    "message": "Gilt für das Bedienfeld im Mini-Fenster und auf der YouTube-Seite. Auf Touchscreens wird das Bedienfeld von selbst etwas größer."
+  },
   "optSpeedStepLabel": {
     "message": "Schrittweite des Tempo-Reglers"
   },

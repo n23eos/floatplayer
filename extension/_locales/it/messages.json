@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "Il pannello resta nascosto e appare passando il mouse sulla finestra."
   },
+  "optPanelSizeLabel": {
+    "message": "Dimensione del pannello di controllo"
+  },
+  "optPanelSizeHint": {
+    "message": "Vale per il pannello nella mini-finestra e per quello sulla pagina di YouTube. Sugli schermi touch il pannello si ingrandisce un po' di più da solo."
+  },
   "optSpeedStepLabel": {
     "message": "Passo del cursore di velocità"
   },

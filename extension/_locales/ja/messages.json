@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "パネルは隠れていて、ウィンドウにマウスを乗せると表示されます。"
   },
+  "optPanelSizeLabel": {
+    "message": "操作パネルのサイズ"
+  },
+  "optPanelSizeHint": {
+    "message": "ミニウィンドウ内のパネルと YouTube ページ上のパネルの両方に適用されます。タッチ画面では、パネルは自動的にもう少し大きくなります。"
+  },
   "optSpeedStepLabel": {
     "message": "速度スライダーの刻み"
   },

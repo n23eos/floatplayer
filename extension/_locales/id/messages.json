@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "Panel tersembunyi dan muncul saat kursor berada di atas jendela."
   },
+  "optPanelSizeLabel": {
+    "message": "Ukuran panel kontrol"
+  },
+  "optPanelSizeHint": {
+    "message": "Berlaku untuk panel di jendela mini dan di halaman YouTube. Pada layar sentuh panel membesar sedikit lagi dengan sendirinya."
+  },
   "optSpeedStepLabel": {
     "message": "Langkah penggeser kecepatan"
   },

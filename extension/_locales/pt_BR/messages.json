@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "O painel se esconde e reaparece ao passar o mouse pela janela."
   },
+  "optPanelSizeLabel": {
+    "message": "Tamanho do painel de controle"
+  },
+  "optPanelSizeHint": {
+    "message": "Vale para o painel da minijanela e para o da página do YouTube. Em telas sensíveis ao toque o painel aumenta um pouco mais sozinho."
+  },
   "optSpeedStepLabel": {
     "message": "Passo do controle de velocidade"
   },

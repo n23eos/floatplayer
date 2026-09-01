@@ -110,6 +110,12 @@
   "optCompactHint": {
     "message": "Panel jest ukryty i pojawia się po najechaniu na okno."
   },
+  "optPanelSizeLabel": {
+    "message": "Rozmiar panelu sterowania"
+  },
+  "optPanelSizeHint": {
+    "message": "Dotyczy panelu w mini-oknie i panelu na stronie YouTube. Na ekranach dotykowych panel sam powiększa się nieco bardziej."
+  },
   "optSpeedStepLabel": {
     "message": "Krok suwaka prędkości"
   },
