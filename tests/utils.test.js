@@ -295,6 +295,25 @@ describe("behindLiveSeconds", () => {
   });
 });
 
+describe("liveResumeTarget", () => {
+  test("keeps a safety gap behind the live edge", () => {
+    // Ровно в край прыгать нельзя: последних секунд ещё нет на сервере,
+    // и плеер после такой перемотки встаёт насовсем.
+    expect(utils.liveResumeTarget(0, 100)).toBe(95);
+  });
+
+  test("never goes before the start of the DVR window", () => {
+    expect(utils.liveResumeTarget(98, 100)).toBe(98);
+  });
+
+  test("returns null for a degenerate or non-finite window", () => {
+    expect(utils.liveResumeTarget(100, 100)).toBeNull();
+    expect(utils.liveResumeTarget(200, 100)).toBeNull();
+    expect(utils.liveResumeTarget(0, Infinity)).toBeNull();
+    expect(utils.liveResumeTarget(null, 100)).toBeNull();
+  });
+});
+
 describe("windowFraction", () => {
   test("returns the position inside the window", () => {
     expect(utils.windowFraction(50, 0, 100)).toBe(0.5);
@@ -346,6 +365,96 @@ describe("cycleSpeedPreset", () => {
   test("falls back to 1 for garbage input", () => {
     expect(utils.cycleSpeedPreset(NaN)).toBe(1);
     expect(utils.cycleSpeedPreset(undefined)).toBe(1);
+  });
+});
+
+describe("normalizePanelScale", () => {
+  test("keeps a value inside the allowed range", () => {
+    expect(utils.normalizePanelScale(100)).toBe(100);
+    expect(utils.normalizePanelScale(135)).toBe(135);
+    expect(utils.normalizePanelScale(200)).toBe(200);
+  });
+
+  test("accepts a numeric string from storage or an input element", () => {
+    expect(utils.normalizePanelScale("150")).toBe(150);
+  });
+
+  test("clamps values outside the range", () => {
+    expect(utils.normalizePanelScale(40)).toBe(100);
+    expect(utils.normalizePanelScale(500)).toBe(200);
+  });
+
+  test("rounds fractional values to whole percent", () => {
+    expect(utils.normalizePanelScale(137.4)).toBe(137);
+  });
+
+  test("falls back to the default for garbage input", () => {
+    expect(utils.normalizePanelScale(NaN)).toBe(135);
+    expect(utils.normalizePanelScale(null)).toBe(135);
+    expect(utils.normalizePanelScale(undefined)).toBe(135);
+    expect(utils.normalizePanelScale("large")).toBe(135);
+    expect(utils.normalizePanelScale("")).toBe(135);
+    expect(utils.normalizePanelScale(Infinity)).toBe(135);
+  });
+});
+
+describe("panelScaleFromLegacySize", () => {
+  test("maps the old compact preset to 100%", () => {
+    expect(utils.panelScaleFromLegacySize("small")).toBe(100);
+  });
+
+  test("maps the old large preset to the default 135%", () => {
+    expect(utils.panelScaleFromLegacySize("large")).toBe(135);
+  });
+
+  test("treats anything else as the default", () => {
+    expect(utils.panelScaleFromLegacySize(undefined)).toBe(135);
+    expect(utils.panelScaleFromLegacySize(null)).toBe(135);
+    expect(utils.panelScaleFromLegacySize("huge")).toBe(135);
+  });
+});
+
+describe("sliderFillPercent", () => {
+  test("returns the share of the range already passed", () => {
+    expect(utils.sliderFillPercent(50, 0, 100)).toBe(50);
+    expect(utils.sliderFillPercent(0, 0, 100)).toBe(0);
+    expect(utils.sliderFillPercent(100, 0, 100)).toBe(100);
+  });
+
+  test("counts from the range start, not from zero", () => {
+    // Ползунок скорости начинается с 0.25, а не с нуля.
+    expect(utils.sliderFillPercent(1.625, 0.25, 3)).toBe(50);
+  });
+
+  test("accepts the string attributes an input element exposes", () => {
+    expect(utils.sliderFillPercent("150", "0", "300")).toBe(50);
+  });
+
+  test("clamps values outside the range", () => {
+    expect(utils.sliderFillPercent(-10, 0, 100)).toBe(0);
+    expect(utils.sliderFillPercent(500, 0, 100)).toBe(100);
+  });
+
+  test("returns 0 for a degenerate or unparsable range", () => {
+    expect(utils.sliderFillPercent(5, 10, 10)).toBe(0);
+    expect(utils.sliderFillPercent(5, 10, 0)).toBe(0);
+    expect(utils.sliderFillPercent(5, "a", "b")).toBe(0);
+  });
+});
+
+describe("panelGapAboveControls", () => {
+  test("keeps the gaps the two old presets used", () => {
+    // 100% — прежний компактный зазор, 135% — прежний крупный.
+    expect(utils.panelGapAboveControls(100)).toBe(14);
+    expect(utils.panelGapAboveControls(135)).toBe(34);
+  });
+
+  test("grows with the scale", () => {
+    expect(utils.panelGapAboveControls(200)).toBe(71);
+  });
+
+  test("falls back to the default scale for garbage input", () => {
+    expect(utils.panelGapAboveControls(NaN)).toBe(34);
   });
 });
 

@@ -26,7 +26,7 @@ const DEFAULT_SETTINGS = {
   speedStep: 0.25,
   volumeBoostMax: 300,
   compactMode: true,
-  panelSize: "large",
+  panelScale: 135,
   pagePanel: true,
   sponsorSkip: true,
   sponsorAutoSkip: true,
@@ -53,6 +53,38 @@ function normalizeChatOpacity(value) {
   return Math.round(number);
 }
 
+// До версии 1.18 размер панелей хранился пресетом "large" | "small".
+// Ключ больше не пишем, но читаем: у кого он остался в хранилище, тот
+// получает свой прежний размер в процентах (та же логика, что в
+// content/settings.js).
+const LEGACY_PANEL_SIZE_KEY = "panelSize";
+const PANEL_SCALE_MIN = 100;
+const PANEL_SCALE_MAX = 200;
+
+/** Масштаб панелей к целому проценту 100–200; мусор из хранилища → дефолт. */
+function normalizePanelScale(value) {
+  // Явная проверка типа: Number(null) и Number("") дают 0 — мусор из
+  // хранилища превращался бы в минимальный масштаб вместо дефолта.
+  if ((typeof value !== "number" && typeof value !== "string") || value === "") {
+    return DEFAULT_SETTINGS.panelScale;
+  }
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    return DEFAULT_SETTINGS.panelScale;
+  }
+  return Math.min(PANEL_SCALE_MAX, Math.max(PANEL_SCALE_MIN, Math.round(number)));
+}
+
+/** Масштаб для формы: своё значение, иначе перевод старого пресета. */
+function resolvePanelScale(settings) {
+  if (settings.panelScale !== null && settings.panelScale !== undefined) {
+    return normalizePanelScale(settings.panelScale);
+  }
+  return settings[LEGACY_PANEL_SIZE_KEY] === "small"
+    ? PANEL_SCALE_MIN
+    : DEFAULT_SETTINGS.panelScale;
+}
+
 const elements = {
   autoPip: document.getElementById("autoPip"),
   windowMode: document.getElementById("windowMode"),
@@ -60,7 +92,8 @@ const elements = {
   sponsorAutoSkip: document.getElementById("sponsorAutoSkip"),
   shortsAutoNext: document.getElementById("shortsAutoNext"),
   compactMode: document.getElementById("compactMode"),
-  panelSize: document.getElementById("panelSize"),
+  panelScale: document.getElementById("panelScale"),
+  panelScaleValue: document.getElementById("panelScaleValue"),
   pagePanel: document.getElementById("pagePanel"),
   speedStep: document.getElementById("speedStep"),
   volumeBoostMax: document.getElementById("volumeBoostMax"),
@@ -72,6 +105,11 @@ const elements = {
 /** Подпись «NN%» рядом с ползунком прозрачности. */
 function refreshChatOpacityLabel() {
   elements.chatPanelOpacityValue.textContent = `${elements.chatPanelOpacity.value}%`;
+}
+
+/** Подпись «NN%» рядом с ползунком масштаба панелей. */
+function refreshPanelScaleLabel() {
+  elements.panelScaleValue.textContent = `${elements.panelScale.value}%`;
 }
 
 function getCategoryCheckboxes() {
@@ -114,7 +152,14 @@ async function loadIntoForm() {
   const startedAt = saveCount;
   let settings;
   try {
-    settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+    // panelScale и старый panelSize запрашиваем с null вместо значения по
+    // умолчанию: иначе не отличить «не задано» от «задано как дефолт», а
+    // от этого зависит, брать ли масштаб из старой настройки.
+    settings = await chrome.storage.sync.get({
+      ...DEFAULT_SETTINGS,
+      panelScale: null,
+      [LEGACY_PANEL_SIZE_KEY]: null
+    });
   } catch (error) {
     console.warn("[YTFP] Failed to read settings:", error);
     isFormReady = false;
@@ -140,7 +185,8 @@ async function loadIntoForm() {
   }
   elements.shortsAutoNext.checked = Boolean(settings.shortsAutoNext);
   elements.compactMode.checked = Boolean(settings.compactMode);
-  setSelectValue(elements.panelSize, settings.panelSize, DEFAULT_SETTINGS.panelSize);
+  elements.panelScale.value = String(resolvePanelScale(settings));
+  refreshPanelScaleLabel();
   elements.pagePanel.checked = Boolean(settings.pagePanel);
   setSelectValue(elements.speedStep, settings.speedStep, DEFAULT_SETTINGS.speedStep);
   setSelectValue(
@@ -208,7 +254,7 @@ async function save() {
         .map((checkbox) => checkbox.value),
       shortsAutoNext: elements.shortsAutoNext.checked,
       compactMode: elements.compactMode.checked,
-      panelSize: elements.panelSize.value,
+      panelScale: normalizePanelScale(elements.panelScale.value),
       pagePanel: elements.pagePanel.checked,
       speedStep: Number(elements.speedStep.value),
       volumeBoostMax: Number(elements.volumeBoostMax.value),
@@ -234,8 +280,11 @@ async function save() {
 if (elements.chatPanelOpacity) {
   elements.chatPanelOpacity.addEventListener("input", refreshChatOpacityLabel);
 }
+if (elements.panelScale) {
+  elements.panelScale.addEventListener("input", refreshPanelScaleLabel);
+}
 
-for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "panelSize", "pagePanel", "speedStep", "volumeBoostMax", "chatPanelOpacity"]) {
+for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "panelScale", "pagePanel", "speedStep", "volumeBoostMax", "chatPanelOpacity"]) {
   // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
   if (elements[key]) {
     elements[key].addEventListener("change", save);

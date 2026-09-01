@@ -30,8 +30,14 @@
   /* Размер капсулы. Базы ниже — это компактный вариант (как было раньше),
      множитель растягивает их все разом. Медиазапросы для узких окон правят
      базы, а не готовые пиксели: иначе в маленьком окне крупный размер
-     просто не действовал бы — окно 480px уже попадает под @media 560px. */
-  --ytfp-cap-scale: 1.35;
+     просто не действовал бы — окно 480px уже попадает под @media 560px.
+
+     --ytfp-cap-user приходит из настроек: pip-controller ставит его на
+     <body> при открытии окна. --ytfp-cap-coarse добавляет запас на
+     тач-экранах, а размеры считаются по их произведению. */
+  --ytfp-cap-user: 1.35;
+  --ytfp-cap-coarse: 1;
+  --ytfp-cap-scale: calc(var(--ytfp-cap-user) * var(--ytfp-cap-coarse));
   --ytfp-nav-size: 32px;
   --ytfp-nav-size-main: 38px;
   --ytfp-nav-icon: 20px;
@@ -42,16 +48,23 @@
   --ytfp-cap-pad-x: 10px;
   --ytfp-btn-pad-y: 5px;
   --ytfp-btn-pad-x: 8px;
-  /* Отступ панели от нижнего края окна: крупная стоит заметно выше. */
-  --ytfp-cap-lift: 40px;
+  /* Ползунок: тонкая дорожка, но высокая зона касания вокруг неё. Бегунок
+     заметно шире дорожки, иначе его не поймать, но не настолько, чтобы на
+     крупном масштабе читаться красным шаром поверх ниточки. */
+  --ytfp-range-track: 4px;
+  --ytfp-range-thumb: 11px;
+  --ytfp-range-hit: 22px;
+  /* Отступ панели от нижнего края окна: чем крупнее капсула, тем выше.
+     При масштабе 1 — прежние 16px, при 1.35 — прежние 40px. */
+  --ytfp-cap-lift: calc(16px + (var(--ytfp-cap-scale) - 1) * 69px);
 }
 
-/* Компактный размер из настроек — прежние размеры один в один. Пометка
-   стоит на <body>: переменные наследуются, и капсула, и всё, что считает
-   размеры от неё, переключаются разом. */
-body[data-size="small"] {
-  --ytfp-cap-scale: 1;
-  --ytfp-cap-lift: 16px;
+/* Тач-экран: пальцем целиться труднее, чем курсором, — добавляем запас
+   поверх выбранного в настройках масштаба. */
+@media (pointer: coarse) {
+  :root {
+    --ytfp-cap-coarse: 1.15;
+  }
 }
 
 html,
@@ -436,9 +449,40 @@ body.ytfp-night--deep video.html5-main-video {
   width: 56px;
 }
 
+/* Ползунок рисуем сами: у нативного зона захвата равна высоте элемента, а
+   она равна тонкой дорожке, и пальцем в неё не попасть. Своя разметка
+   разводит их: дорожка тонкая, зона касания высокая, бегунок крупный.
+   Заливку слева от бегунка (её давал accent-color) красит paintSlider. */
 .ytfp-bottom input[type="range"] {
-  accent-color: var(--ytfp-accent);
-  height: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: calc(var(--ytfp-range-hit) * var(--ytfp-cap-scale));
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ytfp-bottom input[type="range"]::-webkit-slider-runnable-track {
+  height: calc(var(--ytfp-range-track) * var(--ytfp-cap-scale));
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--ytfp-accent) var(--ytfp-fill, 0%),
+    rgba(255, 255, 255, 0.3) var(--ytfp-fill, 0%)
+  );
+}
+
+.ytfp-bottom input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: calc(var(--ytfp-range-thumb) * var(--ytfp-cap-scale));
+  height: calc(var(--ytfp-range-thumb) * var(--ytfp-cap-scale));
+  border-radius: 50%;
+  background: var(--ytfp-accent);
+  /* Бегунок по центру дорожки: половина разницы их высот. */
+  margin-top: calc(
+    (var(--ytfp-range-track) - var(--ytfp-range-thumb)) * var(--ytfp-cap-scale) / 2
+  );
 }
 
 .ytfp-speed-label {
@@ -683,34 +727,65 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
   gap: 18px;
 }
 
-/* Боковые части делят свободное место поровну, но не сжимаются ниже
-   своего содержимого: иначе правая половина (там выпадающий список
-   таймера) не помещалась в свою долю и уезжала на вторую строку. */
-.ytfp-row--main > :first-child,
-.ytfp-row--main > :last-child {
-  flex: 1 1 auto;
-  min-width: max-content;
+/* Воспроизведение — своей строкой, по центру панели. Раньше оно стояло
+   посередине общей строки, и когда та не влезала (при 480x320 — размере
+   окна по умолчанию — уже не влезала), перенос рвал её в случайном месте:
+   кнопки ±30 отрывались от play, а сам play уезжал из центра. */
+.ytfp-row--nav {
+  justify-content: center;
+  gap: 6px;
 }
 
-/* Если строка всё же не влезает (узкое окно), она переносится, а не
-   вылезает за края панели. */
+/* Половинки по краям строки воспроизведения: слева пустая, справа кнопка
+   эфира. Равные доли ширины держат кнопки воспроизведения по центру, чем
+   бы ни была занята правая половина. */
+.ytfp-nav-side {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ytfp-nav-side--end {
+  justify-content: flex-end;
+  /* В тесном окне половинки схлопываются и кнопка эфира упирается в «+30» —
+     этот отступ не даёт им слипнуться. */
+  padding-left: 6px;
+}
+
+/* Не влезло — переносится группа целиком, а не отдельные кнопки: тогда
+   в узком окне получаются ровные ряды, а не осиротевший значок под
+   строкой. Зазор между группами меньше общего: воспроизведение уехало в
+   свою строку, и разделять теперь нечего. */
 .ytfp-row--main {
   flex-wrap: wrap;
   row-gap: 4px;
+  column-gap: 6px;
+}
+
+/* Боковые группы делят нижнюю строку поровну и сжимаются вместе с окном.
+   min-width: 0 обязателен: с max-content они не давали панели ужаться до
+   своего max-width, и в окне уже 400px капсула вылезала за края. */
+.ytfp-row--main > :first-child,
+.ytfp-row--main > :last-child {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* Внутри боковых частей сжимается только сам ползунок. Без этого содержимое
    не влезало в отведённую долю и подпись громкости наезжала на кнопку −30:
-   у флекс-элементов min-width по умолчанию auto, и уменьшаться было нечему. */
+   у флекс-элементов min-width по умолчанию auto, и уменьшаться было нечему.
+   Расти ползункам нельзя: в широком окне скорость растягивалась на всю
+   строку и панель превращалась в полосу во весь экран. */
 .ytfp-row--main .ytfp-boost,
 .ytfp-row--main .ytfp-speed {
   min-width: 0;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
 }
 
 .ytfp-row--main input[type="range"] {
   min-width: 28px;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
 }
 
 .ytfp-row--main .ytfp-boost span,
@@ -719,28 +794,16 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
   flex: none;
 }
 
-.ytfp-row--main > :first-child {
-  justify-content: flex-start;
-}
-
-.ytfp-row--main > :last-child {
-  justify-content: flex-end;
-}
-
+/* Обе группы держат содержимое по центру своей половины. Раньше их жали
+   к краям панели, чтобы строка была симметрична относительно кнопки play
+   посередине; play уехал в свою строку, а при переносе прижатая к краю
+   группа выглядела кривой. */
 .ytfp-group {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
   gap: 2px;
-}
-
-/* Блок редких значков (эфир, сбой базы SponsorBlock). Стоит отдельной
-   строкой сверху панели и пуст в обычной жизни: если поставить их в
-   общий ряд, их появление сдвигало бы всё остальное. */
-.ytfp-row--status {
-  justify-content: center;
-  gap: 6px;
 }
 
 /* Капсула шортсов — отдельной плашкой над панелью: оценки по краям,
@@ -841,12 +904,6 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
   border-color: var(--ytfp-accent);
 }
 
-/* Пустой блок не должен занимать высоту — :has проверяет, есть ли внутри
-   хоть один невыключенный значок. */
-.ytfp-row--status:not(:has(> *:not([hidden]))) {
-  display: none;
-}
-
 /* Ряд воспроизведения — центр первой строки. */
 .ytfp-nav {
   display: flex;
@@ -867,17 +924,12 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
     --ytfp-btn-pad-x: 5px;
   }
 
-  /* Равные доли ширины нужны ради симметрии, но в тесноте они заставляли
-     группы сжиматься сильнее содержимого. Здесь важнее, чтобы всё было
-     видно: группы держат свой размер, а строка переносится. */
+  /* В тесноте группы держат свой размер, а строка переносит их целиком:
+     сжимать их сильнее содержимого некуда. */
   .ytfp-row--main > :first-child,
   .ytfp-row--main > :last-child {
     flex: 0 1 auto;
     min-width: 0;
-  }
-
-  .ytfp-group {
-    flex-wrap: wrap;
   }
 
   .ytfp-row {
@@ -887,9 +939,11 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
     justify-content: center;
   }
 
+  /* Длина дорожки растёт вместе с масштабом: иначе на 200% бегунок
+     занимал почти всю дорожку и ползунок читался красным пятном. */
   .ytfp-boost input[type="range"],
   .ytfp-speed input[type="range"] {
-    width: 44px;
+    width: calc(26px * var(--ytfp-cap-scale));
   }
 
   .ytfp-boost span {
@@ -918,7 +972,7 @@ body.ytfp-sleeping:not(.ytfp-peek) .ytfp-bottom:focus-within {
 
   .ytfp-boost input[type="range"],
   .ytfp-speed input[type="range"] {
-    width: 36px;
+    width: calc(22px * var(--ytfp-cap-scale));
   }
 
   .ytfp-nav-btn--text {

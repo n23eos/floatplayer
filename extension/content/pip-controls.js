@@ -37,6 +37,12 @@ YTFP.pipControls = (() => {
       " 11.99 14 9.5 14z"
   };
 
+  /** Отдаёт дорожке ползунка долю пройденного — по ней рисуется заливка. */
+  function paintSlider(slider) {
+    const percent = YTFP.utils.sliderFillPercent(slider.value, slider.min, slider.max);
+    slider.style.setProperty("--ytfp-fill", `${percent}%`);
+  }
+
   function createIcon(doc, name) {
     const SVG_NS = "http://www.w3.org/2000/svg";
     const svg = doc.createElementNS(SVG_NS, "svg");
@@ -227,11 +233,7 @@ YTFP.pipControls = (() => {
     const liveLabel = pipDocument.createElement("span");
     liveButton.append(liveDot, liveLabel);
     liveButton.addEventListener("click", () => {
-      const edge = YTFP.playerApi.getLiveEdge();
-      const video = getVideo();
-      if (video && edge !== null) {
-        video.currentTime = edge;
-      }
+      YTFP.playerApi.seekToLive(getVideo());
     });
 
     function refreshLiveState() {
@@ -286,6 +288,7 @@ YTFP.pipControls = (() => {
       const rate = video ? video.playbackRate : 1;
       speedLabel.textContent = `${rate}x`;
       speedSlider.value = String(rate);
+      paintSlider(speedSlider);
     }
 
     speedSlider.addEventListener("input", () => {
@@ -293,6 +296,7 @@ YTFP.pipControls = (() => {
       if (video) {
         video.playbackRate = Number(speedSlider.value);
       }
+      paintSlider(speedSlider);
     });
     speedLabel.addEventListener("click", () => {
       const video = getVideo();
@@ -321,6 +325,7 @@ YTFP.pipControls = (() => {
     boostSlider.addEventListener("input", () => {
       const ok = YTFP.audioBoost.setBoostPercent(getVideo(), Number(boostSlider.value));
       boostLabel.textContent = ok ? `${boostSlider.value}%` : "n/a";
+      paintSlider(boostSlider);
     });
 
     // Громкость поменяли мимо ползунка (колесо мыши) — подтянуть его и подпись.
@@ -328,9 +333,13 @@ YTFP.pipControls = (() => {
       const percent = YTFP.audioBoost.getBoostPercent();
       boostSlider.value = String(percent);
       boostLabel.textContent = `${percent}%`;
+      paintSlider(boostSlider);
     }
 
     boostWrap.append(createIcon(pipDocument, "volume"), boostSlider, boostLabel);
+    // Стартовая заливка дорожек: дальше их красят refresh-функции.
+    paintSlider(speedSlider);
+    paintSlider(boostSlider);
 
     // --- Ночной режим ---------------------------------------------------------
     // Клик по Луне циклом убавляет синий канал: off → warm → deep → off.
@@ -496,11 +505,10 @@ YTFP.pipControls = (() => {
     sleepWrap.append(sleepSelect, sleepCustomInput, sleepCountdown);
 
     // --- Сборка панели --------------------------------------------------------
-    // Две строки, каждая симметрична относительно центра. В первой — ползунки
-    // по краям и блок воспроизведения посередине; во второй поровну кнопок
-    // слева и справа. Значки, которые появляются не всегда (эфир, сбой базы
-    // SponsorBlock), в строки не ставим: их появление сдвигало бы всё
-    // остальное и симметрия ломалась бы. Им — отдельный блок.
+    // Две строки: сверху воспроизведение по центру, снизу всё остальное —
+    // ползунок и кнопки слева, кнопки и ползунок справа. Раньше строка была
+    // одна и переносилась сама, когда не влезала: место переноса зависело от
+    // ширины окна, и play уезжал из центра.
     function makeRow(className, ...children) {
       const row = pipDocument.createElement("div");
       row.className = `ytfp-row ${className}`.trim();
@@ -515,7 +523,19 @@ YTFP.pipControls = (() => {
       return group;
     }
 
-    const statusBlock = makeRow("ytfp-row--status", liveButton);
+    /**
+     * Строка воспроизведения: кнопки по центру, справа — эфир. Слева от них
+     * пустая распорка той же доли ширины: без неё кнопка эфира сдвигала бы
+     * play из центра, а на обычном видео (кнопка скрыта) ряд прыгал бы.
+     */
+    function makeNavRow(playbackRow) {
+      const spacer = pipDocument.createElement("div");
+      spacer.className = "ytfp-nav-side";
+      const liveSlot = pipDocument.createElement("div");
+      liveSlot.className = "ytfp-nav-side ytfp-nav-side--end";
+      liveSlot.appendChild(liveButton);
+      return makeRow("ytfp-row--nav", spacer, playbackRow, liveSlot);
+    }
 
     if (isShorts) {
       // Отдельная капсула над панелью: «нравится» и автопереход к следующему
@@ -598,23 +618,21 @@ YTFP.pipControls = (() => {
       // Узкое вертикальное окно: только самое нужное.
       bar.append(
         shortsCapsule,
-        statusBlock,
+        makeNavRow(navRow || playButton),
         makeRow(
           "ytfp-row--main",
           makeGroup(boostWrap),
-          navRow || playButton,
           makeGroup(...[nightButton, sleepWrap, copyButton].filter(Boolean))
         )
       );
     } else {
-      // Одна строка: ползунки по краям, воспроизведение в центре, по три
-      // кнопки с каждой стороны.
+      // Воспроизведение — своей строкой сверху, остальное — строкой ниже:
+      // ползунок и кнопки слева, кнопки и ползунок справа.
       bar.append(
-        statusBlock,
+        makeNavRow(navRow || playButton),
         makeRow(
           "ytfp-row--main",
           makeGroup(...[boostWrap, abButton, loopButton, autoplayButton, copyButton].filter(Boolean)),
-          navRow || playButton,
           makeGroup(nightButton, sleepWrap, chatToggle, speedWrap)
         )
       );
@@ -721,9 +739,7 @@ YTFP.pipControls = (() => {
           const ok = YTFP.audioBoost.setBoostPercent(currentVideo, nextPercent);
           if (ok) {
             // Синхронизируем слайдер и подпись с фактическим значением.
-            const applied = YTFP.audioBoost.getBoostPercent();
-            boostSlider.value = String(applied);
-            boostLabel.textContent = `${applied}%`;
+            refreshBoost();
           }
           break;
         }

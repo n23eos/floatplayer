@@ -53,12 +53,12 @@
     <label class="row">
       <span class="row-text">
         <span class="row-label" data-i18n="optPanelSizeLabel">Control panel size</span>
-        <small class="row-hint" data-i18n="optPanelSizeHint">Applies to the panel in the mini-window and on the YouTube page.</small>
+        <small class="row-hint" data-i18n="optPanelSizeHint">Applies to the panel in the mini-window and on the YouTube page. On touch screens the panel grows a little more on its own.</small>
       </span>
-      <select id="panelSize">
-        <option value="large" data-i18n="optPanelSizeLarge">Large</option>
-        <option value="small" data-i18n="optPanelSizeSmall">Compact</option>
-      </select>
+      <span class="range-wrap">
+        <input type="range" id="panelScale" min="100" max="200" step="5">
+        <span class="range-value" id="panelScaleValue">135%</span>
+      </span>
     </label>
 
     <label class="row">

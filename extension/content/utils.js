@@ -202,6 +202,25 @@ YTFP.utils = (() => {
     return Math.max(0, liveEdge - currentTime);
   }
 
+  // Насколько отступаем от края эфира, возвращаясь в онлайн. Ровно в край
+  // прыгать нельзя: этих секунд ещё нет ни в буфере, ни на сервере, плеер
+  // после такой перемотки ждёт сегмент, которого не будет, и встаёт совсем.
+  // Пять секунд меньше допуска isAtLiveEdge, поэтому кнопка всё равно
+  // загорается «LIVE».
+  const LIVE_RESUME_BACKOFF_SECONDS = 5;
+
+  /**
+   * Куда перематывать по кнопке «в эфир»: чуть позади края DVR-окна
+   * [start, end]. Окно короче отступа — прыгаем в его начало.
+   * Вырожденное окно или мусор -> null.
+   */
+  function liveResumeTarget(start, end) {
+    if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) {
+      return null;
+    }
+    return Math.max(start, end - LIVE_RESUME_BACKOFF_SECONDS);
+  }
+
   /**
    * Доля позиции внутри окна [start, end] — для полоски прогресса.
    * У обычного видео окно начинается в нуле, у DVR-стрима — нет.
@@ -249,12 +268,71 @@ YTFP.utils = (() => {
     return `https://youtu.be/${videoId}${suffix}`;
   }
 
+  // Масштаб капсульных панелей в процентах: 100% — прежний компактный
+  // размер, 135% — прежний крупный (и дефолт), 200% — потолок для тач-экранов.
+  const PANEL_SCALE_MIN = 100;
+  const PANEL_SCALE_MAX = 200;
+  const PANEL_SCALE_DEFAULT = 135;
+
+  /** Масштаб панели из настроек в целые проценты [100, 200]. Мусор -> 135. */
+  function normalizePanelScale(value) {
+    // Отдельной проверкой: Number(null) и Number("") дают 0, а не NaN, и
+    // пустая настройка молча превратилась бы в минимальный масштаб.
+    const isEmpty =
+      (typeof value !== "number" && typeof value !== "string") ||
+      (typeof value === "string" && value.trim() === "");
+    if (isEmpty) {
+      return PANEL_SCALE_DEFAULT;
+    }
+    const number = Number(value);
+    if (!Number.isFinite(number)) {
+      return PANEL_SCALE_DEFAULT;
+    }
+    return clamp(Math.round(number), PANEL_SCALE_MIN, PANEL_SCALE_MAX);
+  }
+
+  /**
+   * Старая настройка panelSize ("large" | "small") в проценты — для тех, у
+   * кого в хранилище лежит ещё она. Компактный был ровно 100%.
+   */
+  function panelScaleFromLegacySize(size) {
+    return size === "small" ? PANEL_SCALE_MIN : PANEL_SCALE_DEFAULT;
+  }
+
+  /**
+   * Какую долю дорожки ползунка, %, занимает пройденная часть. Нужна там,
+   * где дорожку рисуем сами: у самодельной accent-color заливку не даёт.
+   * Вырожденный или нечисловой диапазон -> 0.
+   */
+  function sliderFillPercent(value, min, max) {
+    const from = Number(min);
+    const span = Number(max) - from;
+    if (!Number.isFinite(span) || span <= 0 || !Number.isFinite(from)) {
+      return 0;
+    }
+    return clamp((Number(value) - from) / span, 0, 1) * 100;
+  }
+
+  // Просвет между нашей панелью и верхним краем контролов YouTube (там
+  // таймлайн) при масштабе 100%, и насколько он растёт на каждую единицу
+  // масштаба. Числа подобраны так, чтобы 100% и 135% дали прежние 14 и 34.
+  const PANEL_GAP_BASE_PX = 14;
+  const PANEL_GAP_PER_SCALE_PX = 57;
+
+  /** Отступ панели над контролами YouTube, px, для масштаба в процентах. */
+  function panelGapAboveControls(scalePercent) {
+    const multiplier = normalizePanelScale(scalePercent) / 100;
+    return Math.round(PANEL_GAP_BASE_PX + (multiplier - 1) * PANEL_GAP_PER_SCALE_PX);
+  }
+
   return {
     clamp, formatTime, abLoopTarget, nextSpeed, speedSliderRange,
     normalizeSegments, segmentEndAt,
     digitSeekTime, chapterFractionsFromWidths, parseTimeLabel,
-    videoTitleFromPageTitle, behindLiveSeconds, windowFraction,
-    cycleSpeedPreset, timecodeUrl
+    videoTitleFromPageTitle, behindLiveSeconds, liveResumeTarget, windowFraction,
+    cycleSpeedPreset, timecodeUrl, sliderFillPercent,
+    normalizePanelScale, panelScaleFromLegacySize, panelGapAboveControls,
+    PANEL_SCALE_MIN, PANEL_SCALE_MAX, PANEL_SCALE_DEFAULT
   };
 })();
 

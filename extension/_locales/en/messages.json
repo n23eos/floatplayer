@@ -114,13 +114,7 @@
     "message": "Control panel size"
   },
   "optPanelSizeHint": {
-    "message": "Applies to the panel in the mini-window and on the YouTube page."
-  },
-  "optPanelSizeLarge": {
-    "message": "Large"
-  },
-  "optPanelSizeSmall": {
-    "message": "Compact"
+    "message": "Applies to the panel in the mini-window and on the YouTube page. On touch screens the panel grows a little more on its own."
   },
   "optSpeedStepLabel": {
     "message": "Speed slider step"

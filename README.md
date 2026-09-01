@@ -134,7 +134,7 @@ Rebind them at `chrome://extensions/shortcuts`.
 - SponsorBlock on/off, auto-skip on/off, and the segment categories.
 - Shorts auto-advance.
 - Compact panel mode (hide until hover).
-- Control panel size: large (default) or compact.
+- Control panel size: 100–200% slider (135% by default; touch screens get a bit more).
 - Panel on the YouTube page itself.
 - Speed slider step (0.1x / 0.25x / 0.5x).
 - Volume ceiling (100 / 200 / 300%).

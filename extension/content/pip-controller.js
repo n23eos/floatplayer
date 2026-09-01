@@ -236,12 +236,15 @@ YTFP.pip = (() => {
     const style = pipWindow.document.createElement("style");
     style.textContent = cssText;
     pipWindow.document.head.appendChild(style);
-    // Размер панели — атрибутом на <body>: переменные размеров наследуются
-    // вниз, поэтому одной пометки хватает на всё окно. Крупный — дефолт,
-    // он записан в самом CSS.
-    if (YTFP.settings.get().panelSize === "small") {
-      pipWindow.document.body.dataset.size = "small";
-    }
+    // Масштаб панели из настроек — переменной на корневом элементе. Именно
+    // на нём: --ytfp-cap-scale объявлена в :root через calc от этой
+    // переменной, и подстановка считается там же. Поставь её на <body> —
+    // готовое значение уже унаследовалось бы сверху и не пересчиталось.
+    const scale = YTFP.utils.normalizePanelScale(YTFP.settings.get().panelScale);
+    pipWindow.document.documentElement.style.setProperty(
+      "--ytfp-cap-user",
+      String(scale / 100)
+    );
     // Название видео. В системную полоску окна Chrome пишет только origin
     // (youtube.com) и document.title там не показывает, поэтому рисуем
     // надпись сами — плашкой под основной панелью: кружок канала и текст.

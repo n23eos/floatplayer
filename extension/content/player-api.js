@@ -146,6 +146,61 @@ YTFP.playerApi = (() => {
     return behind === null || behind < LIVE_EDGE_TOLERANCE_SECONDS;
   }
 
+  /**
+   * Возврат в прямой эфир. Перематываем не в сам край, а чуть позади него
+   * (liveResumeTarget): прыжок вплотную к краю подвешивал плеер — он ждал
+   * сегмент, которого на сервере ещё нет, и картинка вставала до
+   * перезагрузки страницы. Если стояли на паузе — снимаем её, иначе
+   * «вернуться в эфир» оставляло бы замерший кадр.
+   * Не эфир или нет буфера -> false.
+   */
+  function seekToLive(video = getVideo()) {
+    if (!video || isAdShowing() || !isLive()) {
+      return false;
+    }
+    const bounds = getSeekRange(video);
+    if (!bounds) {
+      return false;
+    }
+    const target = YTFP.utils.liveResumeTarget(bounds.start, bounds.end);
+    if (target === null) {
+      return false;
+    }
+    video.currentTime = target;
+    if (video.paused) {
+      video.play().catch(() => {});
+    }
+    watchLiveStall(video, target);
+    return true;
+  }
+
+  // Через сколько проверяем, что после возврата в эфир картинка пошла, и на
+  // сколько отходим назад, если не пошла.
+  const LIVE_STALL_CHECK_MS = 2000;
+  const LIVE_STALL_EXTRA_BACKOFF_SECONDS = 10;
+
+  /**
+   * Подстраховка на случай, если сегмента у края всё-таки не оказалось:
+   * позиция не сдвинулась — уходим ещё дальше в буфер, где данные точно
+   * есть. Одна попытка: дальше это уже не край эфира, а проблемы со связью.
+   */
+  function watchLiveStall(video, target) {
+    setTimeout(() => {
+      // Пауза — осознанное действие пользователя, не зависание.
+      if (video.paused || video.currentTime > target + 0.5) {
+        return;
+      }
+      const bounds = getSeekRange(video);
+      if (!bounds) {
+        return;
+      }
+      video.currentTime = Math.max(
+        bounds.start,
+        target - LIVE_STALL_EXTRA_BACKOFF_SECONDS
+      );
+    }, LIVE_STALL_CHECK_MS);
+  }
+
   function seekBy(deltaSeconds) {
     const video = getVideo();
     if (!video || isAdShowing()) {
@@ -184,6 +239,6 @@ YTFP.playerApi = (() => {
   return {
     getPlayerRoot, getVideo, isWatchPage, isShortsPage, isPlayerPage,
     isAdShowing, isLive, getLiveEdge, isAtLiveEdge, getSeekRange, getVideoId,
-    seekBy, togglePlayPause, setSpeed
+    seekBy, seekToLive, togglePlayPause, setSpeed
   };
 })();
