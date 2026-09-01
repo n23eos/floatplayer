@@ -35,6 +35,13 @@ YTFP.audioBoost = (() => {
       return true;
     } catch (error) {
       console.warn("[YTFP] Audio boost unavailable:", error);
+      // Контекст мог успеть создаться до сбоя (падает обычно
+      // createMediaElementSource). Без close() каждая новая попытка
+      // оставляла бы ещё один живой AudioContext, а их число на документ
+      // ограничено — дальше не создавался бы уже ни один.
+      if (context) {
+        context.close().catch(() => {});
+      }
       context = null;
       gainNode = null;
       return false;
