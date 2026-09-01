@@ -342,5 +342,13 @@ YTFP.pipComments = (() => {
     return { element: root, load, cleanup };
   }
 
-  return { create };
+  // parsePage и findCommentToken отданы наружу ради юнит-тестов: они разбирают
+  // недокументированный ответ innertube, и молчаливая поломка разбора —
+  // самый вероятный способ потерять комментарии.
+  return { create, parsePage, findCommentToken };
 })();
+
+// Экспорт для юнит-тестов (в браузере module не определён — блок не выполняется).
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = YTFP.pipComments;
+}
