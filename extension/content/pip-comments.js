@@ -244,13 +244,17 @@ YTFP.pipComments = (() => {
       return item;
     }
 
-    async function loadPage(token, expectedGeneration) {
+    // signal передаём аргументом, а не читаем из controller: вложенный вызов
+    // за первой порцией и подгрузка по скроллу должны отменяться тем же
+    // контроллером, что создан для этого видео. Раньше каждый вызов ставил
+    // свой контроллер в общую переменную, и ссылка на предыдущий терялась —
+    // запрос в полёте при смене видео уже никто не прерывал.
+    async function loadPage(token, expectedGeneration, signal) {
       isLoading = true;
-      controller = new AbortController();
       try {
         const body = await callNext(
           token ? { continuation: token } : { videoId: currentVideoId },
-          controller.signal
+          signal
         );
         if (expectedGeneration !== generation) {
           return; // видео сменилось, ответ уже не про него
@@ -264,7 +268,7 @@ YTFP.pipComments = (() => {
             return;
           }
           isLoading = false;
-          await loadPage(sectionToken, expectedGeneration);
+          await loadPage(sectionToken, expectedGeneration, signal);
           return;
         }
         const page = parsePage(body);
@@ -302,13 +306,14 @@ YTFP.pipComments = (() => {
       if (controller) {
         controller.abort();
       }
+      controller = new AbortController();
       currentVideoId = videoId;
       nextToken = null;
       isLoading = false;
       list.replaceChildren();
       list.scrollTop = 0;
       setStatus(t("commentsLoading", "Loading…"));
-      loadPage(null, generation);
+      loadPage(null, generation, controller.signal);
     }
 
     // Подгрузка по скроллу. Обычный слушатель, а не IntersectionObserver:
@@ -319,8 +324,8 @@ YTFP.pipComments = (() => {
         return;
       }
       const restPx = list.scrollHeight - list.scrollTop - list.clientHeight;
-      if (restPx <= LOAD_MORE_MARGIN_PX) {
-        loadPage(nextToken, generation);
+      if (restPx <= LOAD_MORE_MARGIN_PX && controller) {
+        loadPage(nextToken, generation, controller.signal);
       }
     }
 
