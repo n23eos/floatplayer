@@ -651,13 +651,6 @@ YTFP.pipControls = (() => {
     refreshPlayIcon();
     refreshLiveState();
 
-    // Клавиши, которые обрабатываем сами. Всё остальное (f, c, i) уходит
-    // к YouTube без изменений.
-    const HANDLED_KEYS = new Set([
-      " ", "k", "m", "<", ">",
-      "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"
-    ]);
-
     // Горячие клавиши внутри PiP-окна: фокус там, страница их не слышит.
     function onKeyDown(event) {
       const tag = event.target && event.target.tagName;
@@ -668,25 +661,30 @@ YTFP.pipControls = (() => {
       if (!currentVideo) {
         return;
       }
-      const isDigit = /^[0-9]$/.test(event.key);
-      if (isDigit || HANDLED_KEYS.has(event.key)) {
-        // Плеер переехал в это окно вместе со слушателями YouTube, и они
-        // обрабатывают те же клавиши. Без этого пробел давал двойное
-        // переключение: пауза от YouTube и тут же снятие от нас.
-        event.stopPropagation();
+      // Не event.key напрямую: на нелатинской раскладке он приходит другой
+      // («л» вместо «k»), и окно оставалось без половины клавиш. Список
+      // обрабатываемых клавиш и разбор раскладки — в utils.hotkeyFromEvent;
+      // всё остальное (f, c, i) уходит к YouTube без изменений.
+      const hotkey = YTFP.utils.hotkeyFromEvent(event);
+      if (hotkey === null) {
+        return;
       }
+      // Плеер переехал в это окно вместе со слушателями YouTube, и они
+      // обрабатывают те же клавиши. Без этого пробел давал двойное
+      // переключение: пауза от YouTube и тут же снятие от нас.
+      event.stopPropagation();
       // Цифры 0–9 — прыжок к N×10% видео (как на самом YouTube).
-      if (isDigit) {
+      if (/^[0-9]$/.test(hotkey)) {
         if (YTFP.playerApi.isAdShowing()) {
           return; // реклама не мотается
         }
-        const target = YTFP.utils.digitSeekTime(currentVideo.duration, Number(event.key));
+        const target = YTFP.utils.digitSeekTime(currentVideo.duration, Number(hotkey));
         if (target !== null) {
           currentVideo.currentTime = target;
         }
         return;
       }
-      switch (event.key) {
+      switch (hotkey) {
         case " ":
         case "k":
           event.preventDefault();
@@ -707,7 +705,7 @@ YTFP.pipControls = (() => {
           if (!bounds) {
             break;
           }
-          const step = event.key === "ArrowRight"
+          const step = hotkey === "ArrowRight"
             ? YTFP.SEEK_STEP_SECONDS
             : -YTFP.SEEK_STEP_SECONDS;
           currentVideo.currentTime = YTFP.utils.clamp(
@@ -726,7 +724,7 @@ YTFP.pipControls = (() => {
           // В шортсах стрелки листают ленту — как на самой странице YouTube.
           // Громкость там остаётся на ползунке панели и на клавише m.
           if (isShorts) {
-            const go = event.key === "ArrowDown" ? onNext : onPrev;
+            const go = hotkey === "ArrowDown" ? onNext : onPrev;
             if (go) {
               go();
             }
@@ -734,7 +732,7 @@ YTFP.pipControls = (() => {
           }
           // Громкость ±10% через тот же тракт, что и слайдер (0–300%).
           const VOLUME_KEY_STEP_PERCENT = 10;
-          const delta = event.key === "ArrowUp" ? VOLUME_KEY_STEP_PERCENT : -VOLUME_KEY_STEP_PERCENT;
+          const delta = hotkey === "ArrowUp" ? VOLUME_KEY_STEP_PERCENT : -VOLUME_KEY_STEP_PERCENT;
           const nextPercent = YTFP.audioBoost.getBoostPercent() + delta;
           const ok = YTFP.audioBoost.setBoostPercent(currentVideo, nextPercent);
           if (ok) {
@@ -745,7 +743,7 @@ YTFP.pipControls = (() => {
         }
         case "<":
         case ">": {
-          const direction = event.key === ">" ? 1 : -1;
+          const direction = hotkey === ">" ? 1 : -1;
           // Границы те же, что у ползунка: иначе клавиши доводили бы
           // скорость до значения, которого на ползунке нет.
           currentVideo.playbackRate = YTFP.utils.nextSpeed(

@@ -325,12 +325,47 @@ YTFP.utils = (() => {
     return Math.round(PANEL_GAP_BASE_PX + (multiplier - 1) * PANEL_GAP_PER_SCALE_PX);
   }
 
+  // Клавиши, которые PiP-окно обрабатывает само. Всё остальное (f, c, i)
+  // уходит к YouTube без изменений.
+  const HOTKEYS = new Set([
+    " ", "k", "m", "<", ">",
+    "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"
+  ]);
+
+  // Раскладка меняет event.key, но не event.code: физическая клавиша «k» на
+  // кириллице приходит как «л», а верхний ряд AZERTY — как «&é"'(». Поэтому
+  // непонятный key разбираем по коду клавиши, как это делает и сам YouTube.
+  const CODE_TO_KEY = { KeyK: "k", KeyM: "m" };
+  const SHIFTED_CODE_TO_KEY = { Comma: "<", Period: ">" };
+  const DIGIT_KEY_PATTERN = /^[0-9]$/;
+  const DIGIT_CODE_PATTERN = /^Digit[0-9]$/;
+
+  /**
+   * Какое действие окна назначено нажатию: канонический символ клавиши
+   * (" ", "k", "m", "<", ">", стрелка или цифра) либо null, если клавиша не
+   * наша. Принимает { key, code, shiftKey } — событие целиком не нужно.
+   */
+  function hotkeyFromEvent({ key, code, shiftKey } = {}) {
+    if (HOTKEYS.has(key) || DIGIT_KEY_PATTERN.test(key)) {
+      return key;
+    }
+    // Дальше — только запасной путь по физической клавише.
+    if (shiftKey) {
+      // Цифру с шифтом не трогаем: Shift+1 — это «!», а не прыжок на 10%.
+      return SHIFTED_CODE_TO_KEY[code] || null;
+    }
+    if (DIGIT_CODE_PATTERN.test(code)) {
+      return code.slice("Digit".length);
+    }
+    return CODE_TO_KEY[code] || null;
+  }
+
   return {
     clamp, formatTime, abLoopTarget, nextSpeed, speedSliderRange,
     normalizeSegments, segmentEndAt,
     digitSeekTime, chapterFractionsFromWidths, parseTimeLabel,
     videoTitleFromPageTitle, behindLiveSeconds, liveResumeTarget, windowFraction,
-    cycleSpeedPreset, timecodeUrl, sliderFillPercent,
+    cycleSpeedPreset, timecodeUrl, sliderFillPercent, hotkeyFromEvent,
     normalizePanelScale, panelScaleFromLegacySize, panelGapAboveControls,
     PANEL_SCALE_MIN, PANEL_SCALE_MAX, PANEL_SCALE_DEFAULT
   };

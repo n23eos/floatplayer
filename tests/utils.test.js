@@ -491,3 +491,64 @@ describe("timecodeUrl", () => {
     expect(utils.timecodeUrl("dQw4w9WgXcQ", -5, {})).toBe("https://youtu.be/dQw4w9WgXcQ");
   });
 });
+
+describe("hotkeyFromEvent", () => {
+  // Раскладка меняет event.key, но не event.code: на кириллице «k» приходит
+  // как «л», и без запасного пути через code окно теряло горячие клавиши.
+  const press = (key, code = "", shiftKey = false) => ({ key, code, shiftKey });
+
+  test("takes the key as is on a latin layout", () => {
+    expect(utils.hotkeyFromEvent(press("k", "KeyK"))).toBe("k");
+    expect(utils.hotkeyFromEvent(press("m", "KeyM"))).toBe("m");
+    expect(utils.hotkeyFromEvent(press(" ", "Space"))).toBe(" ");
+    expect(utils.hotkeyFromEvent(press("<", "Comma", true))).toBe("<");
+    expect(utils.hotkeyFromEvent(press(">", "Period", true))).toBe(">");
+  });
+
+  test("passes the arrow keys through — they do not depend on the layout", () => {
+    for (const key of ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]) {
+      expect(utils.hotkeyFromEvent(press(key, key))).toBe(key);
+    }
+  });
+
+  test("passes digits through", () => {
+    expect(utils.hotkeyFromEvent(press("0", "Digit0"))).toBe("0");
+    expect(utils.hotkeyFromEvent(press("7", "Digit7"))).toBe("7");
+  });
+
+  test("falls back to the physical key on a cyrillic layout", () => {
+    expect(utils.hotkeyFromEvent(press("л", "KeyK"))).toBe("k");
+    expect(utils.hotkeyFromEvent(press("ь", "KeyM"))).toBe("m");
+    expect(utils.hotkeyFromEvent(press("Б", "Comma", true))).toBe("<");
+    expect(utils.hotkeyFromEvent(press("Ю", "Period", true))).toBe(">");
+  });
+
+  test("falls back to the physical key for the azerty digit row", () => {
+    expect(utils.hotkeyFromEvent(press("&", "Digit1"))).toBe("1");
+    expect(utils.hotkeyFromEvent(press("(", "Digit5"))).toBe("5");
+  });
+
+  test("recognises an uppercase letter from caps lock", () => {
+    expect(utils.hotkeyFromEvent(press("K", "KeyK"))).toBe("k");
+  });
+
+  test("needs shift for the speed keys, so a plain comma stays a comma", () => {
+    expect(utils.hotkeyFromEvent(press(",", "Comma"))).toBeNull();
+    expect(utils.hotkeyFromEvent(press(".", "Period"))).toBeNull();
+  });
+
+  test("ignores a shifted digit: shift+1 is not a seek", () => {
+    expect(utils.hotkeyFromEvent(press("!", "Digit1", true))).toBeNull();
+  });
+
+  test("ignores keys the window does not handle", () => {
+    expect(utils.hotkeyFromEvent(press("f", "KeyF"))).toBeNull();
+    expect(utils.hotkeyFromEvent(press("c", "KeyC"))).toBeNull();
+    expect(utils.hotkeyFromEvent(press("Enter", "Enter"))).toBeNull();
+  });
+
+  test("survives an event without a code", () => {
+    expect(utils.hotkeyFromEvent(press("k"))).toBe("k");
+    expect(utils.hotkeyFromEvent(press("щ"))).toBeNull();
+  });
+});
