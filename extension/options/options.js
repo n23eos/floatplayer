@@ -41,9 +41,13 @@ const DEFAULT_SETTINGS = {
  * хранилища → дефолт (та же логика, что в content/pip-chat.js).
  */
 function normalizeChatOpacity(value) {
-  // Явная проверка типа: Number(null) и Number("") дают 0 — мусор из
+  // Явная проверка типа: Number(null) и Number(" ") дают 0 — мусор из
   // хранилища превращался бы в «полностью прозрачно» вместо дефолта.
-  if ((typeof value !== "number" && typeof value !== "string") || value === "") {
+  // Пустой строкой считаем и строку из пробелов, как в content/pip-chat.js.
+  const isEmpty =
+    (typeof value !== "number" && typeof value !== "string") ||
+    (typeof value === "string" && value.trim() === "");
+  if (isEmpty) {
     return DEFAULT_SETTINGS.chatPanelOpacity;
   }
   const number = Number(value);

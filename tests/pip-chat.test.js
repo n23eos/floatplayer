@@ -31,4 +31,11 @@ describe("normalizeOpacity", () => {
     expect(pipChat.normalizeOpacity("dark")).toBe(50);
     expect(pipChat.normalizeOpacity(NaN)).toBe(50);
   });
+
+  test("treats a blank string as unset, not as zero", () => {
+    // Number("") и Number("  ") дают 0 — без явной проверки панель стала бы
+    // полностью прозрачной вместо возврата к дефолту.
+    expect(pipChat.normalizeOpacity("")).toBe(50);
+    expect(pipChat.normalizeOpacity("   ")).toBe(50);
+  });
 });

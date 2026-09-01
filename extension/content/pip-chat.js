@@ -49,9 +49,13 @@ YTFP.pipChat = (() => {
    * панель с невалидным значением не должна становиться невидимой.
    */
   function normalizeOpacity(value) {
-    // Явная проверка типа: Number(null) и Number("") дают 0, и панель
+    // Явная проверка типа: Number(null) и Number(" ") дают 0, и панель
     // от мусора в хранилище молча становилась бы полностью прозрачной.
-    if ((typeof value !== "number" && typeof value !== "string") || value === "") {
+    // Пустой строкой считаем и строку из пробелов — как normalizePanelScale.
+    const isEmpty =
+      (typeof value !== "number" && typeof value !== "string") ||
+      (typeof value === "string" && value.trim() === "");
+    if (isEmpty) {
       return DEFAULT_PANEL_OPACITY;
     }
     const number = Number(value);
