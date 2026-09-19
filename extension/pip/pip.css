@@ -80,6 +80,8 @@ body {
 /* Всё окно — зона перетаскивания: держи мышью в любом месте и тащи.
    Интерактивные элементы ниже исключаются через no-drag. */
 body {
+  position: fixed;
+  inset: 0;
   -webkit-app-region: drag;
   app-region: drag;
 }
