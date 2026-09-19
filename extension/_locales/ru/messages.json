@@ -102,7 +102,7 @@
     "message": "Шортсы: автопереход к следующему"
   },
   "optShortsHint": {
-    "message": "Когда шортс в мини-окне доигрывает, автоматически включается следующий."
+    "message": "В конце Shorts автоматически открывается следующий ролик на странице и в мини-окне. Если выключено — ролик повторяется."
   },
   "optCompactLabel": {
     "message": "Компактный режим панели"
@@ -342,7 +342,7 @@
     "message": "Дизлайк стоит — снять"
   },
   "optLoadError": {
-    "message": "Не удалось загрузить настройки. Перезагрузите страницу."
+    "message": "Не удалось загрузить настройки. Попробуйте ещё раз."
   },
   "optSaveError": {
     "message": "Не удалось сохранить. Попробуйте ещё раз."
@@ -351,7 +351,7 @@
     "message": "Панель на странице YouTube"
   },
   "optPagePanelHint": {
-    "message": "Громкость, скорость и прыжки на 30 секунд поверх обычного плеера, при наведении."
+    "message": "Компактные элементы управления обычными видео и Shorts. Панель можно перемещать, действия — закреплять."
   },
   "optChatOpacityLabel": {
     "message": "Непрозрачность фона чата и комментариев"
@@ -370,5 +370,302 @@
   },
   "copyLinkTooltip": {
     "message": "Скопировать ссылку с таймкодом"
+  },
+  "captionsBackground": {
+    "message": "Фон"
+  },
+  "captionsLanguage": {
+    "message": "Язык субтитров"
+  },
+  "captionsSize": {
+    "message": "Размер субтитров"
+  },
+  "captionsToggle": {
+    "message": "Включить / выключить субтитры"
+  },
+  "captionsUnavailable": {
+    "message": "Субтитры для этого видео недоступны"
+  },
+  "moreTools": {
+    "message": "Ещё"
+  },
+  "pinTool": {
+    "message": "Закрепить на панели"
+  },
+  "optAutoFit": {
+    "message": "Автоподгонка окна под видео, когда браузер разрешает"
+  },
+  "optPinHint": {
+    "message": "Выберите видимые инструменты галочками в меню «Ещё» мини-плеера. Стиль окна применяется при следующем открытии."
+  },
+  "optSleepFade": {
+    "message": "Плавно приглушать звук в последние 10 секунд таймера сна"
+  },
+  "optTools": {
+    "message": "Параметры воспроизведения"
+  },
+  "queueError": {
+    "message": "Не удалось сохранить очередь или открыть видео. Повторите попытку."
+  },
+  "queueFirst": {
+    "message": "Добавить следующим"
+  },
+  "queuePlayNext": {
+    "message": "Включить следующее"
+  },
+  "searchCancel": {
+    "message": "Отменить поиск"
+  },
+  "searchEmpty": {
+    "message": "Шортсы не найдены"
+  },
+  "searchError": {
+    "message": "Ошибка поиска. Попробуйте ещё раз."
+  },
+  "searchLoading": {
+    "message": "Поиск…"
+  },
+  "shortsSearchButton": {
+    "message": "Поиск"
+  },
+  "sizeSmall": {
+    "message": "Маленькое"
+  },
+  "sizeMedium": {
+    "message": "Среднее"
+  },
+  "sizeLarge": {
+    "message": "Большое"
+  },
+  "sizeFit": {
+    "message": "Подогнать под видео"
+  },
+  "sizeUnavailable": {
+    "message": "Не удалось изменить размер"
+  },
+  "sleepEnd": {
+    "message": "До конца видео"
+  },
+  "sleepExtend": {
+    "message": "Продлить на 10 минут"
+  },
+  "toolAb": {
+    "message": "Повтор фрагмента A–B"
+  },
+  "toolLoop": {
+    "message": "Повтор видео"
+  },
+  "toolAutoplay": {
+    "message": "Автовоспроизведение"
+  },
+  "toolCopy": {
+    "message": "Ссылка с таймкодом"
+  },
+  "toolNight": {
+    "message": "Ночной режим"
+  },
+  "toolSleep": {
+    "message": "Таймер сна"
+  },
+  "toolComments": {
+    "message": "Комментарии / чат"
+  },
+  "toolCaptions": {
+    "message": "Субтитры"
+  },
+  "toolSize": {
+    "message": "Размер окна"
+  },
+  "menuDone": {
+    "message": "Готово"
+  },
+  "sleepRunning": {
+    "message": "Идёт отсчёт"
+  },
+  "queueRetry": {
+    "message": "Повторить сохранение"
+  },
+  "videoViews": {
+    "message": "просмотров"
+  },
+  "reactionCountUnavailable": {
+    "message": "YouTube не предоставляет этот счётчик"
+  },
+  "volumeUnavailable": {
+    "message": "Не удалось изменить громкость"
+  },
+  "dragPanel": {
+    "message": "Переместить панель"
+  },
+  "resetPanelPosition": {
+    "message": "Вернуть расположение"
+  },
+  "shortsNavigationError": {
+    "message": "Не удалось переключить ролик. Повторите попытку."
+  },
+  "historySaveError": {
+    "message": "Не удалось сохранить историю"
+  },
+  "shortsSeek": {
+    "message": "Перемотка этого Shorts"
+  },
+  "profileBoost": {
+    "message": "Также запомнить усиление выше 100%"
+  },
+  "profileSave": {
+    "message": "Запомнить для этого канала"
+  },
+  "profileUnavailable": {
+    "message": "Данные канала пока недоступны"
+  },
+  "profileSaved": {
+    "message": "Профиль канала сохранён"
+  },
+  "shortsHistory": {
+    "message": "История"
+  },
+  "historyEmpty": {
+    "message": "История пуста или отключена"
+  },
+  "historyLoadError": {
+    "message": "Не удалось загрузить локальные данные"
+  },
+  "switchSide": {
+    "message": "Сменить сторону"
+  },
+  "shortsNextMode": {
+    "message": "Следующий"
+  },
+  "shortsRepeatMode": {
+    "message": "Повтор"
+  },
+  "shortsMode": {
+    "message": "Режим воспроизведения"
+  },
+  "profilesEmpty": {
+    "message": "Сохранённых профилей каналов нет"
+  },
+  "profileDelete": {
+    "message": "Удалить"
+  },
+  "historyCleared": {
+    "message": "История очищена"
+  },
+  "shortsPreferences": {
+    "message": "Shorts"
+  },
+  "shortsSide": {
+    "message": "Сторона панели действий"
+  },
+  "sideRight": {
+    "message": "Справа"
+  },
+  "sideLeft": {
+    "message": "Слева"
+  },
+  "historyEnabled": {
+    "message": "Хранить последние 100 Shorts на этом устройстве"
+  },
+  "historyPrivacy": {
+    "message": "История остаётся на этом устройстве. Отключение останавливает запись, очистка удаляет сохранённые ролики."
+  },
+  "historyClear": {
+    "message": "Очистить историю Shorts"
+  },
+  "channelProfiles": {
+    "message": "Профили каналов"
+  },
+  "profileHint": {
+    "message": "Сохраните скорость и громкость через меню плеера. Усиление выше 100% запоминается только при отдельном выборе."
+  },
+  "volumeShort": {
+    "message": "Громкость"
+  },
+  "modeControls": {
+    "message": "С управлением"
+  },
+  "modeVideo": {
+    "message": "Только видео"
+  },
+  "chapters": {
+    "message": "Главы"
+  },
+  "currentChapter": {
+    "message": "Текущая глава"
+  },
+  "popupStateOpening": {
+    "message": "Открываем мини-окно..."
+  },
+  "popupActionError": {
+    "message": "Не удалось обновить мини-окно. Попробуйте ещё раз."
+  },
+  "popupRetry": {
+    "message": "Повторить"
+  },
+  "optLoading": {
+    "message": "Загружаем настройки..."
+  },
+  "optRetry": {
+    "message": "Повторить"
+  },
+  "sleepStart": {
+    "message": "Запустить"
+  },
+  "sleepCancel": {
+    "message": "Отключить таймер"
+  },
+  "sleepEndShort": {
+    "message": "До конца"
+  },
+  "menuPlayback": {
+    "message": "Воспроизведение"
+  },
+  "menuView": {
+    "message": "Вид"
+  },
+  "menuVideo": {
+    "message": "Видео"
+  },
+  "menuPinColumn": {
+    "message": "На панель"
+  },
+  "historyOpen": {
+    "message": "Открыть историю"
+  },
+  "historyDialogLabel": {
+    "message": "История Shorts"
+  },
+  "historyClose": {
+    "message": "Закрыть историю"
+  },
+  "historyRetry": {
+    "message": "Повторить"
+  },
+  "historyOpening": {
+    "message": "Открываем видео..."
+  },
+  "historyLoading": {
+    "message": "Загружаем историю..."
+  },
+  "searchSubmit": {
+    "message": "Искать"
+  },
+  "queueMoveUp": {
+    "message": "Переместить выше"
+  },
+  "queueMoveDown": {
+    "message": "Переместить ниже"
+  },
+  "nightStateOff": {
+    "message": "Выключен"
+  },
+  "nightStateWarm": {
+    "message": "Теплый"
+  },
+  "nightStateDeep": {
+    "message": "Сильный"
+  },
+  "timelineLabel": {
+    "message": "Таймлайн видео"
   }
 }

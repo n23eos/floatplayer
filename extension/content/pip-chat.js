@@ -158,7 +158,10 @@ YTFP.pipChat = (() => {
       // её классом на <body> — CSS вместо обращения к чужому модулю.
       pipDocument.body.classList.toggle("ytfp-chat-open", open);
       if (open) {
-        syncContent();
+        refresh();
+      } else if (loadedVideoId !== null) {
+        loadedVideoId = null;
+        frame.removeAttribute("src");
       }
     }
 
@@ -194,10 +197,13 @@ YTFP.pipChat = (() => {
     }
 
     refresh();
-    const ticker = setInterval(refresh, SYNC_INTERVAL_MS);
+    const onNavigate = () => refresh();
+    document.addEventListener("yt-navigate-finish", onNavigate);
+    const ticker = setInterval(() => { if (isOpen) refresh(); }, SYNC_INTERVAL_MS);
 
     function cleanup() {
       clearInterval(ticker);
+      document.removeEventListener("yt-navigate-finish", onNavigate);
       YTFP.settings.offChange(applyPanelOpacity);
       frame.removeEventListener("load", makeFrameTransparent);
       comments.cleanup();

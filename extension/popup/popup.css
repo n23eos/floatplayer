@@ -71,6 +71,64 @@ body {
   background: var(--accent);
 }
 
+/* --- Режим мини-окна ---------------------------------------------------- */
+
+.mode-choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.mode-choice {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 7px;
+  color: var(--text-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color var(--anim), background var(--anim), color var(--anim);
+}
+
+.mode-choice:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+
+.mode-choice[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.mode-choice:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.mode-preview {
+  display: block;
+  width: 100%;
+  height: 42px;
+}
+
+.mode-preview-frame,
+.mode-preview-controls {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.mode-preview-video {
+  fill: currentColor;
+  opacity: 0.14;
+}
+
+.mode-preview-play {
+  fill: currentColor;
+}
+
 /* --- Главная кнопка ------------------------------------------------------ */
 
 .primary {
@@ -212,6 +270,7 @@ body {
   .toggle,
   .toggle::after,
   .row,
+  .mode-choice,
   .primary,
   .state-dot {
     transition: none;

@@ -1,6 +1,6 @@
 # Privacy Policy — FloatPlayer (Picture in Picture for YouTube)
 
-_Last updated: 2026-08-01_
+_Last updated: 2026-09-09_
 
 ## English
 
@@ -12,7 +12,7 @@ accounts and no servers of its own. Nothing reaches the developer, and nothing
 is ever sold or shared.
 
 **Data stored locally:**
-- Your settings (window style, speed step, volume ceiling, sleep timer,
+- Your settings (window style, speed step, volume ceiling, sleep fade,
   night mode, SponsorBlock options, Shorts auto-advance, panel behaviour) are
   stored in Chrome's `storage.sync` and stay within your browser / Google
   profile sync. We have no access to them.
@@ -20,7 +20,24 @@ is ever sold or shared.
   landscape videos and vertical Shorts, together with a one-time flag that
   remembers whether the first-run hint has already been shown.
 
+- Queued video IDs and titles are saved per tab in `storage.local` (up to
+  100 entries). They survive page reloads and are removed when Chrome reports
+  the tab closed. They are not synced to other devices or sent to the developer.
+- The sleep countdown exists only in the tab’s memory. It survives closing
+  the mini-window, but ends when the source tab is reloaded or closed.
+
+- The last 100 confirmed Shorts (video ID, title and visit time), saved
+  channel profiles (channel ID/name, speed, volume and explicit boost choice)
+  and the page panel position are stored in `storage.local` on this device.
+  History recording is enabled by default and can be disabled and cleared in
+  settings. Channel profiles can be deleted individually. These records are
+  not sent to the developer or synced to another device.
+
 **Network requests:**
+- If current video metadata is unavailable or stale, the extension reads
+  `/watch?v=VIDEO_ID` on YouTube using the existing YouTube session to obtain
+  publication date, views and channel ID. Results are cached in tab memory;
+  no data is sent to an additional service.
 - If the "Sponsor segments (SponsorBlock)" feature is enabled (it is by
   default and can be turned off in the extension options), the extension
   sends the **ID of the YouTube video you are watching** to the community
@@ -71,7 +88,7 @@ FloatPlayer — расширение браузера, показывающее 
 передаются и не продаются.
 
 **Локальное хранение:**
-- Настройки (стиль окна, шаг скорости, потолок громкости, таймер сна, ночной
+- Настройки (стиль окна, шаг скорости, потолок громкости, затухание звука, ночной
   режим, параметры SponsorBlock, автопереход шортсов, поведение панели)
   хранятся в `storage.sync` Chrome — внутри вашего браузера и синхронизации
   профиля Google. У нас доступа к ним нет.
@@ -79,7 +96,24 @@ FloatPlayer — расширение браузера, показывающее 
   горизонтальных видео и вертикальных шортсов, вместе с одноразовой отметкой
   о том, что подсказка после установки уже показана.
 
+- ID и названия роликов очереди сохраняются отдельно для вкладки в
+  `storage.local` (до 100 записей). Переживают перезагрузку страницы;
+  удаляются при получении от Chrome события закрытия вкладки. Не
+  синхронизируются с другими устройствами и не передаются разработчику.
+- Отсчёт таймера сна хранится только в памяти вкладки: закрытие мини-окна
+  его не сбрасывает, перезагрузка или закрытие исходной вкладки — сбрасывает.
+
+- Последние 100 подтверждённых Shorts (ID, название, время просмотра),
+  профили каналов (ID/название, скорость, громкость, явный выбор усиления) и
+  положение панели хранятся в `storage.local` на этом устройстве. История
+  включена по умолчанию; запись можно отключить, историю — очистить,
+  отдельные профили — удалить в настройках. Эти записи не синхронизируются
+  с другими устройствами и не отправляются разработчику.
+
 **Сетевые запросы:**
+- При недоступных или устаревших данных ролика расширение читает его страницу
+  `/watch?v=VIDEO_ID` на YouTube с текущей сессией YouTube: дату, просмотры и
+  ID канала. Ответ кешируется в памяти вкладки. Нового внешнего сервиса нет.
 - Если включена функция «Спонсорские вставки (SponsorBlock)» (включена по
   умолчанию, отключается в настройках), расширение отправляет **ID
   просматриваемого видео** на API сообщества `sponsor.ajay.app`, чтобы получить

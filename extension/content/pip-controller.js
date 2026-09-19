@@ -254,16 +254,24 @@ YTFP.pip = (() => {
     titleBar.className = "ytfp-title";
     // Компактный режим — тот же, что у панели: название всплывает вместе
     // с ней при наведении, а без курсора в окне видно только видео.
-    if (YTFP.settings.get().compactMode) {
-      titleBar.classList.add("ytfp-title--compact");
-    }
+    const applyTitleSettings = settings => {
+      titleBar.classList.toggle("ytfp-title--compact", settings.compactMode);
+      pipWindow.document.body.dataset.compact = String(settings.compactMode || isShorts);
+    };
+    applyTitleSettings(YTFP.settings.get());
+    YTFP.settings.onChange(applyTitleSettings);
 
     const avatar = pipWindow.document.createElement("img");
     avatar.className = "ytfp-title-avatar";
     avatar.alt = "";
     const titleText = pipWindow.document.createElement("span");
     titleText.className = "ytfp-title-text";
-    titleBar.append(avatar, titleText);
+    const titleContent = pipWindow.document.createElement("div");
+    titleContent.className = "ytfp-title-content";
+    const metadata = pipWindow.document.createElement("span");
+    metadata.className = "ytfp-title-metadata";
+    titleContent.append(titleText, metadata);
+    titleBar.append(avatar, titleContent);
 
     // Какому видео принадлежит показанная сейчас аватарка. На шортсах ID из
     // адреса не достать, поэтому запасной ключ — сам путь: он там меняется
@@ -283,6 +291,8 @@ YTFP.pip = (() => {
       // Иначе, пока разметка страницы перерисовывается, в плашке висел бы
       // кружок предыдущего канала, а это хуже, чем пустое место.
       const videoKey = YTFP.playerApi.getVideoId() || location.pathname;
+      metadata.textContent = YTFP.videoMetadata.read(document, videoKey);
+      metadata.hidden = !metadata.textContent;
       if (videoKey !== avatarVideoKey) {
         avatarVideoKey = videoKey;
         avatar.removeAttribute("src");
@@ -300,7 +310,7 @@ YTFP.pip = (() => {
     // позже — правок <head> к этому моменту уже не бывает, и одной только
     // подпиской ниже аватарка осталась бы от прошлого видео. Поэтому ещё и
     // периодическая сверка, как у чата и оценок.
-    const TITLE_SYNC_INTERVAL_MS = 1000;
+    const TITLE_SYNC_INTERVAL_MS = 3000;
     const titleTicker = setInterval(applyTitle, TITLE_SYNC_INTERVAL_MS);
 
     // Видео меняется без перезагрузки (очередь, рекомендации, «вперёд»),
@@ -411,7 +421,7 @@ YTFP.pip = (() => {
           // Обёртка-стрелка обязательна: goNext объявлен ниже, но её тело
           // исполняется уже после, когда объявление отработало.
           onQueueEmptyEnded: () => {
-            if (!YTFP.settings.get().autoplayNext) {
+            if (YTFP.sleepTimer.blocksAdvance() || !YTFP.settings.get().autoplayNext) {
               return;
             }
             // У YouTube есть своё автовоспроизведение, и в части случаев оно
@@ -420,7 +430,7 @@ YTFP.pip = (() => {
             // всё ещё стоит в конце.
             setTimeout(() => {
               const endedVideo = getMovedVideo();
-              if (state && endedVideo && endedVideo.ended) {
+              if (state?.pipWindow === pipWindow && !YTFP.sleepTimer.blocksAdvance() && YTFP.settings.get().autoplayNext && endedVideo?.ended) {
                 goNext();
               }
             }, AUTOPLAY_FALLBACK_DELAY_MS);
@@ -500,13 +510,58 @@ YTFP.pip = (() => {
     });
     pipWindow.document.body.appendChild(controls.element);
 
+    const chapterRow = progress.element.querySelector('.ytfp-chapters-ui');
+    const placeChapterLabel = () => {
+      const height = chapterRow && !chapterRow.hidden ? chapterRow.getBoundingClientRect().height : 0;
+      controls.element.style.bottom = height > 0 ? `max(var(--ytfp-cap-lift), ${height + 24}px)` : '';
+    };
+    const chapterLayout = typeof pipWindow.ResizeObserver === 'function' ? new pipWindow.ResizeObserver(placeChapterLabel) : null;
+    chapterLayout?.observe(controls.element);
+    if (chapterRow) chapterLayout?.observe(chapterRow);
+    pipWindow.addEventListener('resize',placeChapterLabel);
+    placeChapterLabel();
+
+    // Видимость не зависит от оставшегося после клика фокуса кнопки.
+    const uiDoc = pipWindow.document, uiBody = uiDoc.body;
+    let idleTimer, keyboardNavigation = false;
+    function hideUi() {
+      clearTimeout(idleTimer);
+      if (uiBody.dataset.compact !== 'true') { uiBody.classList.remove('ytfp-ui-hidden'); return; }
+      if (keyboardNavigation && uiDoc.activeElement !== uiBody && uiBody.contains(uiDoc.activeElement)) return;
+      uiDoc.dispatchEvent(new pipWindow.Event('ytfp-dismiss-tool-popovers'));
+      uiBody.classList.add('ytfp-ui-hidden');
+      for (const details of uiBody.querySelectorAll('details[open]')) details.open = false;
+      for (const menu of uiBody.querySelectorAll('.ytfp-more-panel')) menu.hidden = true;
+    }
+    function showUi(event) {
+      if (event?.type === 'pointerdown') keyboardNavigation = false;
+      uiBody.classList.remove('ytfp-ui-hidden');
+      clearTimeout(idleTimer);
+      if (!event?.target?.closest('.ytfp-bottom, .ytfp-progress-wrap, .ytfp-more-panel, .ytfp-chapters-ui, .ytfp-chapters-list, [data-ytfp-tool-popover]')) idleTimer = setTimeout(hideUi,2200);
+    }
+    function keyUi(event) { if (event.key === 'Tab' || event.target?.closest?.('.ytfp-bottom, .ytfp-chapters-ui, .ytfp-more-panel, [data-ytfp-tool-popover]')) { keyboardNavigation = true; showUi(event); } }
+    uiDoc.addEventListener('pointermove',showUi,true);
+    uiDoc.addEventListener('pointerdown',showUi,true);
+    uiDoc.addEventListener('click',showUi,true);
+    uiDoc.addEventListener('keydown',keyUi,true);
+    uiDoc.documentElement.addEventListener('pointerleave',hideUi);
+    pipWindow.addEventListener('blur',hideUi);
+    const cleanupUi = () => {
+      chapterLayout?.disconnect(); pipWindow.removeEventListener('resize',placeChapterLabel);
+      clearTimeout(idleTimer);
+      uiDoc.removeEventListener('pointermove',showUi,true); uiDoc.removeEventListener('pointerdown',showUi,true); uiDoc.removeEventListener('click',showUi,true);
+      uiDoc.removeEventListener('keydown',keyUi,true); uiDoc.documentElement.removeEventListener('pointerleave',hideUi);
+      pipWindow.removeEventListener('blur',hideUi);
+    };
+    hideUi();
+
     // Громкость колесом поверх видео; ползунок панели подтягивается следом.
     const wheel = YTFP.pipExtras.attachWheelVolume(pipWindow.document, {
       getVideo: getMovedVideo,
-      onChange: controls.refreshBoost
+      onChange: controls.refreshBoost || controls.sync
     });
 
-    state = { pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, wheel, titleObserver, titleTicker, isShorts, resizeTimer: null };
+    state = { cleanupUi, pipWindow, playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions, wheel, titleObserver, titleTicker, applyTitleSettings, isShorts, resizeTimer: null };
 
     // Пользователь закрыл окно (крестик или наш close()) — возвращаем плеер.
     pipWindow.addEventListener("pagehide", restore);
@@ -616,7 +671,7 @@ YTFP.pip = (() => {
       }
       state.resizeTimer = setTimeout(() => {
         if (!pipWindow.closed) {
-          snapToVideoAspect();
+          if (YTFP.settings.get().autoFit) snapToVideoAspect();
           saveSize(pipWindow, getMovedVideo());
         }
       }, 300);
@@ -633,7 +688,7 @@ YTFP.pip = (() => {
     const movedVideo = getMovedVideo();
     const onAspectChange = () => {
       layoutPlayer();
-      snapToVideoAspect();
+      if (YTFP.settings.get().autoFit) snapToVideoAspect();
     };
     if (movedVideo) {
       movedVideo.addEventListener("loadedmetadata", onAspectChange);
@@ -641,38 +696,11 @@ YTFP.pip = (() => {
       state.onAspectChange = onAspectChange;
     }
 
-    // Шортсы: автопереход к следующему по окончании ролика.
-    if (isShorts && movedVideo) {
-      let lastAutoNextAt = 0;
-      const AUTO_NEXT_THROTTLE_MS = 1500;
-      const onShortsTime = () => {
-        if (!YTFP.settings.get().shortsAutoNext) {
-          return;
-        }
-        // Шортсы зациклены по умолчанию — снимаем loop, чтобы дойти до конца.
-        if (movedVideo.loop) {
-          movedVideo.loop = false;
-        }
-        const nearEnd =
-          Number.isFinite(movedVideo.duration) &&
-          movedVideo.duration > 0 &&
-          movedVideo.currentTime >= movedVideo.duration - 0.15;
-        if (nearEnd && Date.now() - lastAutoNextAt > AUTO_NEXT_THROTTLE_MS) {
-          lastAutoNextAt = Date.now();
-          // Активен поиск по слову — к следующему найденному, не по ленте.
-          if (YTFP.shortsSearch.next()) {
-            return;
-          }
-          const nextButton = document.querySelector(YTFP.SELECTORS.shortsNextButton);
-          if (nextButton) {
-            nextButton.click();
-          }
-        }
-      };
-      movedVideo.addEventListener("timeupdate", onShortsTime);
-      state.shortsVideo = movedVideo;
-      state.onShortsTime = onShortsTime;
-    }
+    YTFP.shortsRuntime.sync();
+
+    YTFP.sleepTimer.attachVideo();
+    pipWindow.document.addEventListener("pointerdown", () => YTFP.sleepTimer.resume(), true);
+    pipWindow.document.addEventListener("keydown", () => YTFP.sleepTimer.resume(), true);
 
     // YouTube мог поставить inline-размеры под старый контейнер — пересчёт.
     layoutPlayer();
@@ -699,6 +727,8 @@ YTFP.pip = (() => {
       titleObserver, titleTicker
     } = state;
     // Сначала гасим таймеры и слушатели, потом обнуляем state.
+    YTFP.settings.offChange(state.applyTitleSettings);
+    state.cleanupUi?.();
     clearTimeout(resizeTimer);
     clearInterval(titleTicker);
     if (titleObserver) {
@@ -720,7 +750,6 @@ YTFP.pip = (() => {
     }
     reactions.cleanup();
     // Режим поиска шортсов привязан к окну: окно закрылось — режим погас.
-    YTFP.shortsSearch.stop();
     state = null;
 
     // Снимаем letterbox-геометрию, которую задавал layoutPlayer, —
@@ -743,12 +772,12 @@ YTFP.pip = (() => {
     window.dispatchEvent(new Event("resize"));
   }
 
-  async function toggle() {
+  async function toggle(options = {}) {
     if (isOpen()) {
       close();
       return true;
     }
-    return open();
+    return open(options);
   }
 
   /**

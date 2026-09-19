@@ -24,7 +24,7 @@ YTFP.playerApi = (() => {
 
   function getVideo() {
     // Ищем внутри переносимого плеера, где бы он сейчас ни был (страница или PiP-окно).
-    const root = YTFP.pip && YTFP.pip.getMovedPlayer ? YTFP.pip.getMovedPlayer() : getPlayerRoot();
+    const root = YTFP.pip?.getMovedPlayer?.() || getPlayerRoot();
     if (root) {
       return root.querySelector("video.html5-main-video");
     }
@@ -108,6 +108,7 @@ YTFP.playerApi = (() => {
    * вида /@канал/live — нет, и адрес приходится обходить.
    */
   function getVideoId() {
+    if (isShortsPage()) return location.pathname.split("/")[2] || null;
     const fromUrl = new URLSearchParams(location.search).get("v");
     if (fromUrl) {
       return fromUrl;
@@ -168,6 +169,7 @@ YTFP.playerApi = (() => {
     }
     video.currentTime = target;
     if (video.paused) {
+      YTFP.sleepTimer?.resume();
       video.play().catch(() => {});
     }
     watchLiveStall(video, target);
@@ -223,6 +225,7 @@ YTFP.playerApi = (() => {
       return;
     }
     if (video.paused) {
+      YTFP.sleepTimer?.resume();
       video.play().catch(() => {});
     } else {
       video.pause();

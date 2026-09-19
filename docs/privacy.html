@@ -38,7 +38,7 @@
 
   <h2>Stored locally</h2>
   <ul>
-    <li>Your settings (window style, speed step, volume ceiling, sleep timer,
+    <li>Your settings (window style, speed step, volume ceiling, sleep fade,
       night mode, SponsorBlock options, Shorts auto-advance, panel behaviour)
       live in Chrome's <code>storage.sync</code>, inside your browser and your
       Google profile sync. We have no access to them.</li>
@@ -47,6 +47,18 @@
       flag remembering that the first-run hint has been shown.</li>
   </ul>
 
+  <p>Queued video IDs and titles (up to 100 per tab) are saved in
+    <code>storage.local</code>, survive page reloads and are removed when Chrome
+    reports the tab closed. They are not synced or sent to the developer.
+    The sleep countdown lives only in the source tab’s memory.</p>
+  <p>The last 100 confirmed Shorts (ID, title, visit time), channel profiles
+    (ID/name, speed, volume, explicit boost choice) and page panel position
+    are stored on this device in <code>storage.local</code>. History is on by
+    default; settings let you disable recording, clear history and delete
+    profiles. These records are not synced or sent to the developer.</p>
+  <p>When metadata is stale or unavailable, the extension reads the video's
+    own YouTube watch page under your existing session to obtain its date,
+    views and channel ID. Responses are cached in tab memory.</p>
   <h2>Network requests</h2>
   <ul>
     <li>When the <strong>sponsor segments (SponsorBlock)</strong> feature is enabled —
@@ -127,6 +139,18 @@
     <code>storage.sync</code> Chrome) и последняя ширина мини-окна вместе с
     отметкой о показанной подсказке (в <code>storage.local</code>) — всё внутри
     вашего браузера.</p>
+    <p>Очередь (до 100 ID и названий роликов для вкладки) сохраняется в
+    <code>storage.local</code>, переживает перезагрузку страницы и удаляется
+    при событии закрытия вкладки. Разработчику не передаётся. Отсчёт таймера
+    сна хранится только в памяти исходной вкладки.</p>
+    <p>Последние 100 Shorts (ID, название, время), профили каналов (ID/название,
+    скорость, громкость, явный выбор усиления) и положение панели хранятся в
+    <code>storage.local</code>. История включена по умолчанию; в настройках
+    можно отключить запись, очистить историю и удалить профили. Эти записи
+    не синхронизируются и не передаются разработчику.</p>
+    <p>Для актуальной даты, просмотров и ID канала расширение при необходимости
+    читает страницу ролика на самом YouTube с текущей сессией; ответ хранится
+    в памяти вкладки.</p>
     <p><strong>Сетевые запросы:</strong> при включённой функции «спонсорские
     вставки» на <code>sponsor.ajay.app</code> отправляется только ID
     просматриваемого видео (функция отключается в настройках). Когда вы

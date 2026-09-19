@@ -12,6 +12,13 @@ function applyI18n() {
       el.textContent = message;
     }
   }
+  for (const el of document.querySelectorAll("[data-i18n-title]")) {
+    const message = chrome.i18n.getMessage(el.dataset.i18nTitle);
+    if (message) {
+      el.title = message;
+      el.setAttribute("aria-label", message);
+    }
+  }
 }
 applyI18n();
 
@@ -24,6 +31,7 @@ const elements = {
   autoPip: document.getElementById("autoPip"),
   compactMode: document.getElementById("compactMode"),
   sponsorSkip: document.getElementById("sponsorSkip"),
+  modeChoices: [...document.querySelectorAll(".mode-choice")],
   openOptions: document.getElementById("openOptions")
 };
 
@@ -39,6 +47,62 @@ const QUICK_SETTINGS = Object.fromEntries(
 );
 
 let activeTabId = null;
+let pipOpen = false;
+let selectedMode = YTFP.DEFAULT_SETTINGS.windowMode;
+let modeLoaded = false;
+let modeRevision = 0;
+let pendingModeSave = Promise.resolve();
+let pendingModeLoad = Promise.resolve();
+let actionPending = false;
+
+function renderMode(mode) {
+  selectedMode = mode === "native" ? "native" : "document";
+  for (const choice of elements.modeChoices) {
+    choice.setAttribute("aria-pressed", String(choice.dataset.mode === selectedMode));
+  }
+}
+
+function clearMode() {
+  for (const choice of elements.modeChoices) {
+    choice.setAttribute("aria-pressed", "false");
+  }
+}
+
+async function loadWindowMode() {
+  const revision = modeRevision;
+  try {
+    const stored = await chrome.storage.sync.get({
+      windowMode: YTFP.DEFAULT_SETTINGS.windowMode
+    });
+    if (modeRevision === revision) {
+      modeLoaded = true;
+      renderMode(stored.windowMode);
+    }
+  } catch (error) {
+    console.warn("[YTFP] Failed to read the window mode:", error);
+    if (modeRevision === revision) {
+      modeLoaded = false;
+      clearMode();
+    }
+  }
+}
+
+for (const choice of elements.modeChoices) {
+  choice.addEventListener("click", async () => {
+    const requestedMode = choice.dataset.mode;
+    modeRevision += 1;
+    modeLoaded = true;
+    renderMode(requestedMode);
+    try {
+      pendingModeSave = pendingModeSave
+        .catch(() => {})
+        .then(() => chrome.storage.sync.set({ windowMode: requestedMode }));
+      await pendingModeSave;
+    } catch (error) {
+      console.warn("[YTFP] Failed to save the window mode:", error);
+    }
+  });
+}
 
 // --- Состояние вкладки -----------------------------------------------------
 
@@ -65,7 +129,7 @@ async function askContentScript(tabId) {
 async function refreshState() {
   let tab;
   try {
-    [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    tab = await chrome.runtime.sendMessage({ command: "resolve-target" });
   } catch (error) {
     // Расширение обновилось, пока попап открывался: контекст недействителен.
     // Без этой ветки кнопка навсегда осталась бы серой с надписью «Проверяю…».
@@ -89,7 +153,7 @@ async function refreshState() {
   }
   activeTabId = tab.id;
 
-  const state = await askContentScript(tab.id);
+  const state = tab.playerState || await askContentScript(tab.id);
   if (!state) {
     // Скрипта нет — помогает перезагрузка вкладки, о ней и пишем.
     renderState({
@@ -100,7 +164,12 @@ async function refreshState() {
     });
     return;
   }
+  if (state.title) {
+    const title = document.getElementById("videoTitle");
+    if (title) title.textContent = state.title;
+  }
   if (state.pipOpen) {
+    pipOpen = true;
     renderState({
       dot: "live",
       text: t("popupStatePlaying", "Playing in the mini-window"),
@@ -109,6 +178,7 @@ async function refreshState() {
     });
     return;
   }
+  pipOpen = false;
   if (state.playerPage) {
     renderState({
       dot: "ready",
@@ -127,15 +197,43 @@ async function refreshState() {
 }
 
 elements.primary.addEventListener("click", async () => {
-  if (activeTabId === null) {
+  if (activeTabId === null || actionPending) {
     return;
   }
+  actionPending = true;
+  elements.primary.disabled = true;
+  elements.stateText.textContent = t("popupStateOpening", "Opening the mini-window...");
   try {
-    await chrome.tabs.sendMessage(activeTabId, { command: "toggle-pip" });
+    const message = { command: "toggle-pip" };
+    if (!pipOpen) {
+      await pendingModeLoad;
+      await pendingModeSave.catch(() => {});
+      if (modeLoaded) {
+        try {
+          await chrome.storage.sync.set({ windowMode: selectedMode });
+        } catch (error) {
+          console.warn("[YTFP] Failed to confirm the window mode:", error);
+        }
+        message.mode = selectedMode;
+      }
+    }
+    const response = await chrome.tabs.sendMessage(activeTabId, message);
+    if (!response || response.ok !== true) {
+      throw new Error("The tab did not complete the PiP command");
+    }
+    actionPending = false;
+    elements.primary.disabled = false;
+    window.close();
   } catch (error) {
-    // Вкладка успела закрыться — окно popup всё равно пора убирать.
+    actionPending = false;
+    console.warn("[YTFP] Failed to toggle the mini-window:", error);
+    renderState({
+      dot: null,
+      text: t("popupActionError", "Couldn't update the mini-window. Try again."),
+      action: t("popupRetry", "Try again"),
+      enabled: true
+    });
   }
-  window.close();
 });
 
 // --- Горячая клавиша под кнопкой -------------------------------------------
@@ -192,3 +290,4 @@ elements.openOptions.addEventListener("click", () => {
 refreshState();
 showShortcut();
 loadQuickSettings();
+pendingModeLoad = loadWindowMode();

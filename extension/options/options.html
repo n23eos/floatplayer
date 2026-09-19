@@ -17,6 +17,18 @@
     <span class="header-version" id="version"></span>
   </header>
 
+  <div class="load-state" id="loadState" role="status" aria-live="polite" aria-atomic="true">
+    <span id="loadStateText" data-i18n="optLoading">Loading settings...</span>
+    <button class="load-retry" id="retryLoad" type="button" data-i18n="optRetry" hidden>Try again</button>
+  </div>
+
+  <fieldset class="settings-form" id="settingsForm" disabled aria-busy="true">
+  <section class="card">
+    <h2 class="card-title" data-i18n="optTools">Playback preferences</h2>
+    <label class="row"><span data-i18n="optAutoFit">Automatically fit window to video when allowed</span><input type="checkbox" class="toggle" id="autoFit"></label>
+    <label class="row"><span data-i18n="optSleepFade">Fade sound during the last 10 seconds of the sleep timer</span><input type="checkbox" class="toggle" id="sleepFade"></label>
+    <p class="row-hint" data-i18n="optPinHint">Choose the visible tools using the checkboxes in the mini-player’s More menu. Window style applies the next time you open it.</p>
+  </section>
   <section class="card">
     <h2 class="card-title" data-i18n="optSecWindow">Mini-window</h2>
 
@@ -64,7 +76,7 @@
     <label class="row">
       <span class="row-text">
         <span class="row-label" data-i18n="optPagePanelLabel">Panel on the YouTube page</span>
-        <small class="row-hint" data-i18n="optPagePanelHint">Volume, speed and 30-second jumps over the normal player, on hover.</small>
+        <small class="row-hint" data-i18n="optPagePanelHint">Compact controls with movable position and pinned tools, on normal videos and Shorts.</small>
       </span>
       <input type="checkbox" class="toggle" id="pagePanel">
     </label>
@@ -137,7 +149,7 @@
     <label class="row">
       <span class="row-text">
         <span class="row-label" data-i18n="optShortsLabel">Shorts: auto-advance to the next one</span>
-        <small class="row-hint" data-i18n="optShortsHint">When a short finishes in the mini-window, the next one starts automatically.</small>
+        <small class="row-hint" data-i18n="optShortsHint">At the end of a Short, play the next video on the page and in the mini-window. When off, repeat the current video.</small>
       </span>
       <input type="checkbox" class="toggle" id="shortsAutoNext">
     </label>
@@ -164,6 +176,18 @@
     <code>chrome://extensions/shortcuts</code>
   </p>
 
+  <section class="card">
+    <h2 class="card-title" data-i18n="shortsPreferences">Shorts</h2>
+    <label class="row"><span data-i18n="historyEnabled">Keep the last 100 Shorts on this device</span><input id="shortsHistory" type="checkbox" class="toggle"></label>
+    <p class="row-hint" data-i18n="historyPrivacy">History stays on this device. Disabling pauses recording; clear removes saved entries.</p>
+    <button id="clearShortsHistory" type="button" data-i18n="historyClear">Clear Shorts history</button>
+  </section>
+  <section class="card">
+    <h2 class="card-title" data-i18n="channelProfiles">Channel profiles</h2>
+    <p class="row-hint" data-i18n="profileHint">Save the current speed and volume from the player's menu. Amplification above 100% requires a separate choice.</p>
+    <div id="channelProfiles"></div><p id="localDataStatus" role="status"></p>
+  </section>
+  </fieldset>
   <footer class="footer">
     <a class="footer-report"
        href="https://docs.google.com/forms/d/e/1FAIpQLSeelldr0OST678sb-5C7eC989Cmx13i6UWDelXaxsXq9MseJg/viewform"
@@ -173,7 +197,7 @@
   </footer>
 
   <!-- Плашка сохранения: живёт поверх страницы, всплывает снизу. -->
-  <div class="toast" id="status" hidden>
+  <div class="toast" id="status" role="status" aria-live="polite" aria-atomic="true" hidden>
     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
       <path fill="currentColor" d="M9.6 16.2 4.8 11.4l1.4-1.4 3.4 3.4 8-8 1.4 1.4z"></path>
     </svg>
@@ -181,6 +205,8 @@
   </div>
 
   <script src="../shared/settings-schema.js"></script>
+  <script src="../shared/local-records.js"></script>
   <script src="options.js"></script>
+  <script src="local-data.js"></script>
 </body>
 </html>

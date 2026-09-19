@@ -21,18 +21,7 @@ YTFP.pipExtras = (() => {
     cross: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
   };
 
-  function createIcon(doc, name) {
-    const SVG_NS = "http://www.w3.org/2000/svg";
-    const svg = doc.createElementNS(SVG_NS, "svg");
-    svg.setAttribute("viewBox", "0 0 24 24");
-    svg.setAttribute("width", "14");
-    svg.setAttribute("height", "14");
-    svg.setAttribute("fill", "currentColor");
-    const path = doc.createElementNS(SVG_NS, "path");
-    path.setAttribute("d", ICONS[name]);
-    svg.appendChild(path);
-    return svg;
-  }
+  function createIcon(doc, name) { return YTFP.ui.icon(doc, ICONS[name], 14); }
 
   // --- Громкость колесом мыши ------------------------------------------------
 
@@ -70,7 +59,7 @@ YTFP.pipExtras = (() => {
       if (
         event.target &&
         event.target.closest &&
-        event.target.closest(".ytfp-chat-panel, .ytfp-related-panel, input, select")
+        event.target.closest(".ytfp-chat-panel, .ytfp-related-panel, .ytfp-more-panel, .ytfp-pinned-tools, .ytfp-disclosure, .ytfp-shorts-side, .ytfp-short-timeline, input, select")
       ) {
         return;
       }

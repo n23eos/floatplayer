@@ -8,9 +8,259 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 // - белая — прогресс рекламы, появляется НАД красной, пока идёт реклама
 //   (красная в это время заморожена на позиции видео и не перематывается).
 YTFP.pipProgress = (() => {
+  const chapterCache = new Map();
+  const chapterAttempts = new Map();
+  const inspectedScripts = new WeakMap();
+  let pendingChapters = null;
+  let chapterListSequence = 0;
+  const KEYBOARD_SEEK_STEP_SECONDS = 5;
+
+  function textFromRuns(value) {
+    if (typeof value?.simpleText === "string") {
+      return value.simpleText.trim();
+    }
+    if (Array.isArray(value?.runs)) {
+      return value.runs.map((run) => run?.text || "").join("").trim();
+    }
+    return "";
+  }
+
+  function normalizeChapters(chapters) {
+    const sorted = (chapters || [])
+      .filter((chapter) => Number.isFinite(chapter?.start) && chapter.start >= 0 && chapter.title)
+      .sort((a, b) => a.start - b.start);
+    const result = [];
+    for (const chapter of sorted) {
+      if (result.length >= 500) break;
+      if (result.at(-1)?.start === chapter.start) continue;
+      result.push({ start: chapter.start, title: String(chapter.title).trim().slice(0, 500) });
+    }
+    return result.length >= 2 ? result : [];
+  }
+
+  function readJsonObject(text, start) {
+    if (text[start] !== "{") return null;
+    let depth = 0;
+    let quoted = false;
+    let escaped = false;
+    for (let index = start; index < text.length; index++) {
+      const char = text[index];
+      if (quoted) {
+        if (escaped) escaped = false;
+        else if (char === "\\") escaped = true;
+        else if (char === '"') quoted = false;
+        continue;
+      }
+      if (char === '"') quoted = true;
+      else if (char === "{") depth++;
+      else if (char === "}" && --depth === 0) {
+        try {
+          return { data: JSON.parse(text.slice(start, index + 1)), end: index + 1 };
+        } catch {
+          return null;
+        }
+      }
+    }
+    return null;
+  }
+
+  function collectChapterRenderers(root) {
+    const chapters = [];
+    const stack = [root];
+    while (stack.length > 0 && chapters.length < 500) {
+      const node = stack.pop();
+      if (!node || typeof node !== "object") continue;
+      const renderer = node.chapterRenderer;
+      if (renderer && typeof renderer === "object") {
+        const title = textFromRuns(renderer.title);
+        const millis = Number(renderer.timeRangeStartMillis);
+        if (title && Number.isFinite(millis) && millis >= 0) {
+          chapters.push({ start: millis / 1000, title });
+        }
+      }
+      for (const value of Object.values(node)) {
+        if (value && typeof value === "object") stack.push(value);
+      }
+    }
+    return normalizeChapters(chapters);
+  }
+
+  function parseInitialDataRecords(text) {
+    if (typeof text !== "string" || !text.includes("ytInitialData")) return [];
+    const records = [];
+    const marker = /(?:var\s+)?ytInitialData\s*=\s*/g;
+    let match;
+    while ((match = marker.exec(text))) {
+      const parsed = readJsonObject(text, marker.lastIndex);
+      if (!parsed) continue;
+      marker.lastIndex = parsed.end;
+      const videoId = parsed.data?.currentVideoEndpoint?.watchEndpoint?.videoId;
+      if (typeof videoId !== "string") continue;
+      const chapters = collectChapterRenderers(parsed.data);
+      if (chapters.length > 0) records.push({ videoId, chapters });
+    }
+    return records;
+  }
+
+  function extractInitialDataChapters(text, videoId) {
+    if (!videoId) return [];
+    return parseInitialDataRecords(text).find((record) => record.videoId === videoId)?.chapters || [];
+  }
+
+  function secondsFromTimestamp(value) {
+    if (typeof value !== "string") return null;
+    if (/^\d+(?:\.\d+)?s?$/.test(value)) return Number(value.replace(/s$/, ""));
+    const units = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/i.exec(value);
+    if (!units || !units.slice(1).some(Boolean)) return null;
+    return Number(units[1] || 0) * 3600 + Number(units[2] || 0) * 60 + Number(units[3] || 0);
+  }
+
+  function titleAfterTimestamp(anchor) {
+    const parts = [];
+    for (let node = anchor.nextSibling; node; node = node.nextSibling) {
+      if (node.nodeType === 1 && (node.tagName === "BR" || node.tagName === "A")) break;
+      const text = node.textContent || "";
+      const line = text.split(/\r?\n/, 1)[0];
+      parts.push(line);
+      if (line !== text) break;
+    }
+    return parts.join(" ").replace(/^[\s\-–—:·]+/, "").replace(/\s+/g, " ").trim();
+  }
+
+  function extractDescriptionChapters(doc, videoId) {
+    if (!doc || !videoId) return [];
+    const selector = [
+      "#description-inline-expander a[href]",
+      "#description a[href]",
+      "ytd-text-inline-expander a[href]"
+    ].join(",");
+    const chapters = [];
+    for (const anchor of doc.querySelectorAll(selector)) {
+      let url;
+      try {
+        url = new URL(anchor.getAttribute("href"), doc.location?.href || location.href);
+      } catch {
+        continue;
+      }
+      if (url.searchParams.get("v") !== videoId) continue;
+      const start = secondsFromTimestamp(url.searchParams.get("t") || url.searchParams.get("start"));
+      const labelStart = YTFP.utils.parseTimeLabel(anchor.textContent || "");
+      const title = titleAfterTimestamp(anchor);
+      if (start === null || labelStart === null || !title) continue;
+      chapters.push({ start, title });
+    }
+    return normalizeChapters(chapters);
+  }
+
+  function rememberChapters(videoId, chapters) {
+    if (!videoId || chapters.length === 0) return chapters;
+    chapterCache.set(videoId, chapters);
+    while (chapterCache.size > 20) chapterCache.delete(chapterCache.keys().next().value);
+    return chapters;
+  }
+
+  function readDocumentChapters(doc, videoId) {
+    if (!videoId) return [];
+    if (chapterCache.has(videoId)) return chapterCache.get(videoId);
+    for (const script of doc.scripts) {
+      const text = script.textContent || "";
+      if (!text.includes("ytInitialData")) continue;
+      let inspected = inspectedScripts.get(script);
+      if (!inspected || inspected.text !== text) {
+        inspected = { text, records: parseInitialDataRecords(text) };
+        inspectedScripts.set(script, inspected);
+      }
+      const found = inspected.records.find((record) => record.videoId === videoId)?.chapters || [];
+      if (found.length > 0) return rememberChapters(videoId, found);
+    }
+    return rememberChapters(videoId, extractDescriptionChapters(doc, videoId));
+  }
+
+  function chaptersFromHtml(html, videoId) {
+    const fromJson = extractInitialDataChapters(html, videoId);
+    if (fromJson.length > 0 || typeof DOMParser === "undefined") return fromJson;
+    try {
+      return extractDescriptionChapters(new DOMParser().parseFromString(html, "text/html"), videoId);
+    } catch {
+      return [];
+    }
+  }
+
+  function refreshChapters(videoId) {
+    const local = readDocumentChapters(document, videoId);
+    if (local.length > 0) return Promise.resolve(local);
+    if (!videoId || typeof fetch !== "function") return Promise.resolve([]);
+    if (pendingChapters?.videoId === videoId) return pendingChapters.promise;
+    const tried = chapterAttempts.get(videoId);
+    if (tried && (tried.count >= 2 || Date.now() - tried.at < 30000)) return Promise.resolve([]);
+    pendingChapters?.controller.abort();
+    const controller = new AbortController();
+    chapterAttempts.set(videoId, { at: Date.now(), count: (tried?.count || 0) + 1 });
+    while (chapterAttempts.size > 20) chapterAttempts.delete(chapterAttempts.keys().next().value);
+    const timer = setTimeout(() => controller.abort(), 6000);
+    const promise = (async () => {
+      try {
+        const response = await fetch(`/watch?v=${encodeURIComponent(videoId)}`, {
+          credentials: "same-origin",
+          signal: controller.signal
+        });
+        if (!response.ok) return [];
+        const html = await response.text();
+        if (html.length > 8000000) return [];
+        return rememberChapters(videoId, chaptersFromHtml(html, videoId));
+      } catch {
+        return [];
+      } finally {
+        clearTimeout(timer);
+        if (pendingChapters?.videoId === videoId) pendingChapters = null;
+      }
+    })();
+    pendingChapters = { videoId, controller, promise };
+    return promise;
+  }
+
   function build(pipDocument, { getVideo }) {
+    const t = (key, fallback) => chrome.i18n.getMessage(key) || fallback;
     const wrap = pipDocument.createElement("div");
     wrap.className = "ytfp-progress-wrap";
+
+    const chaptersUi = pipDocument.createElement("div");
+    chaptersUi.className = "ytfp-chapters-ui";
+    chaptersUi.hidden = true;
+    const currentChapter = pipDocument.createElement("span");
+    currentChapter.className = "ytfp-current-chapter";
+    const chaptersToggle = pipDocument.createElement("button");
+    chaptersToggle.type = "button";
+    chaptersToggle.className = "ytfp-chapters-toggle";
+    chaptersToggle.textContent = t("chapters", "Chapters");
+    chaptersToggle.setAttribute("aria-label", t("chapters", "Chapters"));
+    chaptersToggle.setAttribute("aria-expanded", "false");
+    const chaptersList = pipDocument.createElement("div");
+    chaptersList.id = `ytfp-chapters-list-${++chapterListSequence}`;
+    chaptersList.className = "ytfp-chapters-list";
+    chaptersList.hidden = true;
+    chaptersList.setAttribute("role", "region");
+    chaptersList.setAttribute("aria-label", t("chapters", "Chapters"));
+    chaptersToggle.setAttribute("aria-controls", chaptersList.id);
+    function closeChaptersList(focusToggle = false) {
+      chaptersToggle.setAttribute("aria-expanded", "false");
+      chaptersList.hidden = true;
+      if (focusToggle) chaptersToggle.focus();
+    }
+    chaptersToggle.addEventListener("click", () => {
+      const expanded = chaptersToggle.getAttribute("aria-expanded") !== "true";
+      chaptersToggle.setAttribute("aria-expanded", String(expanded));
+      chaptersList.hidden = !expanded;
+    });
+    function onChaptersKeydown(event) {
+      if (event.key === "Escape" && !chaptersList.hidden) closeChaptersList(true);
+    }
+    function onChapterOutsideClick(event) {
+      if (!chaptersList.hidden && !chaptersUi.contains(event.target)) closeChaptersList();
+    }
+    pipDocument.addEventListener("keydown", onChaptersKeydown);
+    pipDocument.addEventListener("click", onChapterOutsideClick);
+    chaptersUi.append(currentChapter, chaptersToggle, chaptersList);
 
     // Белая полоска рекламы (видна только во время рекламы).
     const adTrack = pipDocument.createElement("div");
@@ -22,6 +272,10 @@ YTFP.pipProgress = (() => {
     // Красная полоска видео.
     const track = pipDocument.createElement("div");
     track.className = "ytfp-progress";
+    track.tabIndex = 0;
+    track.setAttribute("role", "slider");
+    track.setAttribute("aria-orientation", "horizontal");
+    track.setAttribute("aria-label", t("timelineLabel", "Video timeline"));
     const fill = pipDocument.createElement("div");
     fill.className = "ytfp-progress-fill";
     const segmentsLayer = pipDocument.createElement("div");
@@ -39,7 +293,7 @@ YTFP.pipProgress = (() => {
     tooltipTime.className = "ytfp-progress-tooltip-time";
     tooltip.append(tooltipTitle, tooltipTime);
 
-    wrap.append(adTrack, track, tooltip);
+    wrap.append(chaptersUi, adTrack, track, tooltip);
 
     function isAdShowing() {
       const video = getVideo();
@@ -52,12 +306,22 @@ YTFP.pipProgress = (() => {
       return YTFP.playerApi.getSeekRange(getVideo());
     }
 
-    /** Доля времени в текущем окне (0–1) или null, если окна нет. */
-    function fractionOf(time) {
-      const bounds = range();
-      return bounds
-        ? YTFP.utils.windowFraction(time, bounds.start, bounds.end)
-        : null;
+    function syncTrackAccessibility(video, bounds, disabled) {
+      track.setAttribute("aria-disabled", String(disabled));
+      if (!video || !bounds) {
+        for (const name of ["aria-valuemin", "aria-valuemax", "aria-valuenow", "aria-valuetext"]) {
+          track.removeAttribute(name);
+        }
+        return;
+      }
+      const current = YTFP.utils.clamp(video.currentTime, bounds.start, bounds.end);
+      track.setAttribute("aria-valuemin", String(bounds.start));
+      track.setAttribute("aria-valuemax", String(bounds.end));
+      track.setAttribute("aria-valuenow", String(current));
+      track.setAttribute(
+        "aria-valuetext",
+        `${YTFP.utils.formatTime(current - bounds.start)} / ${YTFP.utils.formatTime(bounds.end - bounds.start)}`
+      );
     }
 
     function renderFill() {
@@ -65,9 +329,16 @@ YTFP.pipProgress = (() => {
       const showingAd = isAdShowing();
       wrap.classList.toggle("ytfp-progress-wrap--ad", showingAd);
       if (!video) {
+        syncTrackAccessibility(null, null, true);
+        renderCurrentChapter();
         return;
       }
-      const fraction = fractionOf(video.currentTime);
+      renderCurrentChapter();
+      const bounds = range();
+      syncTrackAccessibility(video, bounds, showingAd || !bounds);
+      const fraction = bounds
+        ? YTFP.utils.windowFraction(video.currentTime, bounds.start, bounds.end)
+        : null;
       if (fraction === null) {
         return;
       }
@@ -85,7 +356,7 @@ YTFP.pipProgress = (() => {
       }
     }
 
-    // Отпечаток последней отрисовки: таймер зовёт render* каждые 3 секунды,
+    // Отпечаток последней отрисовки: страховочный таймер зовёт render*,
     // но у обычного видео сегменты и границы после загрузки не меняются —
     // без отпечатка мы бы вечно пересоздавали одни и те же DOM-узлы.
     // У лайвов bounds ползут, отпечаток меняется — перерисовка происходит.
@@ -114,36 +385,13 @@ YTFP.pipProgress = (() => {
     }
 
     // --- Главы видео ----------------------------------------------------------
-    // Основной источник — панель глав страницы: она есть в DOM даже закрытой
-    // и даёт точные таймкоды и названия.
-    // Запасной — секции нативного таймлайна (переехал в окно вместе с плеером):
-    // ширины секций в px дают только позиции, причём с погрешностью округления
-    // (на длинном видео это десятки секунд), зато работают без панели.
+    // Названия берём из публичного ytInitialData или ссылок описания и всегда
+    // сверяем videoId. Для SPA со старым boot-скриптом один раз читаем ту же
+    // публичную /watch страницу. Геометрия таймлайна остаётся запасным
+    // источником насечек, но названия из неё не выдумываем.
     let chapters = []; // [{ start: сек, title: строка | null }]
-
-    // Панели глав: у авторских и автоматических разные target-id.
-    const CHAPTERS_PANEL_SELECTOR =
-      'ytd-engagement-panel-section-list-renderer[target-id^="engagement-panel-macro-markers"]';
-
-    function collectChaptersFromPanel() {
-      for (const panel of document.querySelectorAll(CHAPTERS_PANEL_SELECTOR)) {
-        const items = panel.querySelectorAll("ytd-macro-markers-list-item-renderer");
-        const parsed = [];
-        for (const item of items) {
-          const timeEl = item.querySelector("#time");
-          const titleEl = item.querySelector(".macro-markers");
-          const start = timeEl && YTFP.utils.parseTimeLabel(timeEl.textContent);
-          if (start === null || start === undefined) {
-            continue; // элемент ещё не отрисован или подпись нестандартная
-          }
-          parsed.push({ start, title: titleEl ? titleEl.textContent.trim() : null });
-        }
-        if (parsed.length >= 2) {
-          return parsed;
-        }
-      }
-      return [];
-    }
+    let chaptersVideoId = null;
+    let disposed = false;
 
     function collectChaptersFromTimeline() {
       const bounds = range();
@@ -162,23 +410,99 @@ YTFP.pipProgress = (() => {
         .map((fraction) => ({ start: bounds.start + fraction * windowWidth, title: null }));
     }
 
-    function collectChapters() {
-      const fromPanel = collectChaptersFromPanel();
-      return fromPanel.length > 0 ? fromPanel : collectChaptersFromTimeline();
+    function renderCurrentChapter() {
+      const video = getVideo();
+      const belongsToCurrentVideo = chaptersVideoId === YTFP.playerApi.getVideoId();
+      const showingAd = isAdShowing();
+      const active = video && belongsToCurrentVideo && !showingAd
+        ? chapterAt(video.currentTime)
+        : null;
+      const title = active?.title || "";
+      if (!belongsToCurrentVideo) {
+        chapters = [];
+        chaptersUi.hidden = true;
+        closeChaptersList();
+        chaptersLayer.replaceChildren();
+        tooltipTitle.textContent = "";
+        tooltipTitle.style.display = "none";
+      } else {
+        chaptersUi.hidden = showingAd || chapters.filter((chapter) => chapter.title).length < 2;
+        if (showingAd) closeChaptersList();
+      }
+      currentChapter.textContent = title;
+      currentChapter.hidden = !title;
+      if (title) {
+        currentChapter.setAttribute(
+          "aria-label",
+          `${t("currentChapter", "Current chapter")}: ${title}`
+        );
+      } else {
+        currentChapter.removeAttribute("aria-label");
+      }
+      for (const button of chaptersList.querySelectorAll(".ytfp-chapter-button")) {
+        const selected = Boolean(active) && Number(button.dataset.start) === active.start;
+        button.classList.toggle("ytfp-chapter-button--current", selected);
+        if (selected) button.setAttribute("aria-current", "true");
+        else button.removeAttribute("aria-current");
+      }
+    }
+
+    function renderChapterList() {
+      const named = chapters.filter((chapter) => chapter.title);
+      chaptersList.replaceChildren();
+      chaptersUi.hidden = named.length < 2;
+      if (chaptersUi.hidden) {
+        closeChaptersList();
+        renderCurrentChapter();
+        return;
+      }
+      for (const chapter of named) {
+        const button = pipDocument.createElement("button");
+        button.type = "button";
+        button.className = "ytfp-chapter-button";
+        button.dataset.start = String(chapter.start);
+        const time = YTFP.utils.formatTime(chapter.start);
+        button.textContent = `${time} ${chapter.title}`;
+        button.setAttribute("aria-label", `${chapter.title}, ${time}`);
+        button.addEventListener("click", () => {
+          if (chaptersVideoId !== YTFP.playerApi.getVideoId()) return;
+          const video = getVideo();
+          const bounds = range();
+          if (!video || !bounds || isAdShowing()) return;
+          video.currentTime = YTFP.utils.clamp(chapter.start, bounds.start, bounds.end);
+          renderFill();
+          closeChaptersList(true);
+        });
+        chaptersList.appendChild(button);
+      }
+      renderCurrentChapter();
     }
 
     let lastChaptersSig = null;
     function renderChapters() {
-      chapters = collectChapters();
+      const videoId = YTFP.playerApi.getVideoId();
+      const named = readDocumentChapters(document, videoId);
+      chaptersVideoId = videoId;
+      chapters = named.length > 0 ? named : collectChaptersFromTimeline();
+      if (named.length === 0 && videoId) {
+        refreshChapters(videoId).then((found) => {
+          if (!disposed && found.length > 0 && YTFP.playerApi.getVideoId() === videoId) {
+            lastChaptersSig = null;
+            renderChapters();
+          }
+        });
+      }
       // Границы считаем один раз на всю отрисовку: getSeekRange щупает DOM
       // плеера, и звать его на каждую главу — лишняя работа.
       const bounds = range();
-      const sig = JSON.stringify([bounds, isAdShowing(), chapters]);
+      const sig = JSON.stringify([videoId, bounds, isAdShowing(), chapters]);
       if (sig === lastChaptersSig) {
+        renderCurrentChapter();
         return;
       }
       lastChaptersSig = sig;
       chaptersLayer.replaceChildren();
+      renderChapterList();
       if (!bounds || isAdShowing()) {
         return;
       }
@@ -215,7 +539,9 @@ YTFP.pipProgress = (() => {
       const rect = track.getBoundingClientRect();
       const fraction = YTFP.utils.clamp((event.clientX - rect.left) / rect.width, 0, 1);
       const time = bounds.start + fraction * (bounds.end - bounds.start);
-      const chapter = chapterAt(time);
+      const chapter = chaptersVideoId === YTFP.playerApi.getVideoId()
+        ? chapterAt(time)
+        : null;
       const title = chapter && chapter.title ? chapter.title : "";
       tooltipTitle.textContent = title;
       tooltipTitle.style.display = title ? "" : "none";
@@ -258,9 +584,48 @@ YTFP.pipProgress = (() => {
       renderFill();
     }
 
+    function onTrackKeydown(event) {
+      const direction = {
+        ArrowLeft: -1,
+        ArrowDown: -1,
+        ArrowRight: 1,
+        ArrowUp: 1
+      }[event.key];
+      if (direction === undefined && event.key !== "Home" && event.key !== "End") {
+        return;
+      }
+      // Не отдаём эти клавиши странице: у YouTube они могут перемотать рекламу
+      // или переключить воспроизведение, пока фокус находится на таймлайне.
+      event.preventDefault();
+      event.stopPropagation();
+      if (isAdShowing()) {
+        return;
+      }
+      const video = getVideo();
+      const bounds = range();
+      if (!video || !bounds) {
+        return;
+      }
+      if (event.key === "Home") {
+        video.currentTime = bounds.start;
+      } else if (event.key === "End") {
+        video.currentTime = bounds.end;
+      } else {
+        video.currentTime = YTFP.utils.clamp(
+          video.currentTime + direction * KEYBOARD_SEEK_STEP_SECONDS,
+          bounds.start,
+          bounds.end
+        );
+      }
+      renderFill();
+    }
+
     // Клик + перетаскивание по полоске.
     let dragging = false;
     function onPointerDown(event) {
+      if (isAdShowing() || !range()) {
+        return;
+      }
       dragging = true;
       track.setPointerCapture(event.pointerId);
       seekToClientX(event.clientX);
@@ -277,30 +642,67 @@ YTFP.pipProgress = (() => {
     track.addEventListener("pointermove", onPointerMove);
     track.addEventListener("pointerup", onPointerUp);
     track.addEventListener("pointercancel", onPointerUp);
+    track.addEventListener("keydown", onTrackKeydown);
 
-    const video = getVideo();
-    if (video) {
-      video.addEventListener("timeupdate", renderFill);
-      video.addEventListener("durationchange", renderSegments);
-      video.addEventListener("durationchange", renderChapters);
-    }
-    renderFill();
-    renderSegments();
-    renderChapters();
-    // Сегменты SponsorBlock и главы подгружаются асинхронно — периодически обновляем.
-    const segmentsTimer = setInterval(() => {
+    let boundVideo = null;
+    function syncVideoBinding() {
+      if (disposed) {
+        return;
+      }
+      const nextVideo = getVideo();
+      if (nextVideo === boundVideo) {
+        return;
+      }
+      if (boundVideo) {
+        boundVideo.removeEventListener("timeupdate", renderFill);
+        boundVideo.removeEventListener("durationchange", renderSegments);
+        boundVideo.removeEventListener("durationchange", renderChapters);
+      }
+      boundVideo = nextVideo;
+      if (boundVideo) {
+        boundVideo.addEventListener("timeupdate", renderFill);
+        boundVideo.addEventListener("durationchange", renderSegments);
+        boundVideo.addEventListener("durationchange", renderChapters);
+      }
+      renderFill();
       renderSegments();
       renderChapters();
-    }, 3000);
+    }
+
+    const playerRoot = getVideo()?.closest("#movie_player, #shorts-player");
+    const Observer = playerRoot?.ownerDocument?.defaultView?.MutationObserver;
+    const videoObserver = Observer ? new Observer(syncVideoBinding) : null;
+    if (playerRoot) {
+      videoObserver?.observe(playerRoot, { childList: true, subtree: true });
+    }
+    syncVideoBinding();
+    const refreshData = () => {
+      syncVideoBinding();
+      renderSegments();
+      renderChapters();
+    };
+    document.addEventListener("ytfp-segments-changed", refreshData);
+    document.addEventListener("yt-navigate-finish", refreshData);
+    // Сегменты SponsorBlock и главы подгружаются асинхронно — периодически обновляем.
+    const segmentsTimer = setInterval(() => {
+      syncVideoBinding();
+      renderSegments();
+      renderChapters();
+    }, 10000);
 
     function cleanup() {
+      disposed = true;
       clearInterval(segmentsTimer);
-      // Снимаем с того же элемента, на который вешали: getVideo() мог бы
-      // вернуть уже другой <video>, и слушатели остались бы на старом.
-      if (video) {
-        video.removeEventListener("timeupdate", renderFill);
-        video.removeEventListener("durationchange", renderSegments);
-        video.removeEventListener("durationchange", renderChapters);
+      videoObserver?.disconnect();
+      pipDocument.removeEventListener("keydown", onChaptersKeydown);
+      pipDocument.removeEventListener("click", onChapterOutsideClick);
+      document.removeEventListener("ytfp-segments-changed", refreshData);
+      document.removeEventListener("yt-navigate-finish", refreshData);
+      if (boundVideo) {
+        boundVideo.removeEventListener("timeupdate", renderFill);
+        boundVideo.removeEventListener("durationchange", renderSegments);
+        boundVideo.removeEventListener("durationchange", renderChapters);
+        boundVideo = null;
       }
       track.removeEventListener("mousemove", onTrackHover);
       track.removeEventListener("mouseleave", onTrackLeave);
@@ -308,10 +710,11 @@ YTFP.pipProgress = (() => {
       track.removeEventListener("pointermove", onPointerMove);
       track.removeEventListener("pointerup", onPointerUp);
       track.removeEventListener("pointercancel", onPointerUp);
+      track.removeEventListener("keydown", onTrackKeydown);
     }
 
     return { element: wrap, cleanup };
   }
 
-  return { build };
+  return { build, extractInitialDataChapters, extractDescriptionChapters };
 })();

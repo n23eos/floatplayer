@@ -62,6 +62,11 @@ YTFP.shortsSearch = (() => {
 
   // Активный список: { ids, index }. null — режим поиска выключен.
   let playlist = null;
+  let generation = 0;
+  let controller = null;
+  const listeners = new Set();
+  function emit() { for (const listener of listeners) listener(getState()); }
+  function getState() { return playlist ? { index: playlist.index + 1, count: playlist.ids.length } : { index: 0, count: 0 }; }
 
   function navigateTo(videoId) {
     // Ловит мостик в основном мире (yt-navigate-bridge.js).
@@ -73,29 +78,40 @@ YTFP.shortsSearch = (() => {
    * Возвращает { ok, count }: ok=false — сбой сети, count=0 — пусто.
    */
   async function search(query) {
+    const current = ++generation;
+    controller?.abort();
+    controller = new AbortController();
+    playlist = null;
+    emit();
     const trimmed = String(query || "").trim();
     if (!trimmed) {
       return { ok: true, count: 0 };
     }
     let html;
+    const activeController = controller;
+    const timeout = setTimeout(() => activeController.abort(), 15000);
     try {
       const response = await fetch(
         `/results?search_query=${encodeURIComponent(trimmed)}&sp=${SHORTS_FILTER_PARAM}`,
-        { credentials: "same-origin" }
+        { credentials: "same-origin", signal: controller.signal }
       );
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
       html = await response.text();
     } catch (error) {
+      if (current !== generation) return { ok: false, count: 0, cancelled: true };
       console.warn("[YTFP] Shorts search failed:", error);
       return { ok: false, count: 0 };
     }
+    finally { clearTimeout(timeout); }
+    if (current !== generation) return { ok: false, count: 0, cancelled: true };
     const ids = extractShortsIds(html);
     if (ids.length === 0) {
       return { ok: true, count: 0 };
     }
     playlist = { ids, index: 0 };
+    emit();
     navigateTo(ids[0]);
     return { ok: true, count: ids.length };
   }
@@ -106,7 +122,11 @@ YTFP.shortsSearch = (() => {
 
   /** Выход из режима: дальше навигация снова по обычной ленте. */
   function stop() {
+    generation += 1;
+    controller?.abort();
+    controller = null;
     playlist = null;
+    emit();
   }
 
   /**
@@ -120,6 +140,7 @@ YTFP.shortsSearch = (() => {
     const nextIndex = playlist.index + direction;
     if (nextIndex >= 0 && nextIndex < playlist.ids.length) {
       playlist.index = nextIndex;
+      emit();
       navigateTo(playlist.ids[nextIndex]);
     }
     return true;
@@ -127,6 +148,9 @@ YTFP.shortsSearch = (() => {
 
   const api = {
     search,
+    getState,
+    onChange: listener => listeners.add(listener),
+    offChange: listener => listeners.delete(listener),
     isActive,
     stop,
     next: () => step(1),

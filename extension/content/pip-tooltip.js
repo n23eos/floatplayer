@@ -36,7 +36,7 @@ YTFP.tooltips = (() => {
   function position(target) {
     const doc = tipElement.ownerDocument;
     const view = doc.defaultView;
-    const anchor = target.getBoundingClientRect();
+    const anchor = (target.closest('.ytfp-bottom--narrow') || target).getBoundingClientRect();
     const tip = tipElement.getBoundingClientRect();
 
     const below = anchor.bottom + EDGE_GAP_PX;

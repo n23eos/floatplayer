@@ -1,0 +1,39 @@
+schema: spec-driven
+
+context: |
+  Language: Russian. Write artifacts in Russian; keep OpenSpec structural
+  headings and SHALL/MUST keywords in English.
+  FloatPlayer is an existing Chrome Manifest V3 extension for YouTube.
+  Stack: vanilla JavaScript and CSS, no bundler, npm, Vitest with jsdom.
+  extension/manifest.json defines script load order, permissions and version.
+  extension/content/ contains player, PiP, Shorts and page-control modules.
+  extension/background/ contains the service worker; extension/shared/ contains
+  settings schemas and local records; popup/ and options/ are extension pages.
+  extension/_locales/ contains 14 locales. Add meaningful EN/RU strings and
+  preserve the existing fallback policy for other languages.
+  tests/ contains regression tests; tests/browser/ is a local browser fixture.
+  npm run check validates JavaScript, resources and version consistency.
+  npm test runs Vitest. npm run build runs check and tests before packaging
+  extension/ only into dist/floatplayer-<version>.zip.
+  npm run preview prepares sample media and starts the browser fixture.
+  Browser fixtures mock YouTube and chrome APIs; report live integration limits.
+  README.md and README.ru.md describe the product. STATUS.md records work history;
+  compare older entries with current code before using them as requirements.
+  Preserve existing uncommitted changes. Never read or publish personal !notes
+  directories; keep the escaped pattern \!notes/ in .gitignore.
+  OpenSpec is the requested workflow for new changes. Existing product code is
+  not being migrated. Baseline specs cover only explicitly documented areas.
+
+rules:
+  proposal:
+    - State the user-visible outcome, scope, non-goals and affected capabilities.
+    - Inspect current code before describing existing behavior.
+  specs:
+    - Use testable SHALL requirements and WHEN/THEN scenarios, including relevant failures.
+  design:
+    - Reuse the existing stack, modules and manifest loading order.
+    - Document storage, permissions, localization and lifecycle impacts when relevant.
+  tasks:
+    - Include appropriate regression tests and npm run check and npm test.
+    - For UI changes include running the app, visual inspection and affected browser scenarios.
+    - Include final diff review and updating STATUS.md; distinguish tests from manual limitations.

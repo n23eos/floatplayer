@@ -230,15 +230,17 @@ YTFP.sponsorBlock = (() => {
 
   async function refresh() {
     const videoId = getVideoIdFromUrl();
-    attachVideoListeners(YTFP.playerApi.getVideo());
 
     if (!videoId || !YTFP.playerApi.isWatchPage() || !isEnabled()) {
+      attachVideoListeners(null);
       segments = [];
+      document.dispatchEvent(new Event("ytfp-segments-changed"));
       loadedKey = null;
       removeMarkers();
       hideSkipButton();
       return;
     }
+    attachVideoListeners(YTFP.playerApi.getVideo());
     const key = `${videoId}|${getCategories().join(",")}`;
     if (key === loadedKey) {
       renderMarkers(); // видео то же — просто перерисовать (например, после PiP)
@@ -250,6 +252,7 @@ YTFP.sponsorBlock = (() => {
     // границы дали бы автопропуск не в том месте (типовой случай — вставка
     // с нуля секунды у предыдущего видео).
     segments = [];
+    document.dispatchEvent(new Event("ytfp-segments-changed"));
     removeMarkers();
     hideSkipButton();
     const fetched = await fetchSegments(videoId);
@@ -267,6 +270,7 @@ YTFP.sponsorBlock = (() => {
       return;
     }
     segments = fetched;
+    document.dispatchEvent(new Event("ytfp-segments-changed"));
     renderMarkers();
   }
 

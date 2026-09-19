@@ -8,23 +8,8 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 YTFP.pipRelated = (() => {
   const MAX_ITEMS = 20;
 
-  // Очередь просмотра: живёт в памяти страницы (переживает переоткрытие окна,
-  // сбрасывается при перезагрузке вкладки). [{ videoId, title, thumbnailUrl }]
-  let queue = [];
-
-  function t(key, fallback) {
-    return chrome.i18n.getMessage(key) || fallback;
-  }
-
-  /** Находит на странице ссылку на видео и кликает её (SPA-переход, окно живёт). */
-  function navigateToVideoId(videoId) {
-    const anchor = document.querySelector(`a[href*="/watch?v=${CSS.escape(videoId)}"]`);
-    if (anchor) {
-      anchor.click();
-      return true;
-    }
-    return false;
-  }
+  function t(key, fallback) { return chrome.i18n.getMessage(key) || fallback; }
+  function navigateToVideoId(id) { return YTFP.navigation.go(id); }
 
   /**
    * Реагировать ли на событие ended автопереходом (очередь или следующее
@@ -34,22 +19,6 @@ YTFP.pipRelated = (() => {
    */
   function shouldAutoAdvanceOnEnded(isLive) {
     return !isLive;
-  }
-
-  /** Переход к первому видео очереди по окончании текущего. */
-  function playNextFromQueue() {
-    while (queue.length > 0) {
-      const next = queue[0];
-      if (navigateToVideoId(next.videoId)) {
-        queue = queue.slice(1);
-        return true;
-      }
-      // Ссылки на странице нет (сайдбар перерисовался) — выбрасываем элемент,
-      // полная навигация закрыла бы PiP-окно.
-      console.warn("[YTFP] Queue item link not found on page:", next.videoId);
-      queue = queue.slice(1);
-    }
-    return false;
   }
 
   /**
@@ -132,16 +101,33 @@ YTFP.pipRelated = (() => {
     let isOpen = false;
 
     function renderQueue() {
+      if (!isOpen) return;
       queueList.replaceChildren();
-      queueSection.style.display = queue.length > 0 ? "" : "none";
+      const { items: queue, error, busy } = YTFP.watchQueue.get();
+      queueSection.style.display = queue.length > 0 || error ? "" : "none";
+      queueHeader.textContent = error ? t("queueError", "Queue could not be saved or opened. Retry.") : t("queueTitle", "Queue");
+      if (error) {
+        const retrySave = pipDocument.createElement("button"); retrySave.className = "ytfp-btn";
+        retrySave.textContent = t("queueRetry", "Retry saving"); retrySave.onclick = () => YTFP.watchQueue.retry();
+        queueList.append(retrySave);
+      }
+      if (queue.length) {
+        const retry = pipDocument.createElement("button");
+        retry.className = "ytfp-btn";
+        retry.textContent = t("queuePlayNext", "Play next");
+        retry.disabled = busy;
+        retry.onclick = () => { YTFP.sleepTimer.resume(); YTFP.watchQueue.playNext(); };
+        queueList.appendChild(retry);
+      }
       queue.forEach((item, index) => {
         const row = pipDocument.createElement("div");
         row.className = "ytfp-related-item ytfp-queue-item";
 
-        if (item.thumbnailUrl) {
+        const thumbnailUrl = `https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`;
+        if (thumbnailUrl) {
           const thumb = pipDocument.createElement("img");
           thumb.className = "ytfp-related-thumb";
-          thumb.src = item.thumbnailUrl;
+          thumb.src = thumbnailUrl;
           thumb.alt = "";
           row.appendChild(thumb);
         }
@@ -155,9 +141,21 @@ YTFP.pipRelated = (() => {
         YTFP.tooltips.attach(removeButton, t("queueRemove", "Remove from queue"));
         removeButton.textContent = "×";
         removeButton.addEventListener("click", () => {
-          queue = queue.filter((_, i) => i !== index);
-          renderQueue();
+          YTFP.watchQueue.remove(item.videoId);
         });
+        removeButton.disabled = busy;
+        for (const [direction, label] of [[-1, "↑"], [1, "↓"]]) {
+          const move = pipDocument.createElement("button");
+          move.className = "ytfp-btn";
+          move.textContent = label;
+          const moveLabel = direction < 0
+            ? t("queueMoveUp", "Move up")
+            : t("queueMoveDown", "Move down");
+          YTFP.tooltips.attach(move, `${moveLabel}: ${item.title}`);
+          move.disabled = busy || (direction < 0 ? index === 0 : index === queue.length - 1);
+          move.onclick = () => YTFP.watchQueue.move(item.videoId, direction);
+          row.appendChild(move);
+        }
         row.appendChild(removeButton);
         queueList.appendChild(row);
       });
@@ -175,34 +173,39 @@ YTFP.pipRelated = (() => {
         return;
       }
       for (const item of items) {
-        const row = pipDocument.createElement("button");
+        const row = pipDocument.createElement("div");
         row.className = "ytfp-related-item";
 
+        const openButton = pipDocument.createElement("button");
+        openButton.className = "ytfp-related-open";
+        openButton.type = "button";
         if (item.thumbnailUrl) {
           const thumb = pipDocument.createElement("img");
           thumb.className = "ytfp-related-thumb";
           thumb.src = item.thumbnailUrl;
           thumb.alt = "";
-          row.appendChild(thumb);
+          openButton.appendChild(thumb);
         }
         const title = pipDocument.createElement("span");
         title.className = "ytfp-related-title";
         title.textContent = item.title;
-        row.appendChild(title);
+        openButton.appendChild(title);
+        row.appendChild(openButton);
 
-        row.addEventListener("click", () => {
-          // SPA-переход на странице: плеер остаётся в мини-окне,
-          // видео переключается. Сайдбар мог перерисоваться, пока панель
-          // была открыта, — отвязанный от DOM anchor кликается впустую
-          // (роутер YouTube слушает клики на документе), поэтому в таком
-          // случае ищем живую ссылку по ID заново.
-          if (item.anchor.isConnected) {
-            item.anchor.click();
-          } else if (item.videoId) {
-            navigateToVideoId(item.videoId);
+        openButton.addEventListener("click", async () => {
+          if (openButton.disabled || disposed) return;
+          openButton.disabled = true;
+          YTFP.sleepTimer.resume();
+          try {
+            const opened = await navigateToVideoId(item.videoId);
+            if (disposed) return;
+            if (opened) setOpen(false);
+            else {
+              openButton.title = t("queueError", "Video could not be opened. Retry.");
+            }
+          } finally {
+            openButton.disabled = false;
           }
-          setOpen(false);
-          // Список обновится к следующему открытию (страница перерисуется).
         });
 
         // «+» — добавить в очередь, не переключая текущее видео.
@@ -213,16 +216,15 @@ YTFP.pipRelated = (() => {
           addButton.textContent = "+";
           addButton.addEventListener("click", (event) => {
             event.stopPropagation(); // не переключать видео кликом по строке
-            if (!queue.some((queued) => queued.videoId === item.videoId)) {
-              queue = [...queue, {
-                videoId: item.videoId,
-                title: item.title,
-                thumbnailUrl: item.thumbnailUrl
-              }];
-            }
-            renderQueue();
+            YTFP.watchQueue.add(item);
           });
           row.appendChild(addButton);
+          const nextButton = pipDocument.createElement("button");
+          nextButton.className = "ytfp-queue-add";
+          nextButton.textContent = "↥";
+          YTFP.tooltips.attach(nextButton, t("queueFirst", "Add as next"));
+          nextButton.onclick = () => YTFP.watchQueue.add(item, true);
+          row.appendChild(nextButton);
         }
         list.appendChild(row);
       }
@@ -246,14 +248,17 @@ YTFP.pipRelated = (() => {
     // Автопереход к следующему видео очереди по окончании текущего.
     // При video.loop = true событие ended не приходит — loop приоритетнее.
     const video = getVideo ? getVideo() : null;
-    function onEnded() {
+    let disposed = false;
+    async function onEnded() {
+      if (YTFP.sleepTimer.blocksAdvance()) return;
       if (!shouldAutoAdvanceOnEnded(YTFP.playerApi.isLive())) {
         return;
       }
-      if (playNextFromQueue()) {
+      if (await YTFP.watchQueue.playNext()) {
         renderQueue();
         return;
       }
+      if (disposed || YTFP.sleepTimer.blocksAdvance()) return;
       // Очередь пуста — решение за вызывающим (автовоспроизведение YouTube).
       if (onQueueEmptyEnded) {
         onQueueEmptyEnded();
@@ -263,7 +268,10 @@ YTFP.pipRelated = (() => {
       video.addEventListener("ended", onEnded);
     }
 
+    YTFP.watchQueue.onChange(renderQueue);
     function cleanup() {
+      disposed = true;
+      YTFP.watchQueue.offChange(renderQueue);
       // Остальные слушатели живут на элементах панели — уйдут вместе с окном.
       if (video) {
         video.removeEventListener("ended", onEnded);

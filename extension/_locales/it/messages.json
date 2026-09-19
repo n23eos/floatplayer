@@ -102,7 +102,7 @@
     "message": "Shorts: passa automaticamente al successivo"
   },
   "optShortsHint": {
-    "message": "Quando uno Short finisce nella mini-finestra, il successivo parte da solo."
+    "message": "At the end of a Short, play the next video on the page and in the mini-window. When off, repeat the current video."
   },
   "optCompactLabel": {
     "message": "Pannello compatto"
@@ -351,7 +351,7 @@
     "message": "Pannello sulla pagina di YouTube"
   },
   "optPagePanelHint": {
-    "message": "Volume, velocità e salti di 30 secondi sopra il lettore normale, al passaggio del mouse."
+    "message": "Compact controls with movable position and pinned tools, on normal videos and Shorts."
   },
   "optChatOpacityLabel": {
     "message": "Opacità dello sfondo di chat e commenti"
@@ -370,5 +370,302 @@
   },
   "copyLinkTooltip": {
     "message": "Copia il link al momento attuale"
+  },
+  "captionsBackground": {
+    "message": "Background"
+  },
+  "captionsLanguage": {
+    "message": "Caption language"
+  },
+  "captionsSize": {
+    "message": "Caption size"
+  },
+  "captionsToggle": {
+    "message": "Toggle captions"
+  },
+  "captionsUnavailable": {
+    "message": "Captions unavailable for this video"
+  },
+  "moreTools": {
+    "message": "More"
+  },
+  "pinTool": {
+    "message": "Pin to panel"
+  },
+  "optAutoFit": {
+    "message": "Automatically fit window to video when allowed"
+  },
+  "optPinHint": {
+    "message": "Choose visible tools using the checkboxes in the mini-player’s More menu. Window style applies the next time you open it."
+  },
+  "optSleepFade": {
+    "message": "Fade sound during the last 10 seconds of the sleep timer"
+  },
+  "optTools": {
+    "message": "Playback preferences"
+  },
+  "queueError": {
+    "message": "Queue could not be saved or opened. Retry."
+  },
+  "queueFirst": {
+    "message": "Add as next"
+  },
+  "queuePlayNext": {
+    "message": "Play next"
+  },
+  "searchCancel": {
+    "message": "Cancel search"
+  },
+  "searchEmpty": {
+    "message": "No shorts found"
+  },
+  "searchError": {
+    "message": "Search failed. Try again."
+  },
+  "searchLoading": {
+    "message": "Searching…"
+  },
+  "shortsSearchButton": {
+    "message": "Search"
+  },
+  "sizeSmall": {
+    "message": "Small"
+  },
+  "sizeMedium": {
+    "message": "Medium"
+  },
+  "sizeLarge": {
+    "message": "Large"
+  },
+  "sizeFit": {
+    "message": "Fit video"
+  },
+  "sizeUnavailable": {
+    "message": "Resize unavailable"
+  },
+  "sleepEnd": {
+    "message": "End of video"
+  },
+  "sleepExtend": {
+    "message": "Add 10 minutes"
+  },
+  "toolAb": {
+    "message": "A–B repeat"
+  },
+  "toolLoop": {
+    "message": "Repeat video"
+  },
+  "toolAutoplay": {
+    "message": "Autoplay"
+  },
+  "toolCopy": {
+    "message": "Copy link"
+  },
+  "toolNight": {
+    "message": "Night mode"
+  },
+  "toolSleep": {
+    "message": "Sleep timer"
+  },
+  "toolComments": {
+    "message": "Comments / chat"
+  },
+  "toolCaptions": {
+    "message": "Captions"
+  },
+  "toolSize": {
+    "message": "Window size"
+  },
+  "menuDone": {
+    "message": "Done"
+  },
+  "sleepRunning": {
+    "message": "Running"
+  },
+  "queueRetry": {
+    "message": "Retry saving"
+  },
+  "videoViews": {
+    "message": "views"
+  },
+  "reactionCountUnavailable": {
+    "message": "YouTube does not provide this count"
+  },
+  "volumeUnavailable": {
+    "message": "Volume unavailable"
+  },
+  "dragPanel": {
+    "message": "Move panel"
+  },
+  "resetPanelPosition": {
+    "message": "Reset position"
+  },
+  "shortsNavigationError": {
+    "message": "Could not switch video. Try again."
+  },
+  "historySaveError": {
+    "message": "Could not save history"
+  },
+  "shortsSeek": {
+    "message": "Seek in this short"
+  },
+  "profileBoost": {
+    "message": "Also remember amplification above 100%"
+  },
+  "profileSave": {
+    "message": "Remember for this channel"
+  },
+  "profileUnavailable": {
+    "message": "Channel data is not available yet"
+  },
+  "profileSaved": {
+    "message": "Channel profile saved"
+  },
+  "shortsHistory": {
+    "message": "History"
+  },
+  "historyEmpty": {
+    "message": "History is empty or disabled"
+  },
+  "historyLoadError": {
+    "message": "Could not load local data"
+  },
+  "switchSide": {
+    "message": "Switch side"
+  },
+  "shortsNextMode": {
+    "message": "Next"
+  },
+  "shortsRepeatMode": {
+    "message": "Repeat"
+  },
+  "shortsMode": {
+    "message": "Playback mode"
+  },
+  "profilesEmpty": {
+    "message": "No saved channel profiles"
+  },
+  "profileDelete": {
+    "message": "Delete"
+  },
+  "historyCleared": {
+    "message": "History cleared"
+  },
+  "shortsPreferences": {
+    "message": "Shorts"
+  },
+  "shortsSide": {
+    "message": "Action panel side"
+  },
+  "sideRight": {
+    "message": "Right"
+  },
+  "sideLeft": {
+    "message": "Left"
+  },
+  "historyEnabled": {
+    "message": "Keep the last 100 Shorts on this device"
+  },
+  "historyPrivacy": {
+    "message": "History stays on this device. Disabling pauses recording; clear removes saved entries."
+  },
+  "historyClear": {
+    "message": "Clear Shorts history"
+  },
+  "channelProfiles": {
+    "message": "Channel profiles"
+  },
+  "profileHint": {
+    "message": "Save the current speed and volume from the player's menu. Amplification above 100% requires a separate choice."
+  },
+  "volumeShort": {
+    "message": "Volume"
+  },
+  "modeControls": {
+    "message": "With controls"
+  },
+  "modeVideo": {
+    "message": "Video only"
+  },
+  "chapters": {
+    "message": "Chapters"
+  },
+  "currentChapter": {
+    "message": "Current chapter"
+  },
+  "popupStateOpening": {
+    "message": "Opening the mini-window..."
+  },
+  "popupActionError": {
+    "message": "Couldn't update the mini-window. Try again."
+  },
+  "popupRetry": {
+    "message": "Try again"
+  },
+  "optLoading": {
+    "message": "Loading settings..."
+  },
+  "optRetry": {
+    "message": "Try again"
+  },
+  "sleepStart": {
+    "message": "Start"
+  },
+  "sleepCancel": {
+    "message": "Cancel timer"
+  },
+  "sleepEndShort": {
+    "message": "End"
+  },
+  "menuPlayback": {
+    "message": "Playback"
+  },
+  "menuView": {
+    "message": "Appearance"
+  },
+  "menuVideo": {
+    "message": "Video"
+  },
+  "menuPinColumn": {
+    "message": "Pin to panel"
+  },
+  "historyOpen": {
+    "message": "Open history"
+  },
+  "historyDialogLabel": {
+    "message": "Shorts history"
+  },
+  "historyClose": {
+    "message": "Close history"
+  },
+  "historyRetry": {
+    "message": "Retry"
+  },
+  "historyOpening": {
+    "message": "Opening video..."
+  },
+  "historyLoading": {
+    "message": "Loading history..."
+  },
+  "searchSubmit": {
+    "message": "Search"
+  },
+  "queueMoveUp": {
+    "message": "Move up"
+  },
+  "queueMoveDown": {
+    "message": "Move down"
+  },
+  "nightStateOff": {
+    "message": "Off"
+  },
+  "nightStateWarm": {
+    "message": "Warm"
+  },
+  "nightStateDeep": {
+    "message": "Deep"
+  },
+  "timelineLabel": {
+    "message": "Video timeline"
   }
 }

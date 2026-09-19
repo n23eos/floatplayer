@@ -29,6 +29,38 @@ Playback never restarts: the actual YouTube player moves into the window, so
 your account, history, quality and captions are preserved. YouTube ads are
 neither blocked nor skipped (Web Store safe).
 
+## Version 1.20
+
+- Compact page controls with a shared More menu, pinned tools and a draggable
+  handle. Position is stored relative to the player and can be reset.
+- Direct speed presets: 1×, 1.25×, 1.5× and 2× on the page and in PiP.
+- Shorts use a left/right action rail, a Repeat/Next switch and a seek bar
+  that preserves pause state. Short PiP windows move extra tools into More.
+- The last 100 Shorts are stored on this device, with recording and clear
+  controls in settings. History navigation preserves the search playlist.
+- Save a channel's speed and volume from More; amplification above 100%
+  requires an explicit checkbox. Manage saved profiles in settings.
+- Publication date, views and channel ID are verified against the current
+  video. Stale page markup falls back to the video's own YouTube watch page.
+
+## Version 1.19
+
+A simpler main panel with More and pinnable tools; live settings; PiP-first
+command routing and the target video's title in the popup. The per-tab queue
+survives reloads, supports reordering / adding next, and retains failed items.
+Shorts search cancels stale requests and shows progress, errors and position.
+
+More includes CC, available caption languages, size and background, plus
+window size presets. Caption availability depends on YouTube's player API.
+The sleep timer survives closing PiP (not reloading the source tab), supports
+end of video and +10 minutes, and optionally fades sound for the last ten seconds.
+Window mode changes apply on the next opening. New strings are translated into
+English and Russian; other locales use English for the new strings.
+
+Hidden chat is unloaded and hidden queue thumbnails are not rendered. Timeline
+fallback polling is reduced from 20 to 6 calls per minute; data events refresh
+immediately. This is a call-count reduction, not a measured CPU percentage.
+
 ## Features
 
 ### Regular videos
@@ -39,9 +71,10 @@ neither blocked nor skipped (Web Store safe).
   around its centre and never breaking apart when the window is narrowed:
   - the playback row in the middle:
     `[−30] [◀ previous] [⏯ play/pause] [▶ next] [+30]`;
-  - **volume 0–300%** — quieter than YouTube's zero and louder than its
-    maximum (Web Audio) — and the **speed** slider, 0.25x–3x with a
-    configurable step, click "1x" to reset;
+  - **volume 0–100%** controls native video volume; 100–300% adds smooth
+    Web Audio gain. The **speed** slider supports 0.25x–3x with a configurable
+    step; clicking its label cycles 1 → 1.5 → 2;
+  - **More** contains the tools below. Check a tool to pin it to the panel;
   - **A-B loop**: click 1 sets point A, click 2 sets point B, click 3 resets;
     plus loop for the whole video and autoplay of the next one;
   - **night mode** in two strengths and the **sleep timer** — 15–90 min
@@ -95,10 +128,10 @@ neither blocked nor skipped (Web Store safe).
 
 - **Drag from anywhere**: press and hold on the video, move — the window
   follows; release and it stays. Controls remain clickable.
-- **Video proportions**: the window opens at the video's exact aspect ratio,
-  snaps back to it after manual resizing and rebuilds itself when the video
-  changes. Inside the window the player is always letterboxed — no
-  "technical parts" are ever visible around the video.
+- **Video proportions**: opening requests a size matching the video; Chrome
+  may apply its own limits or a previously chosen size. More → Window size
+  provides three presets and Fit video. Optional automatic fitting runs only
+  when Chrome permits it. Video remains letterboxed inside the window.
 - **Size memory** — stored separately for landscape videos and vertical
   Shorts. (Window position cannot be set — the Document PiP API only accepts
   a size; Chrome partially remembers where the window was on its own.)
@@ -238,3 +271,27 @@ Tests: `npm install && npm test` — vitest over the pure functions
 - [ ] Hotkeys from another Chrome window and inside the window.
 - [ ] Options apply without a page reload; en/ru locales.
 - [ ] Uninstalling the extension opens the feedback form.
+
+## Development checks
+
+`npm run check` validates versions, JS syntax and manifest/HTML resources.
+`npm run build` runs validation and tests before producing the ZIP.
+`npm run preview` starts a real Document PiP fixture at
+`http://127.0.0.1:8765/watch?v=AAAAAAAAAAA`; ffmpeg generates the local sample
+videos. YouTube APIs and chrome.storage are mocked, so this does not establish
+live YouTube compatibility. Fixture files are excluded from the extension ZIP.
+See [STATUS.md](STATUS.md) for verification results and remaining limitations.
+
+## Development with OpenSpec
+
+Future changes use OpenSpec: proposal → specs → design → tasks → implementation
+→ verification → archive. In Codex, start with
+`$openspec-propose <change description>`.
+Install with `npm ci`; validate specifications with `npm run spec:check`.
+See [the workflow guide (Russian)](docs/openspec.md) for commands and project conventions.
+
+### Chapters and PiP modes
+With controls offers the current chapter and chapter navigation when YouTube
+provides chapter data. Compact mode hides the interface when the pointer leaves.
+Video only uses Chrome Native PiP without custom chapter controls. Choose the
+mode from either the page panel or the extension popup.

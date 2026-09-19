@@ -188,3 +188,73 @@ describe("the harness matches the manifest", () => {
     expect(CONTENT_SCRIPTS).toEqual(expected);
   });
 });
+
+describe("new controls and live settings", () => {
+  function update(values) {
+    const changes = Object.fromEntries(Object.entries(values).map(([key, newValue]) => [key, { newValue }]));
+    for (const [listener] of chrome.storage.onChanged.addListener.mock.calls) listener(changes, "sync");
+  }
+  test("keeps advanced tools in More and pins the same live control", async () => {
+    await YTFP.pip.open();
+    const menu = pipWindow.document.querySelector(".ytfp-more");
+    expect(menu.open).toBe(false);
+    const tools = pipWindow.document.querySelector(".ytfp-more-panel");
+    const loop = tools.querySelector('[aria-label="Loop this video"]');
+    expect(loop).not.toBeNull();
+    update({ pinnedTools: ["loop"] });
+    expect(pipWindow.document.querySelector(".ytfp-pinned-tools").contains(loop)).toBe(true);
+    update({ pinnedTools: [] }); expect(tools.contains(loop)).toBe(true);
+  });
+  test("closes More on a shielded video press, but keeps inside controls usable", async () => {
+    await YTFP.pip.open();
+    const doc = pipWindow.document;
+    const menu = doc.querySelector(".ytfp-more");
+    const panel = doc.querySelector(".ytfp-more-panel");
+    menu.open = true; panel.hidden = false;
+    panel.querySelector("button").dispatchEvent(new pipWindow.Event("pointerdown", { bubbles: true }));
+    expect(menu.open).toBe(true);
+    page.video.dispatchEvent(new pipWindow.Event("pointerdown", { bubbles: true }));
+    expect(menu.open).toBe(false);
+    expect(panel.hidden).toBe(true);
+    menu.open = true; panel.hidden = false;
+    doc.body.dispatchEvent(new pipWindow.Event("click", { bubbles: true }));
+    expect(menu.open).toBe(false);
+    expect(panel.hidden).toBe(true);
+  });
+  test("updates scale, compact mode, speed step and volume limit without reopening", async () => {
+    await YTFP.pip.open();
+    const panel = pipWindow.document.querySelector(".ytfp-bottom");
+    update({ panelScale: 180, compactMode: false, speedStep: .1, volumeBoostMax: 100 });
+    expect(pipWindow.document.documentElement.style.getPropertyValue("--ytfp-cap-user")).toBe("1.8");
+    expect(panel.classList.contains("ytfp-bottom--compact")).toBe(false);
+    expect(panel.querySelector(".ytfp-speed input").step).toBe("0.1");
+    expect(panel.querySelector(".ytfp-boost input").max).toBe("100");
+    expect(window.documentPictureInPicture.requestWindow).toHaveBeenCalledTimes(1);
+  });
+  test("sleep timer survives closing and reopening the window", async () => {
+    await YTFP.pip.open(); YTFP.sleepTimer.start(30); YTFP.pip.close();
+    expect(YTFP.sleepTimer.get().mode).toBe("time");
+    pipWindow = createPipWindowStub(); window.documentPictureInPicture.requestWindow = vi.fn(async () => pipWindow);
+    await YTFP.pip.open();
+    expect(pipWindow.document.querySelector(".ytfp-sleep-countdown").textContent).toMatch(/29:59|30:00/);
+    YTFP.sleepTimer.stop();
+  });
+  test("size preset respects portrait aspect and requests resize only on click", async () => {
+    Object.defineProperties(page.video, { videoWidth: { value: 720 }, videoHeight: { value: 1280 } });
+    await YTFP.pip.open(); expect(pipWindow.resizeTo).not.toHaveBeenCalled();
+    const small = [...pipWindow.document.querySelectorAll(".ytfp-size-controls button")].find(el => el.textContent === "Small");
+    small.click(); expect(pipWindow.resizeTo).toHaveBeenCalledWith(280, 528);
+  });
+  test("no longer queries timeline data every three seconds", async () => {
+    await YTFP.pip.open();
+    YTFP.pip.close();
+    vi.useFakeTimers();
+    // Open a fresh progress view so its timers use the fake clock.
+    const progress = YTFP.pipProgress.build(pipWindow.document, { getVideo: () => page.video });
+    const reads = vi.spyOn(YTFP.sponsorBlock, "getSegments");
+    vi.advanceTimersByTime(60000);
+    expect(reads).toHaveBeenCalledTimes(6);
+    document.dispatchEvent(new Event("ytfp-segments-changed")); expect(reads).toHaveBeenCalledTimes(7);
+    progress.cleanup(); reads.mockRestore(); vi.useRealTimers();
+  });
+});

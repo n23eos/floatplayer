@@ -53,6 +53,7 @@ YTFP.pipNav = (() => {
     badge.addEventListener("click", () => {
       const video = getVideo();
       if (video && video.paused) {
+        YTFP.sleepTimer?.resume();
         video.play().catch(() => {});
       }
     });
@@ -76,6 +77,7 @@ YTFP.pipNav = (() => {
         return;
       }
       if (video.paused) {
+        YTFP.sleepTimer?.resume();
         video.play().catch(() => {});
       } else {
         video.pause();

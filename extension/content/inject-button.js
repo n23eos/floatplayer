@@ -198,7 +198,8 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 
     // Убираем кнопки, оставшиеся в неактивных шортсах.
     for (const stale of document.querySelectorAll(`.${BUTTON_CLASS}--shorts`)) {
-      if (!activeActions || !activeActions.contains(stale)) {
+      const fallbackRoot = document.querySelector(YTFP.SELECTORS.shortsPlayerRoot);
+      if (activeActions ? !activeActions.contains(stale) : !fallbackRoot?.contains(stale)) {
         stale.remove();
       }
     }
@@ -261,6 +262,11 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
     ensureButton();
     YTFP.pagePanel.ensurePanel();
     YTFP.pip.ensurePlayerPlacement();
+    YTFP.audioBoost.syncVideo();
+    YTFP.sleepTimer.attachVideo();
+    YTFP.shortsRuntime.sync();
+    YTFP.channelProfiles.sync();
+    if (YTFP.playerApi.isPlayerPage()) YTFP.videoMetadata.refresh().then(() => YTFP.channelProfiles.sync());
   }
 
   const GUARD_INTERVAL_MS = 2000;
@@ -296,12 +302,23 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
       case "get-state":
         sendResponse({
           playerPage: YTFP.playerApi.isPlayerPage(),
-          pipOpen: YTFP.pip.isOpen()
+          pipOpen: YTFP.pip.isOpen(),
+          title: YTFP.utils.videoTitleFromPageTitle(document.title)
         });
         break;
       case "toggle-pip":
-        YTFP.pip.toggle();
-        break;
+        Promise.resolve(
+          YTFP.pip.toggle(
+            ["document", "native"].includes(message.mode) ? { mode: message.mode } : {}
+          )
+        ).then(
+          (ok) => sendResponse({ ok: ok === true }),
+          (error) => {
+            console.warn("[YTFP] Failed to toggle the mini-window:", error);
+            sendResponse({ ok: false });
+          }
+        );
+        return true;
       case "play-pause":
         YTFP.playerApi.togglePlayPause();
         break;
@@ -332,12 +349,16 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   async function init() {
     await YTFP.settings.load();
     syncAutoPip();
+    YTFP.shortsRuntime.init();
     YTFP.settings.onChange(syncAutoPip);
+    YTFP.settings.onChange(ensurePageUi);
 
     // YouTube — SPA: полная загрузка одна, дальше только yt-navigate-finish.
     document.addEventListener("yt-navigate-finish", onNavigateFinish);
     ensureButtonWithRetries();
   }
 
+  document.addEventListener("pointerdown", event => { if (event.isTrusted) YTFP.sleepTimer.resume(); }, true);
+  document.addEventListener("keydown", event => { if (event.isTrusted) YTFP.sleepTimer.resume(); }, true);
   init();
 })();

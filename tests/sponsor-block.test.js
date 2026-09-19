@@ -10,11 +10,13 @@ globalThis.chrome = { i18n: { getMessage: () => "" } };
 globalThis.location = { search: "" };
 globalThis.document = {
   addEventListener: () => {},
+  dispatchEvent: vi.fn(),
   querySelector: () => null // корня плеера нет — маркеры не рисуются
 };
 
 let settings;
 let isWatchPage = true;
+let currentVideo = null;
 
 require("../extension/shared/settings-schema.js");
 require("../extension/content/constants.js");
@@ -25,7 +27,7 @@ globalThis.YTFP.settings = {
   onChange: () => {}
 };
 globalThis.YTFP.playerApi = {
-  getVideo: () => null,
+  getVideo: () => currentVideo,
   isWatchPage: () => isWatchPage
 };
 globalThis.YTFP.pip = { getMovedPlayer: () => null };
@@ -54,6 +56,7 @@ beforeEach(async () => {
     sponsorCategories: ["sponsor"]
   };
   isWatchPage = true;
+  currentVideo = null;
   // Сброс внутреннего кэша модуля: уводим его на страницу без видео.
   globalThis.location.search = "";
   globalThis.fetch = vi.fn(async () => apiResponse([]));
@@ -132,6 +135,23 @@ describe("refresh", () => {
     settings = { ...settings, sponsorSkip: false };
     await sponsorBlock.refresh();
     expect(sponsorBlock.getSegments()).toEqual([]);
+  });
+
+  test("detaches time listeners when the feature is switched off", async () => {
+    const video = new EventTarget();
+    const add = vi.spyOn(video, "addEventListener");
+    const remove = vi.spyOn(video, "removeEventListener");
+    currentVideo = video;
+    setVideo("aaaaaaaaaaa");
+
+    await sponsorBlock.refresh();
+    expect(add).toHaveBeenCalledWith("timeupdate", expect.any(Function));
+    expect(add).toHaveBeenCalledWith("durationchange", expect.any(Function));
+
+    settings = { ...settings, sponsorSkip: false };
+    await sponsorBlock.refresh();
+    expect(remove).toHaveBeenCalledWith("timeupdate", expect.any(Function));
+    expect(remove).toHaveBeenCalledWith("durationchange", expect.any(Function));
   });
 
   test("clears the segments when leaving the watch page", async () => {

@@ -9,3 +9,10 @@ scripts/shots/build/
 # Локальные рабочие файлы
 .claude/
 .plan.md
+
+# Generated local browser fixture
+tests/browser/sample.mp4
+tests/browser/portrait.mp4
+
+# Private notes at any depth
+\!notes/

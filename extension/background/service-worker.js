@@ -42,26 +42,32 @@ chrome.runtime.onInstalled.addListener((details) => {
 // Ищем подходящую вкладку YouTube и пересылаем команду её content-скрипту.
 
 async function findTargetTab() {
-  // Приоритет: активная вкладка последнего окна в фокусе ->
-  // вкладка со звуком -> любая активная -> первая попавшаяся.
-  const [focusedActive] = await chrome.tabs.query({
-    url: "*://www.youtube.com/*",
-    active: true,
-    lastFocusedWindow: true
-  });
-  if (focusedActive) {
-    return focusedActive;
-  }
-  const youtubeTabs = await chrome.tabs.query({ url: "*://www.youtube.com/*" });
-  if (youtubeTabs.length === 0) {
-    return null;
-  }
-  return (
-    youtubeTabs.find((tab) => tab.audible) ||
-    youtubeTabs.find((tab) => tab.active) ||
-    youtubeTabs[0]
-  );
+  const tabs = await chrome.tabs.query({ url: "*://www.youtube.com/*" });
+  const states = await Promise.all(tabs.map(async tab => {
+    try { return { tab, state: await chrome.tabs.sendMessage(tab.id, { command: "get-state" }) }; }
+    catch { return { tab, state: null }; }
+  }));
+  const pip = states.find(item => item.state?.pipOpen);
+  if (pip) return { ...pip.tab, playerState: pip.state };
+  const [focused] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+  const ready = states.filter(item => item.state?.playerPage);
+  const chosen = ready.find(item => item.tab.id === focused?.id) ||
+    ready.find(item => item.tab.audible) || ready.find(item => item.tab.active) || ready[0];
+  return chosen ? { ...chosen.tab, playerState: chosen.state } : null;
 }
+
+chrome.runtime.onMessage.addListener((message, sender, reply) => {
+  if (message?.command === "get-tab-id" && sender.tab) {
+    reply({ tabId: sender.tab.id });
+  } else if (message?.command === "resolve-target" && !sender.tab) {
+    findTargetTab().then(reply, () => reply(null));
+    return true;
+  }
+});
+// Очереди принадлежат вкладкам и не оставляют историю после их закрытия.
+chrome.tabs.onRemoved.addListener(tabId => {
+  chrome.storage.local.remove(`queue:${tabId}`).catch(() => {});
+});
 
 chrome.commands.onCommand.addListener(async (command) => {
   try {

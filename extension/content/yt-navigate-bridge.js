@@ -23,7 +23,7 @@
       return;
     }
     const data = event.data;
-    if (!data || data.type !== MESSAGE_TYPE) {
+    if (!data || ![MESSAGE_TYPE, "ytfp-watch-navigate"].includes(data.type)) {
       return;
     }
     const videoId = data.videoId;
@@ -32,6 +32,13 @@
     }
     const app = document.querySelector("ytd-app");
     if (!app || typeof app.fire !== "function") {
+      return;
+    }
+    if (data.type === "ytfp-watch-navigate") {
+      app.fire("yt-navigate", { endpoint: {
+        commandMetadata: { webCommandMetadata: { url: `/watch?v=${videoId}`, webPageType: "WEB_PAGE_TYPE_WATCH", rootVe: 3832 } },
+        watchEndpoint: { videoId }
+      } });
       return;
     }
     app.fire("yt-navigate", {

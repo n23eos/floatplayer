@@ -38,23 +38,9 @@ YTFP.pipControls = (() => {
   };
 
   /** Отдаёт дорожке ползунка долю пройденного — по ней рисуется заливка. */
-  function paintSlider(slider) {
-    const percent = YTFP.utils.sliderFillPercent(slider.value, slider.min, slider.max);
-    slider.style.setProperty("--ytfp-fill", `${percent}%`);
-  }
+  const paintSlider = slider => YTFP.ui.paintSlider(slider);
 
-  function createIcon(doc, name) {
-    const SVG_NS = "http://www.w3.org/2000/svg";
-    const svg = doc.createElementNS(SVG_NS, "svg");
-    svg.setAttribute("viewBox", "0 0 24 24");
-    svg.setAttribute("width", "14");
-    svg.setAttribute("height", "14");
-    svg.setAttribute("fill", "currentColor");
-    const path = doc.createElementNS(SVG_NS, "path");
-    path.setAttribute("d", ICONS[name]);
-    svg.appendChild(path);
-    return svg;
-  }
+  function createIcon(doc, name) { return YTFP.ui.icon(doc, ICONS[name], 14); }
 
   /** content — строка или DOM-узел (иконка). */
   function createButton(doc, content, title, onClick) {
@@ -80,7 +66,7 @@ YTFP.pipControls = (() => {
     // боковой колонки (chatToggle) строят соседние модули, сюда они приходят
     // готовыми: панель одна, а собирается из трёх источников.
     bar.className = "ytfp-bottom";
-    if (YTFP.settings.get().compactMode) {
+    if (isShorts || YTFP.settings.get().compactMode) {
       bar.classList.add("ytfp-bottom--compact");
     }
     // Узкое вертикальное окно шортсов: компактная панель без нишевых
@@ -152,6 +138,7 @@ YTFP.pipControls = (() => {
         }
         video.loop = !video.loop;
         loopButton.classList.toggle("ytfp-btn--active", video.loop);
+        loopButton.setAttribute("aria-pressed", String(video.loop));
       }
     );
 
@@ -169,10 +156,12 @@ YTFP.pipControls = (() => {
       () => {
         isAutoplayOn = !isAutoplayOn;
         autoplayButton.classList.toggle("ytfp-btn--active", isAutoplayOn);
+        autoplayButton.setAttribute("aria-pressed", String(isAutoplayOn));
         chrome.storage.sync.set({ autoplayNext: isAutoplayOn }).catch(() => {});
       }
     );
     autoplayButton.classList.toggle("ytfp-btn--active", isAutoplayOn);
+    autoplayButton.setAttribute("aria-pressed", String(isAutoplayOn));
 
     // --- Автопереход к следующему шортсу --------------------------------------
     // Тот же приём, что у автовоспроизведения: локальный флаг + запись в
@@ -186,10 +175,12 @@ YTFP.pipControls = (() => {
       () => {
         isShortsAutoOn = !isShortsAutoOn;
         shortsAutoButton.classList.toggle("ytfp-btn--active", isShortsAutoOn);
+        shortsAutoButton.setAttribute("aria-pressed", String(isShortsAutoOn));
         chrome.storage.sync.set({ shortsAutoNext: isShortsAutoOn }).catch(() => {});
       }
     );
     shortsAutoButton.classList.toggle("ytfp-btn--active", isShortsAutoOn);
+    shortsAutoButton.setAttribute("aria-pressed", String(isShortsAutoOn));
 
     // --- Play/pause -------------------------------------------------------------
     // Родные контролы YouTube в окне скрыты, поэтому пауза живёт здесь.
@@ -203,6 +194,7 @@ YTFP.pipControls = (() => {
           return;
         }
         if (video.paused) {
+          YTFP.sleepTimer?.resume();
           video.play().catch(() => {});
         } else {
           video.pause();
@@ -218,6 +210,7 @@ YTFP.pipControls = (() => {
       // Заодно синхронизируем подсветку loop: у <video> нет события "loop",
       // а само видео могло смениться (рекомендации, плейлист, шортсы).
       loopButton.classList.toggle("ytfp-btn--active", Boolean(video && video.loop));
+      loopButton.setAttribute("aria-pressed", String(Boolean(video && video.loop)));
     }
 
     // --- Прямой эфир ----------------------------------------------------------
@@ -268,8 +261,8 @@ YTFP.pipControls = (() => {
     // Границы выравниваем по шагу: сетка range считается от min, и при
     // шаге 0.1 от 0.25 ровной единицы в ней не было — браузер подменял
     // 1x на ближайшее допустимое 1.05x.
-    const speedStep = YTFP.settings.get().speedStep;
-    const speedRange = YTFP.utils.speedSliderRange(
+    let speedStep = YTFP.settings.get().speedStep;
+    let speedRange = YTFP.utils.speedSliderRange(
       YTFP.SPEED_MIN,
       YTFP.SPEED_MAX,
       speedStep
@@ -279,7 +272,8 @@ YTFP.pipControls = (() => {
     speedSlider.step = String(speedStep);
     speedSlider.value = "1";
 
-    const speedLabel = pipDocument.createElement("span");
+    const speedLabel = pipDocument.createElement("button");
+    speedLabel.type = "button";
     speedLabel.className = "ytfp-speed-label";
     YTFP.tooltips.attach(speedLabel, t("speedCycleTooltip", "Speed presets: 1 → 1.5 → 2"));
 
@@ -363,146 +357,38 @@ YTFP.pipControls = (() => {
     function applyNightLevel() {
       YTFP.nightMode.applyTo(pipDocument, nightLevel);
       nightButton.classList.toggle("ytfp-btn--active", nightLevel !== "off");
+      nightButton.setAttribute("aria-pressed", String(nightLevel !== "off"));
+      const nightState = nightLevel === "deep"
+        ? t("nightStateDeep", "Deep")
+        : nightLevel === "warm"
+          ? t("nightStateWarm", "Warm")
+          : t("nightStateOff", "Off");
+      const nightLabel = `${t("toolNight", "Night mode")}: ${nightState}`;
+      nightButton.setAttribute("aria-label", nightLabel);
+      nightButton.setAttribute("data-ytfp-tip", nightLabel);
       // Заливка кнопки показывает силу режима — отдельной подписи не нужно.
       nightButton.dataset.night = nightLevel;
     }
 
     applyNightLevel();
 
-    // --- Таймер сна -----------------------------------------------------------
-    // По истечении — пауза. Живёт, пока открыто мини-окно.
-    const SLEEP_PRESETS_MIN = [15, 30, 45, 60, 90];
-    let sleepDeadline = null;   // timestamp окончания, ms
-    let sleepTicker = null;     // interval обновления обратного отсчёта
-
-    const sleepWrap = pipDocument.createElement("label");
-    sleepWrap.className = "ytfp-sleep";
-    YTFP.tooltips.attach(sleepWrap, t("sleepTooltip", "Sleep timer: pauses the video when it runs out"));
-
-    const sleepSelect = pipDocument.createElement("select");
-    sleepSelect.className = "ytfp-select";
-    const offOption = pipDocument.createElement("option");
-    offOption.value = "0";
-    offOption.textContent = t("sleepOff", "off");
-    sleepSelect.appendChild(offOption);
-    for (const minutes of SLEEP_PRESETS_MIN) {
-      const option = pipDocument.createElement("option");
-      option.value = String(minutes);
-      option.textContent = `${minutes} ${t("sleepMinutes", "min")}`;
-      sleepSelect.appendChild(option);
-    }
-    // Произвольное значение: пункт «своё…» открывает поле ввода минут.
-    const customOption = pipDocument.createElement("option");
-    customOption.value = "custom";
-    customOption.textContent = t("sleepCustom", "custom…");
-    sleepSelect.appendChild(customOption);
-
-    const sleepCustomInput = pipDocument.createElement("input");
-    sleepCustomInput.type = "number";
-    sleepCustomInput.className = "ytfp-sleep-input";
-    sleepCustomInput.min = "1";
-    sleepCustomInput.max = "720";
-    sleepCustomInput.placeholder = t("sleepMinutes", "min");
-    sleepCustomInput.style.display = "none";
-
-    const sleepCountdown = pipDocument.createElement("span");
-    sleepCountdown.className = "ytfp-sleep-countdown";
-
-    // Пока таймер идёт, интерфейс окна прячется полностью;
-    // движение мыши показывает его на пару секунд.
-    const PEEK_MS = 3000;
-    let peekTimer = null;
-
-    function onSleepMouseMove() {
-      pipDocument.body.classList.add("ytfp-peek");
-      clearTimeout(peekTimer);
-      peekTimer = setTimeout(() => {
-        pipDocument.body.classList.remove("ytfp-peek");
-      }, PEEK_MS);
-    }
-
-    function setSleepingUi(isSleeping) {
-      pipDocument.body.classList.toggle("ytfp-sleeping", isSleeping);
-      pipDocument.body.classList.remove("ytfp-peek");
-      clearTimeout(peekTimer);
-      if (isSleeping) {
-        pipDocument.addEventListener("mousemove", onSleepMouseMove);
-      } else {
-        pipDocument.removeEventListener("mousemove", onSleepMouseMove);
-      }
-    }
-
-    function stopSleepTimer() {
-      clearInterval(sleepTicker);
-      sleepTicker = null;
-      sleepDeadline = null;
-      sleepCountdown.textContent = "";
-      sleepSelect.value = "0";
-      sleepCustomInput.style.display = "none";
-      sleepCustomInput.value = "";
-      setSleepingUi(false);
-    }
-
-    function tickSleepTimer() {
-      const remainingSeconds = Math.round((sleepDeadline - Date.now()) / 1000);
-      if (remainingSeconds <= 0) {
-        const video = getVideo();
-        if (video) {
-          video.pause();
-        }
-        stopSleepTimer();
-        return;
-      }
-      sleepCountdown.textContent = YTFP.utils.formatTime(remainingSeconds);
-    }
-
-    function startSleepTimer(minutes) {
-      clearInterval(sleepTicker);
-      sleepDeadline = Date.now() + minutes * 60 * 1000;
-      sleepTicker = setInterval(tickSleepTimer, 1000);
-      tickSleepTimer();
-      setSleepingUi(true);
-    }
-
-    sleepSelect.addEventListener("change", () => {
-      if (sleepSelect.value === "custom") {
-        // Ввод своего значения: показываем поле, таймер стартует по Enter.
-        clearInterval(sleepTicker);
-        sleepCountdown.textContent = "";
-        sleepCustomInput.style.display = "";
-        sleepCustomInput.focus();
-        return;
-      }
-      sleepCustomInput.style.display = "none";
-      const minutes = Number(sleepSelect.value);
-      if (minutes <= 0) {
-        stopSleepTimer();
-        return;
-      }
-      startSleepTimer(minutes);
-    });
-
-    function commitCustomSleep() {
-      const minutes = Math.floor(Number(sleepCustomInput.value));
-      if (minutes >= 1) {
-        startSleepTimer(Math.min(minutes, 720));
-      } else {
-        stopSleepTimer();
-      }
-    }
-
-    sleepCustomInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        commitCustomSleep();
-      } else if (event.key === "Escape") {
-        stopSleepTimer();
-      }
-    });
-    sleepCustomInput.addEventListener("change", commitCustomSleep);
-
-    // Иконка Луны отсюда уехала в отдельную кнопку ночного режима: внутри
-    // <label> клик по ней открывал бы выпадающий список минут.
-    sleepWrap.append(sleepSelect, sleepCustomInput, sleepCountdown);
+    const sleep = YTFP.pipSleep.build(pipDocument);
+    const sleepWrap = sleep.element;
+    const captions = YTFP.pipCaptions.build(pipDocument);
+    const sizes = YTFP.windowSize.build(pipDocument, getVideo);
+    const history = isShorts && YTFP.pipHistory
+      ? YTFP.pipHistory.build(pipDocument)
+      : null;
+    const menu = YTFP.pipMenu.build(pipDocument, [
+      ...(!isShorts ? [["ab", "toolAb", "A–B repeat", abButton], ["loop", "toolLoop", "Repeat video", loopButton],
+      ["autoplay", "toolAutoplay", "Autoplay", autoplayButton]] : []),
+      ["copy", "toolCopy", "Copy link", copyButton], ["night", "toolNight", "Night mode", nightButton],
+      ["sleep", "toolSleep", "Sleep timer", sleepWrap], ["comments", "toolComments", "Comments / chat", chatToggle],
+      ["profile", "profileSave", "Remember for this channel", YTFP.channelProfiles.build(pipDocument).element],
+      ["captions", "toolCaptions", "Captions", captions.element], ["size", "toolSize", "Window size", sizes],
+      ...(history ? [["history", "shortsHistory", "History", history.element, false]] : [])
+    ]);
+    const search = isShorts ? YTFP.pipSearch.build(pipDocument) : null;
 
     // --- Сборка панели --------------------------------------------------------
     // Две строки: сверху воспроизведение по центру, снизу всё остальное —
@@ -537,106 +423,44 @@ YTFP.pipControls = (() => {
       return makeRow("ytfp-row--nav", spacer, playbackRow, liveSlot);
     }
 
+    const directSpeed = YTFP.surfaceControls.speed(pipDocument, getVideo);
+    YTFP.surfaceControls.install(pipDocument);
+    // Keep the precise slider; the labelled disclosure offers direct presets.
+    speedLabel.replaceWith(directSpeed.element);
     if (isShorts) {
-      // Отдельная капсула над панелью: «нравится» и автопереход к следующему
-      // шортсу. Лежит внутри панели, но позиционируется над ней
-      // (см. .ytfp-shorts-bar), поэтому прячется вместе с ней и не зависит
-      // от того, во сколько строк перенеслась сама панель.
-      // Дизлайка в разметке шортсов нет — в капсулу берём только «нравится».
-      const [likeButton] = reactionButtons || [];
-      const shortsCapsule = pipDocument.createElement("div");
-      shortsCapsule.className = "ytfp-shorts-bar";
-
-      // --- Поиск шортсов по слову -------------------------------------------
-      // Лупа открывает поле над капсулой. Enter — поиск и переход к первому
-      // найденному; дальше вперёд/назад и автопереход ходят по найденному
-      // списку. Пока лупа красная — режим активен; повторный клик или Esc
-      // гасят режим, навигация возвращается к обычной ленте.
-      const searchWrap = pipDocument.createElement("div");
-      searchWrap.className = "ytfp-shorts-search";
-      searchWrap.hidden = true;
-      const searchInput = pipDocument.createElement("input");
-      searchInput.type = "text";
-      searchInput.placeholder = t("shortsSearchPlaceholder", "Search shorts…");
-      searchWrap.appendChild(searchInput);
-
-      const searchButton = createButton(
-        pipDocument,
-        createIcon(pipDocument, "search"),
-        t("shortsSearchTooltip", "Play shorts by keyword"),
-        () => {
-          if (YTFP.shortsSearch.isActive() || !searchWrap.hidden) {
-            closeSearch();
-            return;
-          }
-          searchWrap.hidden = false;
-          searchInput.focus();
-        }
-      );
-
-      function closeSearch() {
-        YTFP.shortsSearch.stop();
-        searchWrap.hidden = true;
-        searchInput.value = "";
-        searchInput.classList.remove("ytfp-shorts-search--empty");
-        searchButton.classList.remove("ytfp-btn--active");
-      }
-
-      searchInput.addEventListener("keydown", (event) => {
-        // Клавиши из поля не должны доходить до горячих клавиш окна и
-        // слушателей YouTube: пробел в запросе — не пауза.
-        event.stopPropagation();
-        if (event.key === "Escape") {
-          closeSearch();
-          return;
-        }
-        if (event.key !== "Enter") {
-          return;
-        }
-        searchInput.classList.remove("ytfp-shorts-search--empty");
-        YTFP.shortsSearch.search(searchInput.value).then(({ count }) => {
-          if (count > 0) {
-            // Нашли и уже переходим: поле прячем, режим показывает лупа.
-            searchWrap.hidden = true;
-            searchButton.classList.add("ytfp-btn--active");
-          } else {
-            // Пусто или сбой сети — красная рамка, поле остаётся.
-            searchInput.classList.add("ytfp-shorts-search--empty");
-          }
-        });
-      });
-      // Красная рамка «ничего не нашли» гаснет при правке запроса.
-      searchInput.addEventListener("input", () => {
-        searchInput.classList.remove("ytfp-shorts-search--empty");
-      });
-
-      shortsCapsule.append(
-        ...[likeButton, shortsAutoButton, searchButton].filter(Boolean),
-        searchWrap
-      );
-
-      // Узкое вертикальное окно: только самое нужное.
+      YTFP.tooltips.attach(boostWrap, t('volumeShort','Volume'));
       bar.append(
-        shortsCapsule,
         makeNavRow(navRow || playButton),
-        makeRow(
-          "ytfp-row--main",
-          makeGroup(boostWrap),
-          makeGroup(...[nightButton, sleepWrap, copyButton].filter(Boolean))
-        )
+        makeRow('ytfp-row--shorts-volume', boostWrap),
+        makeRow('ytfp-row--shorts-tools', directSpeed.element, shortsAutoButton, search.element, menu.element),
+        menu.pins
       );
     } else {
-      // Воспроизведение — своей строкой сверху, остальное — строкой ниже:
-      // ползунок и кнопки слева, кнопки и ползунок справа.
       bar.append(
         makeNavRow(navRow || playButton),
-        makeRow(
-          "ytfp-row--main",
-          makeGroup(...[boostWrap, abButton, loopButton, autoplayButton, copyButton].filter(Boolean)),
-          makeGroup(nightButton, sleepWrap, chatToggle, speedWrap)
-        )
+        makeRow("ytfp-row--main", makeGroup(boostWrap), makeGroup(speedWrap, menu.element)),
+        menu.pins
       );
     }
+
+    function applySettings(settings) {
+      bar.classList.toggle("ytfp-bottom--compact", isShorts || settings.compactMode);
+      pipDocument.documentElement.style.setProperty("--ytfp-cap-user", String(settings.panelScale / 100));
+      speedStep = settings.speedStep;
+      speedRange = YTFP.utils.speedSliderRange(YTFP.SPEED_MIN, YTFP.SPEED_MAX, speedStep);
+      speedSlider.min = String(speedRange.min); speedSlider.max = String(speedRange.max); speedSlider.step = String(speedStep);
+      boostSlider.max = String(settings.volumeBoostMax);
+      isAutoplayOn = settings.autoplayNext; isShortsAutoOn = settings.shortsAutoNext;
+      autoplayButton.classList.toggle("ytfp-btn--active", isAutoplayOn);
+      autoplayButton.setAttribute("aria-pressed", String(isAutoplayOn));
+      shortsAutoButton.classList.toggle("ytfp-btn--active", isShortsAutoOn);
+      shortsAutoButton.setAttribute("aria-pressed", String(isShortsAutoOn));
+      nightLevel = settings.nightMode; applyNightLevel();
+      refreshSpeedControls(); refreshBoost();
+    }
+    YTFP.settings.onChange(applySettings);
+    YTFP.audioBoost.onChange(refreshBoost);
+    applySettings(YTFP.settings.get());
 
     // Слушатели на <video>: время (для A-B), скорость, пауза (для иконки).
     const video = getVideo();
@@ -646,127 +470,18 @@ YTFP.pipControls = (() => {
       video.addEventListener("ratechange", refreshSpeedControls);
       video.addEventListener("play", refreshPlayIcon);
       video.addEventListener("pause", refreshPlayIcon);
+      video.addEventListener("volumechange", refreshBoost);
+      video.addEventListener("loadedmetadata", resetAb);
     }
     refreshSpeedControls();
     refreshPlayIcon();
     refreshLiveState();
 
     // Горячие клавиши внутри PiP-окна: фокус там, страница их не слышит.
-    function onKeyDown(event) {
-      const tag = event.target && event.target.tagName;
-      if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") {
-        return; // стрелки на слайдере двигают слайдер, не видео
-      }
-      const currentVideo = getVideo();
-      if (!currentVideo) {
-        return;
-      }
-      // Не event.key напрямую: на нелатинской раскладке он приходит другой
-      // («л» вместо «k»), и окно оставалось без половины клавиш. Список
-      // обрабатываемых клавиш и разбор раскладки — в utils.hotkeyFromEvent;
-      // всё остальное (f, c, i) уходит к YouTube без изменений.
-      const hotkey = YTFP.utils.hotkeyFromEvent(event);
-      if (hotkey === null) {
-        return;
-      }
-      // Плеер переехал в это окно вместе со слушателями YouTube, и они
-      // обрабатывают те же клавиши. Без этого пробел давал двойное
-      // переключение: пауза от YouTube и тут же снятие от нас.
-      event.stopPropagation();
-      // Цифры 0–9 — прыжок к N×10% видео (как на самом YouTube).
-      if (/^[0-9]$/.test(hotkey)) {
-        if (YTFP.playerApi.isAdShowing()) {
-          return; // реклама не мотается
-        }
-        const target = YTFP.utils.digitSeekTime(currentVideo.duration, Number(hotkey));
-        if (target !== null) {
-          currentVideo.currentTime = target;
-        }
-        return;
-      }
-      switch (hotkey) {
-        case " ":
-        case "k":
-          event.preventDefault();
-          if (currentVideo.paused) {
-            currentVideo.play().catch(() => {});
-          } else {
-            currentVideo.pause();
-          }
-          break;
-        // Границы берём из getSeekRange: у прямого эфира длительности нет,
-        // а мотать надо в пределах DVR-буфера.
-        case "ArrowLeft":
-        case "ArrowRight": {
-          if (YTFP.playerApi.isAdShowing()) {
-            break; // реклама не мотается
-          }
-          const bounds = YTFP.playerApi.getSeekRange(currentVideo);
-          if (!bounds) {
-            break;
-          }
-          const step = hotkey === "ArrowRight"
-            ? YTFP.SEEK_STEP_SECONDS
-            : -YTFP.SEEK_STEP_SECONDS;
-          currentVideo.currentTime = YTFP.utils.clamp(
-            currentVideo.currentTime + step,
-            bounds.start,
-            bounds.end
-          );
-          break;
-        }
-        case "m":
-          currentVideo.muted = !currentVideo.muted;
-          break;
-        case "ArrowUp":
-        case "ArrowDown": {
-          event.preventDefault();
-          // В шортсах стрелки листают ленту — как на самой странице YouTube.
-          // Громкость там остаётся на ползунке панели и на клавише m.
-          if (isShorts) {
-            const go = hotkey === "ArrowDown" ? onNext : onPrev;
-            if (go) {
-              go();
-            }
-            break;
-          }
-          // Громкость ±10% через тот же тракт, что и слайдер (0–300%).
-          const VOLUME_KEY_STEP_PERCENT = 10;
-          const delta = hotkey === "ArrowUp" ? VOLUME_KEY_STEP_PERCENT : -VOLUME_KEY_STEP_PERCENT;
-          const nextPercent = YTFP.audioBoost.getBoostPercent() + delta;
-          const ok = YTFP.audioBoost.setBoostPercent(currentVideo, nextPercent);
-          if (ok) {
-            // Синхронизируем слайдер и подпись с фактическим значением.
-            refreshBoost();
-          }
-          break;
-        }
-        case "<":
-        case ">": {
-          const direction = hotkey === ">" ? 1 : -1;
-          // Границы те же, что у ползунка: иначе клавиши доводили бы
-          // скорость до значения, которого на ползунке нет.
-          currentVideo.playbackRate = YTFP.utils.nextSpeed(
-            currentVideo.playbackRate,
-            speedStep,
-            direction,
-            speedRange.min,
-            speedRange.max
-          );
-          break;
-        }
-        default:
-          break;
-      }
-    }
-    // Capture-фаза обязательна: слушатели YouTube висят внутри переехавшего
-    // плеера и в bubble-фазе успевают отработать раньше нас. Capture на
-    // документе идёт первым, поэтому stopPropagation() внутри onKeyDown их
-    // отсекает. Заодно пробел на кнопке в фокусе больше не порождает
-    // нативный click — событие до кнопки не доходит.
-    pipDocument.addEventListener("keydown", onKeyDown, true);
+    const hotkeys = YTFP.playbackHotkeys.attach(pipDocument,{getVideo,isShorts,onPrev,onNext,refreshBoost});
 
     function cleanup() {
+      directSpeed.cleanup();
       // Тот же элемент, на который вешали, — не результат нового getVideo().
       if (video) {
         video.removeEventListener("timeupdate", onTimeUpdate);
@@ -774,11 +489,13 @@ YTFP.pipControls = (() => {
         video.removeEventListener("ratechange", refreshSpeedControls);
         video.removeEventListener("play", refreshPlayIcon);
         video.removeEventListener("pause", refreshPlayIcon);
+        video.removeEventListener("volumechange", refreshBoost);
+        video.removeEventListener("loadedmetadata", resetAb);
       }
-      pipDocument.removeEventListener("keydown", onKeyDown, true);
-      clearInterval(sleepTicker);
-      clearTimeout(peekTimer);
-      pipDocument.removeEventListener("mousemove", onSleepMouseMove);
+      hotkeys.cleanup();
+      sleep.cleanup(); captions.cleanup(); menu.cleanup(); search?.cleanup(); history?.cleanup();
+      YTFP.settings.offChange(applySettings);
+      YTFP.audioBoost.offChange(refreshBoost);
     }
 
     return { element: bar, cleanup, refreshBoost };

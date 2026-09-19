@@ -18,12 +18,7 @@ YTFP.settings = (() => {
         panelScale: null,
         [LEGACY_PANEL_SIZE_KEY]: null
       });
-      const { [LEGACY_PANEL_SIZE_KEY]: legacySize, ...known } = stored;
-      cache = {
-        ...YTFP.DEFAULT_SETTINGS,
-        ...known,
-        panelScale: resolvePanelScale(known.panelScale, legacySize)
-      };
+      cache = YTFP.settingsSchema.normalizeSettings(stored);
     } catch (error) {
       console.warn("[YTFP] Failed to load settings, using defaults:", error);
     }
@@ -62,7 +57,7 @@ YTFP.settings = (() => {
           newValue === undefined ? YTFP.DEFAULT_SETTINGS[key] : newValue;
       }
     }
-    cache = updated;
+    cache = YTFP.settingsSchema.normalizeSettings(updated);
     // Каждый колбэк в своём try: упавший слушатель одного модуля не должен
     // лишать обновления остальные.
     for (const callback of listeners) {

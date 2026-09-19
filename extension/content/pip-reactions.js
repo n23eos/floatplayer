@@ -83,12 +83,16 @@ YTFP.pipReactions = (() => {
     button.className = `ytfp-reaction ytfp-reaction--${config.name}`;
 
     let active = false;
+    const count = pipDocument.createElement("span");
+    count.className = "ytfp-reaction-count";
+    count.textContent = "—";
 
     function render(nextActive) {
       active = nextActive;
       button.classList.toggle("ytfp-reaction--on", active);
+      button.setAttribute("aria-pressed", String(active));
       button.replaceChildren(
-        createIcon(pipDocument, active ? "filled" : "outline", config.flip)
+        createIcon(pipDocument, active ? "filled" : "outline", config.flip), count
       );
       YTFP.tooltips.attach(
         button,
@@ -103,6 +107,8 @@ YTFP.pipReactions = (() => {
       // Пары на странице нет — прячем: у шортсов, например, кнопки «не
       // нравится» в разметке может не быть вовсе.
       button.hidden = pageButton === null;
+      count.textContent = YTFP.videoMetadata.reactionCount(pageButton);
+      count.title = count.textContent === "—" ? t("reactionCountUnavailable", "YouTube does not provide this count") : count.textContent;
       const nextActive =
         pageButton !== null && pageButton.getAttribute("aria-pressed") === "true";
       if (nextActive !== active) {
@@ -144,11 +150,19 @@ YTFP.pipReactions = (() => {
       }
     }
 
+    function apply(settings) { root.classList.toggle("ytfp-reactions--compact", settings.compactMode); }
+    const onReveal = () => sync();
+    pipDocument.addEventListener("pointerenter", onReveal);
+    YTFP.settings.onChange(apply);
     sync();
-    const ticker = setInterval(sync, SYNC_INTERVAL_MS);
+    const ticker = setInterval(() => {
+      if (!YTFP.settings.get().compactMode || pipDocument.body.matches(":hover")) sync();
+    }, SYNC_INTERVAL_MS);
 
     function cleanup() {
       clearInterval(ticker);
+      pipDocument.removeEventListener("pointerenter", onReveal);
+      YTFP.settings.offChange(apply);
     }
 
     // buttons — те же кнопки по отдельности: в шортсах они расходятся по

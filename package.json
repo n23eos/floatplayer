@@ -1,15 +1,22 @@
 {
   "name": "youtube-floatplayer",
-  "version": "1.0.0",
+  "version": "1.21.1",
   "private": true,
   "license": "MIT",
   "description": "Chrome extension: YouTube video always on top with full controls",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "build": "bash scripts/build.sh"
+    "build": "bash scripts/build.sh",
+    "check": "node scripts/validate.mjs",
+    "prebuild": "npm run check && npm test",
+    "preview": "node tests/browser/server.mjs",
+    "prepreview": "node tests/browser/generate-media.mjs",
+    "openspec": "OPENSPEC_TELEMETRY=0 openspec",
+    "spec:check": "OPENSPEC_TELEMETRY=0 openspec validate --all --strict --no-interactive"
   },
   "devDependencies": {
+    "@fission-ai/openspec": "1.13.0",
     "jsdom": "^30.0.1",
     "vitest": "^4.1.11"
   }

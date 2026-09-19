@@ -15,6 +15,15 @@
 var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 
 YTFP.DEFAULT_SETTINGS = {
+  pinnedTools: [],
+  pagePinnedTools: [],
+  shortsPinnedTools: [],
+  shortsHistory: true,
+  shortsSide: "right",
+  autoFit: false,
+  captionSize: 100,
+  captionBackground: true,
+  sleepFade: true,
   autoPip: false,       // авто-вынос при уходе со вкладки
   speedStep: 0.25,      // шаг ползунка скорости
   volumeBoostMax: 300,  // потолок усиления громкости, %
@@ -126,7 +135,33 @@ YTFP.settingsSchema = (() => {
       : normalizePanelScale(storedScale);
   }
 
+  const TOOL_IDS = ["ab", "loop", "autoplay", "copy", "night", "sleep", "comments", "captions", "size", "profile"];
+  function normalizeSettings(stored = {}) {
+    const result = { ...YTFP.DEFAULT_SETTINGS };
+    for (const [key, fallback] of Object.entries(result)) {
+      if (typeof fallback === "boolean" && typeof stored[key] === "boolean") result[key] = stored[key];
+    }
+    for (const [key, values] of Object.entries({
+      speedStep: [0.1, 0.25, 0.5], volumeBoostMax: [100, 200, 300],
+      windowMode: ["document", "native"], nightMode: ["off", "warm", "deep"],
+      shortsSide: ["left", "right"],
+      captionSize: [75, 100, 125, 150, 200]
+    })) {
+      if (values.includes(stored[key])) result[key] = stored[key];
+    }
+    result.panelScale = resolvePanelScale(stored.panelScale, stored[LEGACY_PANEL_SIZE_KEY]);
+    result.chatPanelOpacity = normalizeChatOpacity(stored.chatPanelOpacity);
+    if (Array.isArray(stored.pinnedTools)) result.pinnedTools = [...new Set(stored.pinnedTools.filter(id => TOOL_IDS.includes(id)))];
+    for (const [key, ids] of Object.entries({ pagePinnedTools:["playback","night","clean","position","profile"], shortsPinnedTools:["side","profile","sleep","captions","size","copy","night"] })) {
+      if (Array.isArray(stored[key])) result[key] = [...new Set(stored[key].filter(id => ids.includes(id)))];
+    }
+    if (Array.isArray(stored.sponsorCategories)) result.sponsorCategories = [...new Set(stored.sponsorCategories.filter(id =>
+      ["sponsor", "selfpromo", "interaction", "intro", "outro", "preview", "music_offtopic", "filler"].includes(id)))];
+    return result;
+  }
+
   return {
+    normalizeSettings, TOOL_IDS,
     LEGACY_PANEL_SIZE_KEY,
     PANEL_SCALE_MIN,
     PANEL_SCALE_MAX,

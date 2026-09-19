@@ -1,85 +1,77 @@
 "use strict";
-
 var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 
-// Усиление громкости выше 100% через Web Audio API.
-// Граф: source -> gain -> выход. В нейтральном состоянии (100%) граф не
-// создаётся вовсе — аудио-путь YouTube не трогаем.
-// Граф создаётся лениво при первом использовании и живёт до конца страницы:
-// createMediaElementSource нельзя "отцепить" от <video> и нельзя создать
-// второй раз для того же элемента. Поэтому контекст живёт в мире страницы,
-// даже когда <video> перенесён в PiP-окно, — Chrome сохраняет маршрутизацию
-// звука (один процесс/агент-кластер); при сбое setBoostPercent вернёт false
-// и UI покажет «н/д».
+// 0–100% = обычная громкость video; >100% = video 100% + Web Audio.
+// Один источник на элемент, один AudioContext на страницу.
 YTFP.audioBoost = (() => {
-  let context = null;
-  let gainNode = null;
-  let connectedVideo = null;
-
-  function ensureGraph(video) {
-    if (connectedVideo === video && gainNode) {
-      return true;
-    }
-    if (connectedVideo && connectedVideo !== video) {
-      // Другой <video> подключить нельзя — источник привязан навсегда.
-      // На YouTube элемент один и переживает навигацию, так что это не проблема.
-      return false;
-    }
+  const graphs = new WeakMap();
+  let context = null, activeVideo = null, requested = null, fade = 1;
+  const listeners = new Set();
+  const emit = () => { for (const fn of listeners) fn(); };
+  function graphFor(video) {
+    if (graphs.has(video)) return graphs.get(video);
     try {
-      context = new AudioContext();
+      context ||= new AudioContext();
+      const gain = context.createGain();
       const source = context.createMediaElementSource(video);
-      gainNode = context.createGain();
-      source.connect(gainNode);
-      gainNode.connect(context.destination);
-      connectedVideo = video;
-      return true;
+      source.connect(gain);
+      gain.connect(context.destination);
+      const graph = { gain, multiplier: 1 };
+      graphs.set(video, graph);
+      return graph;
     } catch (error) {
       console.warn("[YTFP] Audio boost unavailable:", error);
-      // Контекст мог успеть создаться до сбоя (падает обычно
-      // createMediaElementSource). Без close() каждая новая попытка
-      // оставляла бы ещё один живой AudioContext, а их число на документ
-      // ограничено — дальше не создавался бы уже ни один.
-      if (context) {
-        context.close().catch(() => {});
-      }
-      context = null;
-      gainNode = null;
-      return false;
+      return null;
     }
   }
-
-  function resumeContext() {
-    // AudioContext стартует в suspended до жеста пользователя — возобновляем.
-    if (context && context.state === "suspended") {
-      context.resume().catch(() => {});
-    }
+  function getBoostPercent(video = YTFP.playerApi.getVideo()) {
+    if (!video) return 100;
+    if (video.muted) return 0;
+    if (video === activeVideo && fade < 1 && requested !== null) return requested;
+    return Math.round(video.volume * 100 * (graphs.get(video)?.multiplier || 1));
   }
-
-  /**
-   * Устанавливает громкость в процентах: 0 — тишина, 100 — как у YouTube,
-   * выше 100 — усиление (до volumeBoostMax). Возвращает true при успехе.
-   */
-  function setBoostPercent(video, percent) {
-    if (!video) {
-      return false;
+  function apply(video, percent) {
+    let graph = graphs.get(video);
+    if (percent > 100 && !graph) graph = graphFor(video);
+    if (percent > 100 && !graph) return false;
+    if (graph) {
+      if (context.state === "suspended") context.resume().catch(() => {});
+      graph.multiplier = Math.max(1, percent / 100);
+      const param = graph.gain.gain;
+      param.cancelScheduledValues(context.currentTime);
+      param.setTargetAtTime(graph.multiplier * fade, context.currentTime, 0.03);
     }
-    const max = YTFP.settings.get().volumeBoostMax;
-    const clamped = YTFP.utils.clamp(percent, 0, max);
-    if (clamped === 100 && !gainNode) {
-      // Значение нейтральное и граф ещё не создан — не трогаем аудио-путь.
-      return true;
-    }
-    if (!ensureGraph(video)) {
-      return false;
-    }
-    resumeContext();
-    gainNode.gain.value = clamped / 100;
+    video.volume = Math.min(percent / 100, 1) * (graph ? 1 : fade);
     return true;
   }
-
-  function getBoostPercent() {
-    return gainNode ? Math.round(gainNode.gain.value * 100) : 100;
+  function setBoostPercent(video, percent) {
+    if (!video || !Number.isFinite(percent)) return false;
+    const value = YTFP.utils.clamp(percent, 0, YTFP.settings.get().volumeBoostMax);
+    if (!apply(video, value)) return false;
+    activeVideo = video;
+    requested = value;
+    if (value > 0) video.muted = false;
+    emit();
+    return true;
   }
-
-  return { setBoostPercent, getBoostPercent };
+  function syncVideo() {
+    const video = YTFP.playerApi.getVideo();
+    if (!video) return;
+    if (video !== activeVideo) {
+      activeVideo = video;
+      if (requested !== null) apply(video, requested);
+    }
+    const max = YTFP.settings.get().volumeBoostMax;
+    if (getBoostPercent(video) > max) setBoostPercent(video, max);
+  }
+  function setFade(value) {
+    if (value === fade) return;
+    const video = YTFP.playerApi.getVideo();
+    if (fade === 1 && value < 1 && video) requested = Math.round(video.volume * 100 * (graphs.get(video)?.multiplier || 1));
+    fade = YTFP.utils.clamp(value, 0, 1);
+    if (video && requested !== null) apply(video, requested);
+  }
+  YTFP.settings.onChange(syncVideo);
+  return { setBoostPercent, getBoostPercent, syncVideo, setFade,
+    onChange: fn => listeners.add(fn), offChange: fn => listeners.delete(fn) };
 })();

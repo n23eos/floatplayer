@@ -32,6 +32,13 @@ const {
 } = settingsSchema;
 
 const elements = {
+  settingsForm: document.getElementById("settingsForm"),
+  loadState: document.getElementById("loadState"),
+  loadStateText: document.getElementById("loadStateText"),
+  retryLoad: document.getElementById("retryLoad"),
+  shortsHistory: document.getElementById("shortsHistory"),
+  autoFit: document.getElementById("autoFit"),
+  sleepFade: document.getElementById("sleepFade"),
   autoPip: document.getElementById("autoPip"),
   windowMode: document.getElementById("windowMode"),
   sponsorSkip: document.getElementById("sponsorSkip"),
@@ -90,12 +97,15 @@ function setSelectValue(select, value, fallback) {
 // пока её не заполнили, DOM показывает значения по умолчанию из HTML,
 // и запись отсюда затёрла бы реальные настройки пользователя.
 let isFormReady = false;
+let loadRevision = 0;
 // Счётчик сохранений: ответ чтения, начатого до сохранения, устарел —
 // иначе форма скакнула бы обратно на старое значение.
 let saveCount = 0;
 
 async function loadIntoForm() {
+  const revision = ++loadRevision;
   const startedAt = saveCount;
+  setFormState("loading");
   let settings;
   try {
     // panelScale и старый panelSize запрашиваем с null вместо значения по
@@ -107,19 +117,25 @@ async function loadIntoForm() {
       [LEGACY_PANEL_SIZE_KEY]: null
     });
   } catch (error) {
+    if (revision !== loadRevision) {
+      return;
+    }
     console.warn("[YTFP] Failed to read settings:", error);
     isFormReady = false;
-    showToast(
-      chrome.i18n.getMessage("optLoadError") ||
-        "Couldn't load your settings. Reload the page.",
-      "error"
-    );
+    setFormState("error");
+    return;
+  }
+  if (revision !== loadRevision) {
     return;
   }
   if (startedAt !== saveCount) {
+    setFormState(isFormReady ? "ready" : "error");
     return; // пока читали, форму уже сохранили — ответ протух
   }
+  if (elements.autoFit) elements.autoFit.checked = Boolean(settings.autoFit);
+  if (elements.sleepFade) elements.sleepFade.checked = Boolean(settings.sleepFade);
   elements.autoPip.checked = Boolean(settings.autoPip);
+  if (elements.shortsHistory) elements.shortsHistory.checked = settings.shortsHistory !== false;
   setSelectValue(elements.windowMode, settings.windowMode, DEFAULT_SETTINGS.windowMode);
   elements.sponsorSkip.checked = Boolean(settings.sponsorSkip);
   elements.sponsorAutoSkip.checked = Boolean(settings.sponsorAutoSkip);
@@ -146,7 +162,23 @@ async function loadIntoForm() {
   refreshChatOpacityLabel();
   refreshDependentRows();
   isFormReady = true;
+  setFormState("ready");
 }
+
+function setFormState(state) {
+  const ready = state === "ready";
+  elements.settingsForm.disabled = !ready;
+  elements.settingsForm.setAttribute("aria-busy", String(state === "loading"));
+  elements.loadState.hidden = ready;
+  elements.retryLoad.hidden = state !== "error";
+  elements.loadState.setAttribute("role", state === "error" ? "alert" : "status");
+  elements.loadState.setAttribute("aria-live", state === "error" ? "assertive" : "polite");
+  elements.loadStateText.textContent = state === "error"
+    ? chrome.i18n.getMessage("optLoadError") || "Couldn't load your settings. Try again."
+    : chrome.i18n.getMessage("optLoading") || "Loading settings...";
+}
+
+elements.retryLoad.addEventListener("click", loadIntoForm);
 
 // --- Плашка «Сохранено» ----------------------------------------------------
 
@@ -169,6 +201,8 @@ function showToast(text, kind) {
     toastText.textContent = text;
   }
   elements.status.classList.toggle("toast--error", kind === "error");
+  elements.status.setAttribute("role", kind === "error" ? "alert" : "status");
+  elements.status.setAttribute("aria-live", kind === "error" ? "assertive" : "polite");
   elements.status.hidden = false;
   // Браузер должен «увидеть» скрытое состояние до класса, иначе перехода не
   // будет. Принудительный пересчёт вместо requestAnimationFrame: в неактивной
@@ -193,7 +227,10 @@ async function save() {
   saveCount += 1;
   try {
     await chrome.storage.sync.set({
+      ...(elements.autoFit ? { autoFit: elements.autoFit.checked } : {}),
+      ...(elements.sleepFade ? { sleepFade: elements.sleepFade.checked } : {}),
       autoPip: elements.autoPip.checked,
+      ...(elements.shortsHistory ? {shortsHistory:elements.shortsHistory.checked} : {}),
       windowMode: elements.windowMode.value,
       sponsorSkip: elements.sponsorSkip.checked,
       sponsorAutoSkip: elements.sponsorAutoSkip.checked,
@@ -232,7 +269,7 @@ if (elements.panelScale) {
   elements.panelScale.addEventListener("input", refreshPanelScaleLabel);
 }
 
-for (const key of ["autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "panelScale", "pagePanel", "speedStep", "volumeBoostMax", "chatPanelOpacity"]) {
+for (const key of ["shortsHistory", "autoFit", "sleepFade", "autoPip", "windowMode", "sponsorSkip", "sponsorAutoSkip", "shortsAutoNext", "compactMode", "panelScale", "pagePanel", "speedStep", "volumeBoostMax", "chatPanelOpacity"]) {
   // Защита от рассинхрона HTML и этого списка: пропускаем отсутствующие.
   if (elements[key]) {
     elements[key].addEventListener("change", save);
