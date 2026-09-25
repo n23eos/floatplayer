@@ -24,6 +24,9 @@ YTFP.SELECTORS = {
   // скрыта нашим же CSS, и любая проверка видимости там всегда сказала бы
   // «не эфир».
   liveBadge: ".ytp-live .ytp-live-badge",
+  // Родная шкала содержит фактическое DVR-окно эфира. Media duration и
+  // seekable у YouTube могут включать ещё не существующую будущую область.
+  liveProgress: ".ytp-progress-bar",
   // Запасные источники ID текущего видео, когда его нет в адресе
   // (например, канальные страницы вида /@канал/live).
   canonicalLink: 'link[rel="canonical"]',

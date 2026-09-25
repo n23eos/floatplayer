@@ -7,6 +7,14 @@ http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost');
     let route = url.pathname;
+    if (route === '/') {
+      let html = await readFile(path.join(root, 'tests/browser/home.html'), 'utf8');
+      const messages = await readFile(path.join(root, 'extension/_locales/ru/messages.json'), 'utf8');
+      html = html.replace('<!-- messages -->', '<script>window.testMessages=' + messages.replaceAll('<', '\\u003c') + '</script>');
+      const files = [...manifest.content_scripts[0].js, 'content/yt-navigate-bridge.js'];
+      html = html.replace('<!-- scripts -->', files.map(file => `<script src="/extension/${file}"></script>`).join('\n'));
+      res.setHeader('Content-Type', 'text/html'); res.end(html); return;
+    }
     if (route === '/watch' || route.startsWith('/shorts/')) {
       let html = await readFile(path.join(root, 'tests/browser/index.html'), 'utf8');
       if (route.startsWith('/shorts/')) html = html.replace('/sample.mp4', '/portrait.mp4');
@@ -17,7 +25,11 @@ http.createServer(async (req, res) => {
     const file = path.resolve(root, '.' + route);
     if (!file.startsWith(root + path.sep) || /(?:\.git|node_modules|\.env)/.test(route)) { res.writeHead(403); res.end(); return; }
     let content = await readFile(file);
-    if ((route.endsWith('/options.html') || route.endsWith('/popup.html'))) content = content.toString().replace('<head>', '<head><script src="/tests/browser/chrome-stub.js"></script>');
+    if ((route.endsWith('/options.html') || route.endsWith('/popup.html') || route.endsWith('/welcome.html'))) content = content.toString().replace('<head>', '<head><script src="/tests/browser/chrome-stub.js"></script>');
+    if (route.endsWith('/welcome.html') || route.endsWith('/popup.html')) {
+      const messages = await readFile(path.join(root, 'extension/_locales/ru/messages.json'), 'utf8');
+      content = content.toString().replace('<head>', '<head><script>window.testManifest=' + JSON.stringify(manifest) + ';window.testMessages=' + messages.replaceAll('<', '\\u003c') + '</script>');
+    }
     const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.mp4': 'video/mp4', '.png': 'image/png' };
     res.setHeader('Content-Type', mime[path.extname(file)] || 'text/plain');
     if (route.endsWith('.mp4')) {

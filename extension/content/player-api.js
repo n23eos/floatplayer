@@ -40,54 +40,101 @@ YTFP.playerApi = (() => {
    * рекламному ролику, поэтому любая перемотка означала бы пропуск рекламы —
    * расширение этого не делает.
    */
-  function isAdShowing() {
-    const video = getVideo();
+  function isAdShowing(video = getVideo()) {
     const playerRoot = video && video.closest("#movie_player, #shorts-player");
     return Boolean(playerRoot && playerRoot.classList.contains("ad-showing"));
+  }
+
+  function getLiveBadge(video = getVideo()) {
+    const playerRoot = video && video.closest("#movie_player, #shorts-player");
+    return playerRoot && playerRoot.querySelector(YTFP.SELECTORS.liveBadge);
   }
 
   /**
    * Прямой эфир: у стрима внутри плеера есть значок «В эфире», у обычного
    * видео его нет. Ищем от корня плеера — он мог уехать в PiP-окно.
    */
-  function isLive() {
-    const video = getVideo();
-    const playerRoot = video && video.closest("#movie_player, #shorts-player");
-    return Boolean(playerRoot && playerRoot.querySelector(YTFP.SELECTORS.liveBadge));
+  function isLive(video = getVideo()) {
+    return Boolean(getLiveBadge(video));
   }
 
   /**
    * Куда вообще можно перемотать: { start, end } или null.
-   * Обычное видео — от нуля до длительности. Прямой эфир — длительность не
-   * конечна, и границы берём из seekable: это DVR-буфер, он начинается не в
-   * нуле и едет вперёд вместе с эфиром.
+   * Обычное видео использует диапазон от нуля до длительности. У прямого
+   * эфира duration и seekable.end могут включать фиктивное будущее, поэтому
+   * DVR-окно читаем из родной шкалы YouTube и проверяем её координаты.
    * Во время рекламы длительность конечна (это длительность ролика), поэтому
    * реклама попадает в первую ветку — как было до появления стримов.
    *
    * video можно передать явно: у полосок и панели свой getVideo(), и брать
    * элемент дважды разными путями — лишний риск разъехаться.
    */
-  // На сколько держимся позади самого края эфира при перемотке.
-  const LIVE_EDGE_BACKOFF_SECONDS = 1;
+  const LIVE_PROGRESS_TOLERANCE_SECONDS = 30;
+  const LIVEHEAD_CLASS = "ytp-live-badge-is-livehead";
+
+  function numberAttribute(element, name) {
+    const value = element && element.getAttribute(name);
+    if (value === null || value.trim() === "") {
+      return null;
+    }
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function hasPlayingLiveHead(video) {
+    const badge = getLiveBadge(video);
+    return Boolean(
+      badge &&
+      badge.classList.contains(LIVEHEAD_CLASS) &&
+      !video.paused &&
+      !video.seeking
+    );
+  }
+
+  function getNativeLiveRange(video) {
+    const playerRoot = video && video.closest("#movie_player, #shorts-player");
+    const progress = playerRoot && playerRoot.querySelector(YTFP.SELECTORS.liveProgress);
+    const start = numberAttribute(progress, "aria-valuemin");
+    const nativeEnd = numberAttribute(progress, "aria-valuemax");
+    const nativeNow = numberAttribute(progress, "aria-valuenow");
+    const atPlayingHead = hasPlayingLiveHead(video);
+    if (
+      start === null ||
+      nativeEnd === null ||
+      nativeNow === null ||
+      !Number.isFinite(video.currentTime) ||
+      nativeEnd <= start ||
+      nativeNow < start ||
+      nativeEnd < nativeNow ||
+      Math.abs(nativeNow - video.currentTime) > LIVE_PROGRESS_TOLERANCE_SECONDS ||
+      (!atPlayingHead && nativeEnd < video.currentTime)
+    ) {
+      return null;
+    }
+    // aria обновляется реже media time. У подтверждённого livehead не даём
+    // устаревшему max поставить правый край позади текущей позиции.
+    const end = atPlayingHead
+      ? Math.max(nativeEnd, video.currentTime)
+      : nativeEnd;
+    return end > start ? { start, end } : null;
+  }
 
   function getSeekRange(video = getVideo()) {
     if (!video) {
       return null;
     }
     // Реклама — обычный конечный ролик, её окно всегда от нуля.
-    const isLiveNow = !isAdShowing() && isLive();
+    const isLiveNow = !isAdShowing(video) && isLive(video);
+    if (isLiveNow) {
+      // Неизвестное состояние лучше недостоверного live range: raw
+      // duration/seekable уже подтверждённо могут вести на минуты вперёд.
+      return getNativeLiveRange(video);
+    }
     const hasSeekable = Boolean(video.seekable) && video.seekable.length > 0;
 
-    // У прямого эфира границы берём только из seekable. Доверять duration
-    // нельзя: у стрима она бывает конечной, но завышенной — полоска тогда
-    // не доезжает до конца, отставание считается от несуществующего края,
-    // а перемотка вправо уводит за буфер, где плеер встаёт насовсем.
-    if (hasSeekable && (isLiveNow || !Number.isFinite(video.duration) || video.duration <= 0)) {
+    if (hasSeekable && (!Number.isFinite(video.duration) || video.duration <= 0)) {
       const start = video.seekable.start(0);
-      const rawEnd = video.seekable.end(video.seekable.length - 1);
-      // Отступ от самого края: последние доли секунды ещё не догружены, и
-      // перемотка ровно в конец подвешивает плеер.
-      const end = isLiveNow ? rawEnd - LIVE_EDGE_BACKOFF_SECONDS : rawEnd;
+      const end = video.seekable.end(video.seekable.length - 1);
       if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
         return { start, end };
       }
@@ -125,26 +172,17 @@ YTFP.playerApi = (() => {
   }
 
   /** Край прямого эфира — дальняя граница окна. Буфер не набран -> null. */
-  function getLiveEdge() {
-    const bounds = getSeekRange();
+  function getLiveEdge(video = getVideo()) {
+    const bounds = getSeekRange(video);
     return bounds ? bounds.end : null;
   }
 
-  // Насколько можно отстать от края и всё ещё считаться «в эфире».
-  // Даже онлайн-плеер держится на несколько секунд позади seekable.end
-  // (задержка вещания и недокачанные чанки), и жёсткий порог заставлял бы
-  // кнопку LIVE мигать отставанием «−0:05», а полоску — не доезжать до
-  // правого края. Сам YouTube показывает «В эфире» с таким же щедрым
-  // допуском.
-  const LIVE_EDGE_TOLERANCE_SECONDS = 20;
-
   /** В эфире ли текущая позиция (единая проверка для кнопки и полоски). */
   function isAtLiveEdge(video = getVideo()) {
-    if (!video || !isLive()) {
+    if (!video || isAdShowing(video) || !isLive(video)) {
       return false;
     }
-    const behind = YTFP.utils.behindLiveSeconds(getLiveEdge(), video.currentTime);
-    return behind === null || behind < LIVE_EDGE_TOLERANCE_SECONDS;
+    return hasPlayingLiveHead(video);
   }
 
   /**
@@ -156,8 +194,17 @@ YTFP.playerApi = (() => {
    * Не эфир или нет буфера -> false.
    */
   function seekToLive(video = getVideo()) {
-    if (!video || isAdShowing() || !isLive()) {
+    if (!video || isAdShowing(video) || !isLive(video)) {
       return false;
+    }
+    const badge = getLiveBadge(video);
+    if (badge && typeof badge.click === "function") {
+      badge.click();
+      if (video.paused) {
+        YTFP.sleepTimer?.resume();
+        video.play().catch(() => {});
+      }
+      return true;
     }
     const bounds = getSeekRange(video);
     if (!bounds) {

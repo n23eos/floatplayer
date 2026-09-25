@@ -14,7 +14,17 @@ function storage(area) {
   };
 }
 window.chrome = {
-  runtime: { getURL: file => `/extension/${file}`, getManifest: () => ({ version: '1.20.0-dev' }), onMessage: { addListener() {} }, sendMessage: async message => message?.command === 'resolve-target' ? {id:1,url:'https://www.youtube.com/watch?v=AAAAAAAAAAA',playerState:{playerPage:true,pipOpen:false,title:'Тестовое видео'}} : ({ tabId: 1 }) },
+  runtime: { getURL: file => `/extension/${file}`, getManifest: () => window.testManifest || ({ version: '1.20.0-dev' }), onMessage: { addListener() {} }, sendMessage: async message => {
+    const mode = new URLSearchParams(location.search).get('update') || 'idle';
+    if (['update-state','check-update','install-update'].includes(message?.command)) {
+      if (mode === 'error') throw new Error('Fixture update error');
+      if (mode === 'unpacked') return {status:'unpacked'};
+      if (message.command === 'install-update') return {status:mode === 'open-player' ? 'close_player' : 'installing'};
+      if (mode === 'available' || mode === 'open-player') return {status:'update_available',version:'1.23.0'};
+      return {status: message.command === 'check-update' ? (mode === 'throttled' ? 'throttled' : 'no_update') : 'idle'};
+    }
+    return message?.command === 'resolve-target' ? {id:1,url:'https://www.youtube.com/watch?v=AAAAAAAAAAA',playerState:{playerPage:true,pipOpen:false,title:'Тестовое видео'}} : ({tabId:1});
+  } },
   tabs: {sendMessage:async (_id, message) => message?.command === 'toggle-pip' ? {ok:true} : ({playerPage:true,pipOpen:false}), create:async () => {}},
   i18n: { getMessage: key => window.testMessages?.[key]?.message || '', getUILanguage: () => 'ru' },
   storage: { sync: storage('sync'), local: storage('local'), onChanged: { addListener: fn => listeners.add(fn) } }

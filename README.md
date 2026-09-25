@@ -14,6 +14,14 @@ _[Русская версия](README.ru.md)_
 - Privacy policy — [PRIVACY.md](PRIVACY.md)
 - Author — [@Raincoat_talk](https://x.com/Raincoat_talk)
 
+## Version 1.22.1
+
+Live timing uses YouTube's native indicators instead of an inflated media
+buffer. The live button returns to the broadcast edge. The popup now shows
+the installed version and update checks. Chrome-prepared updates can be
+applied after closing the player. Unpacked installations still require
+replacing the local files and reloading the extension.
+
 ## Why it beats native PiP and other extensions
 
 | | Chrome native PiP | Popup extensions | **FloatPlayer** |
@@ -28,6 +36,13 @@ _[Русская версия](README.ru.md)_
 Playback never restarts: the actual YouTube player moves into the window, so
 your account, history, quality and captions are preserved. YouTube ads are
 neither blocked nor skipped (Web Store safe).
+
+## Version 1.22
+
+Hover over a supported video thumbnail on the YouTube homepage to show the
+small FloatPlayer button beside its duration. It opens the full player and
+navigates the source tab to the selected video without changing your saved
+window mode. Keyboard focus also reveals the button. Ads and Shorts are excluded.
 
 ## Version 1.20
 

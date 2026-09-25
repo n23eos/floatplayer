@@ -329,6 +329,8 @@ YTFP.pipProgress = (() => {
       const showingAd = isAdShowing();
       wrap.classList.toggle("ytfp-progress-wrap--ad", showingAd);
       if (!video) {
+        fill.style.width = "";
+        adFill.style.width = "";
         syncTrackAccessibility(null, null, true);
         renderCurrentChapter();
         return;
@@ -336,21 +338,27 @@ YTFP.pipProgress = (() => {
       renderCurrentChapter();
       const bounds = range();
       syncTrackAccessibility(video, bounds, showingAd || !bounds);
+      if (!showingAd && YTFP.playerApi.isAtLiveEdge(video)) {
+        // Родной livehead достовернее числовой шкалы: aria может временно
+        // отсутствовать или быть отключена, пока эфир всё ещё идёт онлайн.
+        fill.style.width = "100%";
+        return;
+      }
       const fraction = bounds
         ? YTFP.utils.windowFraction(video.currentTime, bounds.start, bounds.end)
         : null;
       if (fraction === null) {
+        if (showingAd) {
+          adFill.style.width = "";
+        } else {
+          fill.style.width = "";
+        }
         return;
       }
       if (showingAd) {
         // Сейчас currentTime/duration — это рекламный ролик:
         // рисуем белую полоску, красную не трогаем (заморожена).
         adFill.style.width = `${(fraction * 100).toFixed(3)}%`;
-      } else if (YTFP.playerApi.isAtLiveEdge(video)) {
-        // Стрим в онлайне: полоска прижата к правому краю, как у самого
-        // YouTube. По доле она вечно застревала бы на 98–99% — живой плеер
-        // всегда на несколько секунд позади края буфера.
-        fill.style.width = "100%";
       } else {
         fill.style.width = `${(fraction * 100).toFixed(3)}%`;
       }

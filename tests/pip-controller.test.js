@@ -221,6 +221,37 @@ describe("new controls and live settings", () => {
     expect(menu.open).toBe(false);
     expect(panel.hidden).toBe(true);
   });
+  test("lets the live control reach the native badge while shielding other player clicks", async () => {
+    Object.defineProperties(page.video, {
+      currentTime: { configurable: true, value: 5000, writable: true },
+      duration: { configurable: true, value: 7810.233 },
+      paused: { configurable: true, value: false },
+      seeking: { configurable: true, value: false }
+    });
+    page.video.play = async () => {};
+    page.video.pause = () => {};
+    const nativeProgress = page.player.querySelector(".ytp-progress-bar");
+    nativeProgress.setAttribute("aria-valuemin", "0");
+    nativeProgress.setAttribute("aria-valuemax", "5400");
+    nativeProgress.setAttribute("aria-valuenow", "5000");
+    const nativeLive = document.createElement("div");
+    nativeLive.className = "ytp-live";
+    const nativeBadge = document.createElement("button");
+    nativeBadge.className = "ytp-live-badge";
+    nativeLive.appendChild(nativeBadge);
+    page.player.appendChild(nativeLive);
+    let nativeReached = false;
+    let videoReached = false;
+    nativeBadge.addEventListener("click", () => { nativeReached = true; });
+    page.video.addEventListener("click", () => { videoReached = true; });
+
+    await YTFP.pip.open();
+    pipWindow.document.querySelector(".ytfp-btn--live").click();
+    page.video.click();
+
+    expect(nativeReached).toBe(true);
+    expect(videoReached).toBe(false);
+  });
   test("updates scale, compact mode, speed step and volume limit without reopening", async () => {
     await YTFP.pip.open();
     const panel = pipWindow.document.querySelector(".ytfp-bottom");
@@ -256,5 +287,67 @@ describe("new controls and live settings", () => {
     expect(reads).toHaveBeenCalledTimes(6);
     document.dispatchEvent(new Event("ytfp-segments-changed")); expect(reads).toHaveBeenCalledTimes(7);
     progress.cleanup(); reads.mockRestore(); vi.useRealTimers();
+  });
+});
+
+describe("launching from a homepage thumbnail", () => {
+  let go, ready;
+  beforeEach(() => {
+    window.history.replaceState({}, "", "/");
+    go = vi.spyOn(YTFP.navigation, "go").mockImplementation(async id => {
+      window.history.replaceState({}, "", `/watch?v=${id}`); return true;
+    });
+    ready = vi.spyOn(YTFP.navigation, "waitForPlayer").mockResolvedValue(true);
+  });
+  afterEach(() => { go.mockRestore(); ready.mockRestore(); });
+
+  test("reserves a single window synchronously then fills it with the full player", async () => {
+    YTFP.settings.get().windowMode = "native";
+    const opening = YTFP.pip.openVideo("BBBBBBBBBBB");
+    expect(window.documentPictureInPicture.requestWindow).toHaveBeenCalledTimes(1);
+    expect(go).not.toHaveBeenCalled();
+    expect(await YTFP.pip.openVideo("CCCCCCCCCCC")).toBe(false);
+    expect(await opening).toBe(true);
+    expect(pipWindow.document.querySelector(".ytfp-bottom")).not.toBeNull();
+    expect(YTFP.settings.get().windowMode).toBe("native");
+    expect(pipWindow.document.body.contains(page.player)).toBe(true);
+    YTFP.pip.close(); expect(page.container.contains(page.player)).toBe(true);
+  });
+
+  test("does not navigate on rejected window request and unlocks retry", async () => {
+    window.documentPictureInPicture.requestWindow.mockRejectedValueOnce(new Error("denied"));
+    await expect(YTFP.pip.openVideo("BBBBBBBBBBB")).rejects.toThrow("denied");
+    expect(go).not.toHaveBeenCalled(); expect(YTFP.pip.isOpen()).toBe(false);
+    expect(await YTFP.pip.openVideo("BBBBBBBBBBB")).toBe(true);
+  });
+
+  test("keeps the player on the page when readiness fails", async () => {
+    ready.mockResolvedValue(false);
+    await expect(YTFP.pip.openVideo("BBBBBBBBBBB")).rejects.toThrow("ready");
+    expect(page.container.contains(page.player)).toBe(true); expect(pipWindow.closed).toBe(true);
+  });
+
+  test("cancels a pending launch without a late player move", async () => {
+    let resolveReady;
+    ready.mockImplementation(() => new Promise(resolve => { resolveReady = resolve; }));
+    const opening = YTFP.pip.openVideo("BBBBBBBBBBB");
+    await vi.waitFor(() => expect(ready).toHaveBeenCalled());
+    pipWindow.close(); resolveReady(true);
+    expect(await opening).toBe(false); expect(page.container.contains(page.player)).toBe(true);
+    expect(YTFP.pip.isOpen()).toBe(false);
+  });
+
+  test("does not navigate if closed before requestWindow resolves", async () => {
+    const opening = YTFP.pip.openVideo("BBBBBBBBBBB"); YTFP.pip.close();
+    expect(await opening).toBe(false); expect(go).not.toHaveBeenCalled(); expect(pipWindow.closed).toBe(true);
+  });
+
+  test("cancels when the user navigates elsewhere during loading", async () => {
+    let resolveReady;
+    ready.mockImplementation(() => new Promise(resolve => { resolveReady = resolve; }));
+    const opening = YTFP.pip.openVideo("BBBBBBBBBBB");
+    await vi.waitFor(() => expect(ready).toHaveBeenCalled());
+    window.history.replaceState({}, "", "/watch?v=CCCCCCCCCCC"); document.dispatchEvent(new Event("yt-navigate-finish"));
+    resolveReady(true); expect(await opening).toBe(false); expect(page.container.contains(page.player)).toBe(true);
   });
 });

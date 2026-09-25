@@ -13,9 +13,10 @@ YTFP.pip = (() => {
   // await'ы, и повторный вызов open() (двойной Alt+P) успел бы открыть
   // второе окно и увести плеер из первого.
   let isOpening = false;
+  let pendingLaunch = null;
 
   function isOpen() {
-    return state !== null || document.pictureInPictureElement !== null;
+    return state !== null || pendingLaunch !== null || Boolean(document.pictureInPictureElement);
   }
 
   /** Нативный видео-PiP: без рамки Chrome, но и без нашей панели. */
@@ -194,7 +195,57 @@ YTFP.pip = (() => {
     }
   }
 
-  async function openDocumentPip(modeOverride) {
+  // Reserve the window while the click still has user activation. Navigation
+  // and player readiness must finish before moving any DOM into that window.
+  async function openVideo(videoId) {
+    if (!/^[A-Za-z0-9_-]{11}$/.test(videoId) || isOpening || isOpen()) return false;
+    if (!window.documentPictureInPicture?.requestWindow) throw new Error("Document PiP unavailable");
+    isOpening = true;
+    const launch = { controller: new AbortController(), pipWindow: null };
+    pendingLaunch = launch;
+    const signal = launch.controller.signal;
+    const cancel = () => launch.controller.abort();
+    const onNavigate = () => {
+      if (location.pathname !== "/watch" || new URLSearchParams(location.search).get("v") !== videoId) cancel();
+    };
+    let opened = false;
+    try {
+      launch.pipWindow = await window.documentPictureInPicture.requestWindow(YTFP.DEFAULT_PIP_SIZE);
+      const pipWindow = launch.pipWindow;
+      if (signal.aborted || pipWindow.closed) return false;
+      pipWindow.addEventListener("pagehide", cancel);
+      pipWindow.document.title = "FloatPlayer";
+      const loading = pipWindow.document.createElement("p");
+      loading.setAttribute("role", "status");
+      loading.textContent = chrome.i18n.getMessage("thumbnailLoading") || "Loading video…";
+      loading.style.cssText = "margin:0;padding:24px;color:#eee;background:#111;font:14px system-ui;text-align:center";
+      pipWindow.document.body.style.background = "#111";
+      pipWindow.document.body.append(loading);
+      document.addEventListener("yt-navigate-finish", onNavigate);
+      const navigated = await YTFP.navigation.go(videoId, false, { signal });
+      if (signal.aborted) return false;
+      if (!navigated || !await YTFP.navigation.waitForPlayer(videoId, { signal })) {
+        if (signal.aborted) return false;
+        throw new Error("Video did not become ready");
+      }
+      if (signal.aborted || pipWindow.closed) return false;
+      const stillCurrent = () => !signal.aborted && location.pathname === "/watch" &&
+        new URLSearchParams(location.search).get("v") === videoId;
+      opened = await openDocumentPip("document", pipWindow, stillCurrent);
+      if (!opened && !signal.aborted && !pipWindow.closed) throw new Error("Player could not be moved");
+      loading.remove();
+      return opened;
+    } finally {
+      document.removeEventListener("yt-navigate-finish", onNavigate);
+      launch.pipWindow?.removeEventListener("pagehide", cancel);
+      launch.controller.abort();
+      if (!opened && launch.pipWindow && !launch.pipWindow.closed) launch.pipWindow.close();
+      pendingLaunch = null;
+      isOpening = false;
+    }
+  }
+
+  async function openDocumentPip(modeOverride, reservedWindow = null, stillCurrent = () => true) {
     const playerEl = YTFP.playerApi.getPlayerRoot();
     if (!playerEl || !YTFP.playerApi.isPlayerPage()) {
       return false;
@@ -208,21 +259,23 @@ YTFP.pip = (() => {
       return openNative();
     }
 
-    const size = await getInitialSize(YTFP.playerApi.getVideo());
-    let pipWindow;
-    try {
-      pipWindow = await window.documentPictureInPicture.requestWindow(size);
-    } catch (error) {
-      // Чаще всего: вызов без жеста пользователя.
-      console.warn("[YTFP] requestWindow failed:", error);
-      return false;
+    let pipWindow = reservedWindow;
+    if (!pipWindow) {
+      const size = await getInitialSize(YTFP.playerApi.getVideo());
+      try {
+        pipWindow = await window.documentPictureInPicture.requestWindow(size);
+      } catch (error) {
+        console.warn("[YTFP] requestWindow failed:", error);
+        return false;
+      }
     }
 
     // Единственный await между открытием окна и переносом плеера. Пока он
     // шёл, пользователь мог окно закрыть — переносить плеер в мёртвый
     // документ нельзя: он пропал бы со страницы насовсем.
     const cssText = await loadPipCss();
-    if (pipWindow.closed) {
+    if (pipWindow.closed || !stillCurrent() || !playerEl.isConnected ||
+        YTFP.playerApi.getPlayerRoot() !== playerEl) {
       return false;
     }
 
@@ -355,6 +408,13 @@ YTFP.pip = (() => {
     // они слушают click, который синтезируется независимо от propagation.
     const blockPlayerPress = (event) => {
       if (!event.target || !event.target.closest) {
+        return;
+      }
+      // Кнопка FloatPlayer вызывает nativeBadge.click(), чтобы YouTube сам
+      // выбрал livehead. Пропускаем только этот синтетический click по точно
+      // известной родной кнопке, остальные нажатия внутри плеера глушим.
+      if (event.type === "click" && !event.isTrusted &&
+          event.target.closest(YTFP.SELECTORS.liveBadge)) {
         return;
       }
       // Наши элементы внутри плеера (кнопка пропуска интеграции) должны
@@ -710,6 +770,10 @@ YTFP.pip = (() => {
 
   /** Вернуть плеер на страницу (закрывает окно; restore сработает по pagehide). */
   function close() {
+    if (pendingLaunch) {
+      pendingLaunch.controller.abort();
+      pendingLaunch.pipWindow?.close();
+    }
     if (state) {
       state.pipWindow.close();
     } else if (document.pictureInPictureElement) {
@@ -811,5 +875,5 @@ YTFP.pip = (() => {
     state.reclaim();
   }
 
-  return { open, close, toggle, isOpen, getMovedPlayer, ensurePlayerPlacement };
+  return { open, openVideo, close, toggle, isOpen, getMovedPlayer, ensurePlayerPlacement };
 })();

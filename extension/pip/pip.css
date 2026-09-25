@@ -1716,3 +1716,19 @@ body[data-compact=true]:not(.ytfp-ui-hidden) .ytfp-title--compact { opacity:1; p
 .ytfp-history-item:hover { background:#ffffff18; }
 .ytfp-history-item:disabled { opacity:.6; cursor:progress; }
 .ytfp-history-panel .ytfp-history-list { width:100%; max-width:none; max-height:none; overflow:visible; }
+
+/* Reserve real space for live time; wrap instead of overlapping seek buttons. */
+.ytfp-row--nav:has(.ytfp-btn--live:not([hidden])) {
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+.ytfp-row--nav:has(.ytfp-btn--live:not([hidden])) > .ytfp-nav-side:first-child {
+  display: none;
+}
+.ytfp-row--nav:has(.ytfp-btn--live:not([hidden])) > .ytfp-nav-side--end {
+  flex: 0 0 auto;
+  padding-left: 0;
+}
+.ytfp-live-dot {
+  flex-shrink: 0;
+}

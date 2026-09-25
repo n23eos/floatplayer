@@ -292,3 +292,12 @@ body {
     color: #1c1c1c;
   }
 }
+
+.updates { margin-top:8px; padding-top:8px; border-top:1px solid var(--line); }
+.update-row { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+#extensionVersion { color:var(--text-dim); font-size:11px; white-space:nowrap; }
+#updateAction { text-align:right; }
+#updateAction:disabled { cursor:default; opacity:.65; text-decoration:none; }
+#updateStatus, #updateHint { margin:6px 0 0; color:var(--text-dim); font-size:11px; line-height:1.4; overflow-wrap:anywhere; }
+#updateHint { color:var(--text); }
+.link:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }

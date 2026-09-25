@@ -46,6 +46,7 @@ export const CONTENT_SCRIPTS = [
   "content/pip-extras.js",
   "content/pip-overlay.js",
   "content/pip-controller.js",
+  "content/thumbnail-launch.js",
   "content/sponsor-block.js",
   "content/page-panel.js",
   "content/page-controls.js"

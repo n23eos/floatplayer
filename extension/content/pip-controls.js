@@ -231,7 +231,9 @@ YTFP.pipControls = (() => {
 
     function refreshLiveState() {
       const video = getVideo();
-      const isLive = Boolean(video) && YTFP.playerApi.isLive();
+      const isLive = Boolean(video) &&
+        !YTFP.playerApi.isAdShowing(video) &&
+        YTFP.playerApi.isLive(video);
       liveButton.hidden = !isLive;
       if (!isLive) {
         return;
@@ -242,11 +244,11 @@ YTFP.pipControls = (() => {
         liveLabel.textContent = t("liveLabel", "LIVE");
       } else {
         const behind = YTFP.utils.behindLiveSeconds(
-          YTFP.playerApi.getLiveEdge(),
+          YTFP.playerApi.getLiveEdge(video),
           video.currentTime
         );
         liveLabel.textContent = behind === null
-          ? t("liveLabel", "LIVE")
+          ? t("liveUnknownShort", "LIVE ?")
           : `−${YTFP.utils.formatTime(behind)}`;
       }
     }

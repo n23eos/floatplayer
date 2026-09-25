@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-i18n="welcomeTitle">FloatPlayer is ready</title>
   <link rel="stylesheet" href="welcome.css">
 </head>
@@ -12,36 +13,29 @@
     <header class="hero">
       <img class="hero-icon" src="../icons/icon128.png" alt="" width="72" height="72">
       <h1 class="hero-title" id="heroTitle" data-i18n="welcomeHeading">FloatPlayer is ready</h1>
-      <p class="hero-sub" id="heroSub" data-i18n="welcomeSub">Three things to know, and you're done.</p>
+      <p class="hero-sub" id="heroSub" data-i18n="welcomeSub">Meet the panel and choose how you want to watch.</p>
       <span class="hero-version" id="version"></span>
     </header>
 
+    <section class="guide" aria-labelledby="guideTitle">
+<h2 id="guideTitle" data-i18n="welcomeGuideTitle">Your panel, right over the video</h2>
+<p class="step-text" data-i18n="welcomeGuideIntro">Move the pointer over a YouTube video to reveal this panel. Click any button below to learn what it does.</p>
+<p class="demo-label" data-i18n="welcomeDemoLabel">Interactive example. Your settings stay unchanged.</p>
+<div class="demo-player"><div class="demo-landscape" aria-hidden="true"><span class="demo-sun"></span><span class="demo-hill"></span></div><div class="demo-bar"><button type="button" data-guide="drag" aria-label="Move" data-i18n-label="welcomeDragName">⠿</button><button type="button" data-guide="speed" aria-label="Speed" data-i18n-label="welcomeSpeedName">1×</button><button type="button" data-guide="volume" aria-label="Volume" data-i18n-label="welcomeVolumeName">100%</button><button type="button" data-guide="full" aria-label="With controls" data-i18n-label="welcomeFullName" aria-pressed="true"><svg viewBox="0 0 24 24" width="30" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18v16H3z"></path><path d="M3 15h18"></path><path d="M6 18h.01M9 18h.01M13 18h5"></path></svg></button><button type="button" data-guide="simple" aria-label="Simple · video only" data-i18n-label="welcomeSimpleName" aria-pressed="false"><svg viewBox="0 0 24 24" width="30" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18v16H3z"></path><path d="M10 8l6 4-6 4z"></path></svg></button><button type="button" data-guide="more" aria-label="More" data-i18n-label="welcomeMoreName">•••</button></div><div class="demo-youtube" aria-hidden="true"><span>▶</span><span>◖))</span><span>2:34 / 8:20</span><span class="demo-spacer"></span><span>⚙</span><span>□</span></div></div>
+<p class="guide-feedback" id="guideFeedback" role="status">Opens a floating window with FloatPlayer controls: playback, speed, volume, timer and more. This choice is remembered.</p>
+<dl class="guide-legend"><div><dt><span class="legend-symbol" aria-hidden="true">⠿</span><span data-i18n="welcomeDragName">Move</span></dt><dd data-i18n="welcomeDragHelp">Drag the dotted handle to move the panel to a convenient spot over the video.</dd></div><div><dt><span class="legend-symbol" aria-hidden="true">1×</span><span data-i18n="welcomeSpeedName">Speed</span></dt><dd data-i18n="welcomeSpeedHelp">Click 1× to open playback speed presets and a slider. The button shows the current speed.</dd></div><div><dt><span class="legend-symbol" aria-hidden="true">100%</span><span data-i18n="welcomeVolumeName">Volume</span></dt><dd data-i18n="welcomeVolumeHelp">Click 100% to adjust volume, including amplification up to the limit set in Settings.</dd></div><div><dt><span class="legend-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18v16H3z"></path><path d="M3 15h18"></path><path d="M6 18h.01M9 18h.01M13 18h5"></path></svg></span><span data-i18n="welcomeFullName">With controls</span></dt><dd data-i18n="welcomeFullHelp">Opens a floating window with FloatPlayer controls: playback, speed, volume, timer and more. This choice is remembered.</dd></div><div><dt><span class="legend-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18v16H3z"></path><path d="M10 8l6 4-6 4z"></path></svg></span><span data-i18n="welcomeSimpleName">Simple · video only</span></dt><dd data-i18n="welcomeSimpleHelp">Opens a simple Chrome floating window with basic browser controls and no FloatPlayer panel. This choice is remembered.</dd></div><div><dt><span class="legend-symbol" aria-hidden="true">•••</span><span data-i18n="welcomeMoreName">More</span></dt><dd data-i18n="welcomeMoreHelp">Opens playback controls (-30 seconds, play/pause, +30 seconds), night mode, reset position and channel preferences. Use the pin checkboxes to keep tools on the panel.</dd></div></dl>
+<h2 data-i18n="welcomeModesTitle">Two ways to watch</h2><p class="step-text" data-i18n="welcomeModesNote">Both windows stay above other apps. These are illustrations; Chrome controls may look different.</p>
+<div class="mode-examples">
+<article class="mode-example is-selected" data-example="full"><h3 data-i18n="welcomeFullName">With controls</h3><div class="demo-window"><div class="demo-landscape" aria-hidden="true"><span class="demo-sun"></span><span class="demo-hill"></span></div><div class="window-top" aria-hidden="true">FloatPlayer <span>↗ &nbsp; ×</span></div><div class="window-tools" aria-hidden="true"><span>−30</span><span>▶</span><span>+30</span><span>1×</span><span>100%</span><span>◷ 15:00</span><span>•••</span></div><div class="window-timeline" aria-hidden="true"></div></div><p data-i18n="welcomeFullCaption">FloatPlayer tools stay close. The panel can hide until you hover.</p></article>
+<article class="mode-example" data-example="simple"><h3 data-i18n="welcomeSimpleName">Simple · video only</h3><div class="demo-window"><div class="demo-landscape" aria-hidden="true"><span class="demo-sun"></span><span class="demo-hill"></span></div><div class="window-top" aria-hidden="true"><span>↗</span><span>×</span></div><div class="native-play" aria-hidden="true">▶</div></div><p data-i18n="welcomeSimpleCaption">Just the video and basic Chrome controls.</p></article>
+</div>
+<div class="remember-box"><h2 data-i18n="welcomeLastTitle">The bottom button repeats your last choice</h2><p data-i18n="welcomeLastText">The FloatPlayer button in the bottom YouTube controls opens the mode you selected last. If a floating window is already open, it returns the video to the page.</p><p class="step-text" data-i18n="welcomeLastTry">Try it: choose a mode above, then press the highlighted bottom button.</p>
+<div class="repeat-strip"><span aria-hidden="true">▶ &nbsp; 2:34 / 8:20</span><span class="demo-spacer"></span><button id="repeatMode" type="button" data-i18n-label="welcomeRepeatName" aria-label="Open last selected mode"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M4 4.2 15 10.4 4 16.6z"></path><path fill="currentColor" fill-rule="evenodd" d="M13.6 12.6h7.9a1.5 1.5 0 0 1 1.5 1.5v5.4a1.5 1.5 0 0 1-1.5 1.5h-7.9a1.5 1.5 0 0 1-1.5-1.5v-5.4a1.5 1.5 0 0 1 1.5-1.5zM13.9 14.5v4.6h7.3v-4.6z"></path></svg></button><span aria-hidden="true">⚙ &nbsp; □</span></div>
+<p id="modeFeedback" class="mode-feedback" role="status"></p></div>
+</section>
     <ol class="steps">
       <li class="step">
         <span class="step-num">1</span>
-        <div class="step-body">
-          <h2 class="step-title" data-i18n="welcomeStep1Title">Look for the button in the player</h2>
-          <p class="step-text" data-i18n="welcomeStep1Text">On any YouTube video, a new button appears in the player
-          controls, left of the settings gear. One click and the video pops out into
-          a window that stays on top of everything.</p>
-          <div class="step-visual" aria-hidden="true">
-            <span class="fake-controls">
-              <span class="fake-btn fake-btn--ours">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path fill="currentColor" d="M4 4.2 15 10.4 4 16.6z"></path>
-                  <path fill="currentColor" fill-rule="evenodd" d="M13.6 12.6h7.9a1.5 1.5 0 0 1 1.5 1.5v5.4a1.5 1.5 0 0 1-1.5 1.5h-7.9a1.5 1.5 0 0 1-1.5-1.5v-5.4a1.5 1.5 0 0 1 1.5-1.5zM13.9 14.5v4.6h7.3v-4.6z"></path>
-                </svg>
-              </span>
-              <span class="fake-btn"></span>
-              <span class="fake-btn"></span>
-              <span class="fake-btn"></span>
-            </span>
-          </div>
-        </div>
-      </li>
-
-      <li class="step">
-        <span class="step-num">2</span>
         <div class="step-body">
           <h2 class="step-title" data-i18n="welcomeStep2Title">Or use the keyboard</h2>
           <p class="step-text" data-i18n="welcomeStep2Text">The shortcuts work from any Chrome window, so you can pop the
@@ -52,11 +46,10 @@
       </li>
 
       <li class="step">
-        <span class="step-num">3</span>
+        <span class="step-num">2</span>
         <div class="step-body">
           <h2 class="step-title" data-i18n="welcomeStep3Title">Everything else lives in the mini-window</h2>
-          <p class="step-text" data-i18n="welcomeStep3Text">The panel at the top of the window holds the extras. Nothing to
-          set up — they are all one click away.</p>
+          <p class="step-text" data-i18n="welcomeStep3Text">In the window with controls, open More to find additional tools. Pin the ones you use often to the panel.</p>
           <ul class="features">
             <li data-i18n="welcomeFeatSpeed">Playback speed and A-B loop</li>
             <li data-i18n="welcomeFeatBoost">Volume boost up to 300%</li>

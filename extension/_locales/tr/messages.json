@@ -279,7 +279,7 @@
     "message": "FloatPlayer hazır"
   },
   "welcomeSub": {
-    "message": "Bilmeniz gereken üç şey, hepsi bu."
+    "message": "Meet the panel and choose how you want to watch."
   },
   "welcomeUpdatedHeading": {
     "message": "FloatPlayer güncellendi"
@@ -303,7 +303,7 @@
     "message": "Gerisi mini pencerede"
   },
   "welcomeStep3Text": {
-    "message": "Pencerenin üstündeki panel tüm ekstraları barındırır. Ayar yapmanıza gerek yok — hepsi tek tık uzağınızda."
+    "message": "In the window with controls, open More to find additional tools. Pin the ones you use often to the panel."
   },
   "welcomeFeatSpeed": {
     "message": "Oynatma hızı ve A-B döngüsü"
@@ -667,5 +667,137 @@
   },
   "timelineLabel": {
     "message": "Video timeline"
+  },
+  "welcomeGuideTitle": {
+    "message": "Your panel, right over the video"
+  },
+  "welcomeGuideIntro": {
+    "message": "Move the pointer over a YouTube video to reveal this panel. Click any button below to learn what it does."
+  },
+  "welcomeDemoLabel": {
+    "message": "Interactive example. Your settings stay unchanged."
+  },
+  "welcomeDragName": {
+    "message": "Move"
+  },
+  "welcomeDragHelp": {
+    "message": "Drag the dotted handle to move the panel to a convenient spot over the video."
+  },
+  "welcomeSpeedName": {
+    "message": "Speed"
+  },
+  "welcomeSpeedHelp": {
+    "message": "Click 1× to open playback speed presets and a slider. The button shows the current speed."
+  },
+  "welcomeVolumeName": {
+    "message": "Volume"
+  },
+  "welcomeVolumeHelp": {
+    "message": "Click 100% to adjust volume, including amplification up to the limit set in Settings."
+  },
+  "welcomeFullName": {
+    "message": "With controls"
+  },
+  "welcomeFullHelp": {
+    "message": "Opens a floating window with FloatPlayer controls: playback, speed, volume, timer and more. This choice is remembered."
+  },
+  "welcomeSimpleName": {
+    "message": "Simple · video only"
+  },
+  "welcomeSimpleHelp": {
+    "message": "Opens a simple Chrome floating window with basic browser controls and no FloatPlayer panel. This choice is remembered."
+  },
+  "welcomeMoreName": {
+    "message": "More"
+  },
+  "welcomeMoreHelp": {
+    "message": "Opens playback controls (-30 seconds, play/pause, +30 seconds), night mode, reset position and channel preferences. Use the pin checkboxes to keep tools on the panel."
+  },
+  "welcomeModesTitle": {
+    "message": "Two ways to watch"
+  },
+  "welcomeModesNote": {
+    "message": "Both windows stay above other apps. These are illustrations; Chrome controls may look different."
+  },
+  "welcomeFullCaption": {
+    "message": "FloatPlayer tools stay close. The panel can hide until you hover."
+  },
+  "welcomeSimpleCaption": {
+    "message": "Just the video and basic Chrome controls."
+  },
+  "welcomeLastTitle": {
+    "message": "The bottom button repeats your last choice"
+  },
+  "welcomeLastText": {
+    "message": "The FloatPlayer button in the bottom YouTube controls opens the mode you selected last. If a floating window is already open, it returns the video to the page."
+  },
+  "welcomeLastTry": {
+    "message": "Try it: choose a mode above, then press the highlighted bottom button."
+  },
+  "welcomeRepeatName": {
+    "message": "Open last selected mode"
+  },
+  "welcomeDemoSelected": {
+    "message": "Selected in this example:"
+  },
+  "welcomeDemoOpened": {
+    "message": "The bottom button would open:"
+  },
+  "thumbnailOpen": {
+    "message": "Open in full FloatPlayer"
+  },
+  "thumbnailLoading": {
+    "message": "Loading video…"
+  },
+  "thumbnailLaunchError": {
+    "message": "Could not open FloatPlayer. Try again, or open the video and use the FloatPlayer button."
+  },
+  "updatesTitle": {
+    "message": "Updates"
+  },
+  "updateIdle": {
+    "message": "Chrome also checks for updates automatically."
+  },
+  "updateNone": {
+    "message": "No update is available."
+  },
+  "updateThrottled": {
+    "message": "Chrome limited update checks. Try again later."
+  },
+  "updateError": {
+    "message": "Could not check or install the update. Try again."
+  },
+  "updateUnpacked": {
+    "message": "Local installation: replace the extension files, then reload it on the Extensions page."
+  },
+  "updateClosePlayer": {
+    "message": "Close the floating player, then try updating again."
+  },
+  "updateTabsUnavailable": {
+    "message": "Reload or close unresponsive YouTube tabs, then try again."
+  },
+  "updateInstalling": {
+    "message": "Applying update…"
+  },
+  "updateInstall": {
+    "message": "Update now"
+  },
+  "updateCheck": {
+    "message": "Check for updates"
+  },
+  "updateAvailable": {
+    "message": "Update available:"
+  },
+  "updateChecking": {
+    "message": "Checking…"
+  },
+  "updateHint": {
+    "message": "Close the floating player before updating. Reload YouTube tabs after the update."
+  },
+  "liveUnknown": {
+    "message": "Live time unavailable"
+  },
+  "liveUnknownShort": {
+    "message": "LIVE ?"
   }
 }

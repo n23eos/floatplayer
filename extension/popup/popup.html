@@ -67,8 +67,15 @@
     <button class="link" id="openOptions" type="button" data-i18n="popupSettings">All settings</button>
   </footer>
 
+  <section class="updates" aria-label="Updates" data-i18n-title="updatesTitle">
+    <div class="update-row"><span id="extensionVersion"></span><button class="link" id="updateAction" type="button" disabled data-i18n="updateCheck">Check for updates</button></div>
+    <p id="updateStatus" role="status" aria-live="polite"></p>
+    <p id="updateHint" hidden data-i18n="updateHint">Close the floating player before updating. Reload YouTube tabs after the update.</p>
+  </section>
+
   <p id="videoTitle" aria-live="polite" style="margin: 8px 16px; font-size: 12px; overflow-wrap: anywhere"></p>
   <script src="../shared/settings-schema.js"></script>
   <script src="popup.js"></script>
+  <script src="updates.js"></script>
 </body>
 </html>

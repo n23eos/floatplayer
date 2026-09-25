@@ -349,6 +349,7 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
   async function init() {
     await YTFP.settings.load();
     syncAutoPip();
+    YTFP.thumbnailLaunch.init();
     YTFP.shortsRuntime.init();
     YTFP.settings.onChange(syncAutoPip);
     YTFP.settings.onChange(ensurePageUi);

@@ -279,7 +279,7 @@
     "message": "FloatPlayer готов"
   },
   "welcomeSub": {
-    "message": "Три вещи, и можно пользоваться."
+    "message": "Познакомься с панелью и выбери, как смотреть."
   },
   "welcomeUpdatedHeading": {
     "message": "FloatPlayer обновился"
@@ -303,7 +303,7 @@
     "message": "Всё остальное — в самом мини-окне"
   },
   "welcomeStep3Text": {
-    "message": "Панель сверху собирает дополнительные функции. Настраивать нечего: всё в один клик."
+    "message": "В окне с управлением открой «Ещё», чтобы найти дополнительные инструменты. Часто используемые можно закрепить на панели."
   },
   "welcomeFeatSpeed": {
     "message": "Скорость воспроизведения и A-B повтор"
@@ -667,5 +667,137 @@
   },
   "timelineLabel": {
     "message": "Таймлайн видео"
+  },
+  "welcomeGuideTitle": {
+    "message": "Твоя панель прямо над видео"
+  },
+  "welcomeGuideIntro": {
+    "message": "Наведи курсор на видео YouTube, чтобы увидеть панель. Нажми на любую кнопку в примере, чтобы узнать, что она делает."
+  },
+  "welcomeDemoLabel": {
+    "message": "Интерактивный пример. Настройки расширения не меняются."
+  },
+  "welcomeDragName": {
+    "message": "Перемещение"
+  },
+  "welcomeDragHelp": {
+    "message": "Потяни за точки, чтобы переместить панель в удобное место поверх видео."
+  },
+  "welcomeSpeedName": {
+    "message": "Скорость"
+  },
+  "welcomeSpeedHelp": {
+    "message": "Нажми 1×, чтобы открыть варианты скорости и ползунок. На кнопке показана текущая скорость."
+  },
+  "welcomeVolumeName": {
+    "message": "Громкость"
+  },
+  "welcomeVolumeHelp": {
+    "message": "Нажми 100%, чтобы отрегулировать громкость, включая усиление до предела, заданного в настройках."
+  },
+  "welcomeFullName": {
+    "message": "С управлением"
+  },
+  "welcomeFullHelp": {
+    "message": "Открывает плавающее окно с управлением FloatPlayer: воспроизведение, скорость, громкость, таймер и другие инструменты. Выбор запоминается."
+  },
+  "welcomeSimpleName": {
+    "message": "Simple · только видео"
+  },
+  "welcomeSimpleHelp": {
+    "message": "Открывает простое плавающее окно Chrome с базовыми кнопками браузера, без панели FloatPlayer. Выбор запоминается."
+  },
+  "welcomeMoreName": {
+    "message": "Ещё"
+  },
+  "welcomeMoreHelp": {
+    "message": "Открывает перемотку на 30 секунд назад и вперёд, паузу, ночной режим, сброс позиции и настройки канала. Галочки «На панель» закрепляют инструменты рядом с кнопками."
+  },
+  "welcomeModesTitle": {
+    "message": "Два варианта просмотра"
+  },
+  "welcomeModesNote": {
+    "message": "Оба окна остаются поверх других приложений. Это иллюстрации; кнопки Chrome могут выглядеть иначе."
+  },
+  "welcomeFullCaption": {
+    "message": "Инструменты FloatPlayer под рукой. Панель можно скрывать до наведения курсора."
+  },
+  "welcomeSimpleCaption": {
+    "message": "Только видео и базовое управление Chrome."
+  },
+  "welcomeLastTitle": {
+    "message": "Нижняя кнопка повторяет последний выбор"
+  },
+  "welcomeLastText": {
+    "message": "Кнопка FloatPlayer в нижней полосе YouTube открывает последний выбранный режим. Если плавающее окно уже открыто, она возвращает видео на страницу."
+  },
+  "welcomeLastTry": {
+    "message": "Попробуй: выбери режим выше, затем нажми выделенную кнопку внизу примера."
+  },
+  "welcomeRepeatName": {
+    "message": "Открыть последний выбранный режим"
+  },
+  "welcomeDemoSelected": {
+    "message": "Выбрано в примере:"
+  },
+  "welcomeDemoOpened": {
+    "message": "Нижняя кнопка откроет:"
+  },
+  "thumbnailOpen": {
+    "message": "Открыть в полном FloatPlayer"
+  },
+  "thumbnailLoading": {
+    "message": "Загрузка видео…"
+  },
+  "thumbnailLaunchError": {
+    "message": "Не удалось открыть FloatPlayer. Повторите попытку или откройте видео и нажмите кнопку FloatPlayer в плеере."
+  },
+  "updatesTitle": {
+    "message": "Обновления"
+  },
+  "updateIdle": {
+    "message": "Chrome также проверяет обновления автоматически."
+  },
+  "updateNone": {
+    "message": "Доступных обновлений нет."
+  },
+  "updateThrottled": {
+    "message": "Chrome ограничил частоту проверок. Попробуйте позже."
+  },
+  "updateError": {
+    "message": "Не удалось проверить или установить обновление. Повторите попытку."
+  },
+  "updateUnpacked": {
+    "message": "Локальная установка: замените файлы расширения и перезагрузите его на странице расширений."
+  },
+  "updateClosePlayer": {
+    "message": "Закройте плавающий плеер и повторите обновление."
+  },
+  "updateTabsUnavailable": {
+    "message": "Обновите или закройте неотвечающие вкладки YouTube и повторите попытку."
+  },
+  "updateInstalling": {
+    "message": "Устанавливаем обновление…"
+  },
+  "updateInstall": {
+    "message": "Обновить"
+  },
+  "updateCheck": {
+    "message": "Проверить обновления"
+  },
+  "updateAvailable": {
+    "message": "Доступна версия:"
+  },
+  "updateChecking": {
+    "message": "Проверяем…"
+  },
+  "updateHint": {
+    "message": "Перед обновлением закройте плавающий плеер. После установки обновите вкладки YouTube."
+  },
+  "liveUnknown": {
+    "message": "Время эфира недоступно"
+  },
+  "liveUnknownShort": {
+    "message": "Эфир ?"
   }
 }
