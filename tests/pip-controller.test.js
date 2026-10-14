@@ -54,6 +54,48 @@ describe("opening the window", () => {
     expect(YTFP.pip.isOpen()).toBe(true);
   });
 
+  test("publishes the versioned Document PiP progress contract and lifecycle", async () => {
+    YTFP.settings.get().compactMode = false;
+    Object.defineProperties(page.video, {
+      currentTime: { configurable: true, value: 9, writable: true },
+      duration: { configurable: true, value: 45 }
+    });
+    const ready = vi.fn(() => {
+      expect(pipWindow.document.querySelector("[data-ytfp-progress-track]")).not.toBeNull();
+    });
+    const closed = vi.fn();
+    document.addEventListener("ytfp-document-pip-ready", ready);
+    document.addEventListener("ytfp-document-pip-closed", closed);
+
+    try {
+      expect(await YTFP.pip.open()).toBe(true);
+      const root = pipWindow.document.documentElement;
+      const track = root.querySelector('[data-ytfp-progress-track="1"]');
+      expect(root.dataset.ytfpDocumentPip).toBe("1");
+      expect(root.dataset.ytfpContractVersion).toBe("1");
+      expect(pipWindow.document.body.dataset.compact).toBe("false");
+      expect(track.querySelector('[data-ytfp-progress-fill="1"]')).not.toBeNull();
+      expect(track.getAttribute("aria-valuemin")).toBe("0");
+      expect(track.getAttribute("aria-valuemax")).toBe("45");
+      expect(track.getAttribute("aria-valuenow")).toBe("9");
+      expect(track.getAttribute("aria-disabled")).toBe("false");
+      expect(ready).toHaveBeenCalledTimes(1);
+      expect(ready.mock.calls[0][0].detail).toEqual({ version: 1 });
+
+      for (const [listener] of chrome.storage.onChanged.addListener.mock.calls) {
+        listener({ compactMode: { newValue: true } }, "sync");
+      }
+      expect(pipWindow.document.body.dataset.compact).toBe("true");
+      expect(root.querySelector('[data-ytfp-progress-track="1"]')).toBe(track);
+      YTFP.pip.close();
+      expect(closed).toHaveBeenCalledTimes(1);
+      expect(closed.mock.calls[0][0].detail).toEqual({ version: 1 });
+    } finally {
+      document.removeEventListener("ytfp-document-pip-ready", ready);
+      document.removeEventListener("ytfp-document-pip-closed", closed);
+    }
+  });
+
   test("leaves the return overlay on the page in place of the player", async () => {
     await YTFP.pip.open();
     const overlay = page.container.querySelector(".ytfp-page-overlay");
@@ -80,6 +122,7 @@ describe("opening the window", () => {
     // Плеер при этом остаётся на странице: рамку рисует сам Chrome.
     expect(document.contains(page.player)).toBe(true);
     expect(window.documentPictureInPicture.requestWindow).not.toHaveBeenCalled();
+    expect(document.documentElement.hasAttribute("data-ytfp-document-pip")).toBe(false);
   });
 
   test("gives up without stealing the player if the window dies while loading", async () => {

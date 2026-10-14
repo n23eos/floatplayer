@@ -799,5 +799,14 @@
   },
   "liveUnknownShort": {
     "message": "Эфир ?"
+  },
+  "pawplayPromoEyebrow": {
+    "message": "Видео веселее с питомцем"
+  },
+  "pawplayPromoDescription": {
+    "message": "Пиксельный питомец на полосе YouTube. Живёт и в выносном окне FloatPlayer."
+  },
+  "pawplayPromoAction": {
+    "message": "Открыть PawPlay"
   }
 }

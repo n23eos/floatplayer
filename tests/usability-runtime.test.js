@@ -92,6 +92,50 @@ test("timeline keyboard handling wins over global capture hotkeys", () => {
   }
 });
 
+test("one Space cycle toggles once, blocks YouTube release, and leaves buttons alone", () => {
+  Object.defineProperty(page.video, "paused", { configurable: true, value: false });
+  page.video.pause = vi.fn();
+  const hotkeys = YTFP.playbackHotkeys.attach(document, {
+    getVideo: () => page.video
+  });
+  const target = document.createElement("div");
+  const button = document.createElement("button");
+  document.body.append(target, button);
+  const youtubeKeydown = vi.fn();
+  const youtubeKeyup = vi.fn();
+  document.addEventListener("keydown", youtubeKeydown);
+  document.addEventListener("keyup", youtubeKeyup);
+  const key = (type, element, repeat = false) => element.dispatchEvent(new KeyboardEvent(type, {
+    key: " ",
+    code: "Space",
+    repeat,
+    bubbles: true,
+    cancelable: true
+  }));
+
+  try {
+    expect(key("keydown", target)).toBe(false);
+    expect(key("keydown", target, true)).toBe(false);
+    expect(key("keyup", target)).toBe(false);
+    expect(page.video.pause).toHaveBeenCalledTimes(1);
+    expect(youtubeKeydown).not.toHaveBeenCalled();
+    expect(youtubeKeyup).not.toHaveBeenCalled();
+
+    button.focus();
+    expect(key("keydown", button)).toBe(true);
+    expect(key("keyup", button)).toBe(true);
+    expect(page.video.pause).toHaveBeenCalledTimes(1);
+    expect(youtubeKeydown).toHaveBeenCalledTimes(1);
+    expect(youtubeKeyup).toHaveBeenCalledTimes(1);
+  } finally {
+    hotkeys.cleanup();
+    document.removeEventListener("keydown", youtubeKeydown);
+    document.removeEventListener("keyup", youtubeKeyup);
+    target.remove();
+    button.remove();
+  }
+});
+
 test("timeline observer ignores unrelated player mutations without rendering", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = undefined;

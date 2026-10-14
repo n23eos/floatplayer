@@ -272,12 +272,14 @@ YTFP.pipProgress = (() => {
     // Красная полоска видео.
     const track = pipDocument.createElement("div");
     track.className = "ytfp-progress";
+    track.setAttribute("data-ytfp-progress-track", "1");
     track.tabIndex = 0;
     track.setAttribute("role", "slider");
     track.setAttribute("aria-orientation", "horizontal");
     track.setAttribute("aria-label", t("timelineLabel", "Video timeline"));
     const fill = pipDocument.createElement("div");
     fill.className = "ytfp-progress-fill";
+    fill.setAttribute("data-ytfp-progress-fill", "1");
     const segmentsLayer = pipDocument.createElement("div");
     segmentsLayer.className = "ytfp-progress-segments";
     const chaptersLayer = pipDocument.createElement("div");
@@ -663,12 +665,18 @@ YTFP.pipProgress = (() => {
       }
       if (boundVideo) {
         boundVideo.removeEventListener("timeupdate", renderFill);
+        boundVideo.removeEventListener("loadedmetadata", renderFill);
+        boundVideo.removeEventListener("durationchange", renderFill);
+        boundVideo.removeEventListener("emptied", renderFill);
         boundVideo.removeEventListener("durationchange", renderSegments);
         boundVideo.removeEventListener("durationchange", renderChapters);
       }
       boundVideo = nextVideo;
       if (boundVideo) {
         boundVideo.addEventListener("timeupdate", renderFill);
+        boundVideo.addEventListener("loadedmetadata", renderFill);
+        boundVideo.addEventListener("durationchange", renderFill);
+        boundVideo.addEventListener("emptied", renderFill);
         boundVideo.addEventListener("durationchange", renderSegments);
         boundVideo.addEventListener("durationchange", renderChapters);
       }
@@ -680,8 +688,16 @@ YTFP.pipProgress = (() => {
     const playerRoot = getVideo()?.closest("#movie_player, #shorts-player");
     const Observer = playerRoot?.ownerDocument?.defaultView?.MutationObserver;
     const videoObserver = Observer ? new Observer(syncVideoBinding) : null;
+    // Реклама меняет класс самого player root без media-события. Отдельный
+    // observer не следит за потомками, а renderFill меняет только соседний
+    // progress DOM, поэтому сам себя повторно не запускает.
+    const playerStateObserver = Observer ? new Observer(renderFill) : null;
     if (playerRoot) {
       videoObserver?.observe(playerRoot, { childList: true, subtree: true });
+      playerStateObserver?.observe(playerRoot, {
+        attributes: true,
+        attributeFilter: ["class"]
+      });
     }
     syncVideoBinding();
     const refreshData = () => {
@@ -702,12 +718,16 @@ YTFP.pipProgress = (() => {
       disposed = true;
       clearInterval(segmentsTimer);
       videoObserver?.disconnect();
+      playerStateObserver?.disconnect();
       pipDocument.removeEventListener("keydown", onChaptersKeydown);
       pipDocument.removeEventListener("click", onChapterOutsideClick);
       document.removeEventListener("ytfp-segments-changed", refreshData);
       document.removeEventListener("yt-navigate-finish", refreshData);
       if (boundVideo) {
         boundVideo.removeEventListener("timeupdate", renderFill);
+        boundVideo.removeEventListener("loadedmetadata", renderFill);
+        boundVideo.removeEventListener("durationchange", renderFill);
+        boundVideo.removeEventListener("emptied", renderFill);
         boundVideo.removeEventListener("durationchange", renderSegments);
         boundVideo.removeEventListener("durationchange", renderChapters);
         boundVideo = null;

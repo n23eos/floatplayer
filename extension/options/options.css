@@ -147,6 +147,7 @@ body {
 
 /* У fieldset снимаем рамку и отступы, разделитель берётся от .row. */
 fieldset.row {
+  min-width: 0;
   border-width: 1px 0 0;
   margin: 0;
   align-items: flex-start;
@@ -434,4 +435,38 @@ fieldset.row {
   .toast svg {
     color: #0a7a2f;
   }
+}
+
+/* Keep the footer usable below the companion banner on narrow screens. */
+.footer { flex-wrap: wrap; }
+
+/* Companion extension banner. */
+.pawplay-promo {
+  display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 16px;
+  margin-top: 28px; padding: 24px; border: 1px solid #9bbfa6; border-radius: 18px;
+  background: linear-gradient(120deg, #e7f2e8, #fbf4df); color: #1e4032;
+  text-decoration: none; box-shadow: 0 5px 18px #234f3410;
+}
+.pawplay-promo__icon { width: 64px; height: 64px; image-rendering: pixelated; border-radius: 14px; }
+.pawplay-promo__copy { display: grid; gap: 7px; min-width: 0; }
+.pawplay-promo__eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .04em; }
+.pawplay-promo strong { font-size: 28px; line-height: 1.05; letter-spacing: -.03em; }
+#pawplay-description { font-size: 14px; line-height: 1.5; }
+.pawplay-promo__cta {
+  grid-column: 2; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 12px 16px; border-radius: 10px; background: #24563e; color: #fff; font-size: 14px; font-weight: 600;
+}
+.pawplay-promo:hover { border-color: #477b58; }
+.pawplay-promo:hover .pawplay-promo__cta { background: #183f2c; }
+.pawplay-promo:focus-visible { outline: 3px solid #237549; outline-offset: 4px; }
+@media (max-width: 420px) {
+  .pawplay-promo { grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding: 18px; }
+  .pawplay-promo__icon { width: 48px; height: 48px; }
+  .pawplay-promo__cta { grid-column: 1 / -1; }
+}
+@media (prefers-color-scheme: dark) {
+  .pawplay-promo { background: linear-gradient(120deg, #1c352a, #34311f); color: #ecf5e9; border-color: #54795d; }
+  .pawplay-promo__cta { background: #b7e0bd; color: #173725; }
+  .pawplay-promo:hover .pawplay-promo__cta { background: #d1eed1; }
+  .pawplay-promo:focus-visible { outline-color: #b7e0bd; }
 }

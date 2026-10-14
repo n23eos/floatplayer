@@ -6,6 +6,10 @@ var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 // Переносим целый плеер (не голый <video>), поэтому родные контролы YouTube,
 // субтитры и главы продолжают работать внутри PiP-окна.
 YTFP.pip = (() => {
+  const DOCUMENT_PIP_CONTRACT_VERSION = 1;
+  const DOCUMENT_PIP_READY_EVENT = "ytfp-document-pip-ready";
+  const DOCUMENT_PIP_CLOSED_EVENT = "ytfp-document-pip-closed";
+
   // Состояние открытого PiP-окна; null — окно закрыто.
   let state = null;
 
@@ -14,6 +18,12 @@ YTFP.pip = (() => {
   // второе окно и увести плеер из первого.
   let isOpening = false;
   let pendingLaunch = null;
+
+  function dispatchDocumentPipEvent(type) {
+    document.dispatchEvent(new CustomEvent(type, {
+      detail: { version: DOCUMENT_PIP_CONTRACT_VERSION }
+    }));
+  }
 
   function isOpen() {
     return state !== null || pendingLaunch !== null || Boolean(document.pictureInPictureElement);
@@ -289,6 +299,13 @@ YTFP.pip = (() => {
     const style = pipWindow.document.createElement("style");
     style.textContent = cssText;
     pipWindow.document.head.appendChild(style);
+    // Публичная граница для совместимых расширений. DOM виден между
+    // изолированными content-script мирами, в отличие от JS-объектов.
+    pipWindow.document.documentElement.setAttribute("data-ytfp-document-pip", "1");
+    pipWindow.document.documentElement.setAttribute(
+      "data-ytfp-contract-version",
+      String(DOCUMENT_PIP_CONTRACT_VERSION)
+    );
     // Масштаб панели из настроек — переменной на корневом элементе. Именно
     // на нём: --ytfp-cap-scale объявлена в :root через calc от этой
     // переменной, и подстановка считается там же. Поставь её на <body> —
@@ -765,6 +782,9 @@ YTFP.pip = (() => {
     // YouTube мог поставить inline-размеры под старый контейнер — пересчёт.
     layoutPlayer();
     window.dispatchEvent(new Event("resize"));
+    // Событие идёт только после полной сборки, когда публичный progress track
+    // уже подключён к PiP-документу и публикует ARIA-состояние.
+    dispatchDocumentPipEvent(DOCUMENT_PIP_READY_EVENT);
     return true;
   }
 
@@ -785,6 +805,7 @@ YTFP.pip = (() => {
     if (!state) {
       return;
     }
+    dispatchDocumentPipEvent(DOCUMENT_PIP_CLOSED_EVENT);
     const {
       playerEl, placeholder, overlay, controls, progress, related, nav, chat, reactions,
       wheel, resizeTimer, aspectVideo, onAspectChange, shortsVideo, onShortsTime,

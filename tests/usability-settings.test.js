@@ -129,3 +129,15 @@ test("options no longer exposes or writes the inactive Shorts side setting", asy
   await vi.waitFor(() => expect(set).toHaveBeenCalled());
   expect(set.mock.calls.at(-1)[0]).not.toHaveProperty("shortsSide");
 });
+
+test("options banner links directly to PawPlay in the Chrome Web Store", () => {
+  const dom = optionsDom(vi.fn(async defaults => defaults));
+  const pawPlay = dom.window.document.querySelector(".pawplay-promo");
+
+  expect(pawPlay).not.toBeUndefined();
+  expect(pawPlay.href).toBe(
+    "https://chromewebstore.google.com/detail/pawplay/hiclbjaochideikofjcjldfioonefghn"
+  );
+  expect(pawPlay.target).toBe("_blank");
+  expect(pawPlay.relList.contains("noopener")).toBe(true);
+});

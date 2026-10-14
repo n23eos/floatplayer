@@ -2,11 +2,16 @@
 var YTFP = globalThis.YTFP || (globalThis.YTFP = {});
 YTFP.playbackHotkeys = (() => {
   function attach(pipDocument,{getVideo,isShorts=false,onPrev,onNext,refreshBoost=()=>{}}) {
+    function isInteractiveTarget(target) {
+      const tag = target && target.tagName;
+      return tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA" ||
+        target?.closest?.("button, summary, [role=slider], [contenteditable=true]");
+    }
+
     function onKeyDown(event) {
       const speedStep = YTFP.settings.get().speedStep;
       const speedRange = YTFP.utils.speedSliderRange(YTFP.SPEED_MIN,YTFP.SPEED_MAX,speedStep);
-      const tag = event.target && event.target.tagName;
-      if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA" || event.target?.closest?.("button, summary, [role=slider], [contenteditable=true]")) {
+      if (isInteractiveTarget(event.target)) {
         return; // стрелки на слайдере двигают слайдер, не видео
       }
       const currentVideo = getVideo();
@@ -40,6 +45,11 @@ YTFP.playbackHotkeys = (() => {
         case " ":
         case "k":
           event.preventDefault();
+          // Удержание пробела генерирует повторные keydown. Все они принадлежат
+          // одному физическому нажатию и не должны снова менять play/pause.
+          if (event.repeat) {
+            break;
+          }
           if (currentVideo.paused) {
             YTFP.sleepTimer?.resume();
             currentVideo.play().catch(() => {});
@@ -112,8 +122,21 @@ YTFP.playbackHotkeys = (() => {
           break;
       }
     }
+    function onKeyUp(event) {
+      if (isInteractiveTarget(event.target) || YTFP.utils.hotkeyFromEvent(event) !== " ") {
+        return;
+      }
+      // Перенесённый YouTube-плеер также слушает отпускание пробела. Если
+      // отдать ему keyup после нашего keydown, получится пауза и сразу play.
+      event.preventDefault();
+      event.stopPropagation();
+    }
     pipDocument.addEventListener("keydown",onKeyDown,true);
-    return { cleanup() { pipDocument.removeEventListener("keydown",onKeyDown,true); } };
+    pipDocument.addEventListener("keyup",onKeyUp,true);
+    return { cleanup() {
+      pipDocument.removeEventListener("keydown",onKeyDown,true);
+      pipDocument.removeEventListener("keyup",onKeyUp,true);
+    } };
   }
   return {attach};
 })();

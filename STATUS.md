@@ -336,3 +336,55 @@ pip-menu, pip-search, pip-captions/captions-bridge, window-size.
 - Готово: 1.22.2. Preview-кнопка внутри media-container поверх видео, вне ссылки. ID совпадает с актуальной допустимой карточкой и перепроверяется при клике. Очистка при замене host, смене цели, уходе с главной.
 - CUA: отдельный слой с реально играющим видео; opacity=1, elementFromPoint подтверждает верхнюю кнопку, клик открывает полный плеер AAAAAAAAAAA. Переиспользование слоя для BBBBBBBBBBB сохраняет одну кнопку с новой целью. На живой главной прочитаны структура и CSS; установленное расширение не перезагружалось.
 - Проверено: 349 тестов/29 файлов, check/build/spec:check, diff PASS; независимая проверка без блокеров. ZIP dist/floatplayer-1.22.2.zip. OpenSpec синхронизирован и архивирован: 2026-09-19-thumbnail-preview-overlay. Commit/push/deploy нет.
+
+## Совместимость PawPlay и пробел - 11.10.2026
+
+- Цель: дать PawPlay стабильную точку отрисовки на таймлайне Document PiP,
+  добавить ссылку на PawPlay в настройках и убрать двойной play/pause по пробелу.
+- Первопричина интеграции: после переноса плеера в отдельный документ у
+  FloatPlayer не было публичного признака готового PiP и стабильного селектора
+  таймлайна. Первопричина пробела: повторный keydown снова менял состояние,
+  а keyup доходил до обработчика перенесенного YouTube-плеера.
+- Контракт версии 1: корень `[data-ytfp-document-pip="1"]`, версия
+  `data-ytfp-contract-version="1"`, дорожка `[data-ytfp-progress-track="1"]`,
+  заливка `[data-ytfp-progress-fill="1"]`, состояние в ARIA. Исходный документ
+  получает `ytfp-document-pip-ready` и `ytfp-document-pip-closed` с
+  `detail: { version: 1 }`. Контракт действует в полном и компактном Document
+  PiP; native video-only PiP не имеет доступного DOM и не поддерживается.
+- Пробел теперь переключает видео один раз на первичный keydown, подавляет
+  repeat и парный keyup. Фокусированные кнопки, поля и ползунки сохраняют свое
+  действие. В footer настроек добавлена прямая ссылка на PawPlay в Chrome Web Store.
+- По результату общего MV3 теста progress теперь обновляет ARIA и fill по
+  `loadedmetadata`, `durationchange` и `emptied` после замены paused video.
+  Отдельный observer класса player root немедленно отмечает начало и конец
+  рекламы даже без `timeupdate`, не наблюдая собственный progress DOM.
+- Версия 1.22.3. Проверено: точечные наборы 38 и 10 тестов PASS; полный `npm test` -
+  29 файлов / 354 теста PASS; `npm run spec:check` - 9/9 PASS;
+  `npm run check` PASS; `npm run build` PASS; `git diff --check` PASS.
+- Сборка: `dist/floatplayer-1.22.3.zip`, 273920 байт,
+  SHA-256 `ee87dffa3ec1b1dcd4950e02c815b9d8704d0eaa3914351fc91bcdbc4d5667a3`.
+  В ZIP нет tests, OpenSpec, node_modules, package JSON, STATUS или AGENTS.
+- OpenSpec синхронизирован и архивирован как
+  `2026-10-11-pawplay-pip-compatibility`; итоговый spec:check 9/9 PASS.
+- Ограничение: реальная совместная отрисовка PawPlay в установленном FloatPlayer
+  и живой YouTube здесь не проверялась; общую CUA-проверку ведет главный агент.
+  Публикация, commit, push и deploy не выполнялись.
+
+2026-10-11: общая проверка PawPlay0.12.1/FloatPlayer1.22.3 завершена. Реальные MV3 и Document PiP в E2E: full/compact320x300, главы без перекрытия питомца, pause/seek/Space, video replacement/ad,5 открытий/закрытий и singleton. Контролируемые fixtures: hidden-opener RAF, CSS failure, live-noDVR. CUA: окно320/360x300 и взаимные ссылки настроек. ZIP CRC/source parity PASS. На живом YouTube новая пара не запускалась, личные расширения не обновлялись. Источник: youtube-progress-cat/specs/023-floatplayer-compatibility и artifacts/floatplayer-targeted-final.log.
+
+## Баннер PawPlay, 2026-10-11
+2026-10-11: ссылка PawPlay внизу настроек FloatPlayer заменена заметным баннером с локальной иконкой, описанием и кнопкой Chrome Web Store. RU/EN и fallback остальных локалей. CUA и preview проверены; светлая/темная тема, 320px без горизонтального переполнения. check/354 tests/build/spec:check9 PASS. ZIP1.22.3 пересобран, CRC/source parity77 файлов PASS. Публикация и обновление личных расширений не выполнялись.
+OpenSpec синхронизирован и архивирован: 2026-10-11-pawplay-settings-banner.
+SHA-256 ZIP: da569d28690b473d1e8e51fb8ee89421951caf12d9cfd536d9a81be42d1f4d71.
+Следующий шаг: обновить установленное расширение и проверить на живом YouTube. Локальных блокеров нет.
+
+
+## Черновики Chrome Web Store, 2026-10-11
+
+2026-10-11: по прямому запросу владельца через CUA загружены ZIP FloatPlayer1.22.3 и PawPlay0.12.1 в Chrome Web Store, нажато Сохранить черновик для обоих. Раздел Пакет подтверждает версии черновиков1.22.3/0.12.1; опубликованные версии1.21.0/0.11.1 сохранены. На проверку не отправлялось, публикации не было. Доказательства: youtube-progress-cat/artifacts/floatplayer-store-draft.png и pawplay-store-draft.png.
+Следующий шаг: отдельное решение владельца об отправке на модерацию. Блокеров загрузки нет.
+
+
+## Сохранение Git, 2026-10-14
+
+Проверки перед сохранением Git: spec:check 9/9, check, 354 теста и build PASS. Просмотрен diff, новые файлы проверены на секреты и личные заметки. Изменения совместимости PawPlay, клавиш PiP и баннера сохранены как один снимок. Результат push фиксируется в общей карточке проекта. UI повторно в этой операции не проверялся.

@@ -269,6 +269,67 @@ describe("chapter progress UI", () => {
     expect(fill.style.width).toBe("60%");
   });
 
+  test("refreshes ARIA when a paused replacement video becomes ready", async () => {
+    const root = document.getElementById("movie_player");
+    const oldVideo = root.querySelector("video");
+    setDuration(oldVideo, 100);
+    oldVideo.currentTime = 20;
+    YTFP.playerApi.getVideoId = () => "LLLLLLLLLLL";
+    YTFP.playerApi.getSeekRange = video =>
+      Number.isFinite(video?.duration) && video.duration > 0
+        ? { start: 0, end: video.duration }
+        : null;
+    const pipDocument = new JSDOM("<!doctype html><body></body>", { url: "https://pip.test/" }).window.document;
+    const view = progress.build(pipDocument, { getVideo: () => root.querySelector("video") });
+    pipDocument.body.appendChild(view.element);
+    const track = view.element.querySelector("[data-ytfp-progress-track]");
+    const fill = view.element.querySelector("[data-ytfp-progress-fill]");
+
+    const nextVideo = document.createElement("video");
+    nextVideo.className = "html5-main-video";
+    setDuration(nextVideo, Number.NaN);
+    Object.defineProperty(nextVideo, "readyState", { configurable: true, value: 0 });
+    root.replaceChildren(nextVideo);
+    await vi.waitFor(() => expect(track.getAttribute("aria-disabled")).toBe("true"));
+    expect(track.hasAttribute("aria-valuenow")).toBe(false);
+
+    setDuration(nextVideo, 120);
+    Object.defineProperty(nextVideo, "readyState", { configurable: true, value: 4 });
+    nextVideo.currentTime = 30;
+    nextVideo.dispatchEvent(new Event("loadedmetadata"));
+
+    expect(nextVideo.paused).toBe(true);
+    expect(track.getAttribute("aria-disabled")).toBe("false");
+    expect(track.getAttribute("aria-valuemax")).toBe("120");
+    expect(track.getAttribute("aria-valuenow")).toBe("30");
+    expect(fill.style.width).toBe("25%");
+    view.cleanup();
+  });
+
+  test("refreshes disabled progress when the paused player enters and leaves an ad", async () => {
+    const root = document.getElementById("movie_player");
+    const video = root.querySelector("video");
+    setDuration(video, 120);
+    video.currentTime = 30;
+    YTFP.playerApi.getVideoId = () => "MMMMMMMMMMM";
+    YTFP.playerApi.getSeekRange = () => ({ start: 0, end: 120 });
+    const pipDocument = new JSDOM("<!doctype html><body></body>", { url: "https://pip.test/" }).window.document;
+    const view = progress.build(pipDocument, { getVideo: () => video });
+    pipDocument.body.appendChild(view.element);
+    const track = view.element.querySelector("[data-ytfp-progress-track]");
+
+    expect(video.paused).toBe(true);
+    expect(track.getAttribute("aria-disabled")).toBe("false");
+    root.classList.add("ad-showing");
+    await vi.waitFor(() => expect(track.getAttribute("aria-disabled")).toBe("true"));
+    expect(view.element.classList.contains("ytfp-progress-wrap--ad")).toBe(true);
+
+    root.classList.remove("ad-showing");
+    await vi.waitFor(() => expect(track.getAttribute("aria-disabled")).toBe("false"));
+    expect(view.element.classList.contains("ytfp-progress-wrap--ad")).toBe(false);
+    view.cleanup();
+  });
+
   test("exposes a DVR-aware keyboard slider and blocks seeking during ads", () => {
     const video = document.querySelector("video");
     setDuration(video, 200);

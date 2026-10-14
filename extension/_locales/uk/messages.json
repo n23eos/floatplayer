@@ -799,5 +799,14 @@
   },
   "liveUnknownShort": {
     "message": "LIVE ?"
+  },
+  "pawplayPromoEyebrow": {
+    "message": "A little company for your videos"
+  },
+  "pawplayPromoDescription": {
+    "message": "A pixel pet on your YouTube progress bar. Works in FloatPlayer too."
+  },
+  "pawplayPromoAction": {
+    "message": "Explore PawPlay"
   }
 }
